@@ -4,7 +4,7 @@ $(document).ready(function () {
         const populations = item["Populations Served"].split(";").map((pop) => `<span class="uk-label uk-label-danger">${pop.trim()}</span>`).join(" ");
         const counties = item["County"].split(";").map((county) => `<span class="uk-label uk-label-warning">${county.trim()} County</span>`).join(" ");
         const card = `
-            <div class="js-filter-item data-county="${item.County}" data-domain="${item.Domain}">
+            <div class="js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-header">
                         <div class="uk-align-left">

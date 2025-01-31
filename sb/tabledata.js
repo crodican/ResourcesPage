@@ -1,4 +1,5 @@
         $(document).ready(function() {
+            // Sample JSON data
             const jsonData = [
     {
         "Location Name": "Berks County Council on Chemical Abuse",
@@ -4539,7 +4540,7 @@
 ];
 
             // Initialize DataTable with JSON data
-            const table = new DataTable('#dataTable', {
+            const table = new DataTable('#example', {
                 data: jsonData,
                 columns: [
                     { data: 'Location Name' },
