@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recovery Resources</title>
+    
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/css/uikit.min.css" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <!-- UIkit JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
+
+    <!-- Custom Script -->
+    <script src="script2.js"></script>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <div class="uk-section uk-section-primary uk-light">
+        <div class="uk-container">
+            <h1>Recovery Resources</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque leo nec orci varius, nec tincidunt erat bibendum.</p>
+        </div>
+    </div>
+
+    <!-- Breadcrumbs -->
+    <div class="uk-container uk-margin">
+        <ul class="uk-breadcrumb">
+            <li><a href="#">Regional Recovery Hubs</a></li>
+            <li><span>Recovery Resources</span></li>
+        </ul>
+    </div>
+
+    <!-- Search Box -->
+    <div class="uk-container uk-margin">
+        <form class="uk-search uk-search-default">
+            <span uk-search-icon></span>
+            <input class="uk-search-input" type="search" placeholder="Search..." id="search-box">
+        </form>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="uk-container uk-margin">
+        <div class="uk-margin">
+            <button class="uk-button uk-button-default filter-btn" data-filter="county" data-value="all">All Counties</button>
+            <button class="uk-button uk-button-default filter-btn" data-filter="county" data-value="Berks">Berks</button>
+            <button class="uk-button uk-button-default filter-btn" data-filter="county" data-value="Chester">Chester</button>
+            <button class="uk-button uk-button-default filter-btn" data-filter="county" data-value="Bucks">Bucks</button>
+            <button class="uk-button uk-button-default filter-btn" data-filter="county" data-value="Delaware">Delaware</button>
+            <button class="uk-button uk-button-default filter-btn" data-filter="county" data-value="Lancaster">Lancaster</button>
+            <button class="uk-button uk-button-default filter-btn" data-filter="county" data-value="Montgomery">Montgomery</button>
+            <button class="uk-button uk-button-default filter-btn" data-filter="county" data-value="Schuylkill">Schuylkill</button>
+        </div>
+        <div class="uk-margin">
+            <button class="uk-button uk-button-default filter-btn" data-filter="domain" data-value="all">All Domains</button>
+            <button class="uk-button uk-button-default filter-btn" data-filter="domain" data-value="Recovery Support">Recovery Support</button>
+            <button class="uk-button uk-button-default filter-btn" data-filter="domain" data-value="Family Support">Family Support</button>
+            <button class="uk-button uk-button-default filter-btn" data-filter="domain" data-value="Housing">Housing</button>
+            <button class="uk-button uk-button-default filter-btn" data-filter="domain" data-value="Transportation">Transportation</button>
+        </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="uk-container uk-margin">
+        <div class="uk-grid-small uk-child-width-1-3@m js-filter" uk-grid>
+            <!-- Cards will be populated here -->
+        </div>
+    </div>
+
+</body>
+</html>
