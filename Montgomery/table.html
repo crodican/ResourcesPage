@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTable with JSON Data</title>
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/css/sb-admin-2.min.css" integrity="sha512-Mk4n0eeNdGiUHlWvZRybiowkcu+Fo2t4XwsJyyDghASMeFGH6yUXcdDI3CKq12an5J8fq4EFzRVRdbjerO3RmQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Custom styles for this page -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Oxygen';
+        }
+    </style>    <!-- JS Links -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.bootstrap5.js"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <br />
+                <br />
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- DataTales Example -->
+                    <div class="card shadow border-left-primary">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Philadelphia → Recovery Support</h6> </div>
+                        <div class="card-body">
+                            <div>
+                                <div class="container-fluid">
+                                    <div class=mb-3>
+                                        <button id="filterBerks" class="btn btn-success" style="margin: 6px">Berks</button>
+                                        <button id="filterChester" class="btn btn-success" style="margin: 6px">Chester</button>
+                                        <button id="filterBucks" class="btn btn-success" style="margin: 6px">Bucks</button>
+                                        <button id="filterDelaware" class="btn btn-success" style="margin: 6px">Delaware</button>
+                                        <button id="filterLancaster" class="btn btn-success" style="margin: 6px">Lancaster</button>
+                                        <button id="filterMontgomery" class="btn btn-success" style="margin: 6px">Montgomery</button>
+                                        <button id="filterSchuylkill" class="btn btn-success" style="margin: 6px">Schuylkill</button>
+                                    </div>
+                                    <button id="reset" class="btn btn-secondary" style="margin: 6px">Reset</button>
+                                </div>
+                                <br />
+                                <div class="container-fluid">
+                                    <div class="mb-3">
+                                        <button id="filterRecovery" class="btn btn-info text-white" style="margin: 6px">Recovery Support</button>
+                                        <button id="filterFamily" class="btn btn-info text-white" style="margin: 6px">Family Support</button>
+                                        <button id="filterHousing" class="btn btn-info text-white" style="margin: 6px">Housing</button>
+                                        <button id="filterTransportation" class="btn btn-info text-white" style="margin: 6px">Transportation</button>
+                                    </div>
+                                    <button id="reset1" class="btn btn-secondary" style="margin: 6px">Reset</button>
+                                </div>
+                            </div>
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" style="width:100%">
+                                    <thead class="card-header">
+                                        <tr>
+                                            <th>Location Name</th>
+                                            <th>Organization</th>
+                                            <th>County</th>
+                                            <th>Category</th>
+                                            <th>More Info</th>
+                                            <th>Phone</th>
+                                            <th>Populations Served</th>
+                                            <th>Domain</th>
+                                            <th>Website</th>
+                                            <th>Image</th>
+                                            <th>Latitude</th>
+                                            <th>Longitude</th>
+                                            <th>Address</th>
+                                            <th>City</th>
+                                            <th>State</th>
+                                            <th>Zip Code</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script src="tabledata.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        var table = $('#dataTable').DataTable();
+                        $('#filterBerks').on('click', function () {
+                            table.column(0).search('Berks').draw();
+                        });
+                        $('#filterBucks').on('click', function () {
+                            table.column(0).search('Bucks').draw();
+                        });
+                        $('#filterChester').on('click', function () {
+                            table.column(0).search('Chester').draw();
+                        });
+                        $('#filterDelaware').on('click', function () {
+                            table.column(0).search('Delaware').draw();
+                        });
+                        $('#filterLancaster').on('click', function () {
+                            table.column(0).search('Lancaster').draw();
+                        });
+                        $('#filterMontgomery').on('click', function () {
+                            table.column(0).search('Montgomery').draw();
+                        });
+                        $('#filterSchuylkill').on('click', function () {
+                            table.column(0).search('Schuylkill').draw();
+                        });
+                        $('#reset').on('click', function () {
+                            table.search('').columns().search('').draw();
+                        });
+                        $('#filterRecovery').on('click', function () {
+                            table.column(7).search('Recovery').draw();
+                        });
+                        $('#filterFamily').on('click', function () {
+                            table.column(7).search('Family').draw();
+                        });
+                        $('#filterHousing').on('click', function () {
+                            table.column(7).search('Housing').draw();
+                        });
+                        $('#filterTransportation').on('click', function () {
+                            table.column(7).search('Transportation').draw();
+                        });
+                        $('#reset1').on('click', function () {
+                            table.search('').columns().search('').draw();
+                        });
+                    });
+                </script>
+</body>
+
+</html>

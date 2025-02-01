@@ -12,20 +12,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
 
-    <!-- Custom styles for this template -->
+    <!-- SB Admin CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/css/sb-admin-2.min.css" integrity="sha512-Mk4n0eeNdGiUHlWvZRybiowkcu+Fo2t4XwsJyyDghASMeFGH6yUXcdDI3CKq12an5J8fq4EFzRVRdbjerO3RmQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Custom styles for this page -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4/css/bootstrap.min.css" rel="stylesheet">
-    <style>
+    <!-- Bootstrap Icons -->    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
+    
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <style>
         body {
             font-family: 'Oxygen';
+            background-color: #fff;
+        }
+        .badge {
+            text-transform: uppercase;
         }
     </style>
     <script src="data.js"></script>
     <script src="script2.js"></script>
 </head>
-<body id="page-top">
+<body>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -37,26 +43,36 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- DataTales Example -->
-                    <div class="card shadow border-left-primary">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Philadelphia → Recovery Support</h6>
-                        </div>
-                        <div class="card-body">
-                            <br />
+
                             <!-- Search Box -->
-                            <div class="uk-container uk-margin">
-                                <form class="uk-search uk-search-default" style="width:100%">
-                                    <span uk-search-icon></span>
-                                    <input class="uk-search-input" type="search" placeholder="Search..." id="search-box" />
-                                </form>
+                            <div class="container my-3">
+                                <div class="card shadow border-left-primary">
+                                    <div class="card-header">
+                                        <h6 class="m-0 font-weight-bold text-primary">Philadelphia → Recovery Support</h6>
+                                    </div>
+                                </div>
+                            <br />
+
+                                
+                        <form class="form-inline d-none d-sm-inline-block mr-auto my-2 my-md-0 mw-100 navbar-search" style="width:100%">
+                            <div class="input-group">
+                                <input class="bg-light form-control border-left-primary" type="text" placeholder="Search" id="search-box">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary py-0" type="button"><i class="bi bi-search"></i></button>
+                                </div>
                             </div>
-                            <div class="uk-container uk-margin">
+                        </form>
+                                
+                                
+                            </div>
+
+                            
+                            
+                            <div class="container">
                                 <div class="uk-grid-small uk-child-width-1-3@m js-filter" uk-grid>
                                     <!-- Cards will be populated here -->
                                 </div>
                             </div>   
-                        </div>
-                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
