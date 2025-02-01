@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <title>Recovery Resource Table</title>
+    <!-- Fonts CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet">
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/css/uikit.min.css" />
 
@@ -24,8 +27,64 @@
             font-family: 'Oxygen';
             background-color: #fff;
         }
+    
+        .card {
+            border-radius: 1px;
+            box-shadow: 0 0 16px 0 rgba(0, 0, 0, .067);
+            border: none;
+            padding: 3% 5%;
+        }
+    
+        h1, h2, h3, h4, h5, h6 {
+            font-family: Lora,serif;
+            font-weight: 400;
+        }
+    
         .badge {
             text-transform: uppercase;
+            font-weight: 400;
+            padding: .35em .75em;
+        }
+    
+        .block__buttons {
+            align-items: center;
+            -moz-column-gap: 30px;
+            column-gap: 30px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            row-gap: 20px;
+        }
+    
+        .button {
+            align-items: center;
+            background-color: transparent;
+            border: none;
+            border-radius: 2px 2px 0 15px;
+            color: #000;
+            -moz-column-gap: 10px;
+            column-gap: 10px;
+            display: inline-flex;
+            white-space: nowrap;
+            text-decoration: none;
+            font-family: Oxygen, sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0;
+            line-height: 19px;
+            padding: 18px 28px;
+            text-align: left;
+            transition: all .2s ease;
+        }
+    
+        .button--secondary {
+            background-color: #55298a;
+            color: #fff;
+        }
+    
+        .button--secondary:hover {
+            background-color: #f5ebf3;
+            color: #1e1e1e;
         }
     </style>
     <script src="data.js"></script>
@@ -46,19 +105,18 @@
 
                             <!-- Search Box -->
                             <div class="container my-3">
-                                <div class="card shadow border-left-primary">
-                                    <div class="card-header">
-                                        <h6 class="m-0 font-weight-bold text-primary">Philadelphia → Recovery Support</h6>
-                                    </div>
-                                </div>
-                            <br />
-
-                                
-                        <form class="form-inline d-none d-sm-inline-block mr-auto my-2 my-md-0 mw-100 navbar-search" style="width:100%">
+                                <nav style="--bs-breadcrumb-divider: '→';" aria-label="breadcrumb">
+                                    <ol class="breadcrumb text-secondary">
+                                        <li class="breadcrumb-item">Philadelphia</li>
+                                        <li class="breadcrumb-item" aria-current="page">Recovery Support</li>
+                                    </ol>
+                                </nav>
+                            <br />                                
+                        <form class="form-inline d-none d-sm-inline-block" style="width:100%">
                             <div class="input-group">
-                                <input class="bg-light form-control border-left-primary" type="text" placeholder="Search" id="search-box">
+                                <input class="bg-light form-control" type="text" placeholder="Search" id="search-box">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary py-0" type="button"><i class="bi bi-search"></i></button>
+                                    <button class="btn bg-primary-subtle text-primary py-0" type="button"><span class="bi bi-search"></span></button>
                                 </div>
                             </div>
                         </form>

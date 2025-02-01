@@ -1,18 +1,18 @@
 $(document).ready(function () {
     const container = $(".uk-grid-small");
     jsonData.forEach((item) => {
-        const populations = item["Populations Served"].split(";").map((pop) => `<span class="badge rounded-pill text-bg-danger">${pop.trim()}</span>`).join(" ");
-        const counties = item["County"].split(";").map((county) => `<span class="badge rounded-pill text-bg-warning">${county.trim()} County</span>`).join(" ");
+        const populations = item["Populations Served"].split(";").map((pop) => `<span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">${pop.trim()}</span>`).join(" ");
+        const counties = item["County"].split(";").map((county) => `<span class="badge rounded-pill bg-primary-subtle text-primary-emphasis">${county.trim()} County</span>`).join(" ");
         const card = `
             <div class="js-filter-item data-county="${item.County}" data-domain="${item.Domain}">
-                <div class="card shadow">
+                <div class="card shadow text-secondary">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <span class="badge rounded-pill text-bg-primary">
+                                <span class="badge rounded-pill bg-info-subtle text-info-emphasis">
                                 ${item.Domain}
                                 </span>     
-                                <span class="badge rounded-pill text-bg-success">
+                                <span class="badge rounded-pill bg-success-subtle text-success-emphasis">
                                 ${item.Category}
                                 </span>                                
                             </div>
@@ -22,8 +22,8 @@ $(document).ready(function () {
                         </div>
                     </div>
                     <div class="card-body">
-                        <h3 class="card-title">${item["Location Name"]}</h3>
-                        <h5>${item.Organization}</h5>
+                        <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
+                        <h5 style="font-weight:400">${item.Organization}</h5>
                         ${item.Image ? ` <img src = "${item.Image}"
         alt = "Logo"
         style = "max-width:100px; max-height:100px; float:left; margin-right:10px;" > ` : ""}
@@ -33,7 +33,9 @@ $(document).ready(function () {
                         <br />
                         <p><strong>Populations Served:</strong> ${populations}</p>
                         <br />
-                        <a href="${item.Website}" target="_blank">Website</a>
+                        <div class="block__buttons">
+                        <a class="button button--secondary" href="${item.Website}" target="_blank">Website</a>                        
+                        </div>
                     </div>
                 </div>
             </div>
