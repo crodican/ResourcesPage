@@ -5,7 +5,7 @@ $(document).ready(function () {
         const counties = item["County"].split(";").map((county) => `<span class="badge rounded-pill bg-primary-subtle text-primary-emphasis">${county.trim()} County</span>`).join(" ");
         const card = `
             <div class="js-filter-item data-county="${item.County}" data-domain="${item.Domain}">
-                <div class="card shadow text-secondary">
+                <div class="card shadow text-bg-light p-5">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
