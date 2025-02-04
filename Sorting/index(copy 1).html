@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Recovery Resource Table</title>
+    <!-- Fonts CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/css/uikit.min.css" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <!-- UIkit JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
+
+    <!-- SB Admin CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/css/sb-admin-2.min.css" integrity="sha512-Mk4n0eeNdGiUHlWvZRybiowkcu+Fo2t4XwsJyyDghASMeFGH6yUXcdDI3CKq12an5J8fq4EFzRVRdbjerO3RmQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap Icons -->    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
+    
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <style>
+        body {
+            font-family: 'Oxygen';
+            background-color: #fff;
+        }
+    
+        .card {
+            border-radius: 1px;
+            box-shadow: 0 0 16px 0 rgba(0, 0, 0, .067);
+            border: none;
+        }
+    
+        h1, h2, h3, h4, h5, h6 {
+            font-family: Lora,serif;
+            font-weight: 400;
+        }
+    
+        .badge {
+            text-transform: uppercase;
+            font-weight: 400;
+            padding: .35em .75em;
+        }
+    
+        .block__buttons {
+            align-items: center;
+            -moz-column-gap: 30px;
+            column-gap: 30px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            row-gap: 20px;
+        }
+    
+        .button {
+            align-items: center;
+            background-color: transparent;
+            border: none;
+            border-radius: 2px 2px 0 15px;
+            color: #000;
+            -moz-column-gap: 10px;
+            column-gap: 10px;
+            display: inline-flex;
+            white-space: nowrap;
+            text-decoration: none;
+            font-family: Oxygen, sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0;
+            line-height: 19px;
+            padding: 18px 28px;
+            text-align: left;
+            transition: all .2s ease;
+        }
+    
+        .button--secondary {
+            background-color: #55298a;
+            color: #fff;
+        }
+    
+        .button--secondary:hover {
+            background-color: #f5ebf3;
+            color: #1e1e1e;
+        }
+    
+        .button--secondary:active {
+            background-color: #f5ebf3;
+            color: #1e1e1e;
+        }
+
+        .button--filter {
+            background-color: #f5ebf3;
+            color: #1e1e1e;
+            transition: all 0.6s ease;
+        }
+    
+        .button--filter:hover {
+            background-color: #55298a;
+            color: #fff;
+        }
+    
+        .button--filter:active {
+            background-color: #55298a;
+            color: #fff;
+        }
+    
+    
+    </style>
+    <script src="data.js"></script>
+    <script src="script2.js"></script>
+</head>
+<body>
+
+    <!-- Page Wrapper -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <br /><br />
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                        <div class="my-3">
+                            <button class="button button--filter filter-btn m-1" data-filter="county" data-value="all">All Counties</button>
+                            <button class="button button--filter filter-btn m-1" data-filter="county" data-value="Berks">Berks</button>
+                            <button class="button button--filter filter-btn m-1" data-filter="county" data-value="Chester">Chester</button>
+                            <button class="button button--filter filter-btn m-1" data-filter="county" data-value="Bucks">Bucks</button>
+                            <button class="button button--filter filter-btn m-1" data-filter="county" data-value="Delaware">Delaware</button>
+                            <button class="button button--filter filter-btn m-1" data-filter="county" data-value="Lancaster">Lancaster</button>
+                            <button class="button button--filter filter-btn m-1" data-filter="county" data-value="Montgomery">Montgomery</button>
+                            <button class="button button--filter filter-btn m-1" data-filter="county" data-value="Schuylkill">Schuylkill</button>
+                        </div>
+                        <div class="my-3">
+                            <button class="uk-button uk-button-default filter-btn" data-filter="domain" data-value="all">All Domains</button>
+                            <button class="uk-button uk-button-default filter-btn" data-filter="domain" data-value="Recovery Support">Recovery Support</button>
+                            <button class="uk-button uk-button-default filter-btn" data-filter="domain" data-value="Family Support">Family Support</button>
+                            <button class="uk-button uk-button-default filter-btn" data-filter="domain" data-value="Housing">Housing</button>
+                            <button class="uk-button uk-button-default filter-btn" data-filter="domain" data-value="Transportation">Transportation</button>
+                        </div>
+                            <!-- Search Box -->
+                            <div class="container my-3">
+                                <nav style="--bs-breadcrumb-divider: '→';" aria-label="breadcrumb">
+                                    <ol class="breadcrumb text-secondary">
+                                        <li class="breadcrumb-item">Philadelphia</li>
+                                        <li class="breadcrumb-item" aria-current="page">Recovery Support</li>
+                                    </ol>
+                                </nav>
+                            <br />                                
+                        <form class="form-inline d-none d-sm-inline-block" style="width:100%">
+                            <div class="input-group">
+                                <input class="bg-gray-200 form-control border-0" type="text" placeholder="Search" id="search-box">
+                                <div class="input-group-append">
+                                    <button class="btn" type="button" style="background-color: #55298a; color: #fff;"><span class="bi bi-search"></span></button>
+                                </div>
+                            </div>
+                        </form>
+                                
+                                
+                            </div>
+
+                            
+                            
+                            <div class="container">
+                                <div class="uk-grid-small uk-child-width-1-3@m js-filter" uk-grid>
+                                    <!-- Cards will be populated here -->
+                                </div>
+                            </div>   
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    <!-- End of Page Wrapper -->
+
+    <!-- Bootstrap core JavaScript-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Core plugin JavaScript-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Custom scripts for all pages-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/js/sb-admin-2.min.js" integrity="sha512-+QnjQxxaOpoJ+AAeNgvVatHiUWEDbvHja9l46BHhmzvP0blLTXC4LsvwDVeNhGgqqGQYBQLFhdKFyjzPX6HGmw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Page level plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Page level custom scripts -->
+    <script>
+        // Call the dataTables jQuery plugin
+$(document).ready(function() {
+  $('#dataTable').DataTable();
+});
+
+    </script>
+
+</body>
+
+</html>

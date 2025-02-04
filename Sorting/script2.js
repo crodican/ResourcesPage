@@ -4,7 +4,7 @@ $(document).ready(function () {
         const populations = item["Populations Served"].split(";").map((pop) => `<span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">${pop.trim()}</span>`).join(" ");
         const counties = item["County"].split(";").map((county) => `<span class="badge rounded-pill bg-primary-subtle text-primary-emphasis">${county.trim()} County</span>`).join(" ");
         const card = `
-            <div class="js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
+            <div class="js-filter-item data-county="${item.County}" data-domain="${item.Domain}">
                 <div class="card shadow text-bg-light p-3">
                     <div class="card-body">
                         <div class="row">
@@ -42,7 +42,6 @@ $(document).ready(function () {
         `;
         container.append(card);
     });
-
     // Search functionality
     $("#search-box").on("keyup", function () {
         const searchTerm = $(this).val().toLowerCase();
@@ -51,25 +50,42 @@ $(document).ready(function () {
             $(this).toggle(text.includes(searchTerm));
         });
     });
+// Filter functionality
+$('.filter-btn').on('click', function() {
+    const filterType = $(this).data('filter');
+    const filterValue = $(this).data('value');
 
-    // Filter functionality
+    // Store filter values in an object
     const filters = {
-        county: 'all',
-        domain: 'all'
+        county: $('#county-filter').data('value') || 'all',
+        domain: $('#domain-filter').data('value') || 'all'
     };
 
-    $('.filter-btn').on('click', function() {
-        const filterType = $(this).data('filter');
-        const filterValue = $(this).data('value');
+    // Update the filter value based on the clicked button
+    filters[filterType] = filterValue;
 
-        // Update the filter value based on the clicked button
-        filters[filterType] = filterValue;
+    // Apply filters
+    $('.js-filter-item').hide().filter(function() {
+        const countyMatch = filters.county === 'all' || $(this).data('county') === filters.county;
+        const domainMatch = filters.domain === 'all' || $(this).data('domain') === filters.domain;
+        return countyMatch && domainMatch;
+    }).show();
+});
+    $('#county-filter').data('value', 'all'); // Default to 'all'
+    $('#county-filter').data('value', 'Philadelphia'); // Default to 'all'
+    $('#county-filter').data('value', 'Berks'); // Default to 'all'
+    $('#county-filter').data('value', 'Bucks'); // Default to 'all'
+    $('#county-filter').data('value', 'Chester'); // Default to 'all'
+    $('#county-filter').data('value', 'Delaware'); // Default to 'all'
+    $('#county-filter').data('value', 'Lancaster'); // Default to 'all'
+    $('#county-filter').data('value', 'Montgomery'); // Default to 'all'
+    $('#county-filter').data('value', 'Schuylkill'); // Default to 'all'
 
-        // Apply filters
-        $('.js-filter-item').hide().filter(function() {
-            const countyMatch = filters.county === 'all' || $(this).data('county').includes(filters.county);
-            const domainMatch = filters.domain === 'all' || $(this).data('domain') === filters.domain;
-            return countyMatch && domainMatch;
-        }).show();
-    });
+    
+    
+    $('#domain-filter').data('value', 'all'); // Default to 'all'    
+    $('#domain-filter').data('value', 'Recovery Support'); // Default to 'all'
+    $('#domain-filter').data('value', 'Family Support'); // Default to 'all'
+    $('#domain-filter').data('value', 'Housing'); // Default to 'all'    
+    $('#domain-filter').data('value', 'Transportation'); // Default to 'all'
 });
