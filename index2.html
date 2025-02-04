@@ -58,37 +58,6 @@
             row-gap: 20px;
         }
         
-        .button {
-            align-items: center;
-            background-color: transparent;
-            border: none;
-            border-radius: 2px 2px 0 15px;
-            color: #000;
-            -moz-column-gap: 10px;
-            column-gap: 10px;
-            display: inline-flex;
-            white-space: nowrap;
-            text-decoration: none;
-            font-family: Oxygen, sans-serif;
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: 0;
-            line-height: 19px;
-            padding: 18px 28px;
-            text-align: left;
-            transition: all .2s ease;
-        }
-        
-        .button--secondary {
-            background-color: #55298a;
-            color: #fff;
-        }
-        
-        .button--secondary:hover {
-            background-color: #f5ebf3;
-            color: #1e1e1e;
-        }
-        
         .sidebar {
             position: fixed;
             top: 0;
@@ -118,6 +87,238 @@
             margin-top: 80px;
         }
     </style>
+    <style id="elevation-buttons">
+        .button {
+            align-items: center;
+            background-color: transparent;
+            border: none;
+            border-radius: 2px 2px 0 15px;
+            color: #000;
+            -moz-column-gap: 10px;
+            column-gap: 10px;
+            display: inline-flex;
+            font-family: Oxygen, sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0;
+            line-height: 19px;
+            padding: 18px 28px;
+            text-align: left;
+            transition: all .2s ease
+            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
+        }
+        
+        .button:hover {
+            box-shadow: none;
+        }
+        
+        .button::-moz-selection {
+            background-color: #050505;
+            color: #fff
+        }
+        
+        .button::selection {
+            background-color: #050505;
+            color: #fff
+        }
+        
+        .button--success {
+            background-color: #01f4ad;
+            color: #000;
+            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
+
+        }
+        
+        .button--success:hover {
+            background-color: #f5ebf3;
+            box-shadow: none;
+        }
+        
+        .button--ddap-red {
+            background-color: #bf2e1a;
+            color: #fff;
+            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
+        }
+        
+        .button--ddap-blue {
+            background-color: #003e7e;
+            color: #fff;
+            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
+        }
+        
+        .button--danger {
+            background-color: #ef633d;
+            color: #fff;
+            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
+        }
+        
+        .button--danger:hover {
+            background-color: azure;
+            color: cadetblue;
+            box-shadow: none;
+
+        }
+        
+        .button--pink {
+            background-color: #f8d7da;
+            color: #000;
+            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
+        }
+        
+        .button--pink:hover {
+            background-color: #55298a;
+            color: #fff;
+            box-shadow: none;
+        }
+        
+        .button--info {
+            background-color: cornflowerblue;
+            color: #fff;
+            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
+        }
+        
+        .button--info:hover {
+            background-color: aliceblue;
+            color: cadetblue;
+            box-shadow: none;
+        }
+                
+        .button--primary {
+            background-color: #00543d;
+            color: #fff
+        }
+        
+        .button--light-primary,
+        .button--primary:hover {
+            background-color: #e3efe3;
+            color: #1e1e1e
+        }
+        
+        .button--light-primary:hover {
+            background-color: #fff;
+            color: #1e1e1e
+        }
+        
+        .button--secondary {
+            background-color: #55298a;
+            color: #fff
+        }
+        
+        .button--secondary:hover {
+            background-color: #f5ebf3;
+            color: #1e1e1e
+        }
+        
+        .button--white {
+            background-color: #fff;
+            color: #1e1e1e
+        }
+        
+        .button--white:hover {
+            background-color: #f5ebf3;
+            color: #1e1e1e
+        }
+        
+        .button--light-tertiary-special {
+            background-color: #f5f5eb;
+            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
+            color: #1e1e1e
+        }
+        
+        .button--light-tertiary-special:hover {
+            background-color: #e3efe3;
+            box-shadow: none;
+            color: #1e1e1e
+        }
+        
+        .button--purple-special {
+            background-color: #55298a;
+            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
+            color: #fff
+        }
+        
+        .button--purple-special:hover {
+            background-color: #4f156a;
+            box-shadow: none;
+            color: #fff
+        }
+        
+        .button--arrow {
+            align-items: center;
+            border-radius: 0;
+            -moz-column-gap: 10px;
+            column-gap: 10px;
+            display: inline-flex;
+            font-family: Oxygen, sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .02em;
+            line-height: 21px;
+            padding: 5px 0;
+            text-align: left;
+            text-transform: capitalize
+        }
+        
+        .button--arrow:before {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%279%27 height=%279%27 fill=%27none%27%3E%3Cpath fill=%27%23211F1F%27 d=%27M8.821 1a.75.75 0 0 0-.75-.75h-6.75a.75.75 0 1 0 0 1.5h6v6a.75.75 0 1 0 1.5 0zm-7.29 7.601 7.07-7.07L7.541.47.47 7.54z%27/%3E%3C/svg%3E");
+            background-position: 50%;
+            background-repeat: no-repeat;
+            background-size: contain;
+            content: "";
+            display: inline-flex;
+            height: 10px;
+            transition: all .2s ease;
+            width: 10px
+        }
+        
+        .button--arrow.black {
+            color: #1e1e1e
+        }
+        
+        .button--arrow.black:before {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%279%27 height=%279%27 fill=%27none%27%3E%3Cpath fill=%27%231E1E1E%27 d=%27M8.821 1a.75.75 0 0 0-.75-.75h-6.75a.75.75 0 1 0 0 1.5h6v6a.75.75 0 1 0 1.5 0zm-7.29 7.601 7.07-7.07L7.541.47.47 7.54z%27/%3E%3C/svg%3E")
+        }
+        
+        .button--arrow.black:hover {
+            color: #1e1e1e;
+            text-decoration: underline
+        }
+        
+        .button--arrow.secondary {
+            color: #55298a
+        }
+        
+        .button--arrow.secondary:before {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%279%27 height=%279%27 fill=%27none%27%3E%3Cpath fill=%27%2355298A%27 d=%27M8.821 1a.75.75 0 0 0-.75-.75h-6.75a.75.75 0 1 0 0 1.5h6v6a.75.75 0 1 0 1.5 0zm-7.29 7.601 7.07-7.07L7.541.47.47 7.54z%27/%3E%3C/svg%3E")
+        }
+        
+        .button--arrow.secondary:hover {
+            color: #55298a;
+            text-decoration: underline
+        }
+        
+        .button--arrow.white {
+            color: #fff
+        }
+        
+        .button--arrow.white:before {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%279%27 height=%279%27 fill=%27none%27%3E%3Cpath fill=%27%23fff%27 d=%27M8.821 1a.75.75 0 0 0-.75-.75h-6.75a.75.75 0 1 0 0 1.5h6v6a.75.75 0 1 0 1.5 0zm-7.29 7.601 7.07-7.07L7.541.47.47 7.54z%27/%3E%3C/svg%3E")
+        }
+        
+        .button--arrow.white:hover {
+            color: #fff;
+            text-decoration: underline
+        }
+        
+        .button--arrow.active {
+            background-color: #1e1e1e
+        }
+        
+        .bg-pink {
+            background-color: #f5ebf3;
+        }
+        
+    </style>
     <script src="data.js"></script>
     <script src="script2.js"></script>
     <script>
@@ -133,24 +334,8 @@
 </head>
 
 <body>
-    <div id="window-size" style="z-index: 5000;position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 5px; border-radius: 5px;"></div>
-    <!-- Sidebar -->
-    <div class="sidebar bg-success-subtle py-5">
-        <div class="py-2" style="display: flex; flex-direction: column; align-items: flex-end">
-        <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="all">All Counties</button>
-        <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Berks">Berks</button>
-        <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Chester">Chester</button>
-        <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Bucks">Bucks</button>
-        <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Delaware">Delaware</button>
-        <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Lancaster">Lancaster</button>
-        <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Montgomery">Montgomery</button>
-        <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Schuylkill">Schuylkill</button>
-        </div>
-    </div>
-
-    <!-- Topbar -->
-    <div class="topbar px-5 bg-secondary-subtle">
-        <form class="form-inline d-none d-sm-inline-block">
+        <div class="p-4 bg-pink" style="position: fixed; top: 0; z-index: 60; width: 100vw">
+        <form class="form-inline d-none d-sm-inline-block w-50">
         <div class="input-group">
         <input class="bg-gray-200 form-control border-0" type="text" placeholder="Search" id="search-box">
         <div class="input-group-append">
@@ -158,8 +343,31 @@
         </div>
         </div>
         </form>
-        
     </div>
+        <div class="p-4 bg-pink" style="position: fixed; top: 85px; z-index: 60; width: 100vw">
+                    <button class="button button--white filter-btn m-2 py-2 px-3" data-filter="domain" data-value="all"> All Domains </button>
+                    <button class="button button--secondary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Recovery Support"> Recovery Support </button>
+                    <button class="button button--secondary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Family Support"> Family Support </button>
+                    <button class="button button--secondary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Housing"> Housing </button>
+                    <button class="button button--secondary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Transportation"> Transportation </button>
+    </div>
+    
+    <div id="window-size" style="z-index: 5;position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 5px; border-radius: 5px;"></div>
+    <!-- Sidebar -->
+    <div class="sidebar bg-success-subtle py-5" style="position: fixed; top:170px">
+        <div class="py-2" style="display: flex; flex-direction: column; align-items: flex-end">
+                    <button class="button button--success filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="all"> All Counties </button>
+                    <button class="button button--primary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Berks"> Berks </button>
+                    <button class="button button--primary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Chester"> Chester </button>
+                    <button class="button button--primary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Bucks"> Bucks </button>
+                    <button class="button button--primary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Delaware"> Delaware </button>
+                    <button class="button button--primary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Lancaster"> Lancaster </button>
+                    <button class="button button--primary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Montgomery"> Montgomery </button>
+                    <button class="button button--primary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Schuylkill"> Schuylkill </button>
+        </div>
+    </div>
+
+    <!-- Topbar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column content">
@@ -169,25 +377,8 @@
             <br />
             <!-- Begin Page Content -->
             <div class="container-fluid">
-                <div class="container">
-                    <nav style="--bs-breadcrumb-divider: '→';" aria-label="breadcrumb">
-                        <ol class="breadcrumb text-secondary">
-                            <li class="breadcrumb-item">Philadelphia</li>
-                            <li class="breadcrumb-item" aria-current="page">Recovery Support</li>
-                        </ol>
-                    </nav>
-                            <button class="button button--secondary filter-btn m-1" data-filter="domain" data-value="all">All Domains</button>
-        <button class="button button--secondary filter-btn m-1" data-filter="domain" data-value="Recovery Support">Recovery Support</button>
-        <button class="button button--secondary filter-btn m-1" data-filter="domain" data-value="Family Support">Family Support</button>
-        <button class="button button--secondary filter-btn m-1" data-filter="domain" data-value="Housing">Housing</button>
-        <button class="button button--secondary filter-btn m-1" data-filter="domain" data-value="Transportation">Transportation</button>
-
-                </div>
-
-                <!-- Search Box -->
                 <br />
                 <div class="container my-3">
-
                 </div>
                 <div class="container">
                     <div class="uk-grid-small uk-child-width-1-3@m js-filter" uk-grid>
