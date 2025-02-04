@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Recovery Resource Table</title>
     <!-- Fonts CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet">
@@ -94,9 +95,9 @@
             left: 0;
             height: 100%;
             width: 200px;
-            background-color: #f8f9fa;
             padding: 20px;
             overflow-y: auto;
+            z-index: 2;
         }
         
         .topbar {
@@ -109,7 +110,7 @@
             padding: 10px 20px;
             display: flex;
             align-items: center;
-            z-index: 1000;
+            z-index: 1;
         }
         
         .content {
@@ -123,7 +124,8 @@
 
 <body>
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar bg-success-subtle py-5">
+        <div class="py-2" style="display: flex; flex-direction: column; align-items: flex-end">
         <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="all">All Counties</button>
         <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Berks">Berks</button>
         <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Chester">Chester</button>
@@ -132,10 +134,11 @@
         <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Lancaster">Lancaster</button>
         <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Montgomery">Montgomery</button>
         <button class="button button--secondary filter-btn m-1" data-filter="county" data-value="Schuylkill">Schuylkill</button>
+        </div>
     </div>
 
     <!-- Topbar -->
-    <div class="topbar">
+    <div class="topbar px-5 bg-secondary-subtle">
         <form class="form-inline d-none d-sm-inline-block" style="width:100%">
         <div class="input-group">
         <input class="bg-gray-200 form-control border-0" type="text" placeholder="Search" id="search-box">
