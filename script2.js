@@ -34,7 +34,7 @@ $(document).ready(function () {
                         <p><strong>Populations Served:</strong> ${populations}</p>
                         <br />
                         <div class="block__buttons">
-                        <a class="button button--secondary" href="${item.Website}" target="_blank">Website</a>                        
+                        <a class="customButton customButton--secondary m-2 py-2 px-3 shadow" href="${item.Website}" target="_blank">Website</a>                        
                         </div>
                     </div>
                 </div>
