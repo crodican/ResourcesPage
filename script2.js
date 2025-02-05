@@ -58,6 +58,12 @@ $(document).ready(function () {
         domain: 'all'
     };
 
+    const updateBreadcrumbs = () => {
+        const county = filters.county === 'all' ? 'All Counties' : `${filters.county} County`;
+        const domain = filters.domain === 'all' ? 'All Domains' : filters.domain;
+        $('#breadcrumbs').text(`${county} → ${domain}`);
+    };
+
     $('.filter-btn').on('click', function() {
         const filterType = $(this).data('filter');
         const filterValue = $(this).data('value');
@@ -71,5 +77,11 @@ $(document).ready(function () {
             const domainMatch = filters.domain === 'all' || $(this).data('domain') === filters.domain;
             return countyMatch && domainMatch;
         }).show();
+
+        // Update breadcrumbs
+        updateBreadcrumbs();
     });
+
+    // Initialize breadcrumbs
+    updateBreadcrumbs();
 });

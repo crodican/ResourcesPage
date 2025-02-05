@@ -445,20 +445,10 @@
             background-color: #1e1e1e
         }
     </style>
-    <style>
 
-    </style>
     <script src="data.js"></script>
     <script src="script2.js"></script>
-    <script>
-        function displayWindowSize() {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            document.getElementById("window-size").innerText = `Width: ${width}px, Height: ${height}px`;
-        }
-        window.onresize = displayWindowSize;
-        window.onload = displayWindowSize;
-    </script>
+
 </head>
 
 <body>
@@ -490,9 +480,9 @@
     </div>
     <div class="container-fluid pb-3 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
         <div class="row flex-grow-sm-1 flex-grow-0">
-            <aside class="col-sm flex-grow-sm-1 flex-shrink-1 flex-grow-0 sticky-top pb-sm-0 pb-3">
-                <div class="bg-light px-3 h-100 sticky py-4 shadow">
-                    <button class="button button--success filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="all"> All Counties </button>
+            <aside class="col-sm flex-grow-sm-1 flex-shrink-1 flex-grow-0">
+                <div class="bg-light px-3 py-4 shadow">
+                    <button class="button button--pink filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="all"> All Counties </button>
                     <button class="button button--secondary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Berks"> Berks </button>
                     <button class="button button--secondary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Chester"> Chester </button>
                     <button class="button button--secondary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Bucks"> Bucks </button>
@@ -503,22 +493,19 @@
                 </div>
             </aside>
             <main class="col overflow-auto h-100">
-                <div class="bg-light shadow py-3 px-0">
-                    <button class="button button--danger filter-btn m-2 py-2 px-3" data-filter="domain" data-value="all"> All Domains </button>
-                    <button class="button button--info filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Recovery Support"> Recovery Support </button>
-                    <button class="button button--info filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Family Support"> Family Support </button>
-                    <button class="button button--info filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Housing"> Housing </button>
-                    <button class="button button--info filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Transportation"> Transportation </button>
+                <div class="bg-light shadow p-2">
+                    <button class="button button--success filter-btn m-2 py-2 px-3" data-filter="domain" data-value="all"> All Domains </button>
+                    <button class="button button--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Recovery Support"> Recovery Support </button>
+                    <button class="button button--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Family Support"> Family Support </button>
+                    <button class="button button--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Housing"> Housing </button>
+                    <button class="button button--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Transportation"> Transportation </button>
                 </div>
-                <br />
-                <div class="bg-light shadow p-3">
-                    <nav style="--bs-breadcrumb-divider: &quot;→&quot;" aria-label="breadcrumb">
-                        <ol class="breadcrumb text-secondary">
-                            <li class="breadcrumb-item">Philadelphia</li>
-                            <li class="breadcrumb-item" aria-current="page">Recovery Support</li>
-                        </ol>
-                    </nav>
+                
+                <div id="breadcrumbs" class="bg-light p-4 shadow my-3">
+                    All Counties → All Domains
                 </div>
+
+                
                 <div class="container-fluid">
                     <div class="container"></div>
                     <br />
