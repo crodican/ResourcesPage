@@ -451,7 +451,31 @@
 
 </head>
 
-<body class="bg-success-subtle">   
+<body class="bg-success-subtle">
+
+    
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Interactive Map</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <iframe src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54" style="height:70vh; width:100%;"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="button button--danger filter-btn m-2 py-2 px-3 shadow" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
     <div class="py-3 mb-4 border-bottom fixedtop shadow-lg bg-light">
         <div class="container-fluid align-items-center d-flex">
             <div class="flex-shrink-1"></div>
@@ -464,17 +488,9 @@
                         </div>
                     </div>
                 </form>
-                <div class="flex-shrink-0 dropdown"> <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">MAP</a
-                        >
-                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser2" style="">
-                            <li><a class="dropdown-item" href="#">Show Map...</a></li>
-                    <li><a class="dropdown-item" href="#">County</a></li>
-                    <li><a class="dropdown-item" href="#">Domain</a></li>
-                    <li>
-                        <hr class="dropdown-divider" /> </li>
-                    <li><a class="dropdown-item" href="#">Exit</a></li>
-                    </ul>
-                </div>
+<button type="button" class="button button--success filter-btn m-2 py-2 px-3 shadow" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <i class="bi bi-geo-alt-fill"></i>MAP
+</button>
             </div>
         </div>
     </div>
