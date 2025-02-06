@@ -110,9 +110,11 @@ const htmlContent = `
         $(document).ready(function () {
             const container = $(".uk-grid-small");
             jsonData.forEach((item) => {
-                const populations = item["Populations Served"].split(";").map((pop) => `<span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">${pop.trim()}</span>`).join(" ");
-                const counties = item["County"].split(";").map((county) => `<span class="badge rounded-pill bg-primary-subtle text-primary-emphasis">${county.trim()} County</span>`).join(" ");
-                const card = `
+                const populations = item["Populations Served"].split(";").map((pop) => ` < span class = "badge rounded-pill bg-danger-subtle text-danger-emphasis" > $ {
+    pop.trim()
+} < /span>`).join(" ");
+const counties = item["County"].split(";").map((county) => `<span class="badge rounded-pill bg-primary-subtle text-primary-emphasis">${county.trim()} County</span>`).join(" ");
+const card = `
                     <div class="js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
                         <div class="card shadow text-bg-light p-3">
                             <div class="card-body">
@@ -133,9 +135,9 @@ const htmlContent = `
                             <div class="card-body">
                                 <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
                                 <h5 style="font-weight:400">${item.Organization}</h5>
-                                ${item.Image ? ` <img src = "${item.Image}"
-                alt = "Logo"
-                style = "max-width:100px; max-height:100px; float:left; margin-right:10px;" > ` : ""}
+                                ${item.Image ? ` < img src = "${item.Image}"
+alt = "Logo"
+style = "max-width:100px; max-height:100px; float:left; margin-right:10px;" > ` : ""}
                                 <p><strong>Phone:</strong> ${item.Phone}</p>
                                 <br /><p>${item.Address}<br />
                                 ${item.City}, ${item.State} ${item["Zip Code"]}</p>
@@ -149,54 +151,43 @@ const htmlContent = `
                         </div>
                     </div>
                 `;
-                container.append(card);
-            });
-
-            // Search functionality
-            $("#search-box").on("keyup", function () {
-                const searchTerm = $(this).val().toLowerCase();
-                $(".js-filter-item").each(function () {
-                    const text = $(this).text().toLowerCase();
-                    $(this).toggle(text.includes(searchTerm));
-                });
-            });
-
-            // Filter functionality
-            const filters = {
-                county: 'all',
-                domain: 'all'
-            };
-
-            const updateBreadcrumbs = () => {
-                const county = filters.county === 'all' ? 'All Counties' : `${filters.county} County`;
-                const domain = filters.domain === 'all' ? 'All Domains' : filters.domain;
-                $('#breadcrumbs').text(`${county} → ${domain}`);
-            };
-
-            $('.filter-btn').on('click', function() {
-                const filterType = $(this).data('filter');
-                const filterValue = $(this).data('value');
-
-                // Update the filter value based on the clicked button
-                filters[filterType] = filterValue;
-
-                // Apply filters
-                $('.js-filter-item').hide().filter(function() {
-                    const countyMatch = filters.county === 'all' || $(this).data('county').includes(filters.county);
-                    const domainMatch = filters.domain === 'all' || $(this).data('domain') === filters.domain;
-                    return countyMatch && domainMatch;
-                }).show();
-
-                // Update breadcrumbs
-                updateBreadcrumbs();
-            });
-
-            // Initialize breadcrumbs
-            updateBreadcrumbs();
-        });
-    </script>
-</body>
-</html>
+container.append(card);
+});
+// Search functionality
+$("#search-box").on("keyup", function () {
+    const searchTerm = $(this).val().toLowerCase();
+    $(".js-filter-item").each(function () {
+        const text = $(this).text().toLowerCase();
+        $(this).toggle(text.includes(searchTerm));
+    });
+});
+// Filter functionality
+const filters = {
+    county: 'all'
+    , domain: 'all'
+};
+const updateBreadcrumbs = () => {
+    const county = filters.county === 'all' ? 'All Counties' : `${filters.county} County`;
+    const domain = filters.domain === 'all' ? 'All Domains' : filters.domain;
+    $('#breadcrumbs').text(`${county} → ${domain}`);
+};
+$('.filter-btn').on('click', function () {
+    const filterType = $(this).data('filter');
+    const filterValue = $(this).data('value');
+    // Update the filter value based on the clicked button
+    filters[filterType] = filterValue;
+    // Apply filters
+    $('.js-filter-item').hide().filter(function () {
+        const countyMatch = filters.county === 'all' || $(this).data('county').includes(filters.county);
+        const domainMatch = filters.domain === 'all' || $(this).data('domain') === filters.domain;
+        return countyMatch && domainMatch;
+    }).show();
+    // Update breadcrumbs
+    updateBreadcrumbs();
+});
+// Initialize breadcrumbs
+updateBreadcrumbs();
+}); < /script> < /body> < /html>
 `;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -207,9 +198,11 @@ document.addEventListener('DOMContentLoaded', function () {
     $(document).ready(function () {
         const container = $(".uk-grid-small");
         jsonData.forEach((item) => {
-            const populations = item["Populations Served"].split(";").map((pop) => `<span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">${pop.trim()}</span>`).join(" ");
-            const counties = item["County"].split(";").map((county) => `<span class="badge rounded-pill bg-primary-subtle text-primary-emphasis">${county.trim()} County</span>`).join(" ");
-            const card = `
+            const populations = item["Populations Served"].split(";").map((pop) => ` < span class = "badge rounded-pill bg-danger-subtle text-danger-emphasis" > $ {
+    pop.trim()
+} < /span>`).join(" ");
+const counties = item["County"].split(";").map((county) => `<span class="badge rounded-pill bg-primary-subtle text-primary-emphasis">${county.trim()} County</span>`).join(" ");
+const card = `
                 <div class="js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
                     <div class="card shadow text-bg-light p-3">
                         <div class="card-body">
@@ -230,9 +223,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="card-body">
                             <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
                             <h5 style="font-weight:400">${item.Organization}</h5>
-                            ${item.Image ? ` <img src = "${item.Image}"
-            alt = "Logo"
-            style = "max-width:100px; max-height:100px; float:left; margin-right:10px;" > ` : ""}
+                            ${item.Image ? ` < img src = "${item.Image}"
+alt = "Logo"
+style = "max-width:100px; max-height:100px; float:left; margin-right:10px;" > ` : ""}
                             <p><strong>Phone:</strong> ${item.Phone}</p>
                             <br /><p>${item.Address}<br />
                             ${item.City}, ${item.State} ${item["Zip Code"]}</p>
@@ -246,49 +239,41 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 </div>
             `;
-            container.append(card);
-        });
-
-        // Search functionality
-        $("#search-box").on("keyup", function () {
-            const searchTerm = $(this).val().toLowerCase();
-            $(".js-filter-item").each(function () {
-                const text = $(this).text().toLowerCase();
-                $(this).toggle(text.includes(searchTerm));
-            });
-        });
-
-        // Filter functionality
-        const filters = {
-            county: 'all',
-            domain: 'all'
-        };
-
-        const updateBreadcrumbs = () => {
-            const county = filters.county === 'all' ? 'All Counties' : `${filters.county} County`;
-            const domain = filters.domain === 'all' ? 'All Domains' : filters.domain;
-            $('#breadcrumbs').text(`${county} → ${domain}`);
-        };
-
-        $('.filter-btn').on('click', function() {
-            const filterType = $(this).data('filter');
-            const filterValue = $(this).data('value');
-
-            // Update the filter value based on the clicked button
-            filters[filterType] = filterValue;
-
-            // Apply filters
-            $('.js-filter-item').hide().filter(function() {
-                const countyMatch = filters.county === 'all' || $(this).data('county').includes(filters.county);
-                const domainMatch = filters.domain === 'all' || $(this).data('domain') === filters.domain;
-                return countyMatch && domainMatch;
-            }).show();
-
-            // Update breadcrumbs
-            updateBreadcrumbs();
-        });
-
-        // Initialize breadcrumbs
-        updateBreadcrumbs();
+container.append(card);
+});
+// Search functionality
+$("#search-box").on("keyup", function () {
+    const searchTerm = $(this).val().toLowerCase();
+    $(".js-filter-item").each(function () {
+        const text = $(this).text().toLowerCase();
+        $(this).toggle(text.includes(searchTerm));
     });
-});                        
+});
+// Filter functionality
+const filters = {
+    county: 'all'
+    , domain: 'all'
+};
+const updateBreadcrumbs = () => {
+    const county = filters.county === 'all' ? 'All Counties' : `${filters.county} County`;
+    const domain = filters.domain === 'all' ? 'All Domains' : filters.domain;
+    $('#breadcrumbs').text(`${county} → ${domain}`);
+};
+$('.filter-btn').on('click', function () {
+    const filterType = $(this).data('filter');
+    const filterValue = $(this).data('value');
+    // Update the filter value based on the clicked button
+    filters[filterType] = filterValue;
+    // Apply filters
+    $('.js-filter-item').hide().filter(function () {
+        const countyMatch = filters.county === 'all' || $(this).data('county').includes(filters.county);
+        const domainMatch = filters.domain === 'all' || $(this).data('domain') === filters.domain;
+        return countyMatch && domainMatch;
+    }).show();
+    // Update breadcrumbs
+    updateBreadcrumbs();
+});
+// Initialize breadcrumbs
+updateBreadcrumbs();
+});
+});
