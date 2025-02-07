@@ -15,8 +15,6 @@
     <!-- UIkit JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
-    <!-- SB Admin CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/css/sb-admin-2.min.css" integrity="sha512-Mk4n0eeNdGiUHlWvZRybiowkcu+Fo2t4XwsJyyDghASMeFGH6yUXcdDI3CKq12an5J8fq4EFzRVRdbjerO3RmQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Bootstrap 5 CSS -->
@@ -29,8 +27,6 @@
 </head>
 
 <body class="bg-success-subtle">
-    <!-- Welcome Modal -->
-    <!-- Welcome Modal -->
     <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -64,7 +60,7 @@
   </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="customButton customButton--blue" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="customButton customButton--info" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -201,13 +197,13 @@
             </div>
         </div>
     </div>
-    <div class="py-3 mb-4 border-bottom fixedtop shadow-lg bg-light">
+    <div class="px-4 py-2 mb-2 border-bottom fixedtop shadow-lg bg-light">
         <div class="container-fluid align-items-center d-flex">
             <div class="flex-shrink-1"></div>
             <div class="flex-grow-1 d-flex align-items-center">
                 <form class="w-100 me-3">
-                    <div class="input-group">
-                        <input class="bg-gray-200 form-control border-0" type="text" placeholder="Search" id="search-box" />
+                    <div class="input-group ">
+                        <input class="form-control border-0 bg-gray-subtle py-0" type="text" placeholder="Search" id="search-box" />
                         <div class="input-group-append">
                             <button class="customButton customButton--secondary py-2 px-3" type="button" style="border-radius:1px 10px 10px 1px !important"> <span class="bi bi-search"></span> </button>
                         </div>
@@ -264,9 +260,7 @@
                         <div class="uk-grid-small uk-child-width-1-3@m js-filter" uk-grid>
                             <!-- Cards will be populated here -->
                         </div>
-                        <div class="uk-grid-small uk-child-width-1-3@m js-filter" uk-grid="masonry: pack">
-                            <!-- Cards will be populated here -->
-                        </div>
+
                     </div>
                 </div>
             </main>
@@ -277,11 +271,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Core plugin JavaScript-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/js/sb-admin-2.min.js" integrity="sha512-+QnjQxxaOpoJ+AAeNgvVatHiUWEDbvHja9l46BHhmzvP0blLTXC4LsvwDVeNhGgqqGQYBQLFhdKFyjzPX6HGmw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Page level plugins -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function () {
             // Show the welcome modal on page load
