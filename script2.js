@@ -43,9 +43,9 @@ $(document).ready(function () {
                         <p><strong>Populations Served:</strong> ${populations}</p>
                         <br />
                         <div class="btn-group btn-group-lg" role="group" aria-label="Basic outlined example">
-                          <a href="${item.Website}" class="btn btn-primary"><i class="bi bi-globe"></i></button>
-                          <a href="${item.phoneLink}" class="btn btn-danger"><i class="bi bi-telephone"></i></button>
-                          <a href="${item.Website}" class="btn btn-success"><i class="bi bi-geo-alt"></i></button>
+                          <a href="${item.Website}" class="btn btn-primary"><i class="bi bi-globe"></i></a>
+                          <a href="${item.phoneLink}" class="btn btn-danger"><i class="bi bi-telephone"></i></a>
+                          <a href="${item.Website}" class="btn btn-success"><i class="bi bi-geo-alt"></i></a>
                         </div>
                     </div>
                 </div>
