@@ -1,6 +1,15 @@
 $(document).ready(function () {
     const container = $(".uk-grid-small");
     jsonData.forEach((item) => {
+        // Function to format the phone number
+        function formatPhoneNumber(phone) {
+            return '+1' + phone.replace(/-/g, '');
+        }
+
+        // Format the phone number and create the phoneLink item
+        const formattedPhoneNumber = formatPhoneNumber(item.Phone);
+        item.phoneLink = `tel:${formattedPhoneNumber}`;
+
         const populations = item["Populations Served"].split(";").map((pop) => `<span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">${pop.trim()}</span>`).join(" ");
         const counties = item["County"].split(";").map((county) => `<span class="badge rounded-pill bg-primary-subtle text-primary-emphasis">${county.trim()} County</span>`).join(" ");
         const card = `
@@ -9,7 +18,7 @@ $(document).ready(function () {
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <span class="badge rounded-pill bg-info-subtle text-info-emphasis">
+                                <span class="badge rounded-pill bg-info text-info-emphasis">
                                 ${item.Domain}
                                 </span>     
                                 <span class="badge rounded-pill bg-success-subtle text-success-emphasis">
@@ -34,7 +43,8 @@ $(document).ready(function () {
                         <p><strong>Populations Served:</strong> ${populations}</p>
                         <br />
                         <div class="block__buttons">
-                        <a class="customButton customButton--secondary m-2 py-2 px-3 shadow" href="${item.Website}" target="_blank">Website</a>                        
+                        <a class="customButton customButton--secondary filter-btn m-2 py-2 px-3 shadow" href="${item.Website}" target="_blank" style="text-decoration:none;color:#fff;">Website</a>
+                        <a class="customButton customButton--secondary filter-btn m-2 py-2 px-3 shadow" href="${item.phoneLink}" target="_blank" style="text-decoration:none;color:#fff;">Call</a>
                         </div>
                     </div>
                 </div>

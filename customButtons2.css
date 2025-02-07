@@ -188,7 +188,7 @@
   line-height: 19px;
   padding: 18px 28px;
   text-align: left;
-  transition: all 0.2s ease;
+  transition: all 2s cubic-bezier(0,1.28,.21,-0.24);
   position: relative;
   overflow: hidden;
 }
@@ -302,7 +302,7 @@
     }
 
     .customButton--indigo-subtle {
-      background-color: rgba(var(--elev-indigo-rgb), 0.1);
+      background-color: var(--elev-indigo-subtle);
       color: var(--elev-indigo);
     }
 
@@ -315,7 +315,7 @@
     }
 
     .customButton--indigo-emphasis {
-      background-color: hsl(270, 100%, 40%); /* 10% lighter */
+      background-color: var(--elev-indigo-emphasis);
       color: var(--elev-white);
     }
 
@@ -421,8 +421,8 @@
     }
 
     .customButton--pink-subtle {
-      background-color: rgba(var(--elev-pink-rgb), 0.1);
-      color: var(--elev-pink);
+      background-color: var(--elev-pink-subtle);
+      color: var(--elev-dark);
     }
 
     .customButton--pink-subtle::before {
@@ -480,7 +480,7 @@
     }
 
     .customButton--red-subtle {
-      background-color: rgba(var(--elev-red-rgb), 0.1);
+      background-color: var(--elev-red-subtle);
       color: var(--elev-red);
     }
 
