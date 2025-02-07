@@ -42,9 +42,10 @@ $(document).ready(function () {
                         <br />
                         <p><strong>Populations Served:</strong> ${populations}</p>
                         <br />
-                        <div class="block__buttons">
-                        <a class="customButton customButton--secondary filter-btn m-2 py-2 px-3 shadow" href="${item.Website}" target="_blank" style="text-decoration:none;color:#fff;">Website</a>
-                        <a class="customButton customButton--secondary filter-btn m-2 py-2 px-3 shadow" href="${item.phoneLink}" target="_blank" style="text-decoration:none;color:#fff;">Call</a>
+                        <div class="btn-group btn-group-lg" role="group" aria-label="Basic outlined example">
+                          <a href="${item.Website}" class="btn btn-primary"><i class="bi bi-globe"></i></button>
+                          <a href="${item.phoneLink}" class="btn btn-danger"><i class="bi bi-telephone"></i></button>
+                          <a href="${item.Website}" class="btn btn-success"><i class="bi bi-geo-alt"></i></button>
                         </div>
                     </div>
                 </div>

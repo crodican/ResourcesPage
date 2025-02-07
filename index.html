@@ -34,7 +34,7 @@
     <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header" style="border: none">
+                <div class="modal-header bg-info" style="border: none">
                     <h4 class="modal-title text-secondary" id="welcomeModalLabel">Welcome</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -53,9 +53,9 @@
         </li>
         <li>
           <strong>Interactive Map:</strong>
-          <p>Click on the Map Menu to the right of the search bar.</p>
+          <p>Click on the <span class="customButton customButton--success py-2 px-3"><span class="bi bi-geo-alt-fill" style="font-size: large"></span> Map</span> Menu to the right of the search bar.</p>
             <ul>
-                <li>On mobile, press <i class="bi bi-list"></i> to view <i class="bi bi-search"></i> search and <img src="assets/tools.svg" style="
+                <li>On mobile, press <span class="bi bi-list"></span> to view <span class="bi bi-search"></span> search and <img src="assets/tools.svg" style="
                     inline; width:20px"> tools options.</li>
                 </ul>
         </li>
@@ -64,7 +64,7 @@
   </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="customButton customButton--teal" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="customButton customButton--blue" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
     <div class="modal fade" id="philadelphiaModal" tabindex="-1" aria-labelledby="philadelphiaModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header text-bg-info">
                     <h1 class="modal-title fs-5" id="philadelphiaModalLabel">Philadelphia → All Domains</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -80,9 +80,9 @@
                     <iframe title="map" src="https://fortress.maptive.com/ver4/22ce0ffcea9e517881f5870c64c4bcff" style="height:70vh; width:100%;"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <p> Press <i class="bi bi-list"></i> to toggle menu. </p>
+                    <p> Press <span class="bi bi-list"></span> to toggle menu. </p>
                     <p> Press<img src="assets/tools.svg" style="display: inline;width: 20px;height: auto"> to Filter by Domain and Category. </p>
-                    <button type="button" class="customButton customButton--black-customButton--black-outline filter-btn px-3 py-1 shadow" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -227,12 +227,6 @@
                         <li><a class="dropdown-item" href="#">Exit</a></li>
                     </ul>
                 </div>
-                <!--
-
-<button type="button" class="customButton customButton--pink filter-btn m-2 py-2 px-3 shadow" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  <i class="bi bi-geo-alt-fill"></i>MAP
-</button>
--->
             </div>
         </div>
     </div>

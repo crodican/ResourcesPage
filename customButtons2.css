@@ -1,173 +1,173 @@
 :root,
 [data-bs-theme=light] {
-    --bs-blue: hsla(216, 98%, 52%, 1);
-    --bs-blue-subtle: hsla(216, 98%, 82%, 1);
-    --bs-blue-emphasis: hsla(216, 98%, 40%, 1);
-    --bs-indigo: hsla(263, 90%, 51%, 1);
-    --bs-indigo-subtle: hsla(263, 90%, 81%, 1);
-    --bs-indigo-emphasis: hsla(263, 90%, 40%, 1);
-    --bs-purple: hsla(261, 51%, 51%, 1);
-    --bs-purple-subtle: hsla(261, 51%, 51%, 1);
-    --bs-purple-emphasis: hsl(277, 51%, 51%);
-    --bs-pink: hsla(330, 67%, 52%, 1);
-    --bs-pink-subtle: hsla(330, 67%, 52%, 1);
-    --bs-pink-emphasis: hsla(330, 67%, 52%, 1);    
-    --bs-red: hsla(354, 70%, 54%, 1);
-    --bs-red-subtle: hsla(354, 70%, 54%, 1);
-    --bs-red-emphasis: hsla(354, 70%, 54%, 1);
-    --bs-orange: hsla(27, 98%, 54%, 1);
-    --bs-orange-subtle: hsla(27, 98%, 54%, 1);
-    --bs-orange-emphasis: hsla(27, 98%, 54%, 1);
-    --bs-yellow: hsla(45, 100%, 51%, 1);
-    --bs-yellow-subtle: hsla(45, 100%, 81%, 1);
-    --bs-yellow-emphasis: hsla(42, 100%, 45%, 1);
-    --bs-green: hsla(152, 69%, 31%, 1);
-    --bs-green-subtle: hsla(152, 69%, 51%, 1);
-    --bs-green-emphasis: hsl(152, 100%, 23%);
-    --bs-teal: hsla(162, 73%, 46%, 1);
-    --bs-teal-subtle: hsla(162, 73%, 56%, 1);
-    --bs-teal-emphasis: hsla(162, 73%, 36%, 1);
-    --bs-cyan: hsla(190, 90%, 50%, 1);
-    --bs-cyan-subtle: hsla(190, 90%, 65%, 1);
-    --bs-cyan-emphasis: hsla(190, 90%, 30%, 1);
-    --bs-black: hsla(0, 0%, 0%, 1);
-    --bs-black-subtle: hsla(0, 0%, 0%, .1);
-    --bs-black-emphasis: hsla(0, 0%, 10%, 1);
-    --bs-white: hsla(0, 0%, 100%, 1);
-    --bs-white-subtle: hsla(0, 0%, 100%, .1);
-    --bs-white-emphasis: hsla(0, 0%, 90%, 1);
-    --bs-gray: hsla(208, 7%, 46%, 1);
-    --bs-gray-subtle: hsla(208, 7%, 46%, .1);
-    --bs-gray-emphasis: hsla(208, 7%, 36%, 1);
-    --bs-gray-dark: hsla(210, 10%, 23%, 1);
-    --bs-gray-dark-subtle: hsla(210, 10%, 23%, 1);
-    --bs-gray-dark-emphasis: hsla(210, 10%, 23%, 1);
-    --bs-gray-100: hsla(210, 17%, 98%, 1);
-    --bs-gray-200: hsla(210, 16%, 93%, 1);
-    --bs-gray-300: hsla(210, 14%, 89%, 1);
-    --bs-gray-400: hsla(210, 14%, 83%, 1);
-    --bs-gray-500: hsla(210, 11%, 71%, 1);
-    --bs-gray-600: hsla(208, 7%, 46%, 1);
-    --bs-gray-700: hsla(210, 9%, 31%, 1);
-    --bs-gray-800: hsla(210, 10%, 23%, 1);
-    --bs-gray-900: hsla(210, 11%, 15%, 1);
-    --bs-primary: hsla(164, 100%, 16%, 1);
-    --bs-primary-subtle: hsla(164, 100%, 16%, 1);
-    --bs-primary-emphasis: hsla(164, 100%, 16%, 1);
-    --bs-light-primary: hsla(120, 27%, 91%, 1);
-    --bs-secondary: hsla(267, 54%, 35%, 1);
-    --bs-secondary-subtle: hsla(267, 54%, 35%, 1);
-    --bs-secondary-emphasis: hsla(267, 54%, 35%, 1);
-    --bs-tertiary: hsla(0, 0%, 12%, 1);
-    --bs-tertiary-subtle: hsla(0, 0%, 12%, 1);
-    --bs-tertiary-emphasis: hsla(0, 0%, 12%, 1);
-    --bs-success: hsla(152, 69%, 31%, 1);
-    --bs-success-subtle: hsla(152, 69%, 31%, 1);
-    --bs-success-emphasis: hsla(152, 69%, 31%, 1);
-    --bs-warning: hsla(45, 100%, 51%, 1);
-    --bs-warning-subtle: hsla(45, 100%, 51%, 1);
-    --bs-warning-emphasis: hsla(45, 100%, 51%, 1);
-    --bs-danger: hsla(354, 70%, 54%, 1);    
-    --bs-danger-subtle: hsla(354, 70%, 54%, 1);    
-    --bs-danger-emphasis: hsla(354, 70%, 54%, 1);    
-    --bs-error: hsla(8, 100%, 50%, 1);
-    --bs-error-subtle: hsla(8, 100%, 50%, 1);
-    --bs-error-emphasis: hsla(8, 100%, 50%, 1);
-    --bs-container-primary: hsla(120, 27%, 91%, 1);
-    --bs-container-secondary: hsla(312, 33%, 94%, 1);
-    --bs-container-tertiary: hsla(60, 33%, 94%, 1);
-    --bs-light-grey: hsla(0, 0%, 96%, 1);
-    --bs-error: hsla(8, 100%, 50%, 1);
-    --bs-primary-rgb: 0, 84, 61;
-    --bs-secondary-rgb: 85, 41, 138;
-    --bs-success-rgb: 25, 135, 84;
-    --bs-warning-rgb: 255, 193, 7;
-    --bs-danger-rgb: 220, 53, 69;
-    --bs-container-primary-rgb: 227, 239, 227;
-    --bs-light-primary-rgb: 227, 239, 227;
-    --bs-container-secondary-rgb: 245, 235, 243;
-    --bs-tertiary-rgb: 30, 30, 30;
-    --bs-container-tertiary-rgb: 245, 245, 235;
-    --bs-light-grey-rgb: 245, 245, 245;
-    --bs-error-rgb: 255, 36, 0;
-    --bs-primary-text-emphasis: hsla(216, 91%, 21%, 1);
-    --bs-secondary-text-emphasis: hsla(206, 8%, 18%, 1);
-    --bs-success-text-emphasis: hsla(153, 69%, 13%, 1);
-    --bs-info-text-emphasis: hsla(190, 90%, 20%, 1);
-    --bs-warning-text-emphasis: hsla(45, 94%, 21%, 1);
-    --bs-danger-text-emphasis: hsla(354, 61%, 21%, 1);
-    --bs-light-text-emphasis: hsla(210, 9%, 31%, 1);
-    --bs-dark-text-emphasis: hsla(210, 9%, 31%, 1);
-    --bs-primary-bg-subtle: hsla(216, 100%, 91%, 1);
-    --bs-secondary-bg-subtle: hsla(220, 5%, 89%, 1);
-    --bs-success-bg-subtle: hsla(153, 31%, 86%, 1);
-    --bs-info-bg-subtle: hsla(191, 88%, 90%, 1);
-    --bs-warning-bg-subtle: hsla(46, 100%, 90%, 1);
-    --bs-danger-bg-subtle: hsla(355, 70%, 91%, 1);
-    --bs-light-bg-subtle: hsla(240, 20%, 99%, 1);
-    --bs-dark-bg-subtle: hsla(210, 14%, 83%, 1);
-    --bs-primary-border-subtle: hsla(216, 98%, 81%, 1);
-    --bs-secondary-border-subtle: hsla(206, 6%, 78%, 1);
-    --bs-success-border-subtle: hsla(153, 31%, 73%, 1);
-    --bs-info-border-subtle: hsla(190, 88%, 80%, 1);
-    --bs-warning-border-subtle: hsla(45, 100%, 81%, 1);
-    --bs-danger-border-subtle: hsla(354, 71%, 81%, 1);
-    --bs-light-border-subtle: hsla(210, 16%, 93%, 1);
-    --bs-dark-border-subtle: hsla(210, 11%, 71%, 1);
-    --bs-white-rgb: 255, 255, 255;
-    --bs-black-rgb: 0, 0, 0;
-    --bs-font-sans-serif: "Oxygen", sans-serif;
-    --bs-font-monospace: "Oxygen", sans-serif;
-    --bs-gradient: linear-gradient(180deg, hsla(0, 0%, 100%, .15), hsla(0, 0%, 100%, 0));
-    --bs-body-font-family: var(--bs-font-sans-serif);
-    --bs-body-font-size: 1rem;
-    --bs-body-font-weight: 400;
-    --bs-body-line-height: 1.5;
-    --bs-body-color: hsla(210, 11%, 15%, 1);
-    --bs-body-color-rgb: 33, 37, 41;
-    --bs-body-bg: hsla(0, 0%, 100%, 1);
-    --bs-body-bg-rgb: 255, 255, 255;
-    --bs-emphasis-color: hsla(0, 0%, 0%, 1);
-    --bs-emphasis-color-rgb: 0, 0, 0;
-    --bs-secondary-color: rgba(33, 37, 41, .75);
-    --bs-secondary-color-rgb: 33, 37, 41;
-    --bs-secondary-bg: hsla(210, 16%, 93%, 1);
-    --bs-secondary-bg-rgb: 233, 236, 239;
-    --bs-tertiary-color: rgba(33, 37, 41, .5);
-    --bs-tertiary-color-rgb: 33, 37, 41;
-    --bs-tertiary-bg: hsla(210, 17%, 98%, 1);
-    --bs-tertiary-bg-rgb: 248, 249, 250;
-    --bs-heading-color: inherit;
-    --bs-link-color: hsla(164, 100%, 16%, 1);
-    --bs-link-color-rgb: 0, 84, 61;
-    --bs-link-decoration: underline;
-    --bs-link-hover-color: hsla(164, 100%, 13%, 1);
-    --bs-link-hover-color-rgb: 0, 67, 49;
-    --bs-code-color: hsla(330, 67%, 52%, 1);
-    --bs-highlight-color: hsla(210, 11%, 15%, 1);
-    --bs-highlight-bg: hsla(46, 100%, 90%, 1);
-    --bs-border-width: 1px;
-    --bs-border-style: solid;
-    --bs-border-color: hsla(210, 14%, 89%, 1);
-    --bs-border-color-translucent: rgba(0, 0, 0, .175);
-    --bs-border-radius: 0.375rem;
-    --bs-border-radius-sm: 0.25rem;
-    --bs-border-radius-lg: 0.5rem;
-    --bs-border-radius-xl: 1rem;
-    --bs-border-radius-xxl: 2rem;
-    --bs-border-radius-2xl: var(--bs-border-radius-xxl);
-    --bs-border-radius-pill: 50rem;
-    --bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .15);
-    --bs-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, .075);
-    --bs-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, .175);
-    --bs-box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, .075);
-    --bs-focus-ring-width: 0.25rem;
-    --bs-focus-ring-opacity: 0.25;
-    --bs-focus-ring-color: rgba(13, 110, 253, .25);
-    --bs-form-valid-color: hsla(152, 69%, 31%, 1);
-    --bs-form-valid-border-color: hsla(152, 69%, 31%, 1);
-    --bs-form-invalid-color: hsla(354, 70%, 54%, 1);
-    --bs-form-invalid-border-color: hsla(354, 70%, 54%, 1);
+    --elev-blue: hsla(216, 98%, 52%, 1);
+    --elev-blue-subtle: hsla(216, 98%, 82%, 1);
+    --elev-blue-emphasis: hsla(216, 98%, 40%, 1);
+    --elev-indigo: hsla(263, 90%, 51%, 1);
+    --elev-indigo-subtle: hsla(263, 90%, 81%, 1);
+    --elev-indigo-emphasis: hsla(263, 90%, 40%, 1);
+    --elev-purple: hsla(261, 51%, 51%, 1);
+    --elev-purple-subtle: hsla(261, 51%, 51%, 1);
+    --elev-purple-emphasis: hsl(277, 51%, 51%);
+    --elev-pink: hsla(330, 67%, 52%, 1);
+    --elev-pink-subtle: hsla(330, 67%, 52%, 1);
+    --elev-pink-emphasis: hsla(330, 67%, 52%, 1);    
+    --elev-red: hsla(354, 70%, 54%, 1);
+    --elev-red-subtle: hsla(354, 70%, 54%, 1);
+    --elev-red-emphasis: hsla(354, 70%, 54%, 1);
+    --elev-orange: hsla(27, 98%, 54%, 1);
+    --elev-orange-subtle: hsla(27, 98%, 54%, 1);
+    --elev-orange-emphasis: hsla(27, 98%, 54%, 1);
+    --elev-yellow: hsla(45, 100%, 51%, 1);
+    --elev-yellow-subtle: hsla(45, 100%, 81%, 1);
+    --elev-yellow-emphasis: hsla(42, 100%, 45%, 1);
+    --elev-green: hsla(152, 69%, 31%, 1);
+    --elev-green-subtle: hsla(152, 69%, 51%, 1);
+    --elev-green-emphasis: hsl(152, 100%, 23%);
+    --elev-teal: hsla(162, 73%, 46%, 1);
+    --elev-teal-subtle: hsla(162, 73%, 56%, 1);
+    --elev-teal-emphasis: hsla(162, 73%, 36%, 1);
+    --elev-cyan: hsla(190, 90%, 50%, 1);
+    --elev-cyan-subtle: hsla(190, 90%, 65%, 1);
+    --elev-cyan-emphasis: hsla(190, 90%, 30%, 1);
+    --elev-black: hsla(0, 0%, 0%, 1);
+    --elev-black-subtle: hsla(0, 0%, 0%, .1);
+    --elev-black-emphasis: hsla(0, 0%, 10%, 1);
+    --elev-white: hsla(0, 0%, 100%, 1);
+    --elev-white-subtle: hsla(0, 0%, 100%, .1);
+    --elev-white-emphasis: hsla(0, 0%, 90%, 1);
+    --elev-gray: hsla(208, 7%, 46%, 1);
+    --elev-gray-subtle: hsla(208, 7%, 46%, .1);
+    --elev-gray-emphasis: hsla(208, 7%, 36%, 1);
+    --elev-gray-dark: hsla(210, 10%, 23%, 1);
+    --elev-gray-dark-subtle: hsla(210, 10%, 23%, 1);
+    --elev-gray-dark-emphasis: hsla(210, 10%, 23%, 1);
+    --elev-gray-100: hsla(210, 17%, 98%, 1);
+    --elev-gray-200: hsla(210, 16%, 93%, 1);
+    --elev-gray-300: hsla(210, 14%, 89%, 1);
+    --elev-gray-400: hsla(210, 14%, 83%, 1);
+    --elev-gray-500: hsla(210, 11%, 71%, 1);
+    --elev-gray-600: hsla(208, 7%, 46%, 1);
+    --elev-gray-700: hsla(210, 9%, 31%, 1);
+    --elev-gray-800: hsla(210, 10%, 23%, 1);
+    --elev-gray-900: hsla(210, 11%, 15%, 1);
+    --elev-primary: hsla(164, 100%, 16%, 1);
+    --elev-primary-subtle: hsla(164, 100%, 16%, 1);
+    --elev-primary-emphasis: hsla(164, 100%, 16%, 1);
+    --elev-light-primary: hsla(120, 27%, 91%, 1);
+    --elev-secondary: hsla(267, 54%, 35%, 1);
+    --elev-secondary-subtle: hsla(267, 54%, 35%, 1);
+    --elev-secondary-emphasis: hsla(267, 54%, 35%, 1);
+    --elev-tertiary: hsla(0, 0%, 12%, 1);
+    --elev-tertiary-subtle: hsla(0, 0%, 12%, 1);
+    --elev-tertiary-emphasis: hsla(0, 0%, 12%, 1);
+    --elev-success: hsla(152, 69%, 31%, 1);
+    --elev-success-subtle: hsla(152, 69%, 31%, 1);
+    --elev-success-emphasis: hsla(152, 69%, 31%, 1);
+    --elev-warning: hsla(45, 100%, 51%, 1);
+    --elev-warning-subtle: hsla(45, 100%, 51%, 1);
+    --elev-warning-emphasis: hsla(45, 100%, 51%, 1);
+    --elev-danger: hsla(354, 70%, 54%, 1);    
+    --elev-danger-subtle: hsla(354, 70%, 54%, 1);    
+    --elev-danger-emphasis: hsla(354, 70%, 54%, 1);    
+    --elev-error: hsla(8, 100%, 50%, 1);
+    --elev-error-subtle: hsla(8, 100%, 50%, 1);
+    --elev-error-emphasis: hsla(8, 100%, 50%, 1);
+    --elev-container-primary: hsla(120, 27%, 91%, 1);
+    --elev-container-secondary: hsla(312, 33%, 94%, 1);
+    --elev-container-tertiary: hsla(60, 33%, 94%, 1);
+    --elev-light-grey: hsla(0, 0%, 96%, 1);
+    --elev-error: hsla(8, 100%, 50%, 1);
+    --elev-primary-rgb: 0, 84, 61;
+    --elev-secondary-rgb: 85, 41, 138;
+    --elev-success-rgb: 25, 135, 84;
+    --elev-warning-rgb: 255, 193, 7;
+    --elev-danger-rgb: 220, 53, 69;
+    --elev-container-primary-rgb: 227, 239, 227;
+    --elev-light-primary-rgb: 227, 239, 227;
+    --elev-container-secondary-rgb: 245, 235, 243;
+    --elev-tertiary-rgb: 30, 30, 30;
+    --elev-container-tertiary-rgb: 245, 245, 235;
+    --elev-light-grey-rgb: 245, 245, 245;
+    --elev-error-rgb: 255, 36, 0;
+    --elev-primary-text-emphasis: hsla(216, 91%, 21%, 1);
+    --elev-secondary-text-emphasis: hsla(206, 8%, 18%, 1);
+    --elev-success-text-emphasis: hsla(153, 69%, 13%, 1);
+    --elev-info-text-emphasis: hsla(190, 90%, 20%, 1);
+    --elev-warning-text-emphasis: hsla(45, 94%, 21%, 1);
+    --elev-danger-text-emphasis: hsla(354, 61%, 21%, 1);
+    --elev-light-text-emphasis: hsla(210, 9%, 31%, 1);
+    --elev-dark-text-emphasis: hsla(210, 9%, 31%, 1);
+    --elev-primary-bg-subtle: hsla(216, 100%, 91%, 1);
+    --elev-secondary-bg-subtle: hsla(220, 5%, 89%, 1);
+    --elev-success-bg-subtle: hsla(153, 31%, 86%, 1);
+    --elev-info-bg-subtle: hsla(191, 88%, 90%, 1);
+    --elev-warning-bg-subtle: hsla(46, 100%, 90%, 1);
+    --elev-danger-bg-subtle: hsla(355, 70%, 91%, 1);
+    --elev-light-bg-subtle: hsla(240, 20%, 99%, 1);
+    --elev-dark-bg-subtle: hsla(210, 14%, 83%, 1);
+    --elev-primary-border-subtle: hsla(216, 98%, 81%, 1);
+    --elev-secondary-border-subtle: hsla(206, 6%, 78%, 1);
+    --elev-success-border-subtle: hsla(153, 31%, 73%, 1);
+    --elev-info-border-subtle: hsla(190, 88%, 80%, 1);
+    --elev-warning-border-subtle: hsla(45, 100%, 81%, 1);
+    --elev-danger-border-subtle: hsla(354, 71%, 81%, 1);
+    --elev-light-border-subtle: hsla(210, 16%, 93%, 1);
+    --elev-dark-border-subtle: hsla(210, 11%, 71%, 1);
+    --elev-white-rgb: 255, 255, 255;
+    --elev-black-rgb: 0, 0, 0;
+    --elev-font-sans-serif: "Oxygen", sans-serif;
+    --elev-font-monospace: "Oxygen", sans-serif;
+    --elev-gradient: linear-gradient(180deg, hsla(0, 0%, 100%, .15), hsla(0, 0%, 100%, 0));
+    --elev-body-font-family: var(--elev-font-sans-serif);
+    --elev-body-font-size: 1rem;
+    --elev-body-font-weight: 400;
+    --elev-body-line-height: 1.5;
+    --elev-body-color: hsla(210, 11%, 15%, 1);
+    --elev-body-color-rgb: 33, 37, 41;
+    --elev-body-bg: hsla(0, 0%, 100%, 1);
+    --elev-body-bg-rgb: 255, 255, 255;
+    --elev-emphasis-color: hsla(0, 0%, 0%, 1);
+    --elev-emphasis-color-rgb: 0, 0, 0;
+    --elev-secondary-color: rgba(33, 37, 41, .75);
+    --elev-secondary-color-rgb: 33, 37, 41;
+    --elev-secondary-bg: hsla(210, 16%, 93%, 1);
+    --elev-secondary-bg-rgb: 233, 236, 239;
+    --elev-tertiary-color: rgba(33, 37, 41, .5);
+    --elev-tertiary-color-rgb: 33, 37, 41;
+    --elev-tertiary-bg: hsla(210, 17%, 98%, 1);
+    --elev-tertiary-bg-rgb: 248, 249, 250;
+    --elev-heading-color: inherit;
+    --elev-link-color: hsla(164, 100%, 16%, 1);
+    --elev-link-color-rgb: 0, 84, 61;
+    --elev-link-decoration: underline;
+    --elev-link-hover-color: hsla(164, 100%, 13%, 1);
+    --elev-link-hover-color-rgb: 0, 67, 49;
+    --elev-code-color: hsla(330, 67%, 52%, 1);
+    --elev-highlight-color: hsla(210, 11%, 15%, 1);
+    --elev-highlight-bg: hsla(46, 100%, 90%, 1);
+    --elev-border-width: 1px;
+    --elev-border-style: solid;
+    --elev-border-color: hsla(210, 14%, 89%, 1);
+    --elev-border-color-translucent: rgba(0, 0, 0, .175);
+    --elev-border-radius: 0.375rem;
+    --elev-border-radius-sm: 0.25rem;
+    --elev-border-radius-lg: 0.5rem;
+    --elev-border-radius-xl: 1rem;
+    --elev-border-radius-xxl: 2rem;
+    --elev-border-radius-2xl: var(--elev-border-radius-xxl);
+    --elev-border-radius-pill: 50rem;
+    --elev-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .15);
+    --elev-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, .075);
+    --elev-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, .175);
+    --elev-box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, .075);
+    --elev-focus-ring-width: 0.25rem;
+    --elev-focus-ring-opacity: 0.25;
+    --elev-focus-ring-color: rgba(13, 110, 253, .25);
+    --elev-form-valid-color: hsla(152, 69%, 31%, 1);
+    --elev-form-valid-border-color: hsla(152, 69%, 31%, 1);
+    --elev-form-invalid-color: hsla(354, 70%, 54%, 1);
+    --elev-form-invalid-border-color: hsla(354, 70%, 54%, 1);
 
 }
 
@@ -177,11 +177,11 @@
   background-color: transparent;
   border: none;
   border-radius: 2px 2px 0 15px;
-  color: var(--bs-black);
+  color: var(--elev-black);
   -moz-column-gap: 10px;
   column-gap: 10px;
   display: inline-flex;
-  font-family: var(--bs-font-sans-serif);
+  font-family: var(--elev-font-sans-serif);
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0;
@@ -195,7 +195,7 @@
 
 .customButton::before,
 .customButton::after {
-  background: var(--bs-white);
+  background: var(--elev-white);
   content: "";
   height: 155px;
   opacity: 0;
@@ -215,7 +215,7 @@
 
 .customButton:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px 0 rgba(var(--bs-black-rgb), 0.3);
+  box-shadow: 0 10px 20px 0 rgba(var(--elev-black-rgb), 0.3);
 }
 
 .customButton:hover::before {
@@ -230,8 +230,8 @@
 
 /* Color Variants */
 .customButton--blue {
-  background-color: var(--bs-blue);
-  color: var(--bs-white);
+  background-color: var(--elev-blue);
+  color: var(--elev-white);
 }
 
 .customButton--blue::before {
@@ -243,8 +243,8 @@
 }
 
 .customButton--blue-subtle {
-  background-color: var(--bs-blue-subtle);
-  color: var(--bs-blue);
+  background-color: var(--elev-blue-subtle);
+  color: var(--elev-blue);
 }
 
 .customButton--blue-subtle::before {
@@ -257,7 +257,7 @@
 
 .customButton--blue-emphasis {
   background-color: hsl(214, 100%, 40%); /* 10% lighter */
-  color: var(--bs-white);
+  color: var(--elev-white);
 }
 
 .customButton--blue-emphasis::before {
@@ -270,8 +270,8 @@
 
 .customButton--blue-outline {
   background-color: transparent;
-  border: 2px solid var(--bs-blue);
-  color: var(--bs-blue);
+  border: 2px solid var(--elev-blue);
+  color: var(--elev-blue);
 }
 
 .customButton--blue-outline::before {
@@ -283,14 +283,14 @@
 }
 
 .customButton--blue-outline:hover {
-  background-color: var(--bs-blue);
-  color: var(--bs-white);
+  background-color: var(--elev-blue);
+  color: var(--elev-white);
 }
 
     /* Indigo */
     .customButton--indigo {
-      background-color: var(--bs-indigo);
-      color: var(--bs-white);
+      background-color: var(--elev-indigo);
+      color: var(--elev-white);
     }
 
     .customButton--indigo::before {
@@ -302,8 +302,8 @@
     }
 
     .customButton--indigo-subtle {
-      background-color: var(--bs-indigo-subtle);
-      color: var(--bs-indigo);
+      background-color: var(--elev-indigo-subtle);
+      color: var(--elev-indigo);
     }
 
     .customButton--indigo-subtle::before {
@@ -315,8 +315,8 @@
     }
 
     .customButton--indigo-emphasis {
-      background-color: var(--bs-indigo-emphasis);
-      color: var(--bs-white);
+      background-color: var(--elev-indigo-emphasis);
+      color: var(--elev-white);
     }
 
     .customButton--indigo-emphasis::before {
@@ -329,8 +329,8 @@
 
     .customButton--indigo-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-indigo);
-      color: var(--bs-indigo);
+      border: 2px solid var(--elev-indigo);
+      color: var(--elev-indigo);
     }
 
     .customButton--indigo-outline::before {
@@ -342,15 +342,15 @@
     }
 
     .customButton--indigo-outline:hover {
-      background-color: var(--bs-indigo);
-      color: var(--bs-white);
+      background-color: var(--elev-indigo);
+      color: var(--elev-white);
     }
 
     /* Repeat for other colors using the same pattern */
     /* Purple */
     .customButton--purple {
-      background-color: var(--bs-purple);
-      color: var(--bs-white);
+      background-color: var(--elev-purple);
+      color: var(--elev-white);
     }
 
     .customButton--purple::before {
@@ -362,8 +362,8 @@
     }
 
     .customButton--purple-subtle {
-      background-color: rgba(var(--bs-purple-rgb), 0.1);
-      color: var(--bs-purple);
+      background-color: rgba(var(--elev-purple-rgb), 0.1);
+      color: var(--elev-purple);
     }
 
     .customButton--purple-subtle::before {
@@ -376,7 +376,7 @@
 
     .customButton--purple-emphasis {
       background-color: hsl(270, 100%, 40%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--purple-emphasis::before {
@@ -389,8 +389,8 @@
 
     .customButton--purple-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-purple);
-      color: var(--bs-purple);
+      border: 2px solid var(--elev-purple);
+      color: var(--elev-purple);
     }
 
     .customButton--purple-outline::before {
@@ -402,14 +402,14 @@
     }
 
     .customButton--purple-outline:hover {
-      background-color: var(--bs-purple);
-      color: var(--bs-white);
+      background-color: var(--elev-purple);
+      color: var(--elev-white);
     }
 
     /* Pink */
     .customButton--pink {
-      background-color: var(--bs-pink);
-      color: var(--bs-white);
+      background-color: var(--elev-pink);
+      color: var(--elev-white);
     }
 
     .customButton--pink::before {
@@ -421,8 +421,8 @@
     }
 
     .customButton--pink-subtle {
-      background-color: var(--bs-pink-subtle);
-      color: var(--bs-dark);
+      background-color: var(--elev-pink-subtle);
+      color: var(--elev-dark);
     }
 
     .customButton--pink-subtle::before {
@@ -435,7 +435,7 @@
 
     .customButton--pink-emphasis {
       background-color: hsl(330, 100%, 60%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--pink-emphasis::before {
@@ -448,8 +448,8 @@
 
     .customButton--pink-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-pink);
-      color: var(--bs-pink);
+      border: 2px solid var(--elev-pink);
+      color: var(--elev-pink);
     }
 
     .customButton--pink-outline::before {
@@ -461,14 +461,14 @@
     }
 
     .customButton--pink-outline:hover {
-      background-color: var(--bs-pink);
-      color: var(--bs-white);
+      background-color: var(--elev-pink);
+      color: var(--elev-white);
     }
 
     /* Red */
     .customButton--red {
-      background-color: var(--bs-red);
-      color: var(--bs-white);
+      background-color: var(--elev-red);
+      color: var(--elev-white);
     }
 
     .customButton--red::before {
@@ -480,8 +480,8 @@
     }
 
     .customButton--red-subtle {
-      background-color: var(--bs-red-subtle);
-      color: var(--bs-red);
+      background-color: var(--elev-red-subtle);
+      color: var(--elev-red);
     }
 
     .customButton--red-subtle::before {
@@ -494,7 +494,7 @@
 
     .customButton--red-emphasis {
       background-color: hsl(0, 100%, 60%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--red-emphasis::before {
@@ -507,8 +507,8 @@
 
     .customButton--red-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-red);
-      color: var(--bs-red);
+      border: 2px solid var(--elev-red);
+      color: var(--elev-red);
     }
 
     .customButton--red-outline::before {
@@ -520,14 +520,14 @@
     }
 
     .customButton--red-outline:hover {
-      background-color: var(--bs-red);
-      color: var(--bs-white);
+      background-color: var(--elev-red);
+      color: var(--elev-white);
     }
 
     /* Orange */
     .customButton--orange {
-      background-color: var(--bs-orange);
-      color: var(--bs-white);
+      background-color: var(--elev-orange);
+      color: var(--elev-white);
     }
 
     .customButton--orange::before {
@@ -539,8 +539,8 @@
     }
 
     .customButton--orange-subtle {
-      background-color: rgba(var(--bs-orange-rgb), 0.1);
-      color: var(--bs-orange);
+      background-color: rgba(var(--elev-orange-rgb), 0.1);
+      color: var(--elev-orange);
     }
 
     .customButton--orange-subtle::before {
@@ -553,7 +553,7 @@
 
     .customButton--orange-emphasis {
       background-color: hsl(30, 100%, 60%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--orange-emphasis::before {
@@ -566,8 +566,8 @@
 
     .customButton--orange-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-orange);
-      color: var(--bs-orange);
+      border: 2px solid var(--elev-orange);
+      color: var(--elev-orange);
     }
 
     .customButton--orange-outline::before {
@@ -579,14 +579,14 @@
     }
 
     .customButton--orange-outline:hover {
-      background-color: var(--bs-orange);
-      color: var(--bs-white);
+      background-color: var(--elev-orange);
+      color: var(--elev-white);
     }
 
     /* Yellow */
     .customButton--yellow {
-      background-color: var(--bs-yellow);
-      color: var(--bs-black);
+      background-color: var(--elev-yellow);
+      color: var(--elev-black);
     }
 
     .customButton--yellow::before {
@@ -598,13 +598,13 @@
     }
 
     .customButton--yellow-subtle {
-      background-color: rgba(var(--bs-yellow-rgb), 0.1);
-      color: var(--bs-yellow);
+      background-color: rgba(var(--elev-yellow-rgb), 0.1);
+      color: var(--elev-yellow);
     }
 
   .customButton--yellow-subtle {
-      background-color: rgba(var(--bs-yellow-rgb), 0.1);
-      color: var(--bs-yellow);
+      background-color: rgba(var(--elev-yellow-rgb), 0.1);
+      color: var(--elev-yellow);
     }
 
     .customButton--yellow-subtle::before {
@@ -617,7 +617,7 @@
 
     .customButton--yellow-emphasis {
       background-color: hsl(45, 100%, 60%); /* 10% lighter */
-      color: var(--bs-black);
+      color: var(--elev-black);
     }
 
     .customButton--yellow-emphasis::before {
@@ -630,8 +630,8 @@
 
     .customButton--yellow-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-yellow);
-      color: var(--bs-yellow);
+      border: 2px solid var(--elev-yellow);
+      color: var(--elev-yellow);
     }
 
     .customButton--yellow-outline::before {
@@ -643,14 +643,14 @@
     }
 
     .customButton--yellow-outline:hover {
-      background-color: var(--bs-yellow);
-      color: var(--bs-black);
+      background-color: var(--elev-yellow);
+      color: var(--elev-black);
     }
 
     /* Green */
     .customButton--green {
-      background-color: var(--bs-green);
-      color: var(--bs-white);
+      background-color: var(--elev-green);
+      color: var(--elev-white);
     }
 
     .customButton--green::before {
@@ -662,8 +662,8 @@
     }
 
     .customButton--green-subtle {
-      background-color: rgba(var(--bs-green-rgb), 0.1);
-      color: var(--bs-green);
+      background-color: rgba(var(--elev-green-rgb), 0.1);
+      color: var(--elev-green);
     }
 
     .customButton--green-subtle::before {
@@ -676,7 +676,7 @@
 
     .customButton--green-emphasis {
       background-color: hsl(145, 100%, 40%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--green-emphasis::before {
@@ -689,8 +689,8 @@
 
     .customButton--green-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-green);
-      color: var(--bs-green);
+      border: 2px solid var(--elev-green);
+      color: var(--elev-green);
     }
 
     .customButton--green-outline::before {
@@ -702,14 +702,14 @@
     }
 
     .customButton--green-outline:hover {
-      background-color: var(--bs-green);
-      color: var(--bs-white);
+      background-color: var(--elev-green);
+      color: var(--elev-white);
     }
 
     /* Teal */
     .customButton--teal {
-      background-color: var(--bs-teal);
-      color: var(--bs-white);
+      background-color: var(--elev-teal);
+      color: var(--elev-white);
     }
 
     .customButton--teal::before {
@@ -721,8 +721,8 @@
     }
 
     .customButton--teal-subtle {
-      background-color: rgba(var(--bs-teal-rgb), 0.1);
-      color: var(--bs-teal);
+      background-color: rgba(var(--elev-teal-rgb), 0.1);
+      color: var(--elev-teal);
     }
 
     .customButton--teal-subtle::before {
@@ -735,7 +735,7 @@
 
     .customButton--teal-emphasis {
       background-color: hsl(170, 100%, 40%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--teal-emphasis::before {
@@ -748,8 +748,8 @@
 
     .customButton--teal-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-teal);
-      color: var(--bs-teal);
+      border: 2px solid var(--elev-teal);
+      color: var(--elev-teal);
     }
 
     .customButton--teal-outline::before {
@@ -761,14 +761,14 @@
     }
 
     .customButton--teal-outline:hover {
-      background-color: var(--bs-teal);
-      color: var(--bs-white);
+      background-color: var(--elev-teal);
+      color: var(--elev-white);
     }
 
     /* Cyan */
     .customButton--cyan {
-      background-color: var(--bs-cyan);
-      color: var(--bs-white);
+      background-color: var(--elev-cyan);
+      color: var(--elev-white);
     }
 
     .customButton--cyan::before {
@@ -780,8 +780,8 @@
     }
 
     .customButton--cyan-subtle {
-      background-color: rgba(var(--bs-cyan-rgb), 0.1);
-      color: var(--bs-cyan);
+      background-color: rgba(var(--elev-cyan-rgb), 0.1);
+      color: var(--elev-cyan);
     }
 
     .customButton--cyan-subtle::before {
@@ -794,7 +794,7 @@
 
     .customButton--cyan-emphasis {
       background-color: hsl(190, 100%, 40%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--cyan-emphasis::before {
@@ -807,8 +807,8 @@
 
     .customButton--cyan-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-cyan);
-      color: var(--bs-cyan);
+      border: 2px solid var(--elev-cyan);
+      color: var(--elev-cyan);
     }
 
     .customButton--cyan-outline::before {
@@ -820,14 +820,14 @@
     }
 
     .customButton--cyan-outline:hover {
-      background-color: var(--bs-cyan);
-      color: var(--bs-white);
+      background-color: var(--elev-cyan);
+      color: var(--elev-white);
     }
 
     /* Black */
     .customButton--black {
-      background-color: var(--bs-black);
-      color: var(--bs-white);
+      background-color: var(--elev-black);
+      color: var(--elev-white);
     }
 
     .customButton--black::before {
@@ -839,8 +839,8 @@
     }
 
     .customButton--black-subtle {
-      background-color: rgba(var(--bs-black-rgb), 0.1);
-      color: var(--bs-black);
+      background-color: rgba(var(--elev-black-rgb), 0.1);
+      color: var(--elev-black);
     }
 
     .customButton--black-subtle::before {
@@ -853,7 +853,7 @@
 
     .customButton--black-emphasis {
       background-color: hsl(0, 0%, 20%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--black-emphasis::before {
@@ -866,8 +866,8 @@
 
     .customButton--black-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-black);
-      color: var(--bs-black);
+      border: 2px solid var(--elev-black);
+      color: var(--elev-black);
     }
 
     .customButton--black-outline::before {
@@ -879,14 +879,14 @@
     }
 
     .customButton--black-outline:hover {
-      background-color: var(--bs-black);
-      color: var(--bs-white);
+      background-color: var(--elev-black);
+      color: var(--elev-white);
     }
 
     /* White */
     .customButton--white {
-      background-color: var(--bs-white);
-      color: var(--bs-black);
+      background-color: var(--elev-white);
+      color: var(--elev-black);
     }
 
     .customButton--white::before {
@@ -898,8 +898,8 @@
     }
 
     .customButton--white-subtle {
-      background-color: rgba(var(--bs-white-rgb), 0.1);
-      color: var(--bs-white);
+      background-color: rgba(var(--elev-white-rgb), 0.1);
+      color: var(--elev-white);
     }
 
     .customButton--white-subtle::before {
@@ -912,7 +912,7 @@
 
     .customButton--white-emphasis {
       background-color: hsl(0, 0%, 90%); /* 10% lighter */
-      color: var(--bs-black);
+      color: var(--elev-black);
     }
 
     .customButton--white-emphasis::before {
@@ -925,8 +925,8 @@
 
     .customButton--white-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-white);
-      color: var(--bs-white);
+      border: 2px solid var(--elev-white);
+      color: var(--elev-white);
     }
 
     .customButton--white-outline::before {
@@ -938,14 +938,14 @@
     }
 
     .customButton--white-outline:hover {
-      background-color: var(--bs-white);
-      color: var(--bs-black);
+      background-color: var(--elev-white);
+      color: var(--elev-black);
     }
 
     /* Gray */
     .customButton--gray {
-      background-color: var(--bs-gray);
-      color: var(--bs-white);
+      background-color: var(--elev-gray);
+      color: var(--elev-white);
     }
 
     .customButton--gray::before {
@@ -957,12 +957,12 @@
     }
 
     .customButton--gray-subtle {
-      background-color: rgba(var(--bs-gray-rgb), 0.1);
-      color: var(--bs-gray);
+      background-color: rgba(var(--elev-gray-rgb), 0.1);
+      color: var(--elev-gray);
     }
     .customButton--gray-subtle {
-      background-color: rgba(var(--bs-gray-rgb), 0.1);
-      color: var(--bs-gray);
+      background-color: rgba(var(--elev-gray-rgb), 0.1);
+      color: var(--elev-gray);
     }
 
     .customButton--gray-subtle::before {
@@ -975,7 +975,7 @@
 
     .customButton--gray-emphasis {
       background-color: hsl(210, 10%, 40%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--gray-emphasis::before {
@@ -988,8 +988,8 @@
 
     .customButton--gray-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-gray);
-      color: var(--bs-gray);
+      border: 2px solid var(--elev-gray);
+      color: var(--elev-gray);
     }
 
     .customButton--gray-outline::before {
@@ -1001,14 +1001,14 @@
     }
 
     .customButton--gray-outline:hover {
-      background-color: var(--bs-gray);
-      color: var(--bs-white);
+      background-color: var(--elev-gray);
+      color: var(--elev-white);
     }
 
     /* Gray Dark */
     .customButton--gray-dark {
-      background-color: var(--bs-gray-dark);
-      color: var(--bs-white);
+      background-color: var(--elev-gray-dark);
+      color: var(--elev-white);
     }
 
     .customButton--gray-dark::before {
@@ -1020,8 +1020,8 @@
     }
 
     .customButton--gray-dark-subtle {
-      background-color: rgba(var(--bs-gray-dark-rgb), 0.1);
-      color: var(--bs-gray-dark);
+      background-color: rgba(var(--elev-gray-dark-rgb), 0.1);
+      color: var(--elev-gray-dark);
     }
 
     .customButton--gray-dark-subtle::before {
@@ -1034,7 +1034,7 @@
 
     .customButton--gray-dark-emphasis {
       background-color: hsl(210, 10%, 30%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--gray-dark-emphasis::before {
@@ -1047,8 +1047,8 @@
 
     .customButton--gray-dark-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-gray-dark);
-      color: var(--bs-gray-dark);
+      border: 2px solid var(--elev-gray-dark);
+      color: var(--elev-gray-dark);
     }
 
     .customButton--gray-dark-outline::before {
@@ -1060,14 +1060,14 @@
     }
 
     .customButton--gray-dark-outline:hover {
-      background-color: var(--bs-gray-dark);
-      color: var(--bs-white);
+      background-color: var(--elev-gray-dark);
+      color: var(--elev-white);
     }
 
     /* Primary */
     .customButton--primary {
-      background-color: var(--bs-primary);
-      color: var(--bs-white);
+      background-color: var(--elev-primary);
+      color: var(--elev-white);
     }
 
     .customButton--primary::before {
@@ -1079,8 +1079,8 @@
     }
 
     .customButton--primary-subtle {
-      background-color: rgba(var(--bs-primary-rgb), 0.1);
-      color: var(--bs-primary);
+      background-color: rgba(var(--elev-primary-rgb), 0.1);
+      color: var(--elev-primary);
     }
 
     .customButton--primary-subtle::before {
@@ -1093,7 +1093,7 @@
 
     .customButton--primary-emphasis {
       background-color: hsl(145, 100%, 40%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--primary-emphasis::before {
@@ -1106,8 +1106,8 @@
 
     .customButton--primary-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-primary);
-      color: var(--bs-primary);
+      border: 2px solid var(--elev-primary);
+      color: var(--elev-primary);
     }
 
     .customButton--primary-outline::before {
@@ -1119,14 +1119,14 @@
     }
 
     .customButton--primary-outline:hover {
-      background-color: var(--bs-primary);
-      color: var(--bs-white);
+      background-color: var(--elev-primary);
+      color: var(--elev-white);
     }
 
     /* Secondary */
     .customButton--secondary {
-      background-color: var(--bs-secondary);
-      color: var(--bs-white);
+      background-color: var(--elev-secondary);
+      color: var(--elev-white);
     }
 
     .customButton--secondary::before {
@@ -1138,8 +1138,8 @@
     }
 
     .customButton--secondary-subtle {
-      background-color: rgba(var(--bs-secondary-rgb), 0.1);
-      color: var(--bs-secondary);
+      background-color: rgba(var(--elev-secondary-rgb), 0.1);
+      color: var(--elev-secondary);
     }
 
     .customButton--secondary-subtle::before {
@@ -1152,7 +1152,7 @@
 
     .customButton--secondary-emphasis {
       background-color: hsl(270, 100%, 40%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--secondary-emphasis::before {
@@ -1165,8 +1165,8 @@
 
     .customButton--secondary-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-secondary);
-      color: var(--bs-secondary);
+      border: 2px solid var(--elev-secondary);
+      color: var(--elev-secondary);
     }
 
     .customButton--secondary-outline::before {
@@ -1178,14 +1178,14 @@
     }
 
     .customButton--secondary-outline:hover {
-      background-color: var(--bs-secondary);
-      color: var(--bs-white);
+      background-color: var(--elev-secondary);
+      color: var(--elev-white);
     }
 
     /* Success */
     .customButton--success {
-      background-color: var(--bs-success);
-      color: var(--bs-white);
+      background-color: var(--elev-success);
+      color: var(--elev-white);
     }
 
     .customButton--success::before {
@@ -1197,8 +1197,8 @@
     }
 
     .customButton--success-subtle {
-      background-color: rgba(var(--bs-success-rgb), 0.1);
-      color: var(--bs-success);
+      background-color: rgba(var(--elev-success-rgb), 0.1);
+      color: var(--elev-success);
     }
 
     .customButton--success-subtle::before {
@@ -1211,7 +1211,7 @@
 
     .customButton--success-emphasis {
       background-color: hsl(145, 100%, 40%); /* 10% lighter */
-      color: var(--bs-white);
+      color: var(--elev-white);
     }
 
     .customButton--success-emphasis::before {
@@ -1224,8 +1224,8 @@
 
     .customButton--success-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-success);
-      color: var(--bs-success);
+      border: 2px solid var(--elev-success);
+      color: var(--elev-success);
     }
 
     .customButton--success-outline::before {
@@ -1237,14 +1237,14 @@
     }
 
     .customButton--success-outline:hover {
-      background-color: var(--bs-success);
-      color: var(--bs-white);
+      background-color: var(--elev-success);
+      color: var(--elev-white);
     }
 
     /* Warning */
     .customButton--warning {
-      background-color: var(--bs-warning);
-      color: var(--bs-black);
+      background-color: var(--elev-warning);
+      color: var(--elev-black);
     }
 
     .customButton--warning::before {
@@ -1256,8 +1256,8 @@
     }
 
     .customButton--warning-subtle {
-      background-color: rgba(var(--bs-warning-rgb), 0.1);
-      color: var(--bs-warning);
+      background-color: rgba(var(--elev-warning-rgb), 0.1);
+      color: var(--elev-warning);
     }
 
     .customButton--warning-subtle::before {
@@ -1270,7 +1270,7 @@
 
     .customButton--warning-emphasis {
       background-color: hsl(45, 100%, 60%); /* 10% lighter */
-      color: var(--bs-black);
+      color: var(--elev-black);
     }
 
     .customButton--warning-emphasis::before {
@@ -1283,8 +1283,8 @@
 
     .customButton--warning-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-warning);
-      color: var(--bs-warning);
+      border: 2px solid var(--elev-warning);
+      color: var(--elev-warning);
     }
 
     .customButton--warning-outline::before {
@@ -1296,14 +1296,14 @@
     }
 
     .customButton--warning-outline:hover {
-      background-color: var(--bs-warning);
-      color: var(--bs-black);
+      background-color: var(--elev-warning);
+      color: var(--elev-black);
     }
 
     /* Danger */
     .customButton--danger {
-      background-color: var(--bs-danger);
-      color: var(--bs-white);
+      background-color: var(--elev-danger);
+      color: var(--elev-white);
     }
 
     .customButton--danger::before {
@@ -1315,8 +1315,8 @@
     }
 
     .customButton--danger-subtle {
-      background-color: rgba(var(--bs-danger-rgb), 0.1);
-      color: var(--bs-danger);
+      background-color: rgba(var(--elev-danger-rgb), 0.1);
+      color: var(--elev-danger);
     }
     .customButton--danger-subtle::before {
       left: -50%;
@@ -1328,7 +1328,7 @@
 
     .customButton--danger-emphasis {
       background-color: hsl(45, 100%, 60%); /* 10% lighter */
-      color: var(--bs-black);
+      color: var(--elev-black);
     }
 
     .customButton--danger-emphasis::before {
@@ -1341,8 +1341,8 @@
 
     .customButton--danger-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-warning);
-      color: var(--bs-warning);
+      border: 2px solid var(--elev-warning);
+      color: var(--elev-warning);
     }
 
     .customButton--danger-outline::before {
@@ -1354,6 +1354,6 @@
     }
 
     .customButton--danger-outline:hover {
-      background-color: var(--bs-warning);
-      color: var(--bs-black);
+      background-color: var(--elev-warning);
+      color: var(--elev-black);
     }
