@@ -22,384 +22,53 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Elevation CSS -->
     <!-- <link rel="stylesheet" href="elevation-bootstrap.css" /> -->
-    <style>
-        :root,
-        [data-bs-theme=light] {
-            --bs-blue: #0d6efd;
-            --bs-indigo: #6610f2;
-            --bs-purple: #6f42c1;
-            --bs-pink: #d63384;
-            --bs-red: #dc3545;
-            --bs-orange: #fd7e14;
-            --bs-yellow: #ffc107;
-            --bs-green: #198754;
-            --bs-teal: #20c997;
-            --bs-cyan: #0dcaf0;
-            --bs-black: #000;
-            --bs-white: #fff;
-            --bs-gray: #6c757d;
-            --bs-gray-dark: #343a40;
-            --bs-gray-100: #f8f9fa;
-            --bs-gray-200: #e9ecef;
-            --bs-gray-300: #dee2e6;
-            --bs-gray-400: #ced4da;
-            --bs-gray-500: #adb5bd;
-            --bs-gray-600: #6c757d;
-            --bs-gray-700: #495057;
-            --bs-gray-800: #343a40;
-            --bs-gray-900: #212529;
-            --bs-primary: #00543d;
-            --bs-secondary: #55298a;
-            --bs-success: #198754;
-            --bs-warning: #ffc107;
-            --bs-danger: #dc3545;
-            --bs-container-primary: #e3efe3;
-            --bs-light-primary: #e3efe3;
-            --bs-container-secondary: #f5ebf3;
-            --bs-tertiary: #1e1e1e;
-            --bs-container-tertiary: #f5f5eb;
-            --bs-light-grey: #f5f5f5;
-            --bs-error: #ff2400;
-            --bs-primary-rgb: 0, 84, 61;
-            --bs-secondary-rgb: 85, 41, 138;
-            --bs-success-rgb: 25, 135, 84;
-            --bs-warning-rgb: 255, 193, 7;
-            --bs-danger-rgb: 220, 53, 69;
-            --bs-container-primary-rgb: 227, 239, 227;
-            --bs-light-primary-rgb: 227, 239, 227;
-            --bs-container-secondary-rgb: 245, 235, 243;
-            --bs-tertiary-rgb: 30, 30, 30;
-            --bs-container-tertiary-rgb: 245, 245, 235;
-            --bs-light-grey-rgb: 245, 245, 245;
-            --bs-error-rgb: 255, 36, 0;
-            --bs-primary-text-emphasis: #052c65;
-            --bs-secondary-text-emphasis: #2b2f32;
-            --bs-success-text-emphasis: #0a3622;
-            --bs-info-text-emphasis: #055160;
-            --bs-warning-text-emphasis: #664d03;
-            --bs-danger-text-emphasis: #58151c;
-            --bs-light-text-emphasis: #495057;
-            --bs-dark-text-emphasis: #495057;
-            --bs-primary-bg-subtle: #cfe2ff;
-            --bs-secondary-bg-subtle: #e2e3e5;
-            --bs-success-bg-subtle: #d1e7dd;
-            --bs-info-bg-subtle: #cff4fc;
-            --bs-warning-bg-subtle: #fff3cd;
-            --bs-danger-bg-subtle: #f8d7da;
-            --bs-light-bg-subtle: #fcfcfd;
-            --bs-dark-bg-subtle: #ced4da;
-            --bs-primary-border-subtle: #9ec5fe;
-            --bs-secondary-border-subtle: #c4c8cb;
-            --bs-success-border-subtle: #a3cfbb;
-            --bs-info-border-subtle: #9eeaf9;
-            --bs-warning-border-subtle: #ffe69c;
-            --bs-danger-border-subtle: #f1aeb5;
-            --bs-light-border-subtle: #e9ecef;
-            --bs-dark-border-subtle: #adb5bd;
-            --bs-white-rgb: 255, 255, 255;
-            --bs-black-rgb: 0, 0, 0;
-            --bs-font-sans-serif: "Oxygen", sans-serif;
-            --bs-font-monospace: "Oxygen", sans-serif;
-            --bs-gradient: linear-gradient(180deg, hsla(0, 0%, 100%, .15), hsla(0, 0%, 100%, 0));
-            --bs-body-font-family: var(--bs-font-sans-serif);
-            --bs-body-font-size: 1rem;
-            --bs-body-font-weight: 400;
-            --bs-body-line-height: 1.5;
-            --bs-body-color: #212529;
-            --bs-body-color-rgb: 33, 37, 41;
-            --bs-body-bg: #fff;
-            --bs-body-bg-rgb: 255, 255, 255;
-            --bs-emphasis-color: #000;
-            --bs-emphasis-color-rgb: 0, 0, 0;
-            --bs-secondary-color: rgba(33, 37, 41, .75);
-            --bs-secondary-color-rgb: 33, 37, 41;
-            --bs-secondary-bg: #e9ecef;
-            --bs-secondary-bg-rgb: 233, 236, 239;
-            --bs-tertiary-color: rgba(33, 37, 41, .5);
-            --bs-tertiary-color-rgb: 33, 37, 41;
-            --bs-tertiary-bg: #f8f9fa;
-            --bs-tertiary-bg-rgb: 248, 249, 250;
-            --bs-heading-color: inherit;
-            --bs-link-color: #00543d;
-            --bs-link-color-rgb: 0, 84, 61;
-            --bs-link-decoration: underline;
-            --bs-link-hover-color: #004331;
-            --bs-link-hover-color-rgb: 0, 67, 49;
-            --bs-code-color: #d63384;
-            --bs-highlight-color: #212529;
-            --bs-highlight-bg: #fff3cd;
-            --bs-border-width: 1px;
-            --bs-border-style: solid;
-            --bs-border-color: #dee2e6;
-            --bs-border-color-translucent: rgba(0, 0, 0, .175);
-            --bs-border-radius: 0.375rem;
-            --bs-border-radius-sm: 0.25rem;
-            --bs-border-radius-lg: 0.5rem;
-            --bs-border-radius-xl: 1rem;
-            --bs-border-radius-xxl: 2rem;
-            --bs-border-radius-2xl: var(--bs-border-radius-xxl);
-            --bs-border-radius-pill: 50rem;
-            --bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .15);
-            --bs-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, .075);
-            --bs-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, .175);
-            --bs-box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, .075);
-            --bs-focus-ring-width: 0.25rem;
-            --bs-focus-ring-opacity: 0.25;
-            --bs-focus-ring-color: rgba(13, 110, 253, .25);
-            --bs-form-valid-color: #198754;
-            --bs-form-valid-border-color: #198754;
-            --bs-form-invalid-color: #dc3545;
-            --bs-form-invalid-border-color: #dc3545
-        }
-        
-        body {
-            font-family: "Oxygen";
-            background-color: #fff;
-        }
-        
-        .card {
-            border-radius: 1px;
-            box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.067);
-            border: none;
-        }
-        
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: Lora, serif;
-            font-weight: 400;
-        }
-        
-        .badge {
-            text-transform: uppercase;
-            font-weight: 400;
-            padding: 0.35em 0.75em;
-        }
-        
-        .block__buttons {
-            align-items: center;
-            -moz-column-gap: 30px;
-            column-gap: 30px;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            row-gap: 20px;
-        }
-        
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 200px;
-            padding: 20px;
-            overflow-y: auto;
-            z-index: 2;
-        }
-        
-        .topbar {
-            position: fixed;
-            top: 0;
-            left: 200px;
-            right: 0;
-            height: 60px;
-            background-color: #f8f9fa;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            z-index: 1;
-        }
-        
-        .content {
-            margin-left: 220px;
-            margin-top: 80px;
-        }
-</style>
     <link rel="stylesheet" href="customButtons2.css" />
-    <!--<style id="customButtons">
-.customButton {
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  border-radius: 2px 2px 0 15px;
-  color: #000;
-  -moz-column-gap: 10px;
-  column-gap: 10px;
-  display: inline-flex;
-  font-family: Oxygen, sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 19px;
-  padding: 18px 28px;
-  text-align: left;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.customButton::before,
-.customButton::after {
-  background: #fff;
-  content: "";
-  height: 155px;
-  opacity: 0;
-  position: absolute;
-  top: -50px;
-  transform: rotate(35deg);
-  transition: all 3000ms cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.customButton::before {
-  width: 50px;
-}
-
-.customButton::after {
-  width: 8rem;
-}
-        
-        .customButton--secondary {
-            background-color: #55298a;
-            color: #fff
-        }
-
-.customButton--secondary::before {
-  left: -50%;
-}
-
-.customButton--secondary::after {
-  left: -100%;
-}
-
-.customButton--secondary:hover {
-  background-color: #f5ebf3;
-  color: #1e1e1e;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
-}
-
-.customButton--secondary:hover::before {
-  left: 120%;
-  opacity: 0.5;
-}
-
-.customButton--secondary:hover::after {
-  left: 200%;
-  opacity: 0.6;
-}
-        
-        .customButton::-moz-selection {
-            background-color: #050505;
-            color: #fff
-        }
-        
-        .customButton--ddap-red {
-            background-color: #bf2e1a;
-            color: #fff;
-            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
-        }
-        
-        .customButton--ddap-blue {
-            background-color: #003e7e;
-            color: #fff;
-            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
-        }
-        
-        .customButton--danger {
-            background-color: #ef633d;
-            color: #fff;
-            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
-        }
-        
-        .customButton--danger:hover {
-            background-color: azure;
-            color: cadetblue;
-            box-shadow: none;
-        }
-        
-        
-        .customButton--success {
-            background-color: #e3efe3;
-            color: #000;
-        }
-        
-        .customButton--success:hover {
-            background-color: #01f4ad;
-            color: #000;
-        }
-        
-        .customButton--pink {
-            background-color: #f8d7da;
-            color: #000;
-            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
-        }
-        
-        .customButton--pink:hover {
-            background-color: #55298a;
-            color: #fff;
-            box-shadow: none;
-        }
-        
-        .customButton--info {
-            background-color: cornflowerblue;
-            color: #fff;
-            box-shadow: 0 3px 15px 0 rgba(0, 0, 0, .251);
-        }
-        
-        .customButton--info:hover {
-            background-color: aliceblue;
-            color: cadetblue;
-            box-shadow: none;
-        }
-        
-        .customButton--primary {
-            background-color: #00543d;
-            color: #fff
-        }
-        
-        .customButton--light-primary,
-        .customButton--primary:hover {
-            background-color: #e3efe3;
-            color: #1e1e1e
-        }
-        
-        .customButton--light-primary:hover {
-            background-color: #fff;
-            color: #1e1e1e
-        }
-        .customButton--blue1 {
-            background-color: #A0C1D1;
-            color: #232C33;
-        }
-        
-        .customButton--blue1:hover {
-            background-color: #DADFF7;
-            color: #232C33;
-        }
-        
-        .customButton--green1 {
-            background-color: #5A7D7C;
-            color: #fff;
-        }
-        
-        .customButton--green1:hover {
-            background-color: #B5B2C2;
-            color: #232C33;
-        }
-        .customButton::selection {
-            background-color: #050505;
-            color: #fff
-        }
-    </style>-->
     <script src="data.js"></script>
     <script src="script2.js"></script>
 </head>
 
 <body class="bg-success-subtle">
-    <div class="modal fade" id="philadelphiaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Welcome Modal -->
+    <!-- Welcome Modal -->
+    <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header" style="border: none">
+                    <h4 class="modal-title text-secondary" id="welcomeModalLabel">Welcome</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center">
+                     <div class="row">
+    <div class="col p-5">
+      <h1 class="mt-4 text-info">Regions 1 & 4</h1>
+      <hr>
+      <h2>Resource Database and Interactive Map</h2>
+      <hr>
+      <h3>How to Use:</h3>
+      <ul>
+        <li>
+          <strong>Search Bar & Filters:</strong>
+          <p>Located on the left and top. View resources by county and domain.</p>
+        </li>
+        <li>
+          <strong>Interactive Map:</strong>
+          <p>Click on the Map Menu to the right of the search bar.</p>
+            <ul>
+                <li>On mobile, press <i class="bi bi-list"></i> to view <i class="bi bi-search"></i> search and <img src="assets/tools.svg" style="
+                    inline; width:20px"> tools options.</li>
+                </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="customButton customButton--teal" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="philadelphiaModal" tabindex="-1" aria-labelledby="philadelphiaModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -407,11 +76,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <iframe title="map" src="https://fortress.maptive.com/ver4/22ce0ffcea9e517881f5870c64c4bcff/698567" style="height:70vh; width:100%;"></iframe>
+                    <iframe title="map" src="https://fortress.maptive.com/ver4/22ce0ffcea9e517881f5870c64c4bcff" style="height:70vh; width:100%;"></iframe>
                 </div>
                 <div class="modal-footer">
-                    Please Press 
-                    <button type="button" class="button button--danger filter-btn m-2 py-2 px-3 shadow" data-bs-dismiss="modal">Close</button>
+                    <p> Press <i class="bi bi-list"></i> to toggle menu. </p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline;width: 20px;height: auto"> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--black-customButton--black-outline filter-btn px-3 py-1 shadow" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -543,7 +213,7 @@
                 <div class="btn-group">
                     <button type="button" class="customButton customButton--success dropdown-toggle m-2 py-2 px-3 shadow" style="border-radius:1px 10px 10px 1px !important" data-bs-toggle="dropdown" aria-expanded="false"> <span class="bi bi-geo-alt-fill" style="font-size: large"></span> Map </button>
                     <ul class="dropdown-menu">
-<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#philadelphiaModal">Philadelphia</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#philadelphiaModal">Philadelphia</a></li>
                         <li><a class="dropdown-item" href="https://fortress.maptive.com/ver4/02cf13b4c79f77e04bc512510dbce5fd/698540">Berks</a></li>
                         <li><a class="dropdown-item" href="https://fortress.maptive.com/ver4/3f70f2720ef35f1f5e09335f43726b82/698554">Bucks</a></li>
                         <li><a class="dropdown-item" href="https://fortress.maptive.com/ver4/52434a24012731eebecfc7c9dd9359a3/698557">Chester</a></li>
@@ -552,8 +222,7 @@
                         <li><a class="dropdown-item" href="#">Montgomery</a></li>
                         <li><a class="dropdown-item" href="#">Schuylkill</a></li>
                         <li>
-                            <hr class="dropdown-divider" />
-                        </li>
+                            <hr class="dropdown-divider" /> </li>
                         <li><a class="dropdown-item" href="#">Exit</a></li>
                     </ul>
                 </div>
@@ -595,6 +264,10 @@
                     <br />
                     <div class="container my-3"></div>
                     <div class="container">
+                        <p id="welcome-message">Welcome to the Region 1 & 4 Regional Recovery Hub Resource Database and Interactive Map. You may use the search bar and filters on the left and top to view resources by county and domain, and click on the Map Menu to the right of the search bar bring up the interactive map!</p>
+                        <div class="uk-grid-small uk-child-width-1-3@m js-filter" uk-grid>
+                            <!-- Cards will be populated here -->
+                        </div>
                         <div class="uk-grid-small uk-child-width-1-3@m js-filter" uk-grid="masonry: pack">
                             <!-- Cards will be populated here -->
                         </div>
@@ -613,6 +286,12 @@
     <!-- Page level plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function () {
+            // Show the welcome modal on page load
+            $('#welcomeModal').modal('show');
+        });
+    </script>
 </body>
 
 </html>
