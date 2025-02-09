@@ -10,18 +10,18 @@ $(document).ready(function () {
         const formattedPhoneNumber = formatPhoneNumber(item.Phone);
         item.phoneLink = `tel:${formattedPhoneNumber}`;
 
-        const populations = item["Populations Served"].split(";").map((pop) => `<span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">${pop.trim()}</span>`).join(" ");
-        const counties = item["County"].split(";").map((county) => `<span class="badge rounded-pill bg-primary-subtle text-primary-emphasis">${county.trim()} County</span>`).join(" ");
+        const populations = item["Populations Served"].split(";").map((pop) => `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`).join(" ");
+        const counties = item["County"].split(";").map((county) => `<span class="badge bg-primary-subtle text-primary-emphasis py-2">${county.trim()} County</span>`).join(" ");
         const card = `
             <div class="js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
                 <div class="card shadow text-bg-light p-3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <span class="badge rounded-pill bg-info text-info-emphasis">
+                                <span class="badge bg-info text-info-emphasis py-2">
                                 ${item.Domain}
                                 </span>     
-                                <span class="badge rounded-pill bg-success-subtle text-success-emphasis">
+                                <span class="badge bg-secondary text-success-emphasis py-2">
                                 ${item.Category}
                                 </span>                                
                             <div class="col text-end">
@@ -42,10 +42,10 @@ $(document).ready(function () {
                         <br />
                         <p><strong>Populations Served:</strong> ${populations}</p>
                         <br />
-                        <div class="btn-group btn-group-lg" role="group" aria-label="Basic outlined example">
-                          <a href="${item.Website}" class="btn text-bg-secondary"><i class="bi bi-globe"></i></a>
-                          <a href="${item.phoneLink}" class="btn btn-danger"><i class="bi bi-telephone"></i></a>
-                          <a href="${item.Website}" class="btn btn-success"><i class="bi bi-geo-alt"></i></a>
+                        <div class="btn-group btn-group-lg px-2" role="group" aria-label="Basic outlined example" style="transform:scale(1.25, 1.5)">
+                          <a href="${item.Website}" class="btn customButton--purple py-2"><i class="bi bi-globe"></i></a>
+                          <a href="${item.phoneLink}" class="btn customButton--cyan py-2"><i class="bi bi-telephone-fill"></i></a>
+                          <a href="${item.Website}" class="btn customButton--teal py-2"><i class="bi bi-geo-alt-fill"></i></a>
                         </div>
                     </div>
                 </div>

@@ -21,9 +21,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Elevation CSS -->
     <!-- <link rel="stylesheet" href="elevation-bootstrap.css" /> -->
-    <link rel="stylesheet" href="customButtons2.css" />
-    <script src="data.js"></script>
-    <script src="script2.js"></script>
+    <link rel="stylesheet" href="customButtons.css" />
+    <script src="resourcesData.js"></script>
+    
+    <style>
+        .btn {
+            transition: all .75s cubic-bezier(.27,2.06,1,2.06);
+        }
+        
+        .btn:hover {
+            transition: all .75s ease;
+            filter: hue-rotate(45deg);
+            background-color: aqua;
+            filter: invert(1);
+        }
+    </style>
 </head>
 
 <body class="bg-success-subtle">
@@ -48,7 +60,7 @@
                                     <p>Located on the left and top. View resources by county and domain.</p>
                                 </li>
                                 <li> <strong>Interactive Map:</strong>
-                                    <p>Click on the <span class="customButton customButton--success py-2 px-3"><span class="bi bi-geo-alt-fill" style="font-size: large"></span> Map</span> Menu to the right of the search bar.</p>
+                                    <p>Click on the <span style="font-weight: 700;"><span class="bi bi-geo-alt-fill" style="font-size: large"></span>Map</span> button to the right of the search bar for a drop down of counties.</p>
                                     <ul>
                                         <li>On mobile, press <span class="bi bi-list"></span> to view <span class="bi bi-search"></span> search and <img src="assets/tools.svg" style="
                     inline; width:20px"> tools options.</li>
@@ -228,7 +240,7 @@
     <div class="container-fluid pb-3 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
         <div class="row flex-grow-sm-1 flex-grow-0">
             <aside class="col-sm flex-grow-sm-1 flex-shrink-1 flex-grow-0">
-                <div class="bg-light px-3 py-4 shadow" style="border-radius: 35px 5px 35px 5px">
+                <div class="bg-light px-3 py-4 shadow mt-2" style="border-radius: 35px 5px 35px 5px">
                     <button class="customButton customButton--secondary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="all"> All Counties </button>
                     <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Philadelphia"> Philadelphia </button>
                     <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Berks"> Berks </button>
@@ -241,14 +253,21 @@
                 </div>
             </aside>
             <main class="col overflow-x-auto overflow-y-hidden h-100">
-                <div class="bg-light shadow p-2">
+                <div class="bg-light shadow py-4 px-5 mt-2" style="border-radius: 35px 5px 35px 5px">
                     <button class="customButton customButton--success filter-btn m-2 py-2 px-3" data-filter="domain" data-value="all"> All Domains </button>
                     <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Recovery Support"> Recovery Support </button>
                     <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Family Support"> Family Support </button>
                     <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Housing"> Housing </button>
                     <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Transportation"> Transportation </button>
                 </div>
-                <div id="breadcrumbs" class="bg-light p-4 shadow my-3"> All Counties → All Domains </div>
+                <div id="breadcrumbs" class="bg-light p-4 shadow my-3">
+                    All Counties → All Domains
+                                                <span class="bg-purple py-2">
+                                ${item.Domain}
+                                </span>  
+                </div>
+                
+                
                 <div class="container-fluid">
                     <div class="container"></div>
                     <br />
@@ -272,6 +291,106 @@
             // Show the welcome modal on page load
             $('#welcomeModal').modal('show');
         });
+    </script>
+    <script>
+    $(document).ready(function () {
+    const container = $(".uk-grid-small");
+    jsonData.forEach((item) => {
+        // Function to format the phone number
+        function formatPhoneNumber(phone) {
+            return '+1' + phone.replace(/-/g, '');
+        }
+
+        // Format the phone number and create the phoneLink item
+        const formattedPhoneNumber = formatPhoneNumber(item.Phone);
+        item.phoneLink = `tel:${formattedPhoneNumber}`;
+
+        const populations = item["Populations Served"].split(";").map((pop) => `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`).join(" ");
+        const counties = item["County"].split(";").map((county) => `<span class="badge bg-primary-subtle text-primary-emphasis py-2">${county.trim()} County</span>`).join(" ");
+        const card = `
+            <div class="js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
+                <div class="card shadow text-bg-light p-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <span class="badge bg-info text-info-emphasis py-2">
+                                ${item.Domain}
+                                </span>     
+                                <span class="badge bg-secondary text-success-emphasis py-2">
+                                ${item.Category}
+                                </span>                                
+                            <div class="col text-end">
+                                ${counties} 
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
+                        <h5 style="font-weight:400">${item.Organization}</h5>
+                        ${item.Image ? ` <img src = "${item.Image}"
+        alt = "Logo"
+        style = "max-width:100px; max-height:100px; float:left; margin-right:10px;" > ` : ""}
+                        <p><strong>Phone:</strong> ${item.Phone}</p>
+                        <br /><p>${item.Address}<br />
+                        ${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                        <br />
+                        <p><strong>Populations Served:</strong> ${populations}</p>
+                        <br />
+                        <div class="btn-group btn-group-lg px-2" role="group" aria-label="Basic outlined example" style="transform:scale(1.25, 1.5)">
+                          <a href="${item.Website}" class="btn customButton--purple py-2"><i class="bi bi-globe"></i></a>
+                          <a href="${item.phoneLink}" class="btn customButton--cyan py-2"><i class="bi bi-telephone-fill"></i></a>
+                          <a href="${item.Website}" class="btn customButton--teal py-2"><i class="bi bi-geo-alt-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.append(card);
+    });
+
+    // Search functionality
+    $("#search-box").on("keyup", function () {
+        const searchTerm = $(this).val().toLowerCase();
+        $(".js-filter-item").each(function () {
+            const text = $(this).text().toLowerCase();
+            $(this).toggle(text.includes(searchTerm));
+        });
+    });
+
+    // Filter functionality
+    const filters = {
+        county: 'all',
+        domain: 'all'
+    };
+
+    const updateBreadcrumbs = () => {
+        const county = filters.county === 'all' ? 'All Counties' : `${filters.county} County`;
+        const domain = filters.domain === 'all' ? 'All Domains' : filters.domain;
+        $('#breadcrumbs').text(`${county} → ${domain}`);
+    };
+
+    $('.filter-btn').on('click', function() {
+        const filterType = $(this).data('filter');
+        const filterValue = $(this).data('value');
+
+        // Update the filter value based on the clicked button
+        filters[filterType] = filterValue;
+
+        // Apply filters
+        $('.js-filter-item').hide().filter(function() {
+            const countyMatch = filters.county === 'all' || $(this).data('county').includes(filters.county);
+            const domainMatch = filters.domain === 'all' || $(this).data('domain') === filters.domain;
+            return countyMatch && domainMatch;
+        }).show();
+
+        // Update breadcrumbs
+        updateBreadcrumbs();
+    });
+
+    // Initialize breadcrumbs
+    updateBreadcrumbs();
+});
     </script>
 </body>
 
