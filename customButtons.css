@@ -52,27 +52,27 @@
     --bs-gray-800: hsla(210, 10%, 23%, 1);
     --bs-gray-900: hsla(210, 11%, 15%, 1);
     --bs-primary: hsla(164, 100%, 16%, 1);
-    --bs-primary-subtle: hsla(164, 100%, 16%, 1);
-    --bs-primary-emphasis: hsla(164, 100%, 16%, 1);
+    --bs-primary-subtle: hsla(164, 100%, 36%, 1);
+    --bs-primary-emphasis: hsla(164, 100%, 120%, 1);
     --bs-light-primary: hsla(120, 27%, 91%, 1);
     --bs-secondary: hsla(267, 54%, 35%, 1);
-    --bs-secondary-subtle: hsla(267, 54%, 35%, 1);
-    --bs-secondary-emphasis: hsla(267, 54%, 35%, 1);
+    --bs-secondary-subtle: hsla(267, 54%, 65%, 1);
+    --bs-secondary-emphasis: hsla(267, 54%, 25%, 1);
     --bs-info: hsla(190, 88%, 50%, 1);
     --bs-info-subtle: hsla(190, 88%, 80%, 1);
     --bs-info-emphasis: hsla(190, 88%, 40%, 1);
     --bs-tertiary: hsla(0, 0%, 12%, 1);
-    --bs-tertiary-subtle: hsla(0, 0%, 12%, 1);
-    --bs-tertiary-emphasis: hsla(0, 0%, 12%, 1);
+    --bs-tertiary-subtle: hsla(0, 0%, 42%, 1);
+    --bs-tertiary-emphasis: hsla(0, 0%, 02%, 1);
     --bs-success: hsla(152, 69%, 31%, 1);
-    --bs-success-subtle: hsla(152, 69%, 31%, 1);
-    --bs-success-emphasis: hsla(152, 69%, 31%, 1);
+    --bs-success-subtle: hsla(152, 69%, 61%, 1);
+    --bs-success-emphasis: hsla(152, 69%, 21%, 1);
     --bs-warning: hsla(45, 100%, 51%, 1);
-    --bs-warning-subtle: hsla(45, 100%, 51%, 1);
-    --bs-warning-emphasis: hsla(45, 100%, 51%, 1);
+    --bs-warning-subtle: hsla(45, 100%, 80%, 1);
+    --bs-warning-emphasis: hsla(45, 100%, 45%, 1);
     --bs-danger: hsla(354, 70%, 54%, 1);
-    --bs-danger-subtle: hsla(354, 70%, 54%, 1);
-    --bs-danger-emphasis: hsla(354, 70%, 54%, 1);
+    --bs-danger-subtle: hsla(354, 70%, 75%, 1);
+    --bs-danger-emphasis: hsla(354, 70%, 30%, 1);
     --bs-error: hsla(8, 100%, 50%, 1);
     --bs-error-subtle: hsla(8, 100%, 50%, 1);
     --bs-error-emphasis: hsla(8, 100%, 50%, 1);
@@ -80,7 +80,6 @@
     --bs-container-secondary: hsla(312, 33%, 94%, 1);
     --bs-container-tertiary: hsla(60, 33%, 94%, 1);
     --bs-light-grey: hsla(0, 0%, 96%, 1);
-    --bs-primary-rgb: 0, 84, 61;
     --bs-secondary-rgb: 85, 41, 138;
     --bs-success-rgb: 25, 135, 84;
     --bs-warning-rgb: 255, 193, 7;
@@ -244,8 +243,8 @@
 }
 
 .customButton--blue-subtle {
-  background-color: rgba(var(--bs-blue), 0.1);
-  color: var(--bs-blue);
+  background-color: var(--bs-blue-subtle);
+  color: var(--bs-blue-emphasis);
 }
 
 .customButton--blue-subtle::before {
@@ -303,7 +302,7 @@
     }
 
     .customButton--indigo-subtle {
-      background-color: rgba(var(--bs-indigo-rgb), 0.1);
+      background-color: var(--bs-indigo-subtle);
       color: var(--bs-indigo);
     }
 
@@ -363,7 +362,7 @@
     }
 
     .customButton--purple-subtle {
-      background-color: rgba(var(--bs-purple-rgb), 0.1);
+      background-color: var(--bs-purple-subtle);
       color: var(--bs-purple);
     }
 
@@ -422,7 +421,7 @@
     }
 
     .customButton--pink-subtle {
-      background-color: rgba(var(--bs-pink-rgb), 0.1);
+      background-color: var(--bs-pink-subtle);
       color: var(--bs-pink);
     }
 
@@ -481,7 +480,7 @@
     }
 
     .customButton--red-subtle {
-      background-color: rgba(var(--bs-red-rgb), 0.1);
+      background-color: var(--bs-red-subtle);
       color: var(--bs-red);
     }
 
@@ -540,7 +539,7 @@
     }
 
     .customButton--orange-subtle {
-      background-color: rgba(var(--bs-orange-rgb), 0.1);
+      background-color: var(--bs-orange-subtle);
       color: var(--bs-orange);
     }
 
@@ -553,7 +552,7 @@
     }
 
     .customButton--orange-emphasis {
-      background-color: hsl(30, 100%, 60%); /* 10% lighter */
+      background-color: var(--bs-orange-emphasis);
       color: var(--bs-white);
     }
 
@@ -599,12 +598,7 @@
     }
 
     .customButton--yellow-subtle {
-      background-color: rgba(var(--bs-yellow-rgb), 0.1);
-      color: var(--bs-yellow);
-    }
-
-  .customButton--yellow-subtle {
-      background-color: rgba(var(--bs-yellow-rgb), 0.1);
+      background-color: var(--bs-yellow-subtle);
       color: var(--bs-yellow);
     }
 
@@ -617,7 +611,7 @@
     }
 
     .customButton--yellow-emphasis {
-      background-color: hsl(45, 100%, 60%); /* 10% lighter */
+      background-color: var(--bs-yellow-emphasis);
       color: var(--bs-black);
     }
 
@@ -663,7 +657,7 @@
     }
 
     .customButton--green-subtle {
-      background-color: rgba(var(--bs-green-rgb), 0.1);
+      background-color: var(--bs-green-subtle);
       color: var(--bs-green);
     }
 
@@ -676,7 +670,7 @@
     }
 
     .customButton--green-emphasis {
-      background-color: hsl(145, 100%, 40%); /* 10% lighter */
+      background-color: var(--bs-green-emphasis);
       color: var(--bs-white);
     }
 
@@ -722,7 +716,7 @@
     }
 
     .customButton--teal-subtle {
-      background-color: rgba(var(--bs-teal-rgb), 0.1);
+      background-color: var(--bs-teal-subtle);
       color: var(--bs-teal);
     }
 
@@ -735,7 +729,7 @@
     }
 
     .customButton--teal-emphasis {
-      background-color: hsl(170, 100%, 40%); /* 10% lighter */
+      background-color: var(--bs-teal-emphasis);
       color: var(--bs-white);
     }
 
@@ -781,7 +775,7 @@
     }
 
     .customButton--cyan-subtle {
-      background-color: rgba(var(--bs-cyan-rgb), 0.1);
+      background-color: var(--bs-cyan-subtle);
       color: var(--bs-cyan);
     }
 
@@ -794,7 +788,7 @@
     }
 
     .customButton--cyan-emphasis {
-      background-color: hsl(190, 100%, 40%); /* 10% lighter */
+      background-color: var(--bs-cyan-emphasis);
       color: var(--bs-white);
     }
 
@@ -840,8 +834,8 @@
     }
 
     .customButton--black-subtle {
-      background-color: rgba(var(--bs-black-rgb), 0.1);
-      color: var(--bs-black);
+      background-color: var(--bs-black-subtle);
+      color: var(--bs-white);
     }
 
     .customButton--black-subtle::before {
@@ -853,7 +847,7 @@
     }
 
     .customButton--black-emphasis {
-      background-color: hsl(0, 0%, 20%); /* 10% lighter */
+      background-color: var(--bs-black-emphasis);
       color: var(--bs-white);
     }
 
@@ -899,8 +893,8 @@
     }
 
     .customButton--white-subtle {
-      background-color: rgba(var(--bs-white-rgb), 0.1);
-      color: var(--bs-white);
+      background-color: var(--bs-white-subtle);
+      color: var(--bs-black-subtle);
     }
 
     .customButton--white-subtle::before {
@@ -912,8 +906,8 @@
     }
 
     .customButton--white-emphasis {
-      background-color: hsl(0, 0%, 90%); /* 10% lighter */
-      color: var(--bs-black);
+      background-color: var(--bs-white-emphasis);
+      color: var(--bs-black-emphasis);
     }
 
     .customButton--white-emphasis::before {
@@ -958,11 +952,7 @@
     }
 
     .customButton--gray-subtle {
-      background-color: rgba(var(--bs-gray-rgb), 0.1);
-      color: var(--bs-gray);
-    }
-    .customButton--gray-subtle {
-      background-color: rgba(var(--bs-gray-rgb), 0.1);
+      background-color: var(--bs-gray-subtle);
       color: var(--bs-gray);
     }
 
@@ -975,7 +965,7 @@
     }
 
     .customButton--gray-emphasis {
-      background-color: hsl(210, 10%, 40%); /* 10% lighter */
+      background-color: var(--bs-gray-emphasis);
       color: var(--bs-white);
     }
 
@@ -1021,7 +1011,7 @@
     }
 
     .customButton--gray-dark-subtle {
-      background-color: rgba(var(--bs-gray-dark-rgb), 0.1);
+      background-color: var(--bs-gray-dark-subtle);
       color: var(--bs-gray-dark);
     }
 
@@ -1034,7 +1024,7 @@
     }
 
     .customButton--gray-dark-emphasis {
-      background-color: hsl(210, 10%, 30%); /* 10% lighter */
+      background-color: var(--bs-gray-dark-emphasis);
       color: var(--bs-white);
     }
 
@@ -1080,7 +1070,7 @@
     }
 
     .customButton--primary-subtle {
-      background-color: rgba(var(--bs-primary-rgb), 0.1);
+      background-color: var(--bs-primary-subtle);
       color: var(--bs-primary);
     }
 
@@ -1139,7 +1129,7 @@
     }
 
     .customButton--secondary-subtle {
-      background-color: rgba(var(--bs-secondary-rgb), 0.1);
+      background-color: var(--bs-secondary-subtle);
       color: var(--bs-secondary);
     }
 
@@ -1152,7 +1142,7 @@
     }
 
     .customButton--secondary-emphasis {
-      background-color: hsl(270, 100%, 40%); /* 10% lighter */
+      background-color: var(--bs-secondary-emphasis);
       color: var(--bs-white);
     }
 
@@ -1198,7 +1188,7 @@
     }
 
     .customButton--success-subtle {
-      background-color: rgba(var(--bs-success-rgb), 0.1);
+      background-color: var(--bs-success-subtle);
       color: var(--bs-success);
     }
 
@@ -1211,7 +1201,7 @@
     }
 
     .customButton--success-emphasis {
-      background-color: hsl(145, 100%, 40%); /* 10% lighter */
+      background-color: var(--bs-success-emphasis);
       color: var(--bs-white);
     }
 
@@ -1257,7 +1247,7 @@
     }
 
     .customButton--warning-subtle {
-      background-color: rgba(var(--bs-warning-rgb), 0.1);
+      background-color: var(--bs-warning-subtle);
       color: var(--bs-warning);
     }
 
@@ -1270,7 +1260,7 @@
     }
 
     .customButton--warning-emphasis {
-      background-color: hsl(45, 100%, 60%); /* 10% lighter */
+      background-color: var(--bs-warning-emphasis);
       color: var(--bs-black);
     }
 
@@ -1316,7 +1306,7 @@
     }
 
     .customButton--danger-subtle {
-      background-color: rgba(var(--bs-danger-rgb), 0.1);
+      background-color: var(--bs-danger-subtle);
       color: var(--bs-danger);
     }
     .customButton--danger-subtle::before {
@@ -1328,8 +1318,8 @@
     }
 
     .customButton--danger-emphasis {
-      background-color: hsl(45, 100%, 60%); /* 10% lighter */
-      color: var(--bs-black);
+      background-color: var(--bs-danger-emphasis);
+      color: var(--bs-whte);
     }
 
     .customButton--danger-emphasis::before {
@@ -1342,8 +1332,8 @@
 
     .customButton--danger-outline {
       background-color: transparent;
-      border: 2px solid var(--bs-warning);
-      color: var(--bs-warning);
+      border: 2px solid var(--bs-danger);
+      color: var(--bs-danger);
     }
 
     .customButton--danger-outline::before {
@@ -1355,7 +1345,7 @@
     }
 
     .customButton--danger-outline:hover {
-      background-color: var(--bs-warning);
+      background-color: var(--bs-danger);
       color: var(--bs-black);
     }
 
