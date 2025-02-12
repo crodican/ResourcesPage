@@ -73,6 +73,15 @@ $(document).ready(function () {
         const county = filters.county === 'all' ? 'All Counties' : `${filters.county} County`;
         const domain = filters.domain === 'all' ? 'All Domains' : filters.domain;
         $('#breadcrumbs').text(`${county} → ${domain}`);
+
+        // Update the modal button
+        const modalButton = $('#modal-button');
+        if (filters.county !== 'all') {
+            modalButton.show();
+            modalButton.attr('data-bs-target', `#${filters.county.toLowerCase()}Modal`);
+        } else {
+            modalButton.hide();
+        }
     };
 
     $('.filter-btn').on('click', function() {

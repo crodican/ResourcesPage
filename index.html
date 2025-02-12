@@ -21,12 +21,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Elevation CSS -->
     <!-- <link rel="stylesheet" href="elevation-bootstrap.css" /> -->
-    <link rel="stylesheet" href="customButtons.css" />
+    <link rel="stylesheet" href="customColors.css" />
     <script src="resourcesData.js"></script>
-    
     <style>
+        body {
+            font-family: 'Oxygen';
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora'
+        }
+        
         .btn {
-            transition: all .75s cubic-bezier(.27,2.06,1,2.06);
+            transition: all 1s ease;
         }
         
         .btn:hover {
@@ -35,17 +42,41 @@
             background-color: aqua;
             filter: invert(1);
         }
+        
+        .card-body {
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        .badge {
+            display: inline-block;
+            margin: 2px 0;
+        }
     </style>
 </head>
-
 <body class="bg-success-subtle">
 
+    <div class="modal fade" id="allCountiesModal" tabindex="-1" aria-labelledby="allCountiesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header text-bg-info">
+                    <span class="modal-title fs-5" id="allCountiesModalLabel">All Counties → All Domains</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe title="map" src="https://fortress.maptive.com/ver4/22ce0ffcea9e517881f5870c64c4bcff" style="height:70vh; width:100%;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
     
     <div class="modal fade" id="philadelphiaModal" tabindex="-1" aria-labelledby="philadelphiaModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header text-bg-info">
-                    <h1 class="modal-title fs-5" id="philadelphiaModalLabel">Philadelphia → All Domains</h1>
+                    <span class="modal-title fs-5" id="philadelphiaModalLabel">Philadelphia → All Domains</span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -62,15 +93,17 @@
     <div class="modal fade" id="berksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="berksModalLabel">Interactive Map</h1>
+                <div class="modal-header text-bg-info">
+                    <span class="modal-title fs-5" id="berksModalLabel">Berks County → All Domains</span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <iframe title="map" src="https://fortress.maptive.com/ver4/02cf13b4c79f77e04bc512510dbce5fd/698540" style="height:70vh; width:100%;"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="button button--danger filter-btn m-2 py-2 px-3 shadow" data-bs-dismiss="modal">Close</button>
+                    <p> Press <span class="bi bi-list"></span> to toggle menu. </p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline;width: 20px;height: auto"> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -78,15 +111,17 @@
     <div class="modal fade" id="bucksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Interactive Map</h1>
+                <div class="modal-header text-bg-info">
+                    <span class="modal-title fs-5" id="bucksModalLabel">Bucks County → All Domains</span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <iframe title="map" src="https://fortress.maptive.com/ver4/3f70f2720ef35f1f5e09335f43726b82/698554" style="height:70vh; width:100%;"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="button button--danger filter-btn m-2 py-2 px-3 shadow" data-bs-dismiss="modal">Close</button>
+                    <p> Press <span class="bi bi-list"></span> to toggle menu. </p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline;width: 20px;height: auto"> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -94,15 +129,17 @@
     <div class="modal fade" id="chesterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="chesterModalLabel">Interactive Map</h1>
+                <div class="modal-header text-bg-info">
+                    <span class="modal-title fs-5" id="chesterModalLabel">Cheater County → All Domains</span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <iframe title="map" src="https://fortress.maptive.com/ver4/52434a24012731eebecfc7c9dd9359a3/698557" style="height:70vh; width:100%;"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="button button--danger filter-btn m-2 py-2 px-3 shadow" data-bs-dismiss="modal">Close</button>
+                    <p> Press <span class="bi bi-list"></span> to toggle menu. </p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline;width: 20px;height: auto"> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -110,15 +147,17 @@
     <div class="modal fade" id="delawareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="delawareModalLabel">Interactive Map</h1>
+                <div class="modal-header text-bg-info">
+                    <span class="modal-title fs-5" id="delawareModalLabel">Delaware → All Domains</span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <iframe title="map" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54" style="height:70vh; width:100%;"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="button button--danger filter-btn m-2 py-2 px-3 shadow" data-bs-dismiss="modal">Close</button>
+                    <p> Press <span class="bi bi-list"></span> to toggle menu. </p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline;width: 20px;height: auto"> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -126,15 +165,17 @@
     <div class="modal fade" id="lancasterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="lancasterModalLabel">Interactive Map</h1>
+                <div class="modal-header text-bg-info">
+                    <span class="modal-title fs-5" id="lancasterModalLabel">Lancaster County → All Domains</span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <iframe title="map" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54" style="height:70vh; width:100%;"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="button button--danger filter-btn m-2 py-2 px-3 shadow" data-bs-dismiss="modal">Close</button>
+                    <p> Press <span class="bi bi-list"></span> to toggle menu. </p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline;width: 20px;height: auto"> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -142,15 +183,17 @@
     <div class="modal fade" id="montgomeryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="montgomeryModalLabel">Interactive Map</h1>
+                <div class="modal-header text-bg-info">
+                    <span class="modal-title fs-5" id="montgomeryModalLabel">Montgomery County → All Domains</span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <iframe title="map" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54" style="height:70vh; width:100%;"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="button button--danger filter-btn m-2 py-2 px-3 shadow" data-bs-dismiss="modal">Close</button>
+                    <p> Press <span class="bi bi-list"></span> to toggle menu. </p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline;width: 20px;height: auto"> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -158,15 +201,17 @@
     <div class="modal fade" id="schuylkillModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="schuylkillModalLabel">Interactive Map</h1>
+                <div class="modal-header text-bg-info">
+                    <span class="modal-title fs-5" id="schuylkillModalLabel">Schuylkill County → All Domains</span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <iframe title="map" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54" style="height:70vh; width:100%;"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="button button--danger filter-btn m-2 py-2 px-3 shadow" data-bs-dismiss="modal">Close</button>
+                    <p> If closed, press <span class="bi bi-list"></span> to toggle menu. </p><br />
+                    <p> Press<img src="assets/tools.svg" style="display: inline;width: 20px;height: auto"> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -187,13 +232,13 @@
                     <button type="button" class="customButton customButton--success dropdown-toggle m-2 py-2 px-3 shadow" style="border-radius:1px 10px 10px 1px !important" data-bs-toggle="dropdown" aria-expanded="false"> <span class="bi bi-geo-alt-fill" style="font-size: large"></span> Map </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#philadelphiaModal">Philadelphia</a></li>
-                        <li><a class="dropdown-item" href="https://fortress.maptive.com/ver4/02cf13b4c79f77e04bc512510dbce5fd/698540">Berks</a></li>
-                        <li><a class="dropdown-item" href="https://fortress.maptive.com/ver4/3f70f2720ef35f1f5e09335f43726b82/698554">Bucks</a></li>
-                        <li><a class="dropdown-item" href="https://fortress.maptive.com/ver4/52434a24012731eebecfc7c9dd9359a3/698557">Chester</a></li>
-                        <li><a class="dropdown-item" href="#">Delaware</a></li>
-                        <li><a class="dropdown-item" href="#">Lancaster</a></li>
-                        <li><a class="dropdown-item" href="#">Montgomery</a></li>
-                        <li><a class="dropdown-item" href="#">Schuylkill</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#berksModal">Berks</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#bucksModal">Bucks</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#chesterModal">Chester</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delawareModal">Delaware</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#lancasterModal">Lancaster</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#montgomeryModal">Montgomery</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#schuylkillModal">Schuylkill</a></li>
                         <li>
                             <hr class="dropdown-divider" /> </li>
                         <li><a class="dropdown-item" href="#">Exit</a></li>
@@ -225,21 +270,25 @@
                     <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Housing"> Housing </button>
                     <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Transportation"> Transportation </button>
                 </div>
-                <div id="breadcrumbs" class="bg-light p-4 shadow my-3">
-                    All Counties → All Domains
-                                                <span class="bg-purple py-2">
-                                ${item.Domain}
-                                </span>  
-                </div>
                 
+<div class="bg-light p-4 shadow my-3">
+    <div id="breadcrumbs">
+        All Counties → All Domains
+    </div>
+    <div id="modal-button-container" class="my-3">
+        <button id="modal-button" type="button" class="customButton py-2 px-5" data-bs-toggle="modal" style="display: none;">
+            View Map
+        </button>
+    </div>
+</div>
                 
                 <div class="container-fluid">
                     <div class="container"></div>
                     <br />
                     <div class="container my-3"></div>
-                    <div class="container">
-                        <div class="uk-grid-small uk-child-width-1-3@m js-filter" uk-grid>
-                            <!-- Cards will be populated here -->
+                    <div class='container'>
+                        <div class='uk-grid-small uk-child-width-1-3@m uk-child-width-1-2@s uk-child-width-1-1' uk-grid>
+                            <!-- Dynamically loaded cards will be appended here by JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -258,7 +307,7 @@
         });
     </script>
     <script>
-    $(document).ready(function () {
+$(document).ready(function () {
     const container = $(".uk-grid-small");
     jsonData.forEach((item) => {
         // Function to format the phone number
@@ -271,17 +320,17 @@
         item.phoneLink = `tel:${formattedPhoneNumber}`;
 
         const populations = item["Populations Served"].split(";").map((pop) => `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`).join(" ");
-        const counties = item["County"].split(";").map((county) => `<span class="badge bg-primary-subtle text-primary-emphasis py-2">${county.trim()} County</span>`).join(" ");
+        const counties = item["County"].split(";").map((county) => `<span class="badge bg-warning-subtle text-dark py-2 my-1">${county.trim()} County</span>`).join(" ");
         const card = `
             <div class="js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
                 <div class="card shadow text-bg-light p-3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <span class="badge text-bg-info py-2">
+                                <span class="badge text-bg-info py-2 my-1">
                                 ${item.Domain}
                                 </span>     
-                                <span class="badge text-bg-secondary py-2">
+                                <span class="badge text-bg-purple py-2 my-1">
                                 ${item.Category}
                                 </span>                                
                             <div class="col text-end">
@@ -302,10 +351,10 @@
                         <br />
                         <p><strong>Populations Served:</strong> ${populations}</p>
                         <br />
-                        <div class="btn-group btn-group-lg px-2" role="group" aria-label="Basic outlined example" style="transform:scale(1.25, 1.5)">
-                          <a href="${item.Website}" class="btn customButton--purple py-2"><span class="bi bi-globe"></i></a>
-                          <a href="${item.phoneLink}" class="btn customButton--cyan py-2"><span class="bi bi-telephone-fill"></i></a>
-                          <a href="${item.Website}" class="btn customButton--teal py-2"><span class="bi bi-geo-alt-fill"></i></a>
+                        <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
+                          <a href="${item.Website}" class="btn customButton--purple py-0 px-3"><span class="bi bi-globe"></i></a>
+                          <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3"><span class="bi bi-telephone-fill"></i></a>
+                          <a href="${item.Website}" class="btn customButton--teal py-0 px-3"><span class="bi bi-geo-alt-fill"></i></a>
                         </div>
                     </div>
                 </div>
@@ -329,10 +378,50 @@
         domain: 'all'
     };
 
+    const countyColors = {
+        'Philadelphia': 'text-success',
+        'Berks': 'text-cyan',
+        'Bucks': 'text-red',
+        'Chester': 'text-yellow',
+        'Delaware': 'text-teal',
+        'Lancaster': 'text-purple',
+        'Montgomery': 'text-orange',
+        'Schuylkill': 'text-green',
+        'All Counties': 'text-indigo'
+    };
+
+    const buttonColors = {
+        'Philadelphia': 'customButton--primary',
+        'Berks': 'customButton--cyan',
+        'Bucks': 'customButton--red',
+        'Chester': 'customButton--yellow',
+        'Delaware': 'customButton--teal',
+        'Lancaster': 'customButton--purple',
+        'Montgomery': 'customButton--orange',
+        'Schuylkill': 'customButton--green',
+        'All Counties': 'customButton--indigo'
+    };
+
     const updateBreadcrumbs = () => {
         const county = filters.county === 'all' ? 'All Counties' : `${filters.county} County`;
         const domain = filters.domain === 'all' ? 'All Domains' : filters.domain;
         $('#breadcrumbs').text(`${county} → ${domain}`);
+
+        // Update the modal button
+        const modalButton = $('#modal-button');
+        const countyClass = countyColors[filters.county] || 'text-cyan';
+        const buttonClass = buttonColors[filters.county] || 'bg-cyan-subtle text-cyan-emphasis';
+        if (filters.county !== 'all') {
+            modalButton.show();
+            modalButton.attr('data-bs-target', `#${filters.county.toLowerCase()}Modal`);
+        } else {
+            modalButton.show();
+            modalButton.attr('data-bs-target', '#allCountiesModal'); // Default modal for all counties
+        }
+        modalButton.attr('class', `customButton py-2 px-5 ${buttonClass}`);
+
+        // Update the breadcrumb county color
+        $('#breadcrumbs').attr('class', ` ${countyClass}`);
     };
 
     $('.filter-btn').on('click', function() {
@@ -357,6 +446,9 @@
     updateBreadcrumbs();
 });
     </script>
+    
+    
+    
 </body>
 
 </html>
