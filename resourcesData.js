@@ -8,7 +8,7 @@ const jsonData = [
         "Populations Served": "Men; Women",
         "More Info": "",
         "Phone": "610-376-8669",
-        "Address": "601 Penn Street, Suite 60",
+        "Address": "50 North 5th Street, 5th Floor",
         "City": "Reading",
         "State": "PA",
         "Zip Code": "19601",

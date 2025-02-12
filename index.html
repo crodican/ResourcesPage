@@ -295,20 +295,27 @@
             </main>
         </div>
     </div>
-    <!-- Bootstrap core JavaScript-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $(document).ready(function () {
-            // Show the welcome modal on page load
-            $('#welcomeModal').modal('show');
-        });
-    </script>
-    <script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- Core plugin JavaScript-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function () {
+        // Show the welcome modal on page load
+        $('#welcomeModal').modal('show');
+    });
+</script>
+<script>
 $(document).ready(function () {
     const container = $(".uk-grid-small");
+
+    // Function to create Google Maps URL
+    function createGoogleMapsUrl(name, address, city, state, zip) {
+        const query = `${name}, ${address}, ${city}, ${state}, ${zip}`;
+        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+    }
+
     jsonData.forEach((item) => {
         // Function to format the phone number
         function formatPhoneNumber(phone) {
@@ -318,6 +325,9 @@ $(document).ready(function () {
         // Format the phone number and create the phoneLink item
         const formattedPhoneNumber = formatPhoneNumber(item.Phone);
         item.phoneLink = `tel:${formattedPhoneNumber}`;
+
+        // Create the Google Maps URL
+        const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
 
         const populations = item["Populations Served"].split(";").map((pop) => `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`).join(" ");
         const counties = item["County"].split(";").map((county) => `<span class="badge bg-warning-subtle text-dark py-2 my-1">${county.trim()} County</span>`).join(" ");
@@ -354,7 +364,7 @@ $(document).ready(function () {
                         <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
                           <a href="${item.Website}" class="btn customButton--purple py-0 px-3"><span class="bi bi-globe"></i></a>
                           <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3"><span class="bi bi-telephone-fill"></i></a>
-                          <a href="${item.Website}" class="btn customButton--teal py-0 px-3"><span class="bi bi-geo-alt-fill"></i></a>
+                          <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3"><span class="bi bi-geo-alt-fill"></i></a>
                         </div>
                     </div>
                 </div>
@@ -445,7 +455,7 @@ $(document).ready(function () {
     // Initialize breadcrumbs
     updateBreadcrumbs();
 });
-    </script>
+</script>
     
     
     
