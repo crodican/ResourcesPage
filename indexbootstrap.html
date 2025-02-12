@@ -110,7 +110,7 @@
                     <div class="modal-body">
                         <iframe
                             title="map"
-                            src="https://fortress.maptive.com/ver4/22ce0ffcea9e517881f5870c64c4bcff"
+                            src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54/701012"
                             style="height: 70vh; width: 100%"></iframe>
                     </div>
                 </div>
@@ -640,14 +640,14 @@
                         .split(";")
                         .map(
                             (pop) =>
-                                `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`
+                                `<span class="badge bg-danger-subtle text-white py-2">${pop.trim()}</span>`
                         )
                         .join(" ");
                     const counties = item["County"]
                         .split(";")
                         .map(
                             (county) =>
-                                `<span class="badge bg-warning-subtle text-dark py-2 my-1">${county.trim()} County</span>`
+                                `<span class="badge bg-pink text-white py-2 my-1">${county.trim()} County</span>`
                         )
                         .join(" ");
                     const card = `
@@ -656,7 +656,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <span class="badge text-bg-info py-2 my-1">
+                                        <span class="badge text-white bg-info py-2 my-1">
                                         ${item.Domain}
                                         </span>     
                                         <span class="badge text-bg-purple py-2 my-1">

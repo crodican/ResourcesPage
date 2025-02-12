@@ -1,413 +1,91 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Resources - The Council of Southeast Pennsylvania</title>
-        <link rel="icon" href="https://www.councilsepa.org/wp-content/uploads/2024/03/favicon.svg" sizes="32x32" />
-        <!-- Fonts CSS -->
-        <link
-            href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap"
-            rel="stylesheet" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap"
-            rel="stylesheet" />
-        <!-- UIkit CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/css/uikit.min.css" />
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-        <!-- UIkit JS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
-        <!-- Bootstrap Icons -->
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"
-            integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer" />
-        <!-- Bootstrap 5 CSS -->
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
-            integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer" />
-        <!-- Elevation CSS -->
-        <!-- <link rel="stylesheet" href="elevation-bootstrap.css" /> -->
-        <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
-        <script src="https://resourcespage.pages.dev/resourcesData.js"></script>
-        <style>
-            :root {
-                --bs-enable-cssgrid: true;
-            }
 
-            body {
-                font-family: "Oxygen";
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resources - The Council of Southeast Pennsylvania</title>
+    <link rel="icon" href="https://www.councilsepa.org/wp-content/uploads/2024/03/favicon.svg" sizes="32x32" />
+    <!-- Fonts CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet" />
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/css/uikit.min.css" />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <!-- UIkit JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Elevation CSS -->
+    <!-- <link rel="stylesheet" href="elevation-bootstrap.css" /> -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
+    <script src="https://resourcespage.pages.dev/resourcesData.js"></script>
+    <style>
+        :root {
+            --bs-enable-cssgrid: true;
+        }
+        
+        body {
+            font-family: "Oxygen";
+        }
+        
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Lora";
+        }
+        
+        .btn {
+            transition: all 1s ease;
+        }
+        
+        .btn:hover {
+            transition: all 0.75s ease;
+            filter: hue-rotate(45deg);
+            background-color: aqua;
+            filter: invert(1);
+        }
+        
+        .card-body {
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+        
+        .badge {
+            display: inline-block;
+            margin: 2px 0;
+        }
+        
+        .counciltopbar {
+            width: 100vw;
+            border: none;
+            background-color: #ffffff;
+            @media (width > 1199px) {
+                height: 164px;
             }
-
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6 {
-                font-family: "Lora";
+            @media (width < 1200px) {
+                height: 80px;
             }
+        }
+    </style>
+</head>
 
-            .btn {
-                transition: all 1s ease;
-            }
-
-            .btn:hover {
-                transition: all 0.75s ease;
-                filter: hue-rotate(45deg);
-                background-color: aqua;
-                filter: invert(1);
-            }
-
-            .card-body {
-                overflow: hidden;
-                word-wrap: break-word;
-            }
-
-            .badge {
-                display: inline-block;
-                margin: 2px 0;
-            }
-
-            .counciltopbar {
-                width: 100vw;
-                border: none;
-                background-color: #ffffff;
-                @media (width > 1199px) {
-                    height: 164px;
-                }
-                @media (width < 1200px) {
-                    height: 80px;
-                }
-            }
-        </style>
-    </head>
-    <body class="bg-success-subtle">
-        <iframe
-            title="resources"
-            src="https://www.councilsepa.org/hubs/resources-topbar/"
-            class="counciltopbar"
-            credentialless>
-        </iframe>
-        <div
-            class="modal fade"
-            id="allCountiesModal"
-            tabindex="-1"
-            aria-labelledby="allCountiesModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header text-bg-info">
-                        <span class="modal-title fs-5" id="allCountiesModalLabel">All Counties → All Domains</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe
-                            title="map"
-                            src="https://fortress.maptive.com/ver4/22ce0ffcea9e517881f5870c64c4bcff"
-                            style="height: 70vh; width: 100%"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div
-            class="modal fade"
-            id="philadelphiaModal"
-            tabindex="-1"
-            aria-labelledby="philadelphiaModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header text-bg-info">
-                        <span class="modal-title fs-5" id="philadelphiaModalLabel">Philadelphia → All Domains</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe
-                            title="map"
-                            src="https://fortress.maptive.com/ver4/22ce0ffcea9e517881f5870c64c4bcff"
-                            style="height: 70vh; width: 100%"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                        <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
-                        <p>
-                            Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to
-                            Filter by Domain and Category.
-                        </p>
-                        <button
-                            type="button"
-                            class="customButton customButton--success filter-btn px-3 py-1 shadow"
-                            data-bs-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="berksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header text-bg-info">
-                        <span class="modal-title fs-5" id="berksModalLabel">Berks County → All Domains</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe
-                            title="map"
-                            src="https://fortress.maptive.com/ver4/02cf13b4c79f77e04bc512510dbce5fd/698540"
-                            style="height: 70vh; width: 100%"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                        <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
-                        <p>
-                            Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to
-                            Filter by Domain and Category.
-                        </p>
-                        <button
-                            type="button"
-                            class="customButton customButton--success filter-btn px-3 py-1 shadow"
-                            data-bs-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="bucksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header text-bg-info">
-                        <span class="modal-title fs-5" id="bucksModalLabel">Bucks County → All Domains</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe
-                            title="map"
-                            src="https://fortress.maptive.com/ver4/3f70f2720ef35f1f5e09335f43726b82/698554"
-                            style="height: 70vh; width: 100%"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                        <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
-                        <p>
-                            Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to
-                            Filter by Domain and Category.
-                        </p>
-                        <button
-                            type="button"
-                            class="customButton customButton--success filter-btn px-3 py-1 shadow"
-                            data-bs-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="chesterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header text-bg-info">
-                        <span class="modal-title fs-5" id="chesterModalLabel">Cheater County → All Domains</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe
-                            title="map"
-                            src="https://fortress.maptive.com/ver4/52434a24012731eebecfc7c9dd9359a3/698557"
-                            style="height: 70vh; width: 100%"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                        <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
-                        <p>
-                            Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to
-                            Filter by Domain and Category.
-                        </p>
-                        <button
-                            type="button"
-                            class="customButton customButton--success filter-btn px-3 py-1 shadow"
-                            data-bs-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="delawareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header text-bg-info">
-                        <span class="modal-title fs-5" id="delawareModalLabel">Delaware → All Domains</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe
-                            title="map"
-                            src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"
-                            style="height: 70vh; width: 100%"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                        <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
-                        <p>
-                            Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to
-                            Filter by Domain and Category.
-                        </p>
-                        <button
-                            type="button"
-                            class="customButton customButton--success filter-btn px-3 py-1 shadow"
-                            data-bs-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div
-            class="modal fade"
-            id="lancasterModal"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header text-bg-info">
-                        <span class="modal-title fs-5" id="lancasterModalLabel">Lancaster County → All Domains</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe
-                            title="map"
-                            src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"
-                            style="height: 70vh; width: 100%"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                        <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
-                        <p>
-                            Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to
-                            Filter by Domain and Category.
-                        </p>
-                        <button
-                            type="button"
-                            class="customButton customButton--success filter-btn px-3 py-1 shadow"
-                            data-bs-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div
-            class="modal fade"
-            id="montgomeryModal"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header text-bg-info">
-                        <span class="modal-title fs-5" id="montgomeryModalLabel">Montgomery County → All Domains</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe
-                            title="map"
-                            src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"
-                            style="height: 70vh; width: 100%"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                        <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
-                        <p>
-                            Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to
-                            Filter by Domain and Category.
-                        </p>
-                        <button
-                            type="button"
-                            class="customButton customButton--success filter-btn px-3 py-1 shadow"
-                            data-bs-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div
-            class="modal fade"
-            id="schuylkillModal"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header text-bg-info">
-                        <span class="modal-title fs-5" id="schuylkillModalLabel">Schuylkill County → All Domains</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe
-                            title="map"
-                            src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"
-                            style="height: 70vh; width: 100%"></iframe>
-                    </div>
-                    <div class="modal-footer">
-                        <p>If closed, press <span class="bi bi-list"></span> to toggle menu.</p>
-                        <br />
-                        <p>
-                            Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to
-                            Filter by Domain and Category.
-                        </p>
-                        <button
-                            type="button"
-                            class="customButton customButton--success filter-btn px-3 py-1 shadow"
-                            data-bs-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="px-4 py-3 mb-2 border-bottom fixedtop shadow-lg bg-white">
-            <div class="container-fluid align-items-center d-flex">
-                <div class="flex-shrink-1"></div>
-                <div class="flex-grow-1 d-flex align-items-center">
-                    <form class="w-100 me-3">
-                        <div class="input-group">
-                            <input
-                                class="form-control border-0 bg-gray-subtle py-0"
-                                type="text"
-                                placeholder="Search"
-                                id="search-box" />
-                            <div class="input-group-append">
-                                <button
-                                    class="customButton customButton--secondary py-2 px-3"
-                                    type="button"
-                                    style="border-radius: 1px 10px 10px 1px !important">
-                                    <span class="bi bi-search"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+<body class="bg-success-subtle">
+    <iframe title="resources" src="https://www.councilsepa.org/hubs/resources-topbar/" class="counciltopbar" credentialless> </iframe>
+    <div class="modal fade" id="allCountiesModal" tabindex="-1" aria-labelledby="allCountiesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="allCountiesModalLabel">All Counties → All Domains</span>
                     <div class="btn-group">
-                        <button
-                            type="button"
-                            class="customButton customButton--success dropdown-toggle m-2 py-2 px-3 shadow"
-                            style="border-radius: 1px 10px 10px 1px !important"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <span class="bi bi-geo-alt-fill" style="font-size: large"></span> Map
-                        </button>
+                        <button type="button" class="btn customButton--black dropdown-toggle m-2 py-2 px-3 shadow" data-bs-toggle="dropdown" aria-expanded="false"> <span class="bi bi-arrow-down"></span> </button>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#philadelphiaModal"
-                                    >Philadelphia</a
+                            <li> <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#philadelphiaModal">Philadelphia</a
                                 >
                             </li>
                             <li>
@@ -463,335 +141,427 @@
                             <li><a class="dropdown-item" href="#">Exit</a></li>
                         </ul>
                     </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe title="map" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54/701012" style="height: 70vh; width: 100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <p>Press <span class="bi bi-arrow-down-square-fill" style="font-size:2em"></span> to change between counties.</p>
+                    <br />
+                    <p>Press <span class="bi bi-list" style="font-size:2em"></span> to toggle menu.</p>
+                    <br />
+                    <p> Press<img src="assets/tools.svg" style="display: inline; width: 30px; height: auto" /> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal"> Close </button>
                 </div>
             </div>
         </div>
-        <div class="container-fluid pb-3 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
-            <div class="row flex-grow-sm-1 flex-grow-0">
-                <aside class="col-sm flex-grow-sm-1 flex-shrink-1 flex-grow-0">
-                    <div class="bg-light px-3 py-4 shadow mt-2" style="border-radius: 35px 5px 35px 5px">
-                        <button
-                            class="customButton customButton--secondary filter-btn m-2 py-2 px-3 shadow"
-                            data-filter="county"
-                            data-value="all">
-                            All Counties
-                        </button>
-                        <button
-                            class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow"
-                            data-filter="county"
-                            data-value="Philadelphia">
-                            Philadelphia
-                        </button>
-                        <button
-                            class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow"
-                            data-filter="county"
-                            data-value="Berks">
-                            Berks
-                        </button>
-                        <button
-                            class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow"
-                            data-filter="county"
-                            data-value="Bucks">
-                            Bucks
-                        </button>
-                        <button
-                            class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow"
-                            data-filter="county"
-                            data-value="Chester">
-                            Chester
-                        </button>
-                        <button
-                            class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow"
-                            data-filter="county"
-                            data-value="Delaware">
-                            Delaware
-                        </button>
-                        <button
-                            class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow"
-                            data-filter="county"
-                            data-value="Lancaster">
-                            Lancaster
-                        </button>
-                        <button
-                            class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow"
-                            data-filter="county"
-                            data-value="Montgomery">
-                            Montgomery
-                        </button>
-                        <button
-                            class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow"
-                            data-filter="county"
-                            data-value="Schuylkill">
-                            Schuylkill
-                        </button>
-                    </div>
-                </aside>
-                <main class="col overflow-x-auto overflow-y-hidden h-100">
-                    <div class="bg-light shadow py-4 px-5 mt-2" style="border-radius: 35px 5px 35px 5px">
-                        <button
-                            class="customButton customButton--success filter-btn m-2 py-2 px-3"
-                            data-filter="domain"
-                            data-value="all">
-                            All Domains
-                        </button>
-                        <button
-                            class="customButton customButton--primary filter-btn m-2 py-2 px-3"
-                            data-filter="domain"
-                            data-value="Recovery Support">
-                            Recovery Support
-                        </button>
-                        <button
-                            class="customButton customButton--primary filter-btn m-2 py-2 px-3"
-                            data-filter="domain"
-                            data-value="Family Support">
-                            Family Support
-                        </button>
-                        <button
-                            class="customButton customButton--primary filter-btn m-2 py-2 px-3"
-                            data-filter="domain"
-                            data-value="Housing">
-                            Housing
-                        </button>
-                        <button
-                            class="customButton customButton--primary filter-btn m-2 py-2 px-3"
-                            data-filter="domain"
-                            data-value="Transportation">
-                            Transportation
-                        </button>
-                    </div>
-
-                    <div class="bg-light p-4 shadow my-3">
-                        <div id="breadcrumbs">All Counties → All Domains</div>
-                        <div id="modal-button-container" class="my-3">
-                            <button
-                                id="modal-button"
-                                type="button"
-                                class="customButton py-2 px-5"
-                                data-bs-toggle="modal"
-                                style="display: none">
-                                View Map
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="container-fluid">
-                        <div class="container"></div>
-                        <br />
-                        <div class="container my-3"></div>
-                        <div class="container">
-                            <div
-                                class="uk-grid-small uk-child-width-1-3@m uk-child-width-1-2@s uk-child-width-1-1"
-                                uk-grid>
-                                <!-- Dynamically loaded cards will be appended here by JavaScript -->
-                            </div>
-                        </div>
-                    </div>
-                </main>
+    </div>
+    <div class="modal fade" id="philadelphiaModal" tabindex="-1" aria-labelledby="philadelphiaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="philadelphiaModalLabel">Philadelphia → All Domains</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe title="map" src="https://fortress.maptive.com/ver4/22ce0ffcea9e517881f5870c64c4bcff/701024" style="height: 70vh; width: 100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal"> Close </button>
+                </div>
             </div>
         </div>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
-            integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"></script>
-        <!-- Core plugin JavaScript-->
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"
-            integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"></script>
-        <script>
-            $(document).ready(function () {
-                // Show the welcome modal on page load
-                $("#welcomeModal").modal("show");
-            });
-        </script>
-        <script>
-            $(document).ready(function () {
-                // Show the welcome modal on page load
-                $("#welcomeModal").modal("show");
-            });
-        </script>
-        <script>
-            $(document).ready(function () {
-                const container = $(".uk-grid-small");
-
-                // Function to create Google Maps URL
-                function createGoogleMapsUrl(name, address, city, state, zip) {
-                    const query = `${name}, ${address}, ${city}, ${state}, ${zip}`;
-                    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+    </div>
+    <div class="modal fade" id="berksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="berksModalLabel">Berks County → All Domains</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe title="map" src="https://fortress.maptive.com/ver4/02cf13b4c79f77e04bc512510dbce5fd/698540" style="height: 70vh; width: 100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal"> Close </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="bucksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="bucksModalLabel">Bucks County → All Domains</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe title="map" src="https://fortress.maptive.com/ver4/3f70f2720ef35f1f5e09335f43726b82/701021" style="height: 70vh; width: 100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal"> Close </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="chesterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="chesterModalLabel">Cheater County → All Domains</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe title="map" src="https://fortress.maptive.com/ver4/52434a24012731eebecfc7c9dd9359a3/698557" style="height: 70vh; width: 100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal"> Close </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delawareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="delawareModalLabel">Delaware → All Domains</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe title="map" src="https://fortress.maptive.com/ver4/47e4f942dc0cf0aac1f7f7ee964c9e43/701014" style="height: 70vh; width: 100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal"> Close </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="lancasterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="lancasterModalLabel">Lancaster County → All Domains</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe title="map" src="https://fortress.maptive.com/ver4/dc2230fe7d4c696eb066d1d2a444833f/701019" style="height: 70vh; width: 100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal"> Close </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="montgomeryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="montgomeryModalLabel">Montgomery County → All Domains</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe title="map" src="https://fortress.maptive.com/ver4/37edb5e1d7356435b5c5bff88ca9bd41/701025" style="height: 70vh; width: 100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <p>Press <span class="bi bi-list"></span> to toggle menu.</p>
+                    <p> Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal"> Close </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="schuylkillModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="schuylkillModalLabel">Schuylkill County → All Domains</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe title="map" src="https://fortress.maptive.com/ver4/950e8836ef3f24f3b2247e781eae0a67/701026" style="height: 70vh; width: 100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <p>If closed, press <span class="bi bi-list"></span> to toggle menu.</p>
+                    <br />
+                    <p> Press<img src="assets/tools.svg" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category. </p>
+                    <button type="button" class="customButton customButton--success filter-btn px-3 py-1 shadow" data-bs-dismiss="modal"> Close </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="px-4 py-3 mb-2 border-bottom fixedtop shadow-lg bg-white">
+        <div class="container-fluid align-items-center d-flex">
+            <div class="flex-shrink-1"></div>
+            <div class="flex-grow-1 d-flex align-items-center">
+                <form class="w-100 me-3">
+                    <div class="input-group">
+                        <input class="form-control border-0 bg-gray-subtle py-0" type="text" placeholder="Search" id="search-box" />
+                        <div class="input-group-append">
+                            <button class="customButton customButton--secondary py-2 px-3" type="button" style="border-radius: 1px 10px 10px 1px !important"> <span class="bi bi-search"></span> </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="btn-group">
+                    <button type="button" class="customButton customButton--success dropdown-toggle m-2 py-2 px-3 shadow" style="border-radius: 1px 10px 10px 1px !important" data-bs-toggle="dropdown" aria-expanded="false"> <span class="bi bi-geo-alt-fill" style="font-size: large"></span> Map </button>
+                    <ul class="dropdown-menu">
+                        <li> <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#philadelphiaModal">Philadelphia</a
+                                >
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#berksModal"
+                                    >Berks</a
+                                >
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#bucksModal"
+                                    >Bucks</a
+                                >
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#chesterModal"
+                                    >Chester</a
+                                >
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delawareModal"
+                                    >Delaware</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#lancasterModal"
+                                    >Lancaster</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#montgomeryModal"
+                                    >Montgomery</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#schuylkillModal"
+                                    >Schuylkill</a
+                                >
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li><a class="dropdown-item" href="#">Exit</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid pb-3 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
+        <div class="row flex-grow-sm-1 flex-grow-0">
+            <aside class="col-sm flex-grow-sm-1 flex-shrink-1 flex-grow-0">
+                <div class="bg-light px-3 py-4 shadow mt-2" style="border-radius: 35px 5px 35px 5px">
+                    <button class="customButton customButton--secondary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="all"> All Counties </button>
+                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Philadelphia"> Philadelphia </button>
+                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Berks"> Berks </button>
+                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Bucks"> Bucks </button>
+                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Chester"> Chester </button>
+                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Delaware"> Delaware </button>
+                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Lancaster"> Lancaster </button>
+                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Montgomery"> Montgomery </button>
+                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Schuylkill"> Schuylkill </button>
+                </div>
+            </aside>
+            <main class="col overflow-x-auto overflow-y-hidden h-100">
+                <div class="bg-light shadow py-4 px-5 mt-2" style="border-radius: 35px 5px 35px 5px">
+                    <button class="customButton customButton--success filter-btn m-2 py-2 px-3" data-filter="domain" data-value="all"> All Domains </button>
+                    <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Recovery Support"> Recovery Support </button>
+                    <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Family Support"> Family Support </button>
+                    <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Housing"> Housing </button>
+                    <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Transportation"> Transportation </button>
+                </div>
+                <div class="bg-light p-4 shadow my-3">
+                    <div id="breadcrumbs">All Counties → All Domains</div>
+                    <div id="modal-button-container" class="my-3">
+                        <button id="modal-button" type="button" class="customButton py-2 px-5" data-bs-toggle="modal" style="display: none"> View Map </button>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="container"></div>
+                    <br />
+                    <div class="container my-3"></div>
+                    <div class="container">
+                        <div class="uk-grid-small uk-child-width-1-3@m uk-child-width-1-2@s uk-child-width-1-1" uk-grid>
+                            <!-- Dynamically loaded cards will be appended here by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function () {
+            // Show the welcome modal on page load
+            $("#welcomeModal").modal("show");
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            const container = $(".uk-grid-small");
+            // Function to create Google Maps URL
+            function createGoogleMapsUrl(name, address, city, state, zip) {
+                const query = `${name}, ${address}, ${city}, ${state}, ${zip}`;
+                return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+            }
+            jsonData.forEach((item) => {
+                // Function to format the phone number
+                function formatPhoneNumber(phone) {
+                    return "+1" + phone.replace(/-/g, "");
                 }
-
-                jsonData.forEach((item) => {
-                    // Function to format the phone number
-                    function formatPhoneNumber(phone) {
-                        return "+1" + phone.replace(/-/g, "");
-                    }
-
-                    // Format the phone number and create the phoneLink item
-                    const formattedPhoneNumber = formatPhoneNumber(item.Phone);
-                    item.phoneLink = `tel:${formattedPhoneNumber}`;
-
-                    // Create the Google Maps URL
-                    const googleMapsUrl = createGoogleMapsUrl(
-                        item["Location Name"],
-                        item.Address,
-                        item.City,
-                        item.State,
-                        item["Zip Code"]
-                    );
-
-                    const populations = item["Populations Served"]
-                        .split(";")
-                        .map(
-                            (pop) =>
-                                `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`
-                        )
-                        .join(" ");
-                    const counties = item["County"]
-                        .split(";")
-                        .map(
-                            (county) =>
-                                `<span class="badge bg-warning-subtle text-dark py-2 my-1">${county.trim()} County</span>`
-                        )
-                        .join(" ");
-                    const card = `
+                // Format the phone number and create the phoneLink item
+                const formattedPhoneNumber = formatPhoneNumber(item.Phone);
+                item.phoneLink = `tel:${formattedPhoneNumber}`;
+                // Create the Google Maps URL
+                const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
+                const populations = item["Populations Served"].split(";").map(
+                    (pop) => `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`).join(" ");
+                const counties = item["County"].split(";").map(
+                    (county) => `<span class="badge bg-warning-subtle text-dark py-2 my-1">${county.trim()} County</span>`).join(" ");
+                const card = `
             <div class="js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
                 <div class="card shadow text-bg-light p-3">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <span class="badge text-bg-info py-2 my-1">
-                                ${item.Domain}
-                                </span>     
-                                <span class="badge text-bg-purple py-2 my-1">
-                                ${item.Category}
-                                </span>                                
-                            <div class="col text-end">
-                                ${counties} 
+                                <div class="row">
+                                    <div class="col">
+                                        <span class="badge text-white bg-info py-2 my-1">
+                                        ${item.Domain}
+                                        </span>     
+                                        <span class="badge text-bg-purple py-2 my-1">
+                                        ${item.Category}
+                                        </span>                                
+                                    <div class="col text-end">
+                                        ${counties} 
+                                    </div>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="card-body">
+                                <div style="display:flex">
+                                <div>
+                                <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
+                                <h5 style="font-weight:400">${item.Organization}</h5>
+                                </div>
+                                ${item.Image? ` < img src = "${item.Image}"
+                alt = "Logo"
+                style = "width: auto; height: auto;" > ` : ""}
+                                </div>
+                                <br />
+
+                                <p>${item.Address}<br />
+                                ${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                                <br />
+                                <p>${item.Phone}</p>
+                                <p><strong>Populations Served:</strong> ${populations}</p>
+                                <br />
+                                <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
+                                  <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></i></a>
+                                  <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></i></a>
+                                  <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></i></a>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
-                        <h5 style="font-weight:400">${item.Organization}</h5>
-                        ${
-                            item.Image
-                                ? ` <img src = "${item.Image}"
-        alt = "Logo"
-        style = "max-width:100px; max-height:100px; float:left; margin-right:10px;" > `
-                                : ""
-                        }
-                        <p><strong>Phone:</strong> ${item.Phone}</p>
-                        <br /><p>${item.Address}<br />
-                        ${item.City}, ${item.State} ${item["Zip Code"]}</p>
-                        <br />
-                        <p><strong>Populations Served:</strong> ${populations}</p>
-                        <br />
-                        <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
-                          <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></i></a>
-                          <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></i></a>
-                          <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></i></a>
-                        </div>
-                    </div>
                 </div>
             </div>
         `;
-                    container.append(card);
+                container.append(card);
+            });
+            // Search functionality
+            $("#search-box").on("keyup", function () {
+                const searchTerm = $(this).val().toLowerCase();
+                $(".js-filter-item").each(function () {
+                    const text = $(this).text().toLowerCase();
+                    $(this).toggle(text.includes(searchTerm));
                 });
-
-                // Search functionality
-                $("#search-box").on("keyup", function () {
-                    const searchTerm = $(this).val().toLowerCase();
-                    $(".js-filter-item").each(function () {
-                        const text = $(this).text().toLowerCase();
-                        $(this).toggle(text.includes(searchTerm));
-                    });
-                });
-
-                // Filter functionality
-                const filters = {
-                    county: "all",
-                    domain: "all"
-                };
-
-                const countyColors = {
-                    Philadelphia: "text-success",
-                    Berks: "text-cyan",
-                    Bucks: "text-red",
-                    Chester: "text-yellow",
-                    Delaware: "text-teal",
-                    Lancaster: "text-purple",
-                    Montgomery: "text-orange",
-                    Schuylkill: "text-green",
-                    "All Counties": "text-indigo"
-                };
-
-                const buttonColors = {
-                    Philadelphia: "customButton--primary",
-                    Berks: "customButton--cyan",
-                    Bucks: "customButton--red",
-                    Chester: "customButton--yellow",
-                    Delaware: "customButton--teal",
-                    Lancaster: "customButton--purple",
-                    Montgomery: "customButton--orange",
-                    Schuylkill: "customButton--green",
-                    "All Counties": "customButton--indigo"
-                };
-
-                const updateBreadcrumbs = () => {
-                    const county = filters.county === "all" ? "All Counties" : `${filters.county} County`;
-                    const domain = filters.domain === "all" ? "All Domains" : filters.domain;
-                    $("#breadcrumbs").text(`${county} → ${domain}`);
-
-                    // Update the modal button
-                    const modalButton = $("#modal-button");
-                    const countyClass = countyColors[filters.county] || "text-cyan";
-                    const buttonClass = buttonColors[filters.county] || "bg-cyan-subtle text-cyan-emphasis";
-                    if (filters.county !== "all") {
-                        modalButton.show();
-                        modalButton.attr("data-bs-target", `#${filters.county.toLowerCase()}Modal`);
-                    } else {
-                        modalButton.show();
-                        modalButton.attr("data-bs-target", "#allCountiesModal"); // Default modal for all counties
-                    }
-                    modalButton.attr("class", `customButton py-2 px-5 ${buttonClass}`);
-
-                    // Update the breadcrumb county color
-                    $("#breadcrumbs").attr("class", ` ${countyClass}`);
-                };
-
-                $(".filter-btn").on("click", function () {
-                    const filterType = $(this).data("filter");
-                    const filterValue = $(this).data("value");
-
-                    // Update the filter value based on the clicked button
-                    filters[filterType] = filterValue;
-
-                    // Apply filters
-                    $(".js-filter-item")
-                        .hide()
-                        .filter(function () {
-                            const countyMatch =
-                                filters.county === "all" || $(this).data("county").includes(filters.county);
-                            const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
-                            return countyMatch && domainMatch;
-                        })
-                        .show();
-
-                    // Update breadcrumbs
-                    updateBreadcrumbs();
-                });
-
-                // Initialize breadcrumbs
+            });
+            // Filter functionality
+            const filters = {
+                county: "all"
+                , domain: "all"
+            };
+            const countyColors = {
+                Philadelphia: "text-pink-emphasis"
+                , Berks: "text-cyan"
+                , Bucks: "text-red"
+                , Chester: "text-yellow"
+                , Delaware: "text-teal"
+                , Lancaster: "text-purple"
+                , Montgomery: "text-orange"
+                , Schuylkill: "text-green"
+                , "All Counties": "text-blue"
+            };
+            const buttonColors = {
+                Philadelphia: "customButton--pink-emphasis"
+                , Berks: "customButton--cyan"
+                , Bucks: "customButton--red"
+                , Chester: "customButton--yellow"
+                , Delaware: "customButton--teal"
+                , Lancaster: "customButton--purple"
+                , Montgomery: "customButton--orange"
+                , Schuylkill: "customButton--green"
+                , "All Counties": "customButton--blue"
+            };
+            const updateBreadcrumbs = () => {
+                const county = filters.county === "all" ? "All Counties" : `${filters.county} County`;
+                const domain = filters.domain === "all" ? "All Domains" : filters.domain;
+                $("#breadcrumbs").text(`${county} → ${domain}`);
+                // Update the modal button
+                const modalButton = $("#modal-button");
+                const countyClass = countyColors[filters.county] || "text-cyan";
+                const buttonClass = buttonColors[filters.county] || "bg-cyan-subtle text-cyan-emphasis";
+                if (filters.county !== "all") {
+                    modalButton.show();
+                    modalButton.attr("data-bs-target", `#${filters.county.toLowerCase()}Modal`);
+                }
+                else {
+                    modalButton.show();
+                    modalButton.attr("data-bs-target", "#allCountiesModal"); // Default modal for all counties
+                }
+                modalButton.attr("class", `customButton py-2 px-5 ${buttonClass}`);
+                // Update the breadcrumb county color
+                $("#breadcrumbs").attr("class", ` ${countyClass}`);
+            };
+            $(".filter-btn").on("click", function () {
+                const filterType = $(this).data("filter");
+                const filterValue = $(this).data("value");
+                // Update the filter value based on the clicked button
+                filters[filterType] = filterValue;
+                // Apply filters
+                $(".js-filter-item").hide().filter(function () {
+                    const countyMatch = filters.county === "all" || $(this).data("county").includes(filters.county);
+                    const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
+                    return countyMatch && domainMatch;
+                }).show();
+                // Update breadcrumbs
                 updateBreadcrumbs();
             });
-        </script>
-    </body>
+            // Initialize breadcrumbs
+            updateBreadcrumbs();
+        });
+    </script>
+</body>
+
 </html>
