@@ -307,6 +307,12 @@
     });
 </script>
 <script>
+    $(document).ready(function () {
+        // Show the welcome modal on page load
+        $('#welcomeModal').modal('show');
+    });
+</script>
+<script>
 $(document).ready(function () {
     const container = $(".uk-grid-small");
 
@@ -362,9 +368,9 @@ $(document).ready(function () {
                         <p><strong>Populations Served:</strong> ${populations}</p>
                         <br />
                         <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
-                          <a href="${item.Website}" class="btn customButton--purple py-0 px-3"><span class="bi bi-globe"></i></a>
-                          <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3"><span class="bi bi-telephone-fill"></i></a>
-                          <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3"><span class="bi bi-geo-alt-fill"></i></a>
+                          <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></i></a>
+                          <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></i></a>
+                          <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></i></a>
                         </div>
                     </div>
                 </div>
