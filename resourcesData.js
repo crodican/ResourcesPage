@@ -1,4 +1,5 @@
-const jsonData = [
+const jsonData =
+      [
     {
         "Location Name": "Berks County Council on Chemical Abuse",
         "Organization": "Berks County Council on Chemical Abuse",
