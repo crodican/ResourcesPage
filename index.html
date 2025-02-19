@@ -8,17 +8,13 @@
     <!-- Fonts CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet" />
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/css/uikit.min.css" />
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <!-- UIkit JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.22/js/uikit-icons.min.js"></script>
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Bootstrap 5 CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="bs-grid.css" />
     <!-- Elevation CSS -->
     <!-- <link rel="stylesheet" href="elevation-bootstrap.css" /> -->
     <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
@@ -61,6 +57,8 @@
             display: inline-block;
             margin: 2px 0;
         }
+        
+        
     </style>
 </head>
 
@@ -326,16 +324,9 @@
                         <button id="modal-button" type="button" class="customButton py-2 px-5" data-bs-toggle="modal" style="display: none"> View Map </button>
                     </div>
                 </div>
-                <div class="container-fluid">
-                    <div class="container"></div>
-                    <br />
-                    <div class="container my-3"></div>
-                    <div class="container">
-                        <div class="uk-grid-small uk-child-width-1-3@m uk-child-width-1-2@s uk-child-width-1-1" uk-grid>
-                            <!-- Dynamically loaded cards will be appended here by JavaScript -->
-                        </div>
+                    <div class="grid overflow-y-scroll" style="max-height: 80vh">
+                        <!-- Dynamically loaded cards will be appended here by JavaScript -->
                     </div>
-                </div>
             </main>
         </div>
     </div>
@@ -345,149 +336,142 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function () {
-            // Show the welcome modal on page load
-            $("#welcomeModal").modal("show");
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            const container = $(".uk-grid-small");
-            // Function to create Google Maps URL
-            function createGoogleMapsUrl(name, address, city, state, zip) {
-                const query = `${name}, ${address}, ${city}, ${state}, ${zip}`;
-                return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-            }
-            jsonData.forEach((item) => {
-                // Function to format the phone number
-                function formatPhoneNumber(phone) {
-                    return "+1" + phone.replace(/-/g, "");
-                }
-                // Format the phone number and create the phoneLink item
-                const formattedPhoneNumber = formatPhoneNumber(item.Phone);
-                item.phoneLink = `tel:${formattedPhoneNumber}`;
-                // Create the Google Maps URL
-                const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
-                const populations = item["Populations Served"].split(";").map(
-                    (pop) => `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`).join(" ");
-                const counties = item["County"].split(";").map(
-                    (county) => `<span class="badge bg-warning-subtle text-dark py-2 my-1">${county.trim()} County</span>`).join(" ");
-                const card = `
-            <div class="js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
-                <div class="card shadow text-bg-light p-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <span class="badge text-bg-info py-2 my-1">
-                                ${item.Domain}
-                                </span>     
-                                <span class="badge text-bg-purple py-2 my-1">
-                                ${item.Category}
-                                </span>                                
-                            <div class="col text-end">
-                                ${counties} 
-                            </div>
-                            </div>
+    const container = $(".grid");
+    // Function to create Google Maps URL
+    function createGoogleMapsUrl(name, address, city, state, zip) {
+        const query = `${name}, ${address}, ${city}, ${state}, ${zip}`;
+        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+    }
+    jsonData.forEach((item) => {
+        // Function to format the phone number
+        function formatPhoneNumber(phone) {
+            return "+1" + phone.replace(/-/g, "");
+        }
+        // Format the phone number and create the phoneLink item
+        const formattedPhoneNumber = formatPhoneNumber(item.Phone);
+        item.phoneLink = `tel:${formattedPhoneNumber}`;
+        // Create the Google Maps URL
+        const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
+        const populations = item["Populations Served"].split(";").map(
+            (pop) => `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`).join(" ");
+        const counties = item["County"].split(";").map(
+            (county) => `<span class="badge bg-warning-subtle text-dark py-2 my-1">${county.trim()} County</span>`).join(" ");
+        const card = `
+<div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">            <div class="card shadow text-bg-light p-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <span class="badge text-bg-info py-2 my-1">
+                            ${item.Domain}
+                            </span>     
+                            <span class="badge text-bg-purple py-2 my-1">
+                            ${item.Category}
+                            </span>                                
+                        <div class="col text-end">
+                            ${counties} 
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
-                        <h5 style="font-weight:400">${item.Organization}</h5>
-                        ${
-                            item.Image
-                                ? ` <img src ="${item.Image}"
-                alt = "Logo"
-                style = "max-width:100px; max-height:100px; float:left; margin-right:10px;" > `
-                                : ""
-                        }
-                        <p><strong>Phone:</strong> ${item.Phone}</p>
-                        <br /><p>${item.Address}<br />
-                        ${item.City}, ${item.State} ${item["Zip Code"]}</p>
-                        <br />
-                        <p><strong>Populations Served:</strong> ${populations}</p>
-                        <br />
-                        <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
-                          <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></i></a>
-                          <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></i></a>
-                          <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></i></a>
                         </div>
                     </div>
                 </div>
+                <div class="card-body">
+                    <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
+                    <h5 style="font-weight:400">${item.Organization}</h5>
+                    ${
+                        item.Image
+                            ? ` <img src ="${item.Image}"
+            alt = "Logo"
+            style = "max-width:100px; max-height:100px; float:left; margin-right:10px;" > `
+                            : ""
+                    }
+                    <p><strong>Phone:</strong> ${item.Phone}</p>
+                    <br /><p>${item.Address}<br />
+                    ${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                    <br />
+                    <p><strong>Populations Served:</strong> ${populations}</p>
+                    <br />
+                    <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
+                      <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></i></a>
+                      <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></i></a>
+                      <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></i></a>
+                    </div>
+                </div>
             </div>
-        `;
-                container.append(card);
-            });
-            // Search functionality
-            $("#search-box").on("keyup", function () {
-                const searchTerm = $(this).val().toLowerCase();
-                $(".js-filter-item").each(function () {
-                    const text = $(this).text().toLowerCase();
-                    $(this).toggle(text.includes(searchTerm));
-                });
-            });
-            // Filter functionality
-            const filters = {
-                county: "all"
-                , domain: "all"
-            };
-            const countyColors = {
-                Philadelphia: "text-pink-emphasis"
-                , Berks: "text-cyan"
-                , Bucks: "text-red"
-                , Chester: "text-yellow"
-                , Delaware: "text-teal"
-                , Lancaster: "text-purple"
-                , Montgomery: "text-orange"
-                , Schuylkill: "text-green"
-                , "All Counties": "text-blue"
-            };
-            const buttonColors = {
-                Philadelphia: "customButton--pink-emphasis"
-                , Berks: "customButton--cyan"
-                , Bucks: "customButton--red"
-                , Chester: "customButton--yellow"
-                , Delaware: "customButton--teal"
-                , Lancaster: "customButton--purple"
-                , Montgomery: "customButton--orange"
-                , Schuylkill: "customButton--green"
-                , "All Counties": "customButton--blue"
-            };
-            const updateBreadcrumbs = () => {
-                const county = filters.county === "all" ? "All Counties" : `${filters.county} County`;
-                const domain = filters.domain === "all" ? "All Domains" : filters.domain;
-                $("#breadcrumbs").text(`${county} → ${domain}`);
-                // Update the modal button
-                const modalButton = $("#modal-button");
-                const countyClass = countyColors[filters.county] || "text-cyan";
-                const buttonClass = buttonColors[filters.county] || "bg-cyan-subtle text-cyan-emphasis";
-                if (filters.county !== "all") {
-                    modalButton.show();
-                    modalButton.attr("data-bs-target", `#${filters.county.toLowerCase()}Modal`);
-                }
-                else {
-                    modalButton.show();
-                    modalButton.attr("data-bs-target", "#allCountiesModal"); // Default modal for all counties
-                }
-                modalButton.attr("class", `customButton py-2 px-5 ${buttonClass}`);
-                // Update the breadcrumb county color
-                $("#breadcrumbs").attr("class", ` ${countyClass}`);
-            };
-            $(".filter-btn").on("click", function () {
-                const filterType = $(this).data("filter");
-                const filterValue = $(this).data("value");
-                // Update the filter value based on the clicked button
-                filters[filterType] = filterValue;
-                // Apply filters
-                $(".js-filter-item").hide().filter(function () {
-                    const countyMatch = filters.county === "all" || $(this).data("county").includes(filters.county);
-                    const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
-                    return countyMatch && domainMatch;
-                }).show();
-                // Update breadcrumbs
-                updateBreadcrumbs();
-            });
-            // Initialize breadcrumbs
-            updateBreadcrumbs();
+        </div>
+    `;
+        container.append(card);
+    });
+    // Search functionality
+    $("#search-box").on("keyup", function () {
+        const searchTerm = $(this).val().toLowerCase();
+        $(".js-filter-item").each(function () {
+            const text = $(this).text().toLowerCase();
+            $(this).toggle(text.includes(searchTerm));
         });
+    });
+    // Filter functionality
+    const filters = {
+        county: "all"
+        , domain: "all"
+    };
+    const countyColors = {
+        Philadelphia: "text-pink-emphasis"
+        , Berks: "text-cyan"
+        , Bucks: "text-red"
+        , Chester: "text-yellow"
+        , Delaware: "text-teal"
+        , Lancaster: "text-purple"
+        , Montgomery: "text-orange"
+        , Schuylkill: "text-green"
+        , "All Counties": "text-blue"
+    };
+    const buttonColors = {
+        Philadelphia: "customButton--pink-emphasis"
+        , Berks: "customButton--cyan"
+        , Bucks: "customButton--red"
+        , Chester: "customButton--yellow"
+        , Delaware: "customButton--teal"
+        , Lancaster: "customButton--purple"
+        , Montgomery: "customButton--orange"
+        , Schuylkill: "customButton--green"
+        , "All Counties": "customButton--blue"
+    };
+    const updateBreadcrumbs = () => {
+        const county = filters.county === "all" ? "All Counties" : `${filters.county} County`;
+        const domain = filters.domain === "all" ? "All Domains" : filters.domain;
+        $("#breadcrumbs").text(`${county} → ${domain}`);
+        // Update the modal button
+        const modalButton = $("#modal-button");
+        const countyClass = countyColors[filters.county] || "text-cyan";
+        const buttonClass = buttonColors[filters.county] || "bg-cyan-subtle text-cyan-emphasis";
+        if (filters.county !== "all") {
+            modalButton.show();
+            modalButton.attr("data-bs-target", `#${filters.county.toLowerCase()}Modal`);
+        }
+        else {
+            modalButton.show();
+            modalButton.attr("data-bs-target", "#allCountiesModal"); // Default modal for all counties
+        }
+        modalButton.attr("class", `customButton py-2 px-5 ${buttonClass}`);
+        // Update the breadcrumb county color
+        $("#breadcrumbs").attr("class", ` ${countyClass}`);
+    };
+    $(".filter-btn").on("click", function () {
+        const filterType = $(this).data("filter");
+        const filterValue = $(this).data("value");
+        // Update the filter value based on the clicked button
+        filters[filterType] = filterValue;
+        // Apply filters
+        $(".js-filter-item").hide().filter(function () {
+            const countyMatch = filters.county === "all" || $(this).data("county").includes(filters.county);
+            const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
+            return countyMatch && domainMatch;
+        }).show();
+        // Update breadcrumbs
+        updateBreadcrumbs();
+    });
+    // Initialize breadcrumbs
+    updateBreadcrumbs();
+});
     </script>
 </body>
 

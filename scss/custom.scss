@@ -1,0 +1,8 @@
+// Disable the default grid system
+$enable-grid-classes: false;
+
+// Enable the CSS Grid
+$enable-cssgrid: true;
+
+// Import Bootstrap SCSS
+@import "bootstrap/scss/bootstrap";
