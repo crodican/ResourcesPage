@@ -6,8 +6,11 @@
     <title>Resources - The Council of Southeast Pennsylvania</title>
     <link rel="icon" href="https://www.councilsepa.org/wp-content/uploads/2024/03/favicon.svg" sizes="32x32" />
     <!-- Fonts CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <!-- Bootstrap Icons -->
@@ -57,7 +60,24 @@
             display: inline-block;
             margin: 2px 0;
         }
+        kbd {
+            font-family: "Space Mono", serif;
+            font-weight: 700;
+            font-style: normal;
+            color: slateblue; /* Text color */
+            background-color: white; /* Background color */
+            padding: 2px 8px; /* Optional: Adds some padding */
+            border-radius: 3px; /* Optional: Rounds the corners */
+        }
         
+        .form-control:focus {
+            border-color: lightgray; /* Change this to your desired border color */
+            box-shadow: 0 0 0 0.25rem rgba(0, 128, 0, 0); /* Optional: Change the box shadow color */
+        }
+        
+        .form-control:focus::placeholder {
+            color: blue; /* Change this to your desired placeholder text color when focused */
+        }
         
     </style>
 </head>
@@ -279,22 +299,31 @@
             </div>
         </div>
     </div>
-    <div class="p-4 mb-2 border-bottom shadow-lg bg-white">
+<div class="col px-2">
+    <div class="bg-light shadow py-4 px-3 mt-2" style="border-radius: 35px 35px 5px 5px">
         <div class="container-fluid align-items-center d-flex">
-            <div class="flex-shrink-1"></div>
             <div class="flex-grow-1 d-flex align-items-center">
-                <form class="w-100 me-3">
-                    <div class="input-group">
-                        <a href="https://councilsepa.org/hubs/" class="btn customButton--pink py-2 px-3" style="border-radius: 10px 1px 1px 10px !important; text-decoration: none"> <span class="bi bi-arrow-left"></span>BACK </a>
-                        <input class="form-control border-0 bg-gray-subtle py-0" type="text" placeholder="Search" id="search-box" />
+                <form class="w-100">
+                    <div class="input-group bg-gray rounded-pill">
+                        <input class="form-control border-0 bg-gray py-0 px-4" type="text" placeholder="Click here or press Ctrl + K to search" id="search-box" />
                         <div class="input-group-append">
-                            <button class="btn customButton--secondary py-2 px-3" type="button" style="border-radius: 1px 10px 10px 1px !important"> <span class="bi bi-search"></span> </button>
+                            <button type="button" aria-label="Search (Ctrl+K)" class="border-0 bg-gray text-black py-1 px-3 d-flex" data-bs-toggle="modal" data-bs-target="#searchModal">
+                                <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
+                            </button>
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn customButton--secondary py-1 px-5" type="button" style="border-radius: 1px 10px 10px 1px !important">
+                                <span class="bi bi-search"></span>
+                            </button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+</div>
+   
+    
     <div class="container-fluid pb-3 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
         <div class="row flex-grow-sm-1 flex-grow-0">
             <aside class="col-sm flex-grow-sm-1 flex-shrink-1 flex-grow-0">
@@ -330,149 +359,191 @@
             </main>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $(document).ready(function () {
-    const container = $(".grid");
-    // Function to create Google Maps URL
-    function createGoogleMapsUrl(name, address, city, state, zip) {
-        const query = `${name}, ${address}, ${city}, ${state}, ${zip}`;
-        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-    }
-    jsonData.forEach((item) => {
-        // Function to format the phone number
-        function formatPhoneNumber(phone) {
-            return "+1" + phone.replace(/-/g, "");
-        }
-        // Format the phone number and create the phoneLink item
-        const formattedPhoneNumber = formatPhoneNumber(item.Phone);
-        item.phoneLink = `tel:${formattedPhoneNumber}`;
-        // Create the Google Maps URL
-        const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
-        const populations = item["Populations Served"].split(";").map(
-            (pop) => `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`).join(" ");
-        const counties = item["County"].split(";").map(
-            (county) => `<span class="badge bg-warning-subtle text-dark py-2 my-1">${county.trim()} County</span>`).join(" ");
-        const card = `
-<div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">            <div class="card shadow text-bg-light p-3">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <span class="badge text-bg-info py-2 my-1">
-                            ${item.Domain}
-                            </span>     
-                            <span class="badge text-bg-purple py-2 my-1">
-                            ${item.Category}
-                            </span>                                
-                        <div class="col text-end">
-                            ${counties} 
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
-                    <h5 style="font-weight:400">${item.Organization}</h5>
-                    ${
-                        item.Image
-                            ? ` <img src ="${item.Image}"
-            alt = "Logo"
-            style = "max-width:100px; max-height:100px; float:left; margin-right:10px;" > `
-                            : ""
-                    }
-                    <p><strong>Phone:</strong> ${item.Phone}</p>
-                    <br /><p>${item.Address}<br />
-                    ${item.City}, ${item.State} ${item["Zip Code"]}</p>
-                    <br />
-                    <p><strong>Populations Served:</strong> ${populations}</p>
-                    <br />
-                    <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
-                      <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></i></a>
-                      <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></i></a>
-                      <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></i></a>
+    <!-- Modal for search -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content  bg-purple py-3">
+            <div class="modal-body">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control border-0 bg-white text-white py-0 px-4" placeholder="Search">
+                    <div class="input-group-append">
+                        <button class="btn customButton--teal py-1 px-5" type="button" id="closeModalButton" style="border-radius: 1px 10px 10px 1px !important">
+                            <span class="bi bi-search"></span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    `;
-        container.append(card);
-    });
-    // Search functionality
-    $("#search-box").on("keyup", function () {
-        const searchTerm = $(this).val().toLowerCase();
-        $(".js-filter-item").each(function () {
-            const text = $(this).text().toLowerCase();
-            $(this).toggle(text.includes(searchTerm));
+    </div>
+</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function () {
+        const container = $(".grid");
+        // Function to create Google Maps URL
+        function createGoogleMapsUrl(name, address, city, state, zip) {
+            const query = `${name}, ${address}, ${city}, ${state}, ${zip}`;
+            return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+        }
+        jsonData.forEach((item) => {
+            // Function to format the phone number
+            function formatPhoneNumber(phone) {
+                return "+1" + phone.replace(/-/g, "");
+            }
+            // Format the phone number and create the phoneLink item
+            const formattedPhoneNumber = formatPhoneNumber(item.Phone);
+            item.phoneLink = `tel:${formattedPhoneNumber}`;
+            // Create the Google Maps URL
+            const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
+            const populations = item["Populations Served"].split(";").map(
+                (pop) => `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`).join(" ");
+            const counties = item["County"].split(";").map(
+                (county) => `<span class="badge bg-warning-subtle text-dark py-2 my-1">${county.trim()} County</span>`).join(" ");
+            const card = `
+            <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
+                <div class="card shadow text-bg-light p-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <span class="badge text-bg-info py-2 my-1">
+                                ${item.Domain}
+                                </span>     
+                                <span class="badge text-bg-purple py-2 my-1">
+                                ${item.Category}
+                                </span>                                
+                            <div class="col text-end">
+                                ${counties} 
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
+                        <h5 style="font-weight:400">${item.Organization}</h5>
+                        ${
+                            item.Image
+                                ? `<img src ="${item.Image}" alt="Logo" style="max-width:100px; max-height:100px; float:left; margin-right:10px;">`
+                                : ""
+                        }
+                        <p><strong>Phone:</strong> ${item.Phone}</p>
+                        <br /><p>${item.Address}<br />
+                        ${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                        <br />
+                        <p><strong>Populations Served:</strong> ${populations}</p>
+                        <br />
+                        <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
+                          <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></span></a>
+                          <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></span></a>
+                          <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+            container.append(card);
         });
-    });
-    // Filter functionality
-    const filters = {
-        county: "all"
-        , domain: "all"
-    };
-    const countyColors = {
-        Philadelphia: "text-pink-emphasis"
-        , Berks: "text-cyan"
-        , Bucks: "text-red"
-        , Chester: "text-yellow"
-        , Delaware: "text-teal"
-        , Lancaster: "text-purple"
-        , Montgomery: "text-orange"
-        , Schuylkill: "text-green"
-        , "All Counties": "text-blue"
-    };
-    const buttonColors = {
-        Philadelphia: "customButton--pink-emphasis"
-        , Berks: "customButton--cyan"
-        , Bucks: "customButton--red"
-        , Chester: "customButton--yellow"
-        , Delaware: "customButton--teal"
-        , Lancaster: "customButton--purple"
-        , Montgomery: "customButton--orange"
-        , Schuylkill: "customButton--green"
-        , "All Counties": "customButton--blue"
-    };
-    const updateBreadcrumbs = () => {
-        const county = filters.county === "all" ? "All Counties" : `${filters.county} County`;
-        const domain = filters.domain === "all" ? "All Domains" : filters.domain;
-        $("#breadcrumbs").text(`${county} → ${domain}`);
-        // Update the modal button
-        const modalButton = $("#modal-button");
-        const countyClass = countyColors[filters.county] || "text-cyan";
-        const buttonClass = buttonColors[filters.county] || "bg-cyan-subtle text-cyan-emphasis";
-        if (filters.county !== "all") {
-            modalButton.show();
-            modalButton.attr("data-bs-target", `#${filters.county.toLowerCase()}Modal`);
+
+        // Function to show the modal and focus on the input box
+        function showModal() {
+            const modal = new bootstrap.Modal(document.getElementById('searchModal'));
+            modal.show();
+            document.getElementById('searchInput').focus();
         }
-        else {
-            modalButton.show();
-            modalButton.attr("data-bs-target", "#allCountiesModal"); // Default modal for all counties
+
+        // Add event listener for the keyboard shortcut (e.g., Ctrl+K)
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && event.key === 'k') {
+                event.preventDefault();
+                showModal();
+            }
+        });
+
+        // Search functionality
+        function performSearch(searchTerm) {
+            searchTerm = searchTerm.toLowerCase();
+            $(".js-filter-item").each(function () {
+                const text = $(this).text().toLowerCase();
+                $(this).toggle(text.includes(searchTerm));
+            });
         }
-        modalButton.attr("class", `customButton py-2 px-5 ${buttonClass}`);
-        // Update the breadcrumb county color
-        $("#breadcrumbs").attr("class", ` ${countyClass}`);
-    };
-    $(".filter-btn").on("click", function () {
-        const filterType = $(this).data("filter");
-        const filterValue = $(this).data("value");
-        // Update the filter value based on the clicked button
-        filters[filterType] = filterValue;
-        // Apply filters
-        $(".js-filter-item").hide().filter(function () {
-            const countyMatch = filters.county === "all" || $(this).data("county").includes(filters.county);
-            const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
-            return countyMatch && domainMatch;
-        }).show();
-        // Update breadcrumbs
+
+        // Event listener for the existing search box
+        $("#search-box").on("keyup", function () {
+            performSearch($(this).val());
+        });
+
+        // Event listener for the modal search box
+        $("#searchInput").on("keyup", function () {
+            performSearch($(this).val());
+        });
+
+        // Filter functionality
+        const filters = {
+            county: "all",
+            domain: "all"
+        };
+        const countyColors = {
+            Philadelphia: "text-pink-emphasis",
+            Berks: "text-cyan",
+            Bucks: "text-red",
+            Chester: "text-yellow",
+            Delaware: "text-teal",
+            Lancaster: "text-purple",
+            Montgomery: "text-orange",
+            Schuylkill: "text-green",
+            "All Counties": "text-blue"
+        };
+        const buttonColors = {
+            Philadelphia: "customButton--pink-emphasis",
+            Berks: "customButton--cyan",
+            Bucks: "customButton--red",
+            Chester: "customButton--yellow",
+            Delaware: "customButton--teal",
+            Lancaster: "customButton--purple",
+            Montgomery: "customButton--orange",
+            Schuylkill: "customButton--green",
+            "All Counties": "customButton--blue"
+        };
+        const updateBreadcrumbs = () => {
+            const county = filters.county === "all" ? "All Counties" : `${filters.county} County`;
+            const domain = filters.domain === "all" ? "All Domains" : filters.domain;
+            $("#breadcrumbs").text(`${county} → ${domain}`);
+            // Update the modal button
+            const modalButton = $("#modal-button");
+            const countyClass = countyColors[filters.county] || "text-cyan";
+            const buttonClass = buttonColors[filters.county] || "bg-cyan-subtle text-cyan-emphasis";
+            if (filters.county !== "all") {
+                modalButton.show();
+                modalButton.attr("data-bs-target", `#${filters.county.toLowerCase()}Modal`);
+            } else {
+                modalButton.show();
+                modalButton.attr("data-bs-target", "#allCountiesModal"); // Default modal for all counties
+            }
+            modalButton.attr("class", `customButton py-2 px-5 ${buttonClass}`);
+            // Update the breadcrumb county color
+            $("#breadcrumbs").attr("class", ` ${countyClass}`);
+        };
+        $(".filter-btn").on("click", function () {
+            const filterType = $(this).data("filter");
+            const filterValue = $(this).data("value");
+            // Update the filter value based on the clicked button
+            filters[filterType] = filterValue;
+            // Apply filters
+            $(".js-filter-item").hide().filter(function () {
+                const countyMatch = filters.county === "all" || $(this).data("county").includes(filters.county);
+                const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
+                return countyMatch && domainMatch;
+            }).show();
+            // Update breadcrumbs
+            updateBreadcrumbs();
+        });
+        // Initialize breadcrumbs
         updateBreadcrumbs();
     });
-    // Initialize breadcrumbs
-    updateBreadcrumbs();
-});
-    </script>
+</script>
     <script>
         // Get the height of the entire document
 var pageHeight = document.documentElement.scrollHeight;
