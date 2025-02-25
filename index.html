@@ -462,6 +462,41 @@
                     </div>
                 </div>
                     <div class="grid">
+                               <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
+            <div class="card shadow text-bg-light p-3">
+                <div class="card-header">
+                    <div class="col">
+                        <div class="row">
+                        <h3 class="card-title">Location Name</h3>
+                            <ul class="uk-breadcrumb">
+                                <li><span>Domain</span></li>
+                                <li><span>Category</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 style="font-weight:400">${item.Organization}</h5>
+                    ${
+                        item.Image
+                            ? `<img src ="${item.Image}" alt="Logo" style="max-width:100px; max-height:100px; float:left; margin-right:10px;">`
+                            : ""
+                    }
+                    <p><strong>Phone:</strong> ${item.Phone}</p>
+                    <br /><p>${item.Address}<br />
+                    ${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                    <br />
+                    <h6><strong>Populations Served:</strong> ${populations}</h6>
+                    <br />
+                    <h6><strong>Counties Served:</strong> ${counties}</h6>                    
+                    <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
+                      <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></span></a>
+                      <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></span></a>
+                      <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
                         <!-- Dynamically loaded cards will be appended here by JavaScript -->
                     </div>
             </main>
@@ -511,29 +546,21 @@
         // Create the Google Maps URL
         const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
         const populations = item["Populations Served"].split(";").map(
-            (pop) => `<span class="badge text-bg-pink py-2">${pop.trim()}</span>`).join(" ");
+            (pop) => `<span class="uk-badge">${pop.trim()}</span>`).join(" ");
         const counties = item["County"].split(";").map(
-            (county) => `<span class="badge text-bg-indigo py-2 my-1">${county.trim()} County</span>`).join(" ");
+            (county) => `<span class="uk-badge">${county.trim()} County</span>`).join(" ");
         const card = `
         <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
             <div class="card shadow text-bg-light p-3">
-                <div class="card-body">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col">
-                            <span class="badge text-bg-cyan py-2 my-1">
-                            ${item.Domain}
-                            </span>     
-                            <span class="badge text-bg-purple py-2 my-1">
-                            ${item.Category}
-                            </span>                                
-                        <div class="col text-end">
-                            ${counties} 
-                        </div>
-                        </div>
-                    </div>
+                    <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
+                        <ul class="uk-breadcrumb">
+                            <li><span>${item.Domain}</span></li>
+                            <li><span>${item.Category}</span></li>
+                        </ul>
                 </div>
                 <div class="card-body">
-                    <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
                     <h5 style="font-weight:400">${item.Organization}</h5>
                     ${
                         item.Image
@@ -544,8 +571,9 @@
                     <br /><p>${item.Address}<br />
                     ${item.City}, ${item.State} ${item["Zip Code"]}</p>
                     <br />
-                    <p><strong>Populations Served:</strong> ${populations}</p>
+                    <h6><strong>Populations Served:</strong> ${populations}</h6>
                     <br />
+                    <h6><strong>Counties Served:</strong> ${counties}</h6>                    
                     <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
                       <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></span></a>
                       <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></span></a>
