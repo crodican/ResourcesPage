@@ -450,10 +450,10 @@
     }
 
     /* Pink */
-.customButton--pink {
-  background-color: hsla(312, 33%, 94%, 1);
-  color: #55298a;
-}
+    .customButton--pink {
+      background-color: hsla(312, 33%, 94%, 1);
+      color: #55298a;
+    }
 
     .customButton--pink::before {
       left: -50%;
