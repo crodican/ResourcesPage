@@ -222,7 +222,6 @@
   border: none;
   border-radius: 2px 2px 0 15px;
   color: var(--bs-black);
-  -moz-column-gap: 10px;
   column-gap: 10px;
   display: inline-flex;
   font-family: Oxygen;
@@ -232,7 +231,7 @@
   line-height: 19px;
   padding: 18px 28px;
   text-align: left;
-  transition: all 0.2s ease;
+  transition: box-shadow 0.2s ease, opacity 0.2s ease; /* Only transition box-shadow and opacity */
   position: relative;
   overflow: hidden;
 }
@@ -246,7 +245,7 @@
   position: absolute;
   top: -50px;
   transform: rotate(35deg);
-  transition: all .5s ease;
+  transition: opacity 0.5s ease, left 0.5s ease; /* Only transition opacity and left */
 }
 
 .customButton::before {
@@ -258,7 +257,6 @@
 }
 
 .customButton:hover {
-  transform: translateY(-3px);
   box-shadow: 0 10px 20px 0 rgba(var(--bs-black-rgb), 0.3);
 }
 
@@ -271,6 +269,7 @@
   left: 200%;
   opacity: 0.6;
 }
+
 
 /* Color Variants */
 .customButton--blue {
