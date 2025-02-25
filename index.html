@@ -11,22 +11,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Bootstrap 5 CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="bs-grid.css" />
-    <!-- Elevation CSS -->
-    <!-- <link rel="stylesheet" href="elevation-bootstrap.css" /> -->
+    <!-- UI Kit-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.22.0/css/uikit.min.css" integrity="sha512-cZsPeawQ6PhXIjcHTMedcA/wSVEWHAN2gvZ6fdi+ecGQDobX4nXzyr26KoIczXVE6DZFipZqgViCKfQ/eo6QbA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.22.0/js/uikit.min.js" integrity="sha512-TVFQeUF0VCFmzQiha5tllbSHUlxIkXVh5HcAVE/vPWIq5+yEqVgMum+9ISwtNGbscFGysU/l31H5klbUOYCG0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
     <script src="https://resourcespage.pages.dev/resourcesData.js"></script>
     <style>
-        :root {
-            --bs-enable-cssgrid: true;
-        }
-        
+
         body {
             font-family: "Oxygen";
         }
@@ -70,80 +66,66 @@
             border-radius: 3px; /* Optional: Rounds the corners */
         }
         
+        .kbd {
+            @media (width < 768px) {
+                display:none;
+            }
+        }
+        
         .form-control:focus {
-            border-color: lightgray; /* Change this to your desired border color */
-            box-shadow: 0 0 0 0.25rem rgba(0, 128, 0, 0); /* Optional: Change the box shadow color */
+            background-color: var(--bg-gray-subtle);
+            box-shadow: 0 0 0 0.25rem hsla(267, 54%, 35%, 0.5); /* Optional: Change the box shadow color */
         }
         
         .form-control:focus::placeholder {
-            color: blue; /* Change this to your desired placeholder text color when focused */
+            color: transparent; /* Change this to your desired placeholder text color when focused */
         }
         
+        .reflection {
+  position: relative;
+  display: inline-block;
+}
+
+.reflection::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: scaleY(-1);
+  opacity: 0.5;
+  pointer-events: none;
+}
+        
+	.map-modal {
+		width: 80% !important;
+		height: var(100vh - 172px);
+	}
     </style>
 </head>
 
 <body class="bg-success-subtle">
-    <div class="modal fade" id="allCountiesModal" tabindex="-1" aria-labelledby="allCountiesModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    
+    <!-- Example of a modal with the dropdown menu -->
+    <div class="modal fade py-5" id="allCountiesModal" tabindex="-1" aria-labelledby="allCountiesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl map-modal">
             <div class="modal-content">
-                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="allCountiesModalLabel">All Counties → All Domains</span>
+                <div class="modal-header bg-white">
                     <div class="btn-group">
-                        <button type="button" class="btn customButton--black dropdown-toggle m-2 py-2 px-3 shadow" data-bs-toggle="dropdown" aria-expanded="false"> <span class="bi bi-arrow-down"></span> </button>
-                        <ul class="dropdown-menu">
-                            <li> <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#philadelphiaModal">Philadelphia</a
-                                >
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#berksModal"
-                                    >Berks</a
-                                >
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#bucksModal"
-                                    >Bucks</a
-                                >
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#chesterModal"
-                                    >Chester</a
-                                >
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delawareModal"
-                                    >Delaware</a
-                                >
-                            </li>
-                            <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#lancasterModal"
-                                    >Lancaster</a
-                                >
-                            </li>
-                            <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#montgomeryModal"
-                                    >Montgomery</a
-                                >
-                            </li>
-                            <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#schuylkillModal"
-                                    >Schuylkill</a
-                                >
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li><a class="dropdown-item" href="#">Exit</a></li>
+                        <button type="button" class="customButton--danger d-flex justify-content-between align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>COUNTIES</span><span class="bi bi-caret-down-fill" style="margin-left: 100px"></span>
+                        </button>
+  <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</a></li>
                         </ul>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -165,7 +147,23 @@
     <div class="modal fade" id="philadelphiaModal" tabindex="-1" aria-labelledby="philadelphiaModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="philadelphiaModalLabel">Philadelphia → All Domains</span>
+                <div class="modal-header bg-white">
+                    <div class="btn-group">
+                        <button type="button" class="customButton--danger d-flex justify-content-between align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>COUNTIES</span><span class="bi bi-caret-down-fill" style="margin-left: 100px"></span>
+                        </button>
+  <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</a></li>
+                        </ul>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -182,7 +180,23 @@
     <div class="modal fade" id="berksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="berksModalLabel">Berks County → All Domains</span>
+                <div class="modal-header bg-white">
+                    <div class="btn-group">
+                        <button type="button" class="customButton--danger d-flex justify-content-between align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>COUNTIES</span><span class="bi bi-caret-down-fill" style="margin-left: 100px"></span>
+                        </button>
+  <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</a></li>
+                        </ul>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -199,7 +213,23 @@
     <div class="modal fade" id="bucksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="bucksModalLabel">Bucks County → All Domains</span>
+                <div class="modal-header bg-white">
+                    <div class="btn-group">
+                        <button type="button" class="customButton--danger d-flex justify-content-between align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>COUNTIES</span><span class="bi bi-caret-down-fill" style="margin-left: 100px"></span>
+                        </button>
+  <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</a></li>
+                        </ul>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -216,7 +246,23 @@
     <div class="modal fade" id="chesterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="chesterModalLabel">Cheater County → All Domains</span>
+                <div class="modal-header bg-white">
+                    <div class="btn-group">
+                        <button type="button" class="customButton--danger d-flex justify-content-between align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>COUNTIES</span><span class="bi bi-caret-down-fill" style="margin-left: 100px"></span>
+                        </button>
+  <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</a></li>
+                        </ul>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -233,7 +279,23 @@
     <div class="modal fade" id="delawareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="delawareModalLabel">Delaware → All Domains</span>
+                <div class="modal-header bg-white">
+                    <div class="btn-group">
+                        <button type="button" class="customButton--danger d-flex justify-content-between align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>COUNTIES</span><span class="bi bi-caret-down-fill" style="margin-left: 100px"></span>
+                        </button>
+  <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</a></li>
+                        </ul>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -250,7 +312,23 @@
     <div class="modal fade" id="lancasterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="lancasterModalLabel">Lancaster County → All Domains</span>
+                <div class="modal-header bg-white">
+                    <div class="btn-group">
+                        <button type="button" class="customButton--danger d-flex justify-content-between align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>COUNTIES</span><span class="bi bi-caret-down-fill" style="margin-left: 100px"></span>
+                        </button>
+  <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</a></li>
+                        </ul>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -267,7 +345,23 @@
     <div class="modal fade" id="montgomeryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="montgomeryModalLabel">Montgomery County → All Domains</span>
+                <div class="modal-header bg-white">
+                    <div class="btn-group">
+                        <button type="button" class="customButton--danger d-flex justify-content-between align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>COUNTIES</span><span class="bi bi-caret-down-fill" style="margin-left: 100px"></span>
+                        </button>
+  <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</a></li>
+                        </ul>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -284,7 +378,23 @@
     <div class="modal fade" id="schuylkillModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header text-bg-info"> <span class="modal-title fs-5" id="schuylkillModalLabel">Schuylkill County → All Domains</span>
+                <div class="modal-header bg-white">
+                    <div class="btn-group">
+                        <button type="button" class="customButton--danger d-flex justify-content-between align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>COUNTIES</span><span class="bi bi-caret-down-fill" style="margin-left: 100px"></span>
+                        </button>
+  <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</a></li>
+                        </ul>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -304,10 +414,10 @@
         <div class="container-fluid align-items-center d-flex">
             <div class="flex-grow-1 d-flex align-items-center">
                 <form class="w-100">
-                    <div class="input-group bg-gray rounded-pill">
-                        <input class="form-control border-0 bg-gray py-0 px-4" type="text" placeholder="Click here or press Ctrl + K to search" id="search-box" />
-                        <div class="input-group-append">
-                            <button type="button" aria-label="Search (Ctrl+K)" class="border-0 bg-gray text-black py-1 px-3 d-flex" data-bs-toggle="modal" data-bs-target="#searchModal">
+                    <div class="input-group bg-gray-subtle rounded">
+                        <input class="form-control border-0 bg-gray-subtle py-0 px-4" type="text" placeholder="Search" id="search-box" />
+                        <div class="input-group-append kbd">
+                            <button type="button" aria-label="Search (Ctrl+K)" class="border-0 bg-gray-subtle text-black py-1 px-3 d-flex" data-bs-toggle="modal" data-bs-target="#searchModal">
                                 <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
                             </button>
                         </div>
@@ -350,10 +460,10 @@
                 <div class="bg-light p-4 shadow my-3">
                     <div id="breadcrumbs">All Counties → All Domains</div>
                     <div id="modal-button-container" class="my-3">
-                        <button id="modal-button" type="button" class="customButton py-2 px-5" data-bs-toggle="modal" style="display: none"> View Map </button>
+                        <button id="modal-button" type="button" class="customButton customButton--pink py-2 px-5" data-bs-toggle="modal" style="display: none"> View Map </button>
                     </div>
                 </div>
-                    <div class="grid overflow-y-scroll" style="max-height: 80vh">
+                    <div class="grid">
                         <!-- Dynamically loaded cards will be appended here by JavaScript -->
                     </div>
             </main>
@@ -361,7 +471,7 @@
     </div>
     <!-- Modal for search -->
 <div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
         <div class="modal-content  bg-purple py-3">
             <div class="modal-body">
                 <div class="input-group">
@@ -380,176 +490,160 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Core plugin JavaScript-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-    $(document).ready(function () {
-        const container = $(".grid");
-        // Function to create Google Maps URL
-        function createGoogleMapsUrl(name, address, city, state, zip) {
-            const query = `${name}, ${address}, ${city}, ${state}, ${zip}`;
-            return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+    <script>
+        $(document).ready(function () {
+    const container = $(".grid");
+
+    // Function to create Google Maps URL
+    function createGoogleMapsUrl(name, address, city, state, zip) {
+        const query = `${name}, ${address}, ${city}, ${zip}`;
+        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+    }
+
+    jsonData.forEach((item) => {
+        // Function to format the phone number
+        function formatPhoneNumber(phone) {
+            return "+1" + phone.replace(/-/g, "");
         }
-        jsonData.forEach((item) => {
-            // Function to format the phone number
-            function formatPhoneNumber(phone) {
-                return "+1" + phone.replace(/-/g, "");
-            }
-            // Format the phone number and create the phoneLink item
-            const formattedPhoneNumber = formatPhoneNumber(item.Phone);
-            item.phoneLink = `tel:${formattedPhoneNumber}`;
-            // Create the Google Maps URL
-            const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
-            const populations = item["Populations Served"].split(";").map(
-                (pop) => `<span class="badge bg-danger-subtle text-danger-emphasis py-2">${pop.trim()}</span>`).join(" ");
-            const counties = item["County"].split(";").map(
-                (county) => `<span class="badge bg-warning-subtle text-dark py-2 my-1">${county.trim()} County</span>`).join(" ");
-            const card = `
-            <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
-                <div class="card shadow text-bg-light p-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <span class="badge text-bg-info py-2 my-1">
-                                ${item.Domain}
-                                </span>     
-                                <span class="badge text-bg-purple py-2 my-1">
-                                ${item.Category}
-                                </span>                                
-                            <div class="col text-end">
-                                ${counties} 
-                            </div>
-                            </div>
+
+        // Format the phone number and create the phoneLink item
+        const formattedPhoneNumber = formatPhoneNumber(item.Phone);
+        item.phoneLink = `tel:${formattedPhoneNumber}`;
+
+        // Create the Google Maps URL
+        const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
+        const populations = item["Populations Served"].split(";").map(
+            (pop) => `<span class="badge text-bg-pink py-2">${pop.trim()}</span>`).join(" ");
+        const counties = item["County"].split(";").map(
+            (county) => `<span class="badge text-bg-indigo py-2 my-1">${county.trim()} County</span>`).join(" ");
+        const card = `
+        <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
+            <div class="card shadow text-bg-light p-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <span class="badge text-bg-cyan py-2 my-1">
+                            ${item.Domain}
+                            </span>     
+                            <span class="badge text-bg-purple py-2 my-1">
+                            ${item.Category}
+                            </span>                                
+                        <div class="col text-end">
+                            ${counties} 
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
-                        <h5 style="font-weight:400">${item.Organization}</h5>
-                        ${
-                            item.Image
-                                ? `<img src ="${item.Image}" alt="Logo" style="max-width:100px; max-height:100px; float:left; margin-right:10px;">`
-                                : ""
-                        }
-                        <p><strong>Phone:</strong> ${item.Phone}</p>
-                        <br /><p>${item.Address}<br />
-                        ${item.City}, ${item.State} ${item["Zip Code"]}</p>
-                        <br />
-                        <p><strong>Populations Served:</strong> ${populations}</p>
-                        <br />
-                        <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
-                          <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></span></a>
-                          <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></span></a>
-                          <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></span></a>
                         </div>
                     </div>
                 </div>
+                <div class="card-body">
+                    <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
+                    <h5 style="font-weight:400">${item.Organization}</h5>
+                    ${
+                        item.Image
+                            ? `<img src ="${item.Image}" alt="Logo" style="max-width:100px; max-height:100px; float:left; margin-right:10px;">`
+                            : ""
+                    }
+                    <p><strong>Phone:</strong> ${item.Phone}</p>
+                    <br /><p>${item.Address}<br />
+                    ${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                    <br />
+                    <p><strong>Populations Served:</strong> ${populations}</p>
+                    <br />
+                    <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
+                      <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></span></a>
+                      <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></span></a>
+                      <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></span></a>
+                    </div>
+                </div>
             </div>
-            `;
-            container.append(card);
-        });
+        </div>
+        `;
+        container.append(card);
+    });
 
-        // Function to show the modal and focus on the input box
-        function showModal() {
-            const modal = new bootstrap.Modal(document.getElementById('searchModal'));
-            modal.show();
-            document.getElementById('searchInput').focus();
+    // Function to show the modal and focus on the input box
+    function showModal() {
+        const modal = new bootstrap.Modal(document.getElementById('searchModal'));
+        modal.show();
+        document.getElementById('searchInput').focus();
+    }
+
+    // Add event listener for the keyboard shortcut (e.g., Ctrl+K)
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === 'k') {
+            event.preventDefault();
+            showModal();
         }
+    });
 
-        // Add event listener for the keyboard shortcut (e.g., Ctrl+K)
-        document.addEventListener('keydown', function(event) {
-            if (event.ctrlKey && event.key === 'k') {
-                event.preventDefault();
-                showModal();
-            }
+    // Search functionality
+    function performSearch(searchTerm) {
+        searchTerm = searchTerm.toLowerCase();
+        $(".js-filter-item").each(function () {
+            const text = $(this).text().toLowerCase();
+            $(this).toggle(text.includes(searchTerm));
         });
+    }
 
-        // Search functionality
-        function performSearch(searchTerm) {
-            searchTerm = searchTerm.toLowerCase();
-            $(".js-filter-item").each(function () {
-                const text = $(this).text().toLowerCase();
-                $(this).toggle(text.includes(searchTerm));
-            });
+    // Event listener for the existing search box
+    $("#search-box").on("keyup", function () {
+        performSearch($(this).val());
+    });
+
+    // Event listener for the modal search box
+    $("#searchInput").on("keyup", function () {
+        performSearch($(this).val());
+    });
+
+    // Filter functionality
+    const filters = {
+        county: "all",
+        domain: "all"
+    };
+    const updateBreadcrumbs = () => {
+        const county = filters.county === "all" ? "All Counties" : `${filters.county} County`;
+        const domain = filters.domain === "all" ? "All Domains" : filters.domain;
+        $("#breadcrumbs").text(`${county} → ${domain}`);
+        // Update the modal button
+        const modalButton = $("#modal-button");
+        if (filters.county !== "all") {
+            modalButton.show();
+            modalButton.attr("data-bs-target", `#${filters.county.toLowerCase()}Modal`);
+        } else {
+            modalButton.show();
+            modalButton.attr("data-bs-target", "#allCountiesModal"); // Default modal for all counties
         }
-
-        // Event listener for the existing search box
-        $("#search-box").on("keyup", function () {
-            performSearch($(this).val());
-        });
-
-        // Event listener for the modal search box
-        $("#searchInput").on("keyup", function () {
-            performSearch($(this).val());
-        });
-
-        // Filter functionality
-        const filters = {
-            county: "all",
-            domain: "all"
-        };
-        const countyColors = {
-            Philadelphia: "text-pink-emphasis",
-            Berks: "text-cyan",
-            Bucks: "text-red",
-            Chester: "text-yellow",
-            Delaware: "text-teal",
-            Lancaster: "text-purple",
-            Montgomery: "text-orange",
-            Schuylkill: "text-green",
-            "All Counties": "text-blue"
-        };
-        const buttonColors = {
-            Philadelphia: "customButton--pink-emphasis",
-            Berks: "customButton--cyan",
-            Bucks: "customButton--red",
-            Chester: "customButton--yellow",
-            Delaware: "customButton--teal",
-            Lancaster: "customButton--purple",
-            Montgomery: "customButton--orange",
-            Schuylkill: "customButton--green",
-            "All Counties": "customButton--blue"
-        };
-        const updateBreadcrumbs = () => {
-            const county = filters.county === "all" ? "All Counties" : `${filters.county} County`;
-            const domain = filters.domain === "all" ? "All Domains" : filters.domain;
-            $("#breadcrumbs").text(`${county} → ${domain}`);
-            // Update the modal button
-            const modalButton = $("#modal-button");
-            const countyClass = countyColors[filters.county] || "text-cyan";
-            const buttonClass = buttonColors[filters.county] || "bg-cyan-subtle text-cyan-emphasis";
-            if (filters.county !== "all") {
-                modalButton.show();
-                modalButton.attr("data-bs-target", `#${filters.county.toLowerCase()}Modal`);
-            } else {
-                modalButton.show();
-                modalButton.attr("data-bs-target", "#allCountiesModal"); // Default modal for all counties
-            }
-            modalButton.attr("class", `customButton py-2 px-5 ${buttonClass}`);
-            // Update the breadcrumb county color
-            $("#breadcrumbs").attr("class", ` ${countyClass}`);
-        };
-        $(".filter-btn").on("click", function () {
-            const filterType = $(this).data("filter");
-            const filterValue = $(this).data("value");
-            // Update the filter value based on the clicked button
-            filters[filterType] = filterValue;
-            // Apply filters
-            $(".js-filter-item").hide().filter(function () {
-                const countyMatch = filters.county === "all" || $(this).data("county").includes(filters.county);
-                const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
-                return countyMatch && domainMatch;
-            }).show();
-            // Update breadcrumbs
-            updateBreadcrumbs();
-        });
-        // Initialize breadcrumbs
+        modalButton.attr("class", `customButton customButton--pink py-2 px-5`);
+    };
+    $(".filter-btn").on("click", function () {
+        const filterType = $(this).data("filter");
+        const filterValue = $(this).data("value");
+        // Update the filter value based on the clicked button
+        filters[filterType] = filterValue;
+        // Apply filters
+        $(".js-filter-item").hide().filter(function () {
+            const countyMatch = filters.county === "all" || $(this).data("county").includes(filters.county);
+            const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
+            return countyMatch && domainMatch;
+        }).show();
+        // Update breadcrumbs
         updateBreadcrumbs();
     });
-</script>
-    <script>
-        // Get the height of the entire document
-var pageHeight = document.documentElement.scrollHeight;
+    // Initialize breadcrumbs
+    updateBreadcrumbs();
 
-console.log("The height of the web page is " + pageHeight + " pixels.");
+    // Add event listener for dropdown menu items
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function(event) {
+            event.preventDefault();
+            const targetModal = this.getAttribute('data-bs-target');
+            const currentModal = bootstrap.Modal.getInstance(this.closest('.modal'));
+            currentModal.hide();
+            const newModal = new bootstrap.Modal(document.querySelector(targetModal));
+            newModal.show();
+        });
+    });
+});
     </script>
-</body>
+    </body>
 
 </html>
