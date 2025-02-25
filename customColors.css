@@ -1526,6 +1526,27 @@
 .bg-white-subtle { background-color: var(--bs-white-subtle); }
 .bg-white-emphasis { background-color: var(--bs-white-emphasis); }
 
+.bg-opacity-10 {
+  --bs-bg-opacity: 0.1;
+}
+
+.bg-opacity-25 {
+  --bs-bg-opacity: 0.25;
+}
+
+.bg-opacity-50 {
+  --bs-bg-opacity: 0.5;
+}
+
+.bg-opacity-75 {
+  --bs-bg-opacity: 0.75;
+}
+
+.bg-opacity-100 {
+  --bs-bg-opacity: 1;
+}
+
+
 .bg-gray { background-color: var(--bs-gray); }
 .bg-gray-subtle { background-color: var(--bs-gray-subtle); }
 .bg-gray-emphasis { background-color: var(--bs-gray-emphasis); }
@@ -1573,6 +1594,8 @@
 .bg-error { background-color: var(--bs-error); }
 .bg-error-subtle { background-color: var(--bs-error-subtle); }
 .bg-error-emphasis { background-color: var(--bs-error-emphasis); }
+
+
 
 /* TEXT/BG CLASSES */
 
