@@ -1555,6 +1555,9 @@
 .bg-gray-dark-subtle { background-color: var(--bs-gray-dark-subtle); }
 .bg-gray-dark-emphasis { background-color: var(--bs-gray-dark-emphasis); }
 
+
+
+
 .bg-light {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;

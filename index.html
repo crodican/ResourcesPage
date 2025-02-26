@@ -19,7 +19,9 @@
     <!-- UI Kit-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.22.0/css/uikit.min.css" integrity="sha512-cZsPeawQ6PhXIjcHTMedcA/wSVEWHAN2gvZ6fdi+ecGQDobX4nXzyr26KoIczXVE6DZFipZqgViCKfQ/eo6QbA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.22.0/js/uikit.min.js" integrity="sha512-TVFQeUF0VCFmzQiha5tllbSHUlxIkXVh5HcAVE/vPWIq5+yEqVgMum+9ISwtNGbscFGysU/l31H5klbUOYCG0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Custom Colors CSS -->
     <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
+    <!-- Resources Data -->
     <script src="https://resourcespage.pages.dev/resourcesData.js"></script>
     <style>
 
@@ -100,6 +102,11 @@
 		width: 80% !important;
 		height: var(100vh - 172px);
 	}
+        
+        
+    .js-badge {
+    cursor: pointer;
+}
     </style>
 </head>
 
@@ -407,8 +414,9 @@
             </div>
         </div>
     </div>
-<div class="col px-2">
-    <div class="bg-light shadow py-4 px-3 mt-2" style="border-radius: 35px 35px 5px 5px">
+    <br />
+    <div class="container-fluid pb-3">
+    <div class="bg-light shadow py-4 px-3 mt-5" style="border-radius: 35px 35px 5px 5px">
         <div class="container-fluid align-items-center d-flex">
             <div class="flex-grow-1 d-flex align-items-center">
                 <form class="w-100">
@@ -463,39 +471,6 @@
                 </div>
                     <div class="grid">
                                <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
-            <div class="card shadow text-bg-light p-3">
-                <div class="card-header">
-                    <div class="col">
-                        <div class="row">
-                        <h3 class="card-title">Location Name</h3>
-                            <ul class="uk-breadcrumb">
-                                <li><span>Domain</span></li>
-                                <li><span>Category</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 style="font-weight:400">${item.Organization}</h5>
-                    ${
-                        item.Image
-                            ? `<img src ="${item.Image}" alt="Logo" style="max-width:100px; max-height:100px; float:left; margin-right:10px;">`
-                            : ""
-                    }
-                    <p><strong>Phone:</strong> ${item.Phone}</p>
-                    <br /><p>${item.Address}<br />
-                    ${item.City}, ${item.State} ${item["Zip Code"]}</p>
-                    <br />
-                    <h6><strong>Populations Served:</strong> ${populations}</h6>
-                    <br />
-                    <h6><strong>Counties Served:</strong> ${counties}</h6>                    
-                    <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
-                      <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></span></a>
-                      <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></span></a>
-                      <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></span></a>
-                    </div>
-                </div>
-            </div>
         </div>
                         <!-- Dynamically loaded cards will be appended here by JavaScript -->
                     </div>
@@ -503,7 +478,8 @@
         </div>
     </div>
     <!-- Modal for search -->
-<div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
+    <!-- JAVASCRIPT -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content  bg-purple py-3">
             <div class="modal-body">
@@ -545,23 +521,32 @@
 
         // Create the Google Maps URL
         const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
+        
         const populations = item["Populations Served"].split(";").map(
-            (pop) => `<span class="uk-badge">${pop.trim()}</span>`).join(" ");
+            (pop) => `<span class="badge text-bg-pink py-2 js-badge" data-filter="population" data-value="${pop.trim()}">${pop.trim()}</span>`).join(" ");
         const counties = item["County"].split(";").map(
-            (county) => `<span class="uk-badge">${county.trim()} County</span>`).join(" ");
+            (county) => `<span class="badge text-bg-indigo py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
         const card = `
-        <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
+        <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
             <div class="card shadow text-bg-light p-3">
-                <div class="card-header">
+                <div class="card-body">
                     <div class="row">
-                    <h3 class="card-title" style="font-weight:400">${item["Location Name"]}</h3>
-                        <ul class="uk-breadcrumb">
-                            <li><span>${item.Domain}</span></li>
-                            <li><span>${item.Category}</span></li>
-                        </ul>
+                        <div class="col">
+                            <span class="badge text-bg-cyan py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
+                            ${item.Domain}
+                            </span>     
+                            <span class="badge text-bg-purple py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
+                            ${item.Category}
+                            </span>                                
+                        <div class="col text-end">
+                            ${counties} 
+                        </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <h5 style="font-weight:400">${item.Organization}</h5>
+                    <h3 style="font-weight:400;margin-bottom:0">${item["Location Name"]}</h3>
+                    <h5 style="font-weight:400;margin-top:0">${item.Organization}</h5>
                     ${
                         item.Image
                             ? `<img src ="${item.Image}" alt="Logo" style="max-width:100px; max-height:100px; float:left; margin-right:10px;">`
@@ -571,9 +556,8 @@
                     <br /><p>${item.Address}<br />
                     ${item.City}, ${item.State} ${item["Zip Code"]}</p>
                     <br />
-                    <h6><strong>Populations Served:</strong> ${populations}</h6>
+                    <p><strong>Populations Served:</strong> ${populations}</p>
                     <br />
-                    <h6><strong>Counties Served:</strong> ${counties}</h6>                    
                     <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
                       <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></span></a>
                       <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></span></a>
@@ -623,7 +607,9 @@
     // Filter functionality
     const filters = {
         county: "all",
-        domain: "all"
+        domain: "all",
+        category: "all",
+        population: "all"
     };
     const updateBreadcrumbs = () => {
         const county = filters.county === "all" ? "All Counties" : `${filters.county} County`;
@@ -649,7 +635,9 @@
         $(".js-filter-item").hide().filter(function () {
             const countyMatch = filters.county === "all" || $(this).data("county").includes(filters.county);
             const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
-            return countyMatch && domainMatch;
+            const categoryMatch = filters.category === "all" || $(this).data("category") === filters.category;
+            const populationMatch = filters.population === "all" || $(this).data("population").includes(filters.population);
+            return countyMatch && domainMatch && categoryMatch && populationMatch;
         }).show();
         // Update breadcrumbs
         updateBreadcrumbs();
@@ -667,6 +655,24 @@
             const newModal = new bootstrap.Modal(document.querySelector(targetModal));
             newModal.show();
         });
+    });
+
+    // Add event listener for badge clicks
+    $(document).on("click", ".js-badge", function () {
+        const filterType = $(this).data("filter");
+        const filterValue = $(this).data("value");
+        // Update the filter value based on the clicked badge
+        filters[filterType] = filterValue;
+        // Apply filters
+        $(".js-filter-item").hide().filter(function () {
+            const countyMatch = filters.county === "all" || $(this).data("county").includes(filters.county);
+            const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
+            const categoryMatch = filters.category === "all" || $(this).data("category") === filters.category;
+            const populationMatch = filters.population === "all" || $(this).data("population").includes(filters.population);
+            return countyMatch && domainMatch && categoryMatch && populationMatch;
+        }).show();
+        // Update breadcrumbs
+        updateBreadcrumbs();
     });
 });
     </script>
