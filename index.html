@@ -1398,49 +1398,52 @@
                     <div class="bg-light shadow py-4 px-5 mt-2" style="border-radius: 35px 5px 35px 5px">
 <div class="d-flex flex-wrap flex-lg-nowrap mb-3 bg-pink p-3 rounded-4">
     <div class="dropdown me-3 mb-2 mb-lg-0">
-        <button class="btn bg-light rounded-4 dropdown-toggle" type="button" id="countiesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn bg-light rounded-4" type="button" id="countiesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <span>
             Counties
             </span><span class="bi bi-caret-down-fill text-black"></span>
         </button>
-        <ul class="dropdown-menu" aria-labelledby="countiesDropdown">
+        <ul class="dropdown-menu p-3" aria-labelledby="countiesDropdown">
             <li><input type="text" class="form-control" placeholder="Search Counties"></li>
             <li><button class="btn btn-secondary w-100 mt-2" id="clearCounties">Clear</button></li>
             <div id="countiesList"></div>
         </ul>
     </div>
     <div class="dropdown me-3 mb-2 mb-lg-0">
-        <button class="btn btn-light dropdown-toggle" type="button" id="domainsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn bg-light rounded-4" type="button" id="domainsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <span>
             Domains
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="domainsDropdown">
+            </span><span class="bi bi-caret-down-fill text-black"></span>        </button>
+        <ul class="dropdown-menu p-3" aria-labelledby="domainsDropdown">
             <li><input type="text" class="form-control" placeholder="Search Domains"></li>
             <li><button class="btn btn-secondary w-100 mt-2" id="clearDomains">Clear</button></li>
             <div id="domainsList"></div>
         </ul>
     </div>
     <div class="dropdown me-3 mb-2 mb-lg-0">
-        <button class="btn btn-light dropdown-toggle" type="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn bg-light rounded-4" type="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <span>
             Categories
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+            </span><span class="bi bi-caret-down-fill text-black"></span>        </button>
+        <ul class="dropdown-menu p-3" aria-labelledby="categoriesDropdown">
             <li><input type="text" class="form-control" placeholder="Search Categories"></li>
             <li><button class="btn btn-secondary w-100 mt-2" id="clearCategories">Clear</button></li>
             <div id="categoriesList"></div>
         </ul>
     </div>
     <div class="dropdown mb-2 mb-lg-0">
-        <button class="btn btn-light dropdown-toggle" type="button" id="populationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn bg-light rounded-4" type="button" id="populationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <span>
             Populations Served
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="populationsDropdown">
+            </span><span class="bi bi-caret-down-fill text-black"></span>        </button>
+        <ul class="dropdown-menu p-3" aria-labelledby="populationsDropdown">
             <li><input type="text" class="form-control" placeholder="Search Populations"></li>
             <li><button class="btn btn-secondary w-100 mt-2" id="clearPopulations">Clear</button></li>
             <div id="populationsList"></div>
         </ul>
     </div>
+<button class="btn bg-light mx-3 rounded-4" id="clearAllFilters"><span style=" style="font-weight: 700"">Clear Filters</span><span class="bi bi-x-lg" style="margin-left: 20px"></span></button>
 </div>
-<button class="btn btn-danger mb-3" id="clearAllFilters">Clear Filters</button>
 <div id="appliedFilters" class="mb-3"></div>
                     <div class="grid">
                         <div
@@ -1499,33 +1502,39 @@ $(document).ready(function () {
         <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
             <div class="card shadow text-bg-light p-3">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <span class="badge text-bg-cyan py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
-                            ${item.Domain}
-                            </span>     
-                            <span class="badge text-bg-purple py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
-                            ${item.Category}
-                            </span>                                
-                        <div class="col text-end">
-                            ${counties} 
-                        </div>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="card-body">
                     <h3 style="font-weight:400;margin-bottom:0">${item["Location Name"]}</h3>
                     <h5 style="font-weight:400;margin-top:0">${item.Organization}</h5>
+
+                            <nav aria-label="breadcrumb">
+                                  <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
+                                        ${item.Domain}
+                                        </span>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
+                                        ${item.Category}
+                                        </span>
+                                    </li>
+                                  </ol>
+                                </nav>   
+                                <div class-"row d-flex justify-content-center" style="">
                     ${
                         item.Image
-                            ? `<img src ="${item.Image}" alt="Logo" style="max-width:100px; max-height:100px; float:left; margin-right:10px;">`
+                            ? `<img src ="${item.Image}" alt="Logo" style="max-width:100%; max-height:100px; align-self: center">`
                             : ""
                     }
+            </div>
                     <p><strong>Phone:</strong> ${item.Phone}</p>
                     <br /><p>${item.Address}<br />
                     ${item.City}, ${item.State} ${item["Zip Code"]}</p>
                     <br />
                     <p><strong>Populations Served:</strong> ${populations}</p>
+                    <p><strong>Counties Served:</strong> ${counties}</p>
                     <br />
                     <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
                       <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></span></a>
