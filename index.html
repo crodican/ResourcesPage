@@ -61,14 +61,7 @@
                 font-family: "Lora";
             }
 
-            .btn {
-                transition: all 1s ease;
-            }
 
-            .btn:hover {
-                transition: all 0.75s ease;
-                background-color: aqua;
-            }
 
             .card-body {
                 overflow: hidden;
@@ -148,11 +141,41 @@
     position: absolute;
     will-change: transform;
 }
+            
+.breadcrumb {
+  --bs-breadcrumb-padding-x: 0;
+  --bs-breadcrumb-padding-y: 0;
+  --bs-breadcrumb-margin-bottom: 1rem;
+  --bs-breadcrumb-bg: ;
+  --bs-breadcrumb-border-radius: ;
+  --bs-breadcrumb-divider-color: var(--bs-secondary-color);
+  --bs-breadcrumb-item-padding-x: 0.5rem;
+  --bs-breadcrumb-item-active-color: var(--bs-secondary-color);
+  display: flex;
+  flex-wrap: wrap;
+  padding: var(--bs-breadcrumb-padding-y) var(--bs-breadcrumb-padding-x);
+  margin-bottom: var(--bs-breadcrumb-margin-bottom);
+  font-size: var(--bs-breadcrumb-font-size);
+  list-style: none;
+  background-color: var(--bs-breadcrumb-bg);
+  border-radius: var(--bs-breadcrumb-border-radius);
+}
+
+.cardbreadcrumb-item + .cardbreadcrumb-item {
+  padding-left: var(--bs-breadcrumb-item-padding-x);
+}
+.cardbreadcrumb-item + .cardbreadcrumb-item::before {
+  float: left;
+  padding-right: var(--bs-breadcrumb-item-padding-x);
+  color: var(--bs-breadcrumb-divider-color);
+}
+.cardbreadcrumb-item.active {
+  color: var(--bs-breadcrumb-item-active-color);
+}
         </style>
     </head>
-
     <body class="bg-success-subtle">
-        <!-- Example of a modal with the dropdown menu -->
+        <div id="modals">
         <div
             class="modal fade py-5"
             id="allCountiesModal"
@@ -294,12 +317,7 @@
                 </div>
             </div>
         </div>
-        <div
-            class="modal fade"
-            id="philadelphiaModal"
-            tabindex="-1"
-            aria-labelledby="philadelphiaModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="philadelphiaModal" tabindex="-1" aria-labelledby="philadelphiaModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-white">
@@ -949,12 +967,7 @@
                 </div>
             </div>
         </div>
-        <div
-            class="modal fade"
-            id="lancasterModal"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="lancasterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-white">
@@ -1084,12 +1097,7 @@
                 </div>
             </div>
         </div>
-        <div
-            class="modal fade"
-            id="montgomeryModal"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="montgomeryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-white">
@@ -1219,12 +1227,7 @@
                 </div>
             </div>
         </div>
-        <div
-            class="modal fade"
-            id="schuylkillModal"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="schuylkillModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-white">
@@ -1355,106 +1358,99 @@
                 </div>
             </div>
         </div>
-        <br />
-        <div class="container-fluid pb-3">
-            <div class="bg-light shadow py-4 px-3 mt-5" style="border-radius: 35px 35px 5px 5px">
-                <div class="container-fluid align-items-center d-flex">
-                    <div class="flex-grow-1 d-flex align-items-center">
-                        <form class="w-100">
-                            <div class="input-group bg-gray-subtle rounded">
-                                <input
-                                    class="form-control border-0 bg-gray-subtle py-0 px-4"
-                                    type="text"
-                                    placeholder="Search"
-                                    id="search-box" />
-                                <div class="input-group-append kbd">
-                                    <button
-                                        type="button"
-                                        aria-label="Search (Ctrl+K)"
-                                        class="border-0 bg-gray-subtle text-black py-1 px-3 d-flex"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#searchModal">
-                                        <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
-                                    </button>
+    </div>
+        <main class="col overflow-x-auto overflow-y-hidden h-100 p-3">
+            <div id="search--container" class="bg-light shadow py-4 px-3 mt-1" style="border-radius: 5px 35px 5px 5px">
+                    <div class="container-fluid align-items-center d-flex">
+                        <div class="flex-grow-1 d-flex align-items-center">
+                            <form class="w-100">
+                                <div class="input-group bg-gray-subtle rounded">
+                                    <input
+                                        class="form-control border-0 bg-gray-subtle py-0 px-4"
+                                        type="text"
+                                        placeholder="Search"
+                                        id="search-box" />
+                                    <div class="input-group-append kbd">
+                                        <button
+                                            type="button"
+                                            aria-label="Search (Ctrl+K)"
+                                            class="border-0 bg-gray-subtle text-black py-1 px-3 d-flex"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#searchModal">
+                                            <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
+                                        </button>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <button
+                                            class="btn customButton--secondary py-1 px-5"
+                                            type="button"
+                                            style="border-radius: 1px 10px 10px 1px !important">
+                                            <span class="bi bi-search"></span>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="input-group-append">
-                                    <button
-                                        class="btn customButton--secondary py-1 px-5"
-                                        type="button"
-                                        style="border-radius: 1px 10px 10px 1px !important">
-                                        <span class="bi bi-search"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
+            <div id="filter-menu--container" class="bg-light shadow py-4 px-3 my-3 d-flex flex-wrap gap-3 justify-content-between" style="border-radius: 35px 5px 35px 5px">
+                <div class="d-flex flex-wrap gap-3">
+                    <div class="btn-group">
+                        <button class="btn customButton--primary dropdown-toggle rounded-3" type="button" id="countiesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Counties</span>
+                        </button>
+                        <ul class="dropdown-menu p-3" aria-labelledby="countiesDropdown">
+                            <li><input type="text" class="form-control" placeholder="Search Counties"></li>
+                            <li><button class="btn btn-secondary w-100 mt-2" id="clearCounties">Clear</button></li>
+                            <div id="countiesList"></div>
+                        </ul>
+                    </div><!-- /btn-group -->
+                    <div class="btn-group">
+                        <button class="btn customButton--primary dropdown-toggle rounded-3" type="button" id="domainsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Domains</span>
+                        </button>
+                        <ul class="dropdown-menu p-3" aria-labelledby="domainsDropdown">
+                            <li><input type="text" class="form-control" placeholder="Search Domains"></li>
+                            <li><button class="btn btn-secondary w-100 mt-2" id="clearDomains">Clear</button></li>
+                            <div id="domainsList"></div>
+                        </ul>
+                    </div><!-- /btn-group -->
+                    <div class="btn-group">
+                        <button class="btn customButton--primary rounded-3" type="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Categories</span>
+                            <span class="bi bi-caret-down-fill"></span>
+                        </button>
+                        <ul class="dropdown-menu p-3" aria-labelledby="categoriesDropdown">
+                            <li><input type="text" class="form-control" placeholder="Search Categories"></li>
+                            <li><button class="btn btn-secondary w-100 mt-2" id="clearCategories">Clear</button></li>
+                            <div id="categoriesList"></div>
+                        </ul>
+                    </div><!-- /btn-group -->
+                    <div class="btn-group">
+                        <button class="btn customButton--primary rounded-3" type="button" id="populationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Populations Served</span>
+                            <span class="bi bi-caret-down-fill"></span>
+                        </button>
+                        <ul class="dropdown-menu p-3" aria-labelledby="populationsDropdown">
+                            <li><input type="text" class="form-control" placeholder="Search Populations"></li>
+                            <li><button class="btn btn-secondary w-100 mt-2" id="clearPopulations">Clear</button></li>
+                            <div id="populationsList"></div>
+                        </ul>
+                    </div><!-- /btn-group -->
+                </div>
+                <button class="btn customButton--primary" type="button" id="viewMapButton" data-bs-toggle="modal" data-bs-target="#allCountiesModal">View Map</button>
             </div>
-        </div>
-
-        <div class="container-fluid pb-3 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
-            <div class="row flex-grow-sm-1 flex-grow-0">
-                <main class="col overflow-x-auto overflow-y-hidden h-100">
-                    <div class="bg-light shadow py-4 px-5 mt-2" style="border-radius: 35px 5px 35px 5px">
-<div class="d-flex flex-wrap flex-lg-nowrap mb-3 bg-pink p-3 rounded-4">
-    <div class="dropdown me-3 mb-2 mb-lg-0">
-        <button class="btn bg-light rounded-4" type="button" id="countiesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <span>
-            Counties
-            </span><span class="bi bi-caret-down-fill text-black"></span>
-        </button>
-        <ul class="dropdown-menu p-3" aria-labelledby="countiesDropdown">
-            <li><input type="text" class="form-control" placeholder="Search Counties"></li>
-            <li><button class="btn btn-secondary w-100 mt-2" id="clearCounties">Clear</button></li>
-            <div id="countiesList"></div>
-        </ul>
-    </div>
-    <div class="dropdown me-3 mb-2 mb-lg-0">
-        <button class="btn bg-light rounded-4" type="button" id="domainsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <span>
-            Domains
-            </span><span class="bi bi-caret-down-fill text-black"></span>        </button>
-        <ul class="dropdown-menu p-3" aria-labelledby="domainsDropdown">
-            <li><input type="text" class="form-control" placeholder="Search Domains"></li>
-            <li><button class="btn btn-secondary w-100 mt-2" id="clearDomains">Clear</button></li>
-            <div id="domainsList"></div>
-        </ul>
-    </div>
-    <div class="dropdown me-3 mb-2 mb-lg-0">
-        <button class="btn bg-light rounded-4" type="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <span>
-            Categories
-            </span><span class="bi bi-caret-down-fill text-black"></span>        </button>
-        <ul class="dropdown-menu p-3" aria-labelledby="categoriesDropdown">
-            <li><input type="text" class="form-control" placeholder="Search Categories"></li>
-            <li><button class="btn btn-secondary w-100 mt-2" id="clearCategories">Clear</button></li>
-            <div id="categoriesList"></div>
-        </ul>
-    </div>
-    <div class="dropdown mb-2 mb-lg-0">
-        <button class="btn bg-light rounded-4" type="button" id="populationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <span>
-            Populations Served
-            </span><span class="bi bi-caret-down-fill text-black"></span>        </button>
-        <ul class="dropdown-menu p-3" aria-labelledby="populationsDropdown">
-            <li><input type="text" class="form-control" placeholder="Search Populations"></li>
-            <li><button class="btn btn-secondary w-100 mt-2" id="clearPopulations">Clear</button></li>
-            <div id="populationsList"></div>
-        </ul>
-    </div>
-<button class="btn bg-light mx-3 rounded-4" id="clearAllFilters"><span style=" style="font-weight: 700"">Clear Filters</span><span class="bi bi-x-lg" style="margin-left: 20px"></span></button>
-</div>
-<div id="appliedFilters" class="mb-3"></div>
-                    <div class="grid">
-                        <div
-                            class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item"
-                            data-county="${item.County}"
-                            data-domain="${item.Domain}"></div>
+                <div id="filters-container" class="bg-light shadow py-4 px-3 my-4" style="border-radius: 5px 35px 5px 35px">
+                    <button class="badge bg-danger" id="clearAllFilters">
+                        <span>Clear Filters</span>
+                        <span class="bi bi-x-lg" style="margin-left: 20px"></span>
+                    </button>
+                    <div id="appliedFilters" class="mb-3"></div>
+                </div>
+                <div class="grid">
                         <!-- Dynamically loaded cards will be appended here by JavaScript -->
                     </div>
-                </main>
-            </div>
-        </div>
+        </main>
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -1465,89 +1461,91 @@
             integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="
             crossorigin="anonymous"
             referrerpolicy="no-referrer"></script>
-        <!-- Core plugin JavaScript-->
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"
             integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ=="
             crossorigin="anonymous"
             referrerpolicy="no-referrer"></script>
-        <script>
-$(document).ready(function () {
-    const container = $(".grid");
+        <script id="resource-cards">
+    $(document).ready(function () {
+        const container = $(".grid");
 
-    // Function to create Google Maps URL
-    function createGoogleMapsUrl(name, address, city, state, zip) {
-        const query = `${name}, ${address}, ${city}, ${zip}`;
-        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-    }
-
-    jsonData.forEach((item) => {
-        // Function to format the phone number
-        function formatPhoneNumber(phone) {
-            return "+1" + phone.replace(/-/g, "");
+        // Function to create Google Maps URL
+        function createGoogleMapsUrl(name, address, city, state, zip) {
+            const query = `${name}, ${address}, ${city}, ${zip}`;
+            return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
         }
 
-        // Format the phone number and create the phoneLink item
-        const formattedPhoneNumber = formatPhoneNumber(item.Phone);
-        item.phoneLink = `tel:${formattedPhoneNumber}`;
+        jsonData.forEach((item) => {
+            // Function to format the phone number
+            function formatPhoneNumber(phone) {
+                return "+1" + phone.replace(/-/g, "");
+            }
 
-        // Create the Google Maps URL
-        const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
-        
-        const populations = item["Populations Served"].split(";").map(
-            (pop) => `<span class="badge text-bg-pink py-2 js-badge" data-filter="population" data-value="${pop.trim()}">${pop.trim()}</span>`).join(" ");
-        const counties = item["County"].split(";").map(
-            (county) => `<span class="badge text-bg-indigo py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
-        const card = `
-        <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
-            <div class="card shadow text-bg-light p-3">
-                <div class="card-body">
+            // Format the phone number and create the phoneLink item
+            const formattedPhoneNumber = formatPhoneNumber(item.Phone);
+            item.phoneLink = `tel:${formattedPhoneNumber}`;
 
+            // Create the Google Maps URL
+            const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
+
+            const populations = item["Populations Served"].split(";").map(
+                (pop) => `<span class="badge text-black bg-pink py-2 js-badge" data-filter="population" data-value="${pop.trim()}">${pop.trim()}</span>`).join(" ");
+            const counties = item["County"].split(";").map(
+                (county) => `<span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
+            const card = `
+            <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
+                <div class="card shadow text-bg-light p-3">
+                    <div class="card-body">
+
+                    </div>
+                    <div class="card-body">
+                        <h3 style="font-weight:400;margin-bottom:0">${item["Location Name"]}</h3>
+                        <h5 style="font-weight:400;margin-top:0">${item.Organization}</h5>
+
+                                <nav aria-label="breadcrumb">
+                                      <ol class="breadcrumb">
+                                        <li class="cardbreadcrumb-item">
+                                            <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
+                                            ${item.Domain}
+                                            </span>
+                                        </li>
+                                        <li class="cardbreadcrumb-item">
+                                            <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
+                                            ${item.Category}
+                                            </span>
+                                        </li>
+                                      </ol>
+                                    </nav>   
+                                    <div class-"row d-flex justify-content-center" style="">
+                        ${
+                            item.Image
+                                ? `<img src ="${item.Image}" alt="Logo" style="max-width:100%; max-height:100px; align-self: center">`
+                                : ""
+                        }
                 </div>
-                <div class="card-body">
-                    <h3 style="font-weight:400;margin-bottom:0">${item["Location Name"]}</h3>
-                    <h5 style="font-weight:400;margin-top:0">${item.Organization}</h5>
-
-                            <nav aria-label="breadcrumb">
-                                  <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">
-                                        <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
-                                        ${item.Domain}
-                                        </span>
-                                    </li>
-                                    <li class="breadcrumb-item">
-                                        <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
-                                        ${item.Category}
-                                        </span>
-                                    </li>
-                                  </ol>
-                                </nav>   
-                                <div class-"row d-flex justify-content-center" style="">
-                    ${
-                        item.Image
-                            ? `<img src ="${item.Image}" alt="Logo" style="max-width:100%; max-height:100px; align-self: center">`
-                            : ""
-                    }
-            </div>
-                    <p><strong>Phone:</strong> ${item.Phone}</p>
-                    <br /><p>${item.Address}<br />
-                    ${item.City}, ${item.State} ${item["Zip Code"]}</p>
-                    <br />
-                    <p><strong>Populations Served:</strong> ${populations}</p>
-                    <p><strong>Counties Served:</strong> ${counties}</p>
-                    <br />
-                    <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
-                      <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></span></a>
-                      <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></span></a>
-                      <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></span></a>
+                        <p><strong>Phone:</strong> ${item.Phone}</p>
+                        <br /><p>${item.Address}<br />
+                        ${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                        <br />
+                        <p><strong>Populations Served:</strong> ${populations}</p>
+                        <p><strong>Counties Served:</strong> ${counties}</p>
+                        <br />
+                        <div class="btn-group btn-group-lg d-flex" role="group" aria-label="Basic outlined example">
+                          <a href="${item.Website}" class="btn customButton--purple py-0 px-3" target="_blank"><span class="bi bi-globe"></span></a>
+                          <a href="${item.phoneLink}" class="btn customButton--cyan py-0 px-3" target="_blank"><span class="bi bi-telephone-fill"></span></a>
+                          <a href="${googleMapsUrl}" class="btn customButton--teal py-0 px-3" target="_blank"><span class="bi bi-geo-alt-fill"></span></a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        `;
-        container.append(card);
+            `;
+            container.append(card);
+        });
     });
-
+    </script>
+        <script>
+$(document).ready(function () {
     // Sets to store unique taxonomy values
     const allowedCounties = ["Philadelphia", "Berks", "Bucks", "Chester", "Delaware", "Lancaster", "Montgomery", "Schuylkill"];
     const countiesSet = new Set();
@@ -1578,7 +1576,7 @@ $(document).ready(function () {
     populateDropdown(categoriesSet, 'categoriesList');
     populateDropdown(populationsSet, 'populationsList');
 
-    // Search functionality
+    // Function to perform search and filter items
     function performSearch(searchTerm) {
         const filters = {
             county: [],
@@ -1626,7 +1624,8 @@ $(document).ready(function () {
     }
 
     // Clear all filters
-    $('#clearAllFilters').click(function () {
+    $('#clearAllFilters').click(function (e) {
+        e.preventDefault();
         $('input[type="checkbox"]').prop('checked', false);
         $('#appliedFilters').empty();
         performSearch('');
@@ -1652,7 +1651,7 @@ $(document).ready(function () {
 
         // Add the filter badge
         if (!$(`#appliedFilters .badge:contains(${filterValue})`).length) {
-            $('#appliedFilters').append(`<span class="badge bg-primary me-2">${filterValue}</span>`);
+            $('#appliedFilters').append(`<span class="badge bg-secondary me-2">${filterValue}</span>`);
         }
     });
 
@@ -1664,6 +1663,6 @@ $(document).ready(function () {
         }
     });
 });
-        </script>
+</script>
     </body>
 </html>
