@@ -176,46 +176,6 @@
 
   /* Buttons */
 
-.btn {
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn::before,
-.btn::after {
-  background: var(--bs-white);
-  content: "";
-  height: 155px;
-  opacity: 0;
-  position: absolute;
-  top: -50px;
-  transform: rotate(35deg);
-  transition: all .5s ease;
-}
-
-.btn::before {
-  width: 50px;
-}
-
-.btn::after {
-  width: 8rem;
-}
-
-.btn:hover {
-  /* transform: translateY(-3px); */
-  box-shadow: 0 10px 20px 0 rgba(var(--bs-black-rgb), 0.3);
-}
-
-.btn:hover::before {
-  left: 120%;
-  opacity: 0.5;
-}
-
-.btn:hover::after {
-  left: 200%;
-  opacity: 0.6;
-}
 
 /* Base Style */
 .customButton {
