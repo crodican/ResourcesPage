@@ -107,6 +107,20 @@
     .js-badge {
     cursor: pointer;
 }
+        
+        .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.nav-item {
+    margin-right: 1rem;
+}
+
+.dropdown-menu {
+    min-width: 200px;
+}
     </style>
 </head>
 
@@ -442,33 +456,60 @@
     
     <div class="container-fluid pb-3 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
         <div class="row flex-grow-sm-1 flex-grow-0">
-            <aside class="col-sm flex-grow-sm-1 flex-shrink-1 flex-grow-0">
-                <div class="bg-light px-3 py-4 shadow mt-2" style="border-radius: 35px 5px 35px 5px">
-                    <button class="customButton customButton--secondary filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="all"> All Counties </button>
-                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Philadelphia"> Philadelphia </button>
-                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Berks"> Berks </button>
-                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Bucks"> Bucks </button>
-                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Chester"> Chester </button>
-                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Delaware"> Delaware </button>
-                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Lancaster"> Lancaster </button>
-                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Montgomery"> Montgomery </button>
-                    <button class="customButton customButton--purple filter-btn m-2 py-2 px-3 shadow" data-filter="county" data-value="Schuylkill"> Schuylkill </button>
-                </div>
-            </aside>
             <main class="col overflow-x-auto overflow-y-hidden h-100">
                 <div class="bg-light shadow py-4 px-5 mt-2" style="border-radius: 35px 5px 35px 5px">
-                    <button class="customButton customButton--success filter-btn m-2 py-2 px-3" data-filter="domain" data-value="all"> All Domains </button>
-                    <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Recovery Support"> Recovery Support </button>
-                    <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Family Support"> Family Support </button>
-                    <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Housing"> Housing </button>
-                    <button class="customButton customButton--primary filter-btn m-2 py-2 px-3" data-filter="domain" data-value="Transportation"> Transportation </button>
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+    <div class="container-fluid">
+        <div class="navbar-nav">
+            <div class="nav-item dropdown me-3">
+                <a class="nav-link dropdown-toggle" href="#" id="countiesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Counties
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="countiesDropdown">
+                    <li><input type="text" class="form-control" placeholder="Search Counties"></li>
+                    <li><button class="btn btn-secondary w-100 mt-2" id="clearCounties">Clear</button></li>
+                    <div id="countiesList"></div>
+                </ul>
+            </div>
+            <div class="nav-item dropdown me-3">
+                <a class="nav-link dropdown-toggle" href="#" id="domainsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Domains
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="domainsDropdown">
+                    <li><input type="text" class="form-control" placeholder="Search Domains"></li>
+                    <li><button class="btn btn-secondary w-100 mt-2" id="clearDomains">Clear</button></li>
+                    <div id="domainsList"></div>
+                </ul>
+            </div>
+            <div class="nav-item dropdown me-3">
+                <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Categories
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                    <li><input type="text" class="form-control" placeholder="Search Categories"></li>
+                    <li><button class="btn btn-secondary w-100 mt-2" id="clearCategories">Clear</button></li>
+                    <div id="categoriesList"></div>
+                </ul>
+            </div>
+            <div class="nav-item dropdown me-3">
+                <a class="nav-link dropdown-toggle" href="#" id="populationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Populations Served
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="populationsDropdown">
+                    <li><input type="text" class="form-control" placeholder="Search Populations"></li>
+                    <li><button class="btn btn-secondary w-100 mt-2" id="clearPopulations">Clear</button></li>
+                    <div id="populationsList"></div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<button class="btn btn-danger mb-3" id="clearAllFilters">Clear Filters</button>
+<div id="appliedFilters" class="mb-3"></div>
+                    
+                <div id="appliedFilters" class="mb-3"></div>
                 </div>
-                <div class="bg-light p-4 shadow my-3">
-                    <div id="breadcrumbs">All Counties → All Domains</div>
-                    <div id="modal-button-container" class="my-3">
-                        <button id="modal-button" type="button" class="customButton customButton--pink py-2 px-5" data-bs-toggle="modal" style="display: none"> View Map </button>
-                    </div>
-                </div>
+
                     <div class="grid">
                                <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
         </div>
@@ -477,30 +518,12 @@
             </main>
         </div>
     </div>
-    <!-- Modal for search -->
-    <!-- JAVASCRIPT -->
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content  bg-purple py-3">
-            <div class="modal-body">
-                <div class="input-group">
-                    <input type="text" id="searchInput" class="form-control border-0 bg-white text-white py-0 px-4" placeholder="Search">
-                    <div class="input-group-append">
-                        <button class="btn customButton--teal py-1 px-5" type="button" id="closeModalButton" style="border-radius: 1px 10px 10px 1px !important">
-                            <span class="bi bi-search"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Core plugin JavaScript-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        $(document).ready(function () {
+$(document).ready(function () {
     const container = $(".grid");
 
     // Function to create Google Maps URL
@@ -570,109 +593,112 @@
         container.append(card);
     });
 
-    // Function to show the modal and focus on the input box
-    function showModal() {
-        const modal = new bootstrap.Modal(document.getElementById('searchModal'));
-        modal.show();
-        document.getElementById('searchInput').focus();
+    // Sets to store unique taxonomy values
+    const allowedCounties = ["Philadelphia", "Berks", "Bucks", "Chester", "Delaware", "Lancaster", "Montgomery", "Schuylkill"];
+    const countiesSet = new Set();
+    const domainsSet = new Set();
+    const categoriesSet = new Set();
+    const populationsSet = new Set();
+
+    jsonData.forEach((item) => {
+        item.County.split(";").forEach(county => {
+            if (allowedCounties.includes(county.trim())) {
+                countiesSet.add(county.trim());
+            }
+        });
+        item.Domain.split(";").forEach(domain => domainsSet.add(domain.trim()));
+        item.Category.split(";").forEach(category => categoriesSet.add(category.trim()));
+        item["Populations Served"].split(";").forEach(pop => populationsSet.add(pop.trim()));
+    });
+
+    function populateDropdown(set, elementId) {
+        const container = $(`#${elementId}`);
+        set.forEach(item => {
+            container.append(`<li><input type="checkbox" class="form-check-input" value="${item}"> ${item}</li>`);
+        });
     }
 
-    // Add event listener for the keyboard shortcut (e.g., Ctrl+K)
-    document.addEventListener('keydown', function(event) {
-        if (event.ctrlKey && event.key === 'k') {
-            event.preventDefault();
-            showModal();
-        }
-    });
+    populateDropdown(countiesSet, 'countiesList');
+    populateDropdown(domainsSet, 'domainsList');
+    populateDropdown(categoriesSet, 'categoriesList');
+    populateDropdown(populationsSet, 'populationsList');
 
     // Search functionality
     function performSearch(searchTerm) {
-        searchTerm = searchTerm.toLowerCase();
-        $(".js-filter-item").each(function () {
-            const text = $(this).text().toLowerCase();
-            $(this).toggle(text.includes(searchTerm));
+        const filters = {
+            county: [],
+            domain: [],
+            category: [],
+            population: []
+        };
+
+        $('input[type="checkbox"]:checked').each(function () {
+            const value = $(this).val();
+            if (countiesSet.has(value)) filters.county.push(value);
+            if (domainsSet.has(value)) filters.domain.push(value);
+            if (categoriesSet.has(value)) filters.category.push(value);
+            if (populationsSet.has(value)) filters.population.push(value);
+        });
+
+        const items = $(".js-filter-item").toArray();
+
+        items.sort((a, b) => {
+            const aData = $(a).data();
+            const bData = $(b).data();
+
+            const aExactMatch = filters.population.some(f => aData.population.split(';').map(p => p.trim()).includes(f));
+            const bExactMatch = filters.population.some(f => bData.population.split(';').map(p => p.trim()).includes(f));
+
+            if (aExactMatch && !bExactMatch) return -1;
+            if (!aExactMatch && bExactMatch) return 1;
+            return 0;
+        });
+
+        items.forEach(item => {
+            const county = $(item).data('county').split(';').map(c => c.trim());
+            const domain = $(item).data('domain').split(';').map(d => d.trim());
+            const category = $(item).data('category').split(';').map(c => c.trim());
+            const population = $(item).data('population').split(';').map(p => p.trim());
+
+            const matchesCounty = filters.county.length === 0 || filters.county.some(f => county.includes(f));
+            const matchesDomain = filters.domain.length === 0 || filters.domain.some(f => domain.includes(f));
+            const matchesCategory = filters.category.length === 0 || filters.category.some(f => category.includes(f));
+            const matchesPopulation = filters.population.length === 0 || filters.population.some(f => population.includes(f));
+
+            $(item).toggle(matchesCounty && matchesDomain && matchesCategory && matchesPopulation);
+            container.append(item); // Re-append the item to reorder
         });
     }
 
-    // Event listener for the existing search box
-    $("#search-box").on("keyup", function () {
-        performSearch($(this).val());
+    // Clear all filters
+    $('#clearAllFilters').click(function () {
+        $('input[type="checkbox"]').prop('checked', false);
+        $('#appliedFilters').empty();
+        performSearch('');
     });
 
-    // Event listener for the modal search box
-    $("#searchInput").on("keyup", function () {
-        performSearch($(this).val());
-    });
-
-    // Filter functionality
-    const filters = {
-        county: "all",
-        domain: "all",
-        category: "all",
-        population: "all"
-    };
-    const updateBreadcrumbs = () => {
-        const county = filters.county === "all" ? "All Counties" : `${filters.county} County`;
-        const domain = filters.domain === "all" ? "All Domains" : filters.domain;
-        $("#breadcrumbs").text(`${county} → ${domain}`);
-        // Update the modal button
-        const modalButton = $("#modal-button");
-        if (filters.county !== "all") {
-            modalButton.show();
-            modalButton.attr("data-bs-target", `#${filters.county.toLowerCase()}Modal`);
-        } else {
-            modalButton.show();
-            modalButton.attr("data-bs-target", "#allCountiesModal"); // Default modal for all counties
-        }
-        modalButton.attr("class", `customButton customButton--pink py-2 px-5`);
-    };
-    $(".filter-btn").on("click", function () {
-        const filterType = $(this).data("filter");
-        const filterValue = $(this).data("value");
-        // Update the filter value based on the clicked button
-        filters[filterType] = filterValue;
-        // Apply filters
-        $(".js-filter-item").hide().filter(function () {
-            const countyMatch = filters.county === "all" || $(this).data("county").includes(filters.county);
-            const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
-            const categoryMatch = filters.category === "all" || $(this).data("category") === filters.category;
-            const populationMatch = filters.population === "all" || $(this).data("population").includes(filters.population);
-            return countyMatch && domainMatch && categoryMatch && populationMatch;
-        }).show();
-        // Update breadcrumbs
-        updateBreadcrumbs();
-    });
-    // Initialize breadcrumbs
-    updateBreadcrumbs();
-
-    // Add event listener for dropdown menu items
-    document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', function(event) {
-            event.preventDefault();
-            const targetModal = this.getAttribute('data-bs-target');
-            const currentModal = bootstrap.Modal.getInstance(this.closest('.modal'));
-            currentModal.hide();
-            const newModal = new bootstrap.Modal(document.querySelector(targetModal));
-            newModal.show();
+    // Update applied filters and perform search
+    $('input[type="checkbox"]').change(function () {
+        const appliedFilters = [];
+        $('input[type="checkbox"]:checked').each(function () {
+            appliedFilters.push($(this).val());
         });
+        $('#appliedFilters').html(appliedFilters.map(filter => `<span class="badge bg-primary me-2">${filter}</span>`).join(' '));
+        performSearch(appliedFilters.join(' '));
     });
 
-    // Add event listener for badge clicks
-    $(document).on("click", ".js-badge", function () {
-        const filterType = $(this).data("filter");
-        const filterValue = $(this).data("value");
-        // Update the filter value based on the clicked badge
-        filters[filterType] = filterValue;
-        // Apply filters
-        $(".js-filter-item").hide().filter(function () {
-            const countyMatch = filters.county === "all" || $(this).data("county").includes(filters.county);
-            const domainMatch = filters.domain === "all" || $(this).data("domain") === filters.domain;
-            const categoryMatch = filters.category === "all" || $(this).data("category") === filters.category;
-            const populationMatch = filters.population === "all" || $(this).data("population").includes(filters.population);
-            return countyMatch && domainMatch && categoryMatch && populationMatch;
-        }).show();
-        // Update breadcrumbs
-        updateBreadcrumbs();
+    // Add click event listeners to badges
+    $(document).on('click', '.js-badge', function () {
+        const filterType = $(this).data('filter');
+        const filterValue = $(this).data('value');
+
+        // Check the corresponding checkbox in the dropdown menu
+        $(`#${filterType}List input[value="${filterValue}"]`).prop('checked', true).trigger('change');
+
+        // Add the filter badge
+        if (!$(`#appliedFilters .badge:contains(${filterValue})`).length) {
+            $('#appliedFilters').append(`<span class="badge bg-primary me-2">${filterValue}</span>`);
+        }
     });
 });
     </script>

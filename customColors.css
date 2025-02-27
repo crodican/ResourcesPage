@@ -231,7 +231,6 @@
   font-weight: 700;
   letter-spacing: 0;
   line-height: 19px;
-  padding: 18px 28px;
   text-align: left;
   transition: box-shadow 0.2s ease, opacity 0.2s ease; /* Only transition box-shadow and opacity */
   position: relative;
@@ -252,10 +251,12 @@
 
 .customButton::before {
   width: 50px;
+  left: -50%;
 }
 
 .customButton::after {
   width: 8rem;
+  left: -100%;
 }
 
 .customButton:hover {
