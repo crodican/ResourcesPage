@@ -622,7 +622,6 @@ $(document).ready(function () {
     populateDropdown(domainsSet, 'domainsList');
     populateDropdown(categoriesSet, 'categoriesList');
     populateDropdown(populationsSet, 'populationsList');
-
     // Search functionality
     function performSearch(searchTerm) {
         const filters = {
@@ -698,6 +697,14 @@ $(document).ready(function () {
         // Add the filter badge
         if (!$(`#appliedFilters .badge:contains(${filterValue})`).length) {
             $('#appliedFilters').append(`<span class="badge bg-primary me-2">${filterValue}</span>`);
+        }
+    });
+
+    // Add event listener for CTRL+K to focus on the search bar
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && e.key === 'k') {
+            e.preventDefault();
+            $('#search-box').focus();
         }
     });
 });
