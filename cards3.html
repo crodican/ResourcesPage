@@ -1,0 +1,484 @@
+<!doctype html>
+<html dir="ltr" lang="en-US" prefix="og: https://ogp.me/ns#">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resources - The Council of Southeast Pennsylvania</title>
+    <link rel="icon" href="https://www.councilsepa.org/wp-content/uploads/2024/03/favicon.svg" sizes="32x32" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="bs-grid.css" />
+    <!-- Custom Colors CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
+    <link rel="stylesheet" href="elevation-bootstrap.css" />
+    <!-- Elevation Bootstrap CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css" />
+    <style id="programs-cards">
+        .programs-cards--bg-green {
+            background-color: #e3efe3;
+        }
+        
+        .programs-cards--bg-white {
+            background-color: #ffffff;
+        }
+        
+        .programs-cards--bg-purple {
+            background-color: #4f156a;
+        }
+        
+        .programs-cards {
+            padding-bottom: 60px
+        }
+        
+        @media(min-width:768px) {
+            .programs-cards {
+                padding-bottom: 100px
+            }
+        }
+        
+        @media(min-width:1200px) {
+            .programs-cards {
+                padding-bottom: 178px
+            }
+        }
+        
+        @media(min-width:1400px) {
+            .programs-cards:before {
+                height: 50vh
+            }
+        }
+        
+        .programs-cards .block__content+.block__cards {
+            margin-top: 30px
+        }
+        
+        @media(min-width:1200px) {
+            .programs-cards .block__content {
+                padding-right: 120px
+            }
+        }
+        
+        .programs-cards .block__figure {
+            height: 350px
+        }
+        
+        @media(min-width:1200px) {
+            .programs-cards .block__figure {
+                bottom: 0;
+                flex: 0 0 auto;
+                height: 100%;
+                position: absolute;
+                right: 0;
+                width: 25%
+            }
+        }
+        
+        .programs-cards .block__figure img {
+            border-top-left-radius: 30px;
+            height: 100%;
+            -o-object-fit: cover;
+            object-fit: cover;
+            -o-object-position: top;
+            object-position: top;
+            width: 100%
+        }
+        
+        .programs-cards .card {
+            height: 100%;
+            min-height: 343px;
+            padding-top: 24px;
+            position: relative;
+            background-color: transparent;
+        }
+        
+        .programs-cards .card__icon {
+            color: white;
+            height: 48px;
+            width: 48px;
+            left: 30px;
+            position: absolute;
+            top: 0;
+            transition: all .5s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            z-index: 1;
+        }
+        
+        @media(min-width:768px) {
+            .programs-cards .card__icon {
+                left: 25px
+            }
+        }
+        
+        .programs-cards .card__icon img {
+            bottom: unset;
+            height: calc(100% - 25px);
+            left: 50%;
+            -o-object-fit: contain;
+            object-fit: contain;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition-duration: .4s;
+            transition-property: filter;
+            transition-timing-function: ease-in-out;
+            width: calc(100% - 25px)
+        }
+        
+        .programs-cards .card__icon svg {
+            bottom: unset;
+            height: calc(100% - 25px);
+            left: 50%;
+            -o-object-fit: contain;
+            object-fit: contain;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition-duration: .4s;
+            transition-property: filter;
+            transition-timing-function: ease-in-out;
+            width: calc(100% - 25px)
+        }
+        
+        .programs-cards .card a {
+            display: block;
+            height: 100%;
+            padding: 0
+        }
+        /*        
+1200px and up
+991px and up
+768px and up
+576 and up        
+*/
+        
+        .programs-cards .col {
+            @media (width > 1199px) {
+                width: 300px;
+            }
+            @media (width > 990px) {
+                width: 230px;
+            }
+            @media (width > 767px) {
+                width: 350px;
+            }
+            @media (width > 575px) {
+                width: 250px;
+            }
+            @media (width < 576px) {
+                width: 100% !important;
+            }
+        }
+        
+        .programs-cards .card__body {
+            align-self: flex-start;
+            background-color: #fff;
+            border-radius: 2px 2px 2px 30px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100% !important;
+            padding: 30px;
+            position: relative;
+            transition-duration: .4s;
+            transition-property: background-color
+        }
+        
+        .programs-cards .card__body *>*,
+        .programs-cards .card__body>* {
+            color: #1e1e1e;
+            margin: 0;
+            transition-duration: .4s;
+            transition-property: color;
+            transition-timing-function: ease-in-out
+        }
+        
+        .programs-cards .card__body__title {
+            color: #55298a;
+            padding-bottom: 12px
+        }
+        
+        .programs-cards .card.active .card__body,
+        .programs-cards .card:hover .card__body {
+            background-color: #00543d
+        }
+        
+        .programs-cards .card.active .card__body *>*,
+        .programs-cards .card.active .card__body>*,
+        .programs-cards .card:hover .card__body *>*,
+        .programs-cards .card:hover .card__body>* {
+            color: #fff
+        }
+    </style>
+    <style id="eb-advanced-heading">
+        /* eb-advance-heading-rj7x6 Starts */
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6 {
+            position: relative;
+            text-align: left;
+            margin: 0px;
+            padding: 0px;
+            transition: background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6:before {
+            transition: background 0.5s, opacity 0.5s, filter 0.5s
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6 .eb-ah-title {
+            text-align: left;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-bottom: 15px
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6 .eb-ah-title {
+            line-height: 0
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6 .eb-ah-title .first-title {
+            color: #f5ebf3;
+            font-family: "Lora", serif;
+            line-height: 76px;
+            padding-top: 0px;
+            padding-right: 0px;
+            padding-left: 0px;
+            padding-bottom: 0px;
+            transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6 .eb-ah-title .second-title {
+            color: var(--eb-global-heading-color);
+            transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6 .eb-ah-title .third-title {
+            color: var(--eb-global-heading-color);
+            transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6 .eb-ah-subtitle {
+            text-align: left;
+            color: var(--eb-global-text-color);
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-bottom: 20px
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6 .eb-ah-separator {
+            color: var(--eb-global-text-color);
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-bottom: 0px
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6 .eb-ah-separator.line {
+            border-style: none none solid;
+            border-color: var(--eb-global-primary-color);
+            border-width: 4px;
+            width: 100px
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6 .eb-ah-separator.icon {
+            text-align: left;
+            color: var(--eb-global-primary-color);
+            font-size: 30px
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-rj7x6 .eb-ah-separator.icon > * {
+            color: var(--eb-global-primary-color)
+        }
+        
+        .eb-parent-eb-advance-heading-rj7x6 {
+            display: block
+        }
+        
+        .root-eb-advance-heading-rj7x6 {
+            position: relative
+        }
+        
+        @media(max-width: 1024px) {
+            .eb-parent-eb-advance-heading-rj7x6 {
+                display: block
+            }
+        }
+        
+        @media(max-width: 767px) {
+            .eb-parent-eb-advance-heading-rj7x6 {
+                display: block
+            }
+        }
+        /* =eb-advance-heading-rj7x6= Ends */
+        /* eb-advance-heading-nydd5 Starts */
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5 {
+            position: relative;
+            text-align: left;
+            margin: 0px;
+            padding: 0px;
+            transition: background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5:before {
+            transition: background 0.5s, opacity 0.5s, filter 0.5s
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5 .eb-ah-title {
+            text-align: left;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-bottom: 15px
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5 .eb-ah-title {
+            line-height: 0
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5 .eb-ah-title .first-title {
+            color: #f5ebf3;
+            font-family: "Lora", serif;
+            line-height: 76px;
+            padding-top: 0px;
+            padding-right: 0px;
+            padding-left: 0px;
+            padding-bottom: 0px;
+            transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5 .eb-ah-title .second-title {
+            color: var(--eb-global-heading-color);
+            transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5 .eb-ah-title .third-title {
+            color: var(--eb-global-heading-color);
+            transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5 .eb-ah-subtitle {
+            text-align: left;
+            color: var(--eb-global-text-color);
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-bottom: 20px
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5 .eb-ah-separator {
+            color: var(--eb-global-text-color);
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-bottom: 0px
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5 .eb-ah-separator.line {
+            border-style: none none solid;
+            border-color: var(--eb-global-primary-color);
+            border-width: 4px;
+            width: 100px
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5 .eb-ah-separator.icon {
+            text-align: left;
+            color: var(--eb-global-primary-color);
+            font-size: 30px
+        }
+        
+        .eb-advance-heading-wrapper.eb-advance-heading-nydd5 .eb-ah-separator.icon > * {
+            color: var(--eb-global-primary-color)
+        }
+        
+        .eb-parent-eb-advance-heading-nydd5 {
+            display: block
+        }
+        
+        .root-eb-advance-heading-nydd5 {
+            position: relative
+        }
+        
+        @media(max-width: 1024px) {
+            .eb-parent-eb-advance-heading-nydd5 {
+                display: block
+            }
+        }
+        
+        @media(max-width: 767px) {
+            .eb-parent-eb-advance-heading-nydd5 {
+                display: block
+            }
+        }
+        /* =eb-advance-heading-nydd5= Ends */
+    </style>
+</head>
+
+<body>
+    <div class="programs-cards programs-cards--bg-purple">
+            <div class="container">
+                <div class="wp-block-essential-blocks-advanced-heading  root-eb-advance-heading-nydd5">
+                    <div class="eb-parent-wrapper eb-parent-eb-advance-heading-nydd5 ">
+                        <div class="eb-advance-heading-wrapper eb-advance-heading-nydd5 button-1 waviy" data-id="eb-advance-heading-nydd5">
+                            <h2 class="eb-ah-title"><span class="first-title">Certification Assistance</span></h2></div>
+                    </div>
+                    <p class="text-white">The Regions 1 and 4 Regional Recovery Hubs provide assistance with CRS, CFRS, and<br>CRSS certifications.</p>
+                </div>
+                <div class="grid">
+                    <div class="g-col-12 g-col-md-4">
+                        <article class="card">
+                            <figure class="card__icon bg-success"> <img decoding="async" src="https://www.councilsepa.org/wp-content/uploads/2025/01/certificate-filled-white-1.svg" alt="" style=""> </figure>
+                            <div class="card__body">
+                                <h2 class="card__body__title h6">
+                                Certified Recovery Specialist (CRS)
+                            </h2>
+                                <div class="card__body__excerpt">
+                                    <p> The Regional Recovery Hub provides Assistance with getting and maintaining CRS and CFRS certifications. </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="g-col-12 g-col-md-4">
+                        <article class="card">
+                            <figure class="card__icon bg-success"> <img decoding="async" src="https://www.councilsepa.org/wp-content/uploads/2025/01/certificate-filled-white-1.svg" alt="" style=""> </figure>
+                            <div class="card__body h-100">
+                                <h2 class="card__body__title h6">
+                            Certified Family Recovery Specialist (CFRS)
+                        </h2>
+                                <div class="card__body__excerpt">
+                                    <p> A goal of the Recovery Hubs project is to build on the region’s Recovery Support Services, providing training and technical assistance to those who want to implement or improve these services. </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="g-col-12 g-col-md-4">
+                        <article class="card">
+                            <figure class="card__icon bg-success"> <img decoding="async" src="https://www.councilsepa.org/wp-content/uploads/2025/01/certificate-filled-white-1.svg" alt=""> </figure>
+                            <div class="card__body">
+                                <h2 class="card__body__title h6">
+                            Certified Recovery Specialist Supervisor (CRSS)
+                            </h2>
+                                <div class="card__body__excerpt">
+                                    <p>Certified Recovery Specialist Suprtvisor.</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+
+</html>

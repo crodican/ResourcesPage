@@ -357,7 +357,8 @@
         const counties = item["County"].split(";").map(
             (county) => `<span class="badge bg-warning-subtle text-dark py-2 my-1">${county.trim()} County</span>`).join(" ");
         const card = `
-<div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">            <div class="card shadow text-bg-light p-3">
+        <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}">
+            <div class="card shadow text-bg-light p-3">
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
