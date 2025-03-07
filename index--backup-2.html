@@ -201,10 +201,23 @@
             .card-sidenav {
                 background-color: #55298a;
                 color: white !important;
+                max-width: 70px;
             }
+            
+            .card-sidenav a {
+                color: white !important;
+                font-size: 36px;
+                border-radius: 0;
+            }
+            
             .card-sidenav a:hover {
                 background-color: aquamarine;
                 color: black;
+            }
+            
+            card img {
+                width: 300px;
+                height: auto;
             }
             
         </style>
@@ -474,21 +487,29 @@
         <div class="container-fluid py-4 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
             <div class="row flex-grow-sm-1 flex-grow-0">
                 <aside class="col-sm flex-grow-sm-2 flex-shrink-1 flex-grow-0">
-                    <div class="bg-light px-3 py-4 shadow my-2 br-35-5-35-35 d-none d-sm-flex">
-                        <!-- Desktop Filter Container -->
-                       <!-- Desktop Filter Container -->
-                        <!-- Desktop Filter Container -->
+
                         <div id="filter-container" class="d-flex flex-column gap-3 pt-5">
                             <!-- Counties Filter -->
-                            <div>
-                                <div class="d-flex justify-content-center py-2 bg-secondary text-white w-100"><span class="fw-bold">COUNTIES</span></div>
-                                <div id="countiesList" class="btn-group-vertical w-100" role="group"></div>
-                            </div>
+<div class="bg-white shadow py-4 px-3 my-4" style="border-radius: 5px 35px 5px 35px">
+    <button class="btn btn-link d-flex justify-content-between w-100 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#countiesList" aria-expanded="true" aria-controls="countiesList">
+        <h2 class="h5 mb-0">Counties</h2>
+        <i class="bi bi-chevron-down"></i>
+    </button>
+    <div id="countiesList" class="collapse show">
+        <ul class="list-unstyled mt-3" id="countiesListContainer"></ul>
+    </div>
+</div>
                             <!-- Domains Filter -->
-                            <div>
-                                <div class="d-flex justify-content-center py-2 bg-secondary text-white w-100"><span class="fw-bold">DOMAINS</span></div>
-                                <div id="domainsList" class="btn-group-vertical w-100" role="group"></div>
-                            </div>
+<div class="bg-white shadow py-4 px-3 my-4" style="border-radius: 5px 35px 5px 35px">
+    <button class="btn btn-link d-flex justify-content-between w-100 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#domainsList" aria-expanded="true" aria-controls="domainsList">
+        <h2 class="h5 mb-0">Domains</h2>
+        <i class="bi bi-chevron-down"></i>
+    </button>
+    <div id="domainsList" class="collapse show">
+        <ul class="list-unstyled mt-3" id="domainsListContainer"></ul>
+    </div>
+</div>
+
                             <!-- Categories Filter -->
                             <div>
                                 <div class="d-flex justify-content-center py-2 bg-secondary text-white w-100"><span class="fw-bold">CATEGORIES</span></div>
@@ -500,9 +521,8 @@
                                 <div id="populationsList" class="btn-group-vertical w-100" role="group"></div>
                             </div>
                         </div>
-                    </div>
                 </aside>
-                <main class="col overflow-x-auto overflow-y-hidden h-100">
+                <main class="col overflow-x-auto overflow-y-hidden h-100" style="max-width: 800px">
                     <div class="bg-light shadow py-4 px-3 mt-2 br-35-5-35-5">
                         <!-- Search Container -->
                         <div id="search-container" class="container-fluid align-items-center d-flex">
@@ -615,22 +635,26 @@ $(document).ready(function () {
 
     // Function to populate desktop filters with Bootstrap checkbox toggle buttons
     function populateToggleButtons(set, elementId) {
-        const container = $(`#${elementId}`);
+        const container = $(`#${elementId}Container`);
         set.forEach(item => {
             container.append(`
-                <input type="checkbox" class="btn-check" id="${elementId}-${item}" autocomplete="off">
-                <label class="btn btn-outline-primary w-100 mb-1" for="${elementId}-${item}">${item}</label>
+                <li class="d-flex align-items-center mb-2">
+                    <input type="checkbox" class="form-check-input me-2" id="${elementId}-${item}">
+                    <label class="form-check-label" for="${elementId}-${item}">${item}</label>
+                </li>
             `);
         });
     }
 
     // Function to populate mobile filters with regular form input checkboxes
     function populateDiv(set, elementId) {
-        const container = $(`#${elementId}`);
+        const container = $(`#${elementId}Container`);
         set.forEach(item => {
             container.append(`
-                <input type="checkbox" class="form-check-input" id="${elementId}-${item}" autocomplete="off">
-                <label class="form-check-label" for="${elementId}-${item}">${item}</label><br />
+                <li class="d-flex align-items-center mb-2">
+                    <input type="checkbox" class="form-check-input me-2" id="${elementId}-${item}">
+                    <label class="form-check-label" for="${elementId}-${item}">${item}</label>
+                </li>
             `);
         });
     }
@@ -766,17 +790,20 @@ $(document).ready(function () {
         const counties = item["County"].split(";").map(
             (county) => `<span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
         const card = `
-<div class="g-col-12 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item[" Populations Served "]}">
+<div class="g-col-12 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
     <div class="card shadow-lg text-bg-light">
         <div class="row no-gutters p-0">
             <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
-                <a href="${item.Website}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe fs-1 text-white"></i> </a>
-                <a href="${item.phoneLink}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill fs-1 text-white"></i> </a>
-                <a href="${item.googleMapsUrl}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill fs-1 text-white"></i> </a>
+                <a href="${item.Website}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
+                <a href="${item.phoneLink}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
+                <a href="${googleMapsUrl}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
             </div>
             <div class="card-body col-10 p-4">
-                    <h3 style="font-weight:400;margin-bottom:0">${item["Location Name"]}</h3>
-                    <h5 style="font-weight:400;margin-top:0">${item.Organization}</h5>
+                <div class="row">
+                
+                </div>
+                    <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${item["Location Name"]}</h3>
+                    <h5 style="font-weight:100;margin-top:0;font-size:18px">${item.Organization}</h5>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
@@ -787,7 +814,7 @@ $(document).ready(function () {
                                         </span> </li>
                         </ol>
                     </nav>
-                    <div class="row d-flex justify-content-center"> ${item.Image ? `<img src="${item.Image}" alt="Logo" style="max-width:100%; max-height:100px; align-self: center">` : ""} </div>
+                    <div class="row d-flex justify-content-end position-relative"> ${item.Image ? `<img src="${item.Image}" alt="Logo" style="width:200px; height:auto; align-self: center; position: absolute">` : ""} </div>
                     <p><strong>Phone:</strong> ${item.Phone}</p>
                     <p>${item.Address}
                         <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>

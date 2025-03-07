@@ -206,6 +206,8 @@
             
             .card-sidenav a {
                 color: white !important;
+                font-size: 36px;
+                border-radius: 0;
             }
             
             .card-sidenav a:hover {
@@ -776,9 +778,9 @@ $(document).ready(function () {
     <div class="card shadow-lg text-bg-light">
         <div class="row no-gutters p-0">
             <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
-                <a href="${item.Website}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe fs-1 text-white"></i> </a>
-                <a href="${item.phoneLink}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill fs-1 text-white"></i> </a>
-                <a href="${item.googleMapsUrl}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill fs-1 text-white"></i> </a>
+                <a href="${item.Website}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
+                <a href="${item.phoneLink}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
+                <a href="${item.googleMapsUrl}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
             </div>
             <div class="card-body col-10 p-4">
                     <h3 style="font-weight:400;margin-bottom:0">${item["Location Name"]}</h3>
