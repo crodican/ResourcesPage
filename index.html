@@ -198,44 +198,49 @@
                 position: fixed;
                 left: 0;
             }
+            .card-sidenav {
+                background-color: #55298a;
+                color: white !important;
+            }
+            .card-sidenav a:hover {
+                background-color: aquamarine;
+                color: black;
+            }
+            
         </style>
     </head>
     <body class="bg-success-subtle">
-            <div>
-
-<img style="height:50px;width:auto;fill: :#ffffff; stroke: #ffffff;" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' viewBox='0 0 512 512' style='fill:currentColor;stroke:currentColor;'><path d='M505.2 6.8A23.3 23.3 0 0 0 488.7 0H23.3A23.3 23.3 0 0 0 0 23.3v372.3A23.3 23.3 0 0 0 23.3 419h225v69.8a23.3 23.3 0 0 0 30.6 22.1l39.2-13 39.1 13a23.2 23.2 0 0 0 30.7-22v-69.9h100.8a23.3 23.3 0 0 0 23.3-23.3V23.3c0-6.2-2.5-12.1-6.8-16.5zM162.9 248.2h-46.5a23.3 23.3 0 0 1 0-46.5h46.5a23.3 23.3 0 0 1 0 46.5zM387.1 359a89.9 89.9 0 0 1-44.6 29.4l-1.2.4a89 89 0 0 1-46.5 0l-1.2-.4A88.8 88.8 0 0 1 249 359a89.3 89.3 0 1 1 158.3-56.4c0 21.4-7.6 41-20.2 56.4zm8.5-219.3H116.4a23.3 23.3 0 0 1 0-46.5h279.2a23.3 23.3 0 1 1 0 46.5z'/></svg>">
-    </div>
         <!-- Map Modals -->
         <div id="modals">
             <!-- All Counties Modal -->
-            <div class="modal pt-5 px-0 mt-5" id="allCountiesModal" tabindex="-1" aria-labelledby="allCountiesModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl map-modal my-3" style="width: 100vw;padding: 0">
-                    <div class="modal-content" style="width: 100vw; border-radius: 0; margin: 0">
-                        <div class="modal-header bg-pink py-0 px-1" style="border: 2px solid; border-color: transparent transparent #55298a transparent">
-                            <div class="btn-group flex-wrap" role="group" aria-label="Counties">
-                                <button type="button" class="btn btn-sm bg-secondary text-white" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</button>
-                            </div>
-                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 2px solid; border-color: transparent transparent transparent #55298a; border-radius: 0"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="p-0 container-fluid">
-                                <span class="lh-1" style="font-size: 11px">Use the buttons avove to change between counties.</span>
-                                <span class="lh-1" style="font-size: 11px">Press <span class="bi bi-list" style="font-size: 24px"></span> to toggle menu; Press <img src="data:image/svg+xml;base64,PHN2ZyBzdHlsZT0id2lkdGg6IDIwcHg7IGhlaWdodDogMjBweDsiIGRhdGEtc2xvdD0iaWNvbiIgZmlsbD0iYmxhY2siIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICA8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjUgMTBhNC41IDQuNSAwIDAgMCA0LjI4NC01Ljg4MmMtLjEwNS0uMzI0LS41MS0uMzkxLS43NTItLjE1TDE1LjM0IDYuNjZhLjQ1NC40NTQgMCAwIDEtLjQ5My4xMSAzLjAxIDMuMDEgMCAwIDEtMS42MTgtMS42MTYuNDU1LjQ1NSAwIDAgMSAuMTEtLjQ5NGwyLjY5NC0yLjY5MmMuMjQtLjI0MS4xNzQtLjY0Ny0uMTUtLjc1MmE0LjUgNC41IDAgMCAwLTUuODczIDQuNTc1Yy4wNTUuODczLS4xMjggMS44MDgtLjggMi4zNjhsLTcuMjMgNi4wMjRhMi43MjQgMi43MjQgMCAxIDAgMy44MzcgMy44MzdsNi4wMjQtNy4yM2MuNTYtLjY3MiAxLjQ5NS0uODU1IDIuMzY4LS44LjA5Ni4wMDcuMTkzLjAxLjI5MS4wMVpNNSAxNmExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNMTQuNSAxMS41Yy4xNzMgMCAuMzQ1LS4wMDcuNTE0LS4wMjJsMy43NTQgMy43NTRhMi41IDIuNSAwIDAgMS0zLjUzNiAzLjUzNmwtNC40MS00LjQxIDIuMTcyLTIuNjA3Yy4wNTItLjA2My4xNDctLjEzOC4zNDItLjE5Ni4yMDItLjA2LjQ2OS0uMDg3Ljc3Ny0uMDY3LjEyOC4wMDguMjU3LjAxMi4zODcuMDEyWk02IDQuNTg2bDIuMzMgMi4zM2EuNDUyLjQ1MiAwIDAgMS0uMDguMDlMNi44IDguMjE0IDQuNTg2IDZIMy4zMDlhLjUuNSAwIDAgMS0uNDQ3LS4yNzZsLTEuNy0zLjQwMmEuNS41IDAgMCAxIC4wOTMtLjU3N2wuNDktLjQ5YS41LjUgMCAwIDEgLjU3Ny0uMDk0bDMuNDAyIDEuN0EuNS41IDAgMCAxIDYgMy4zMXYxLjI3N1oiPjwvcGF0aD4KPC9zdmc+" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category.</span>
-                            </div>
-                            <iframe title="map" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54" style="height: 70vh; width: 100%">
-                            </iframe>
-                        </div>
-                    </div>
+<div class="modal pt-5 px-0 mt-5" id="allCountiesModal" tabindex="-1" aria-labelledby="allCountiesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl map-modal my-3" style="width: 100vw;padding: 0">
+        <div class="modal-content" style="width: 100vw; border-radius: 0; margin: 0">
+            <div class="modal-header bg-pink py-0 px-1" style="border: 2px solid; border-color: transparent transparent #55298a transparent">
+                <div class="btn-group flex-wrap" role="group" aria-label="Counties">
+                    <button type="button" class="btn btn-sm bg-secondary text-white" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</button>
+                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</button>
+                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</button>
+                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</button>
+                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</button>
+                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</button>
+                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</button>
+                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</button>
+                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</button>
                 </div>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 2px solid; border-color: transparent transparent transparent #55298a; border-radius: 0"></button>
             </div>
+            <div class="modal-body">
+                <div class="p-0 container-fluid">
+                    <span class="lh-1" style="font-size: 11px">Use the buttons avove to change between counties.</span>
+                    <span class="lh-1" style="font-size: 11px">Press <span class="bi bi-list" style="font-size: 24px"></span> to toggle menu; Press <img src="data:image/svg+xml;base64,PHN2ZyBzdHlsZT0id2lkdGg6IDIwcHg7IGhlaWdodDogMjBweDsiIGRhdGEtc2xvdD0iaWNvbiIgZmlsbD0iYmxhY2siIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICA8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjUgMTBhNC41IDQuNSAwIDAgMCA0LjI4NC01Ljg4MmMtLjEwNS0uMzI0LS41MS0uMzkxLS43NTItLjE1TDE1LjM0IDYuNjZhLjQ1NC40NTQgMCAwIDEtLjQ5My4xMSAzLjAxIDMuMDEgMCAwIDEtMS42MTgtMS42MTYuNDU1LjQ1NSAwIDAgMSAuMTEtLjQ5NGwyLjY5NC0yLjY5MmMuMjQtLjI0MS4xNzQtLjY0Ny0uMTUtLjc1MmE0LjUgNC41IDAgMCAwLTUuODczIDQuNTc1Yy4wNTUuODczLS4xMjggMS44MDgtLjggMi4zNjhsLTcuMjMgNi4wMjRhMi43MjQgMi43MjQgMCAxIDAgMy44MzcgMy44MzdsNi4wMjQtNy4yM2MuNTYtLjY3MiAxLjQ5NS0uODU1IDIuMzY4LS44LjA5Ni4wMDcuMTkzLjAxLjI5MS4wMVpNNSAxNmExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNMTQuNSAxMS41Yy4xNzMgMCAuMzQ1LS4wMDcuNTE0LS4wMjJsMy43NTQgMy43NTRhMi41IDIuNSAwIDAgMS0zLjUzNiAzLjUzNmwtNC40MS00LjQxIDIuMTcyLTIuNjA3Yy4wNTItLjA2My4xNDctLjEzOC4zNDItLjE5Ni4yMDItLjA2LjQ2OS0uMDg3Ljc3Ny0uMDY3LjEyOC4wMDguMjU3LjAxMi4zODcuMDEyWk02IDQuNTg2bDIuMzMgMi4zM2EuNDUyLjQ1MiAwIDAgMS0uMDguMDlMNi44IDguMjE0IDQuNTg2IDZIMy4zMDlhLjUuNSAwIDAgMS0uNDQ3LS4yNzZsLTEuNy0zLjQwMmEuNS41IDAgMCAxIC4wOTMtLjU3N2wuNDktLjQ5YS41LjUgMCAwIDEgLjU3Ny0uMDk0bDMuNDAyIDEuN0EuNS41IDAgMCAxIDYgMy4zMXYxLjI3N1oiPjwvcGF0aD4KPC9zdmc+" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category.</span>
+                </div>
+                <iframe title="map" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54" style="height: 70vh; width: 100%">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
             <!-- Philadelphia Modal -->
             <div class="modal fade pt-5 mt-5" id="philadelphiaModal" tabindex="-1" aria-labelledby="philadelphiaModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl map-modal my-3">
@@ -761,42 +766,37 @@ $(document).ready(function () {
         const counties = item["County"].split(";").map(
             (county) => `<span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
         const card = `
-        <div class="g-col-12 g-col-lg-6 g-col-xl-4 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
-            <div class="card shadow text-bg-light">
-                <div class="card-body p-4">
+<div class="g-col-12 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item[" Populations Served "]}">
+    <div class="card shadow-lg text-bg-light">
+        <div class="row no-gutters p-0">
+            <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
+                <a href="${item.Website}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe fs-1 text-white"></i> </a>
+                <a href="${item.phoneLink}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill fs-1 text-white"></i> </a>
+                <a href="${item.googleMapsUrl}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill fs-1 text-white"></i> </a>
+            </div>
+            <div class="card-body col-10 p-4">
                     <h3 style="font-weight:400;margin-bottom:0">${item["Location Name"]}</h3>
                     <h5 style="font-weight:400;margin-top:0">${item.Organization}</h5>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="cardbreadcrumb-item">
-                                <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
-                                ${item.Domain}
-                                </span>
-                            </li>
-                            <li class="cardbreadcrumb-item">
-                                <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
-                                ${item.Category}
-                                </span>
-                            </li>
+                            <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
+                                        ${item.Domain}
+                                        </span> </li>
+                            <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
+                                        ${item.Category}
+                                        </span> </li>
                         </ol>
                     </nav>
-                    <div class="row d-flex justify-content-center">
-                        ${item.Image ? `<img src ="${item.Image}" alt="Logo" style="max-width:100%; max-height:100px; align-self: center">` : ""}
-                    </div>
+                    <div class="row d-flex justify-content-center"> ${item.Image ? `<img src="${item.Image}" alt="Logo" style="max-width:100%; max-height:100px; align-self: center">` : ""} </div>
                     <p><strong>Phone:</strong> ${item.Phone}</p>
-                    <p>${item.Address}<br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                    <p>${item.Address}
+                        <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
                     <p><strong>Populations Served:</strong> ${populations}</p>
                     <p><strong>Counties Served:</strong> ${counties}</p>
-                </div>
-                <div class="card-footer d-flex justify-content-center px-0" style="background-color: #55208a;">
-            <div class="btn-group btn-group-lg d-flex flex-grow-1 justify-content-center w-100 h-100" role="group" aria-label="Basic outlined example">
-                <a href="${item.Website}" class="btn text-white py-0 px-3 d-flex flex-grow-1 justify-content-center" target="_blank"><span class="bi bi-globe"></span></a>
-                <a href="${item.phoneLink}" class="btn text-white py-0 px-3 d-flex flex-grow-1 justify-content-center" target="_blank"><span class="bi bi-telephone-fill"></span></a>
-                <a href="${googleMapsUrl}" class="btn text-white py-0 px-3 d-flex flex-grow-1 justify-content-center" target="_blank"><span class="bi bi-geo-alt-fill"></span></a>
             </div>
         </div>
-            </div>
-        </div>
+    </div>
+</div>
         `;
         $(".grid").append(card);
     });
