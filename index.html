@@ -186,6 +186,7 @@
             .br-35-5-35-35 { border-radius: 35px 5px 35px 35px; }
             .br-35-35-5-35 { border-radius: 35px 35px 5px 35px; }
             .br-35-35-35-5 { border-radius: 35px 35px 35px 5px; }
+            .br-5-35-5-35 { border-radius: 5px 35px 5px 35px; }
             
             .searchButton {
                 @media (width < 576px) {
@@ -213,6 +214,11 @@
             .card-sidenav a:hover {
                 background-color: aquamarine;
                 color: black;
+            }
+            
+            card img {
+                width: 300px;
+                height: auto;
             }
             
         </style>
@@ -482,35 +488,52 @@
         <div class="container-fluid py-4 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
             <div class="row flex-grow-sm-1 flex-grow-0">
                 <aside class="col-sm flex-grow-sm-2 flex-shrink-1 flex-grow-0">
-                    <div class="bg-light px-3 py-4 shadow my-2 br-35-5-35-35 d-none d-sm-flex">
-                        <!-- Desktop Filter Container -->
-                       <!-- Desktop Filter Container -->
-                        <!-- Desktop Filter Container -->
-                        <div id="filter-container" class="d-flex flex-column gap-3 pt-5">
+
+                        <div id="filter-container" class="d-flex flex-column gap-3 bg-white shadow py-3 px-4 my-2 br-5-35-5-35">
                             <!-- Counties Filter -->
-                            <div>
-                                <div class="d-flex justify-content-center py-2 bg-secondary text-white w-100"><span class="fw-bold">COUNTIES</span></div>
-                                <div id="countiesList" class="btn-group-vertical w-100" role="group"></div>
-                            </div>
+<div>
+    <button class="btn btn-link d-flex justify-content-between align-items-center w-100 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#countiesList" aria-expanded="true" aria-controls="countiesList">
+        <span class="h5 mb-0">Counties</span>
+        <i class="bi bi-chevron-down"></i>
+    </button>
+    <div id="countiesList" class="collapse show">
+        <ul class="list-unstyled mt-3" id="countiesListContainer"></ul>
+    </div>
+</div>
                             <!-- Domains Filter -->
-                            <div>
-                                <div class="d-flex justify-content-center py-2 bg-secondary text-white w-100"><span class="fw-bold">DOMAINS</span></div>
-                                <div id="domainsList" class="btn-group-vertical w-100" role="group"></div>
-                            </div>
+<div>
+    <button class="btn btn-link d-flex justify-content-between align-items-center w-100 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#domainsList" aria-expanded="true" aria-controls="domainsList">
+        <span class="h5 mb-0">Domains</span>
+        <i class="bi bi-chevron-down"></i>
+    </button>
+    <div id="domainsList" class="collapse show">
+        <ul class="list-unstyled mt-3" id="domainsListContainer"></ul>
+    </div>
+</div>
+
                             <!-- Categories Filter -->
-                            <div>
-                                <div class="d-flex justify-content-center py-2 bg-secondary text-white w-100"><span class="fw-bold">CATEGORIES</span></div>
-                                <div id="categoriesList" class="btn-group-vertical w-100" role="group"></div>
-                            </div>
+<div>
+    <button class="btn btn-link d-flex justify-content-between align-items-center w-100 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#categoriesList" aria-expanded="true" aria-controls="categoriesList">
+        <span class="h5 mb-0">Categories</span>
+        <i class="bi bi-chevron-down"></i>
+    </button>
+    <div id="categoriesList" class="collapse show">
+        <ul class="list-unstyled mt-3" id="categoriesListContainer"></ul>
+    </div>
+</div>
                             <!-- Populations Served Filter -->
-                            <div>
-                                <div class="d-flex justify-content-center p-2 bg-secondary text-white w-100"><span class="fw-bold">POPULATIONS SERVED</span></div>
-                                <div id="populationsList" class="btn-group-vertical w-100" role="group"></div>
-                            </div>
+<div>
+    <button class="btn btn-link d-flex justify-content-between align-items-center w-100 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#populationsList" aria-expanded="true" aria-controls="populationsList">
+        <span class="h5 mb-0">Populations Served</span>
+        <i class="bi bi-chevron-down"></i>
+    </button>
+    <div id="populationsList" class="collapse show">
+        <ul class="list-unstyled mt-3" id="populationsListContainer"></ul>
+    </div>
+</div>
                         </div>
-                    </div>
                 </aside>
-                <main class="col overflow-x-auto overflow-y-hidden h-100">
+                <main class="col overflow-x-auto overflow-y-hidden h-100" style="max-width: 800px">
                     <div class="bg-light shadow py-4 px-3 mt-2 br-35-5-35-5">
                         <!-- Search Container -->
                         <div id="search-container" class="container-fluid align-items-center d-flex">
@@ -597,7 +620,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 $(document).ready(function () {
-    // Define allowed filters
     const allowedCounties = ["Philadelphia", "Berks", "Bucks", "Chester", "Delaware", "Lancaster", "Montgomery", "Schuylkill"];
     const allowedPopulations = ["Men", "Women", "Children", "Adolescents"];
     const countiesSet = new Set();
@@ -606,54 +628,48 @@ $(document).ready(function () {
     const populationsSet = new Set();
 
     // Populate sets with unique filter values from jsonData
-    jsonData.forEach((item) => {
-        item.County.split(";").forEach(county => {
-            if (allowedCounties.includes(county.trim())) {
-                countiesSet.add(county.trim());
-            }
+    function populateSets() {
+        jsonData.forEach((item) => {
+            item.County.split(";").forEach(county => {
+                if (allowedCounties.includes(county.trim())) {
+                    countiesSet.add(county.trim());
+                }
+            });
+            item.Domain.split(";").forEach(domain => domainsSet.add(domain.trim()));
+            item.Category.split(";").forEach(category => categoriesSet.add(category.trim()));
+            item["Populations Served"].split(";").forEach(pop => {
+                if (allowedPopulations.includes(pop.trim())) {
+                    populationsSet.add(pop.trim());
+                }
+            });
         });
-        item.Domain.split(";").forEach(domain => domainsSet.add(domain.trim()));
-        item.Category.split(";").forEach(category => categoriesSet.add(category.trim()));
-        item["Populations Served"].split(";").forEach(pop => {
-            if (allowedPopulations.includes(pop.trim())) {
-                populationsSet.add(pop.trim());
-            }
-        });
-    });
+    }
 
-    // Function to populate desktop filters with Bootstrap checkbox toggle buttons
+    // Function to populate filters with Bootstrap checkbox toggle buttons
     function populateToggleButtons(set, elementId) {
-        const container = $(`#${elementId}`);
+        const container = $(`#${elementId}Container`);
         set.forEach(item => {
             container.append(`
-                <input type="checkbox" class="btn-check" id="${elementId}-${item}" autocomplete="off">
-                <label class="btn btn-outline-primary w-100 mb-1" for="${elementId}-${item}">${item}</label>
+                <li class="d-flex align-items-center mb-2">
+                    <input type="checkbox" class="form-check-input me-2" id="${elementId}-${item}">
+                    <label class="form-check-label" for="${elementId}-${item}">${item}</label>
+                </li>
             `);
         });
     }
 
     // Function to populate mobile filters with regular form input checkboxes
     function populateDiv(set, elementId) {
-        const container = $(`#${elementId}`);
+        const container = $(`#${elementId}Container`);
         set.forEach(item => {
             container.append(`
-                <input type="checkbox" class="form-check-input" id="${elementId}-${item}" autocomplete="off">
-                <label class="form-check-label" for="${elementId}-${item}">${item}</label><br />
+                <li class="d-flex align-items-center mb-2">
+                    <input type="checkbox" class="form-check-input me-2" id="${elementId}-${item}">
+                    <label class="form-check-label" for="${elementId}-${item}">${item}</label>
+                </li>
             `);
         });
     }
-
-    // Populate desktop filters
-    populateToggleButtons(countiesSet, 'countiesList');
-    populateToggleButtons(domainsSet, 'domainsList');
-    populateToggleButtons(categoriesSet, 'categoriesList');
-    populateToggleButtons(populationsSet, 'populationsList');
-
-    // Populate mobile filters
-    populateDiv(countiesSet, 'countiesDropdownList');
-    populateDiv(domainsSet, 'domainsDropdownList');
-    populateDiv(categoriesSet, 'categoriesDropdownList');
-    populateDiv(populationsSet, 'populationsDropdownList');
 
     // Function to perform search and filter items
     function performSearch() {
@@ -695,30 +711,124 @@ $(document).ready(function () {
         });
     }
 
-    // Clear all filters
-    $('#clearAllFilters').click(function (e) {
-        e.preventDefault();
+    // Function to clear all filters
+    function clearAllFilters() {
         $('input[type="checkbox"]').prop('checked', false);
         $('#appliedFilters').empty();
         performSearch();
-    });
+    }
 
-    // Update filters and perform search on filter change
-    $('input[type="checkbox"]').change(function () {
+    // Function to update applied filters
+    function updateAppliedFilters() {
         const appliedFilters = [];
         $('input[type="checkbox"]:checked').each(function () {
             appliedFilters.push($(this).next('label').text());
         });
         $('#appliedFilters').html(appliedFilters.map(filter => `<span class="badge bg-primary me-2">${filter}</span>`).join(' '));
         performSearch();
+    }
+
+    // Function to create Google Maps URL
+    function createGoogleMapsUrl(name, address, city, state, zip) {
+        const query = `${name}, ${address}, ${city}, ${zip}`;
+        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+    }
+
+    // Function to format phone number
+    function formatPhoneNumber(phone) {
+        return "+1" + phone.replace(/-/g, "");
+    }
+
+    // Function to generate resource cards
+    function generateResourceCards() {
+        jsonData.forEach((item) => {
+            const formattedPhoneNumber = formatPhoneNumber(item.Phone);
+            item.phoneLink = `tel:${formattedPhoneNumber}`;
+            const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
+
+            const populations = item["Populations Served"].split(";").map(
+                (pop) => `<span class="badge text-black bg-pink py-2 js-badge" data-filter="population" data-value="${pop.trim()}">${pop.trim()}</span>`).join(" ");
+            const counties = item["County"].split(";").map(
+                (county) => `<span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
+            const card = `
+<div class="g-col-12 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
+    <div class="card shadow-lg text-bg-light">
+        <div class="row no-gutters p-0">
+            <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
+                <a href="${item.Website}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
+                <a href="${item.phoneLink}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
+                <a href="${googleMapsUrl}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
+            </div>
+            <div class="card-body col-10 p-4">
+                <div class="row">
+                
+                </div>
+                    <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${item["Location Name"]}</h3>
+                    <h5 style="font-weight:100;margin-top:0;font-size:18px">${item.Organization}</h5>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
+                                        ${item.Domain}
+                                        </span> </li>
+                            <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
+                                        ${item.Category}
+                                        </span> </li>
+                        </ol>
+                    </nav>
+                    <div class="row d-flex justify-content-end position-relative"> ${item.Image ? `<img src="${item.Image}" alt="Logo" style="width:200px; height:auto; align-self: center; position: absolute">` : ""} </div>
+                    <p><strong>Phone:</strong> ${item.Phone}</p>
+                    <p>${item.Address}
+                        <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                    <p><strong>Populations Served:</strong> ${populations}</p>
+                    <p><strong>Counties Served:</strong> ${counties}</p>
+            </div>
+        </div>
+    </div>
+</div>
+            `;
+            $(".grid").append(card);
+        });
+    }
+
+    // Initialize the page
+    function init() {
+        try {
+            populateSets();
+            populateToggleButtons(countiesSet, 'countiesList');
+            populateToggleButtons(domainsSet, 'domainsList');
+            populateToggleButtons(categoriesSet, 'categoriesList');
+            populateToggleButtons(populationsSet, 'populationsList');
+            populateDiv(countiesSet, 'countiesDropdownList');
+            populateDiv(domainsSet, 'domainsDropdownList');
+            populateDiv(categoriesSet, 'categoriesDropdownList');
+            populateDiv(populationsSet, 'populationsDropdownList');
+            generateResourceCards();
+        } catch (error) {
+            console.error("Error initializing the page:", error);
+        }
+    }
+
+    // Debounce function to limit the rate at which a function can fire
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+
+    // Event listeners
+    $('#clearAllFilters').click(function (e) {
+        e.preventDefault();
+        clearAllFilters();
     });
 
-    // Perform search on input change
-    $('#search-box').on('input', function () {
-        performSearch();
+    $('input[type="checkbox"]').change(function () {
+        updateAppliedFilters();
     });
 
-    // Perform search on Enter key press
+    $('#search-box').on('input', debounce(performSearch, 300));
+
     $('#search-box').on('keypress', function (e) {
         if (e.which === 13) { // Enter key pressed
             e.preventDefault();
@@ -730,7 +840,7 @@ $(document).ready(function () {
             }
         }
     });
-    // Handle badge click to apply filter
+
     $(document).on('click', '.js-badge', function () {
         const filterType = $(this).data('filter');
         const filterValue = $(this).data('value');
@@ -742,7 +852,6 @@ $(document).ready(function () {
         }
     });
 
-    // Focus search box on Ctrl+K
     $(document).keydown(function (e) {
         if (e.ctrlKey && e.key === 'k') {
             e.preventDefault();
@@ -750,64 +859,8 @@ $(document).ready(function () {
         }
     });
 
-    // Function to create Google Maps URL
-    function createGoogleMapsUrl(name, address, city, state, zip) {
-        const query = `${name}, ${address}, ${city}, ${zip}`;
-        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-    }
-
-    // Generate resource cards
-    jsonData.forEach((item) => {
-        // Function to format the phone number
-        function formatPhoneNumber(phone) {
-            return "+1" + phone.replace(/-/g, "");
-        }
-        // Format the phone number and create the phoneLink item
-        const formattedPhoneNumber = formatPhoneNumber(item.Phone);
-        item.phoneLink = `tel:${formattedPhoneNumber}`;
-
-        // Create the Google Maps URL
-        const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
-
-        const populations = item["Populations Served"].split(";").map(
-            (pop) => `<span class="badge text-black bg-pink py-2 js-badge" data-filter="population" data-value="${pop.trim()}">${pop.trim()}</span>`).join(" ");
-        const counties = item["County"].split(";").map(
-            (county) => `<span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
-        const card = `
-<div class="g-col-12 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item[" Populations Served "]}">
-    <div class="card shadow-lg text-bg-light">
-        <div class="row no-gutters p-0">
-            <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
-                <a href="${item.Website}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
-                <a href="${item.phoneLink}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
-                <a href="${item.googleMapsUrl}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
-            </div>
-            <div class="card-body col-10 p-4">
-                    <h3 style="font-weight:400;margin-bottom:0">${item["Location Name"]}</h3>
-                    <h5 style="font-weight:400;margin-top:0">${item.Organization}</h5>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
-                                        ${item.Domain}
-                                        </span> </li>
-                            <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
-                                        ${item.Category}
-                                        </span> </li>
-                        </ol>
-                    </nav>
-                    <div class="row d-flex justify-content-center"> ${item.Image ? `<img src="${item.Image}" alt="Logo" style="max-width:100%; max-height:100px; align-self: center">` : ""} </div>
-                    <p><strong>Phone:</strong> ${item.Phone}</p>
-                    <p>${item.Address}
-                        <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
-                    <p><strong>Populations Served:</strong> ${populations}</p>
-                    <p><strong>Counties Served:</strong> ${counties}</p>
-            </div>
-        </div>
-    </div>
-</div>
-        `;
-        $(".grid").append(card);
-    });
+    // Initialize the page
+    init();
 });
 </script>
 </body>
