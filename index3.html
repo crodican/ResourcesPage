@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Page</title>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="bs-grid.css" />
+    <!-- Custom Colors CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-5-theme/1.3.0/select2-bootstrap-5-theme.min.css" integrity="sha512-z/90a5SWiu4MWVelb5+ny7sAayYUfMmdXKEAbpj27PfdkamNdyI3hcjxPxkOPbrXoKIm7r9V2mElt5f1OtVhqA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+            body {
+                font-family: "Oxygen";
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                font-family: "Lora";
+            }
+
+            .card-body {
+                overflow: hidden;
+                word-wrap: break-word;
+            }
+
+            .badge {
+                display: inline-block;
+                margin: 2px 0;
+            }
+            kbd {
+                font-family: "Space Mono", serif;
+                font-weight: 700;
+                font-style: normal;
+                color: slateblue; /* Text color */
+                background-color: white; /* Background color */
+                padding: 2px 8px; /* Optional: Adds some padding */
+                border-radius: 3px; /* Optional: Rounds the corners */
+            }
+
+            .kbd {
+                @media (width < 768px) {
+                    display: none;
+                }
+            }
+
+            .form-control:focus {
+                background-color: var(--bg-gray-subtle);
+                box-shadow: 0 0 0 0.25rem hsla(267, 54%, 35%, 0.5); /* Optional: Change the box shadow color */
+            }
+
+            .form-control:focus::placeholder {
+                color: transparent; /* Change this to your desired placeholder text color when focused */
+            }
+
+            .reflection {
+                position: relative;
+                display: inline-block;
+            }
+
+            .reflection::after {
+                content: attr(data-text);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                transform: scaleY(-1);
+                opacity: 0.5;
+                pointer-events: none;
+            }
+
+            .map-modal {
+                position: fixed;
+                top: 180px;
+                height: var(100vh - 172px);
+                @media (width < 576px) {
+                    width: 100vw !important;
+                    border-radius: 0;
+                }
+                
+            }
+
+            .js-badge {
+                cursor: pointer;
+            }
+
+            .navbar-nav {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .navbar {
+                background-color: #ffc0cb; /* Pink background */
+            }
+
+            .nav-link {
+                background-color: #f8f9fa; /* Light background for dropdown buttons */
+            }
+
+            .dropdown-menu {
+                position: absolute;
+                will-change: transform;
+            }
+
+            .breadcrumb {
+                --bs-breadcrumb-padding-x: 0;
+                --bs-breadcrumb-padding-y: 0;
+                --bs-breadcrumb-margin-bottom: 1rem;
+                --bs-breadcrumb-bg: ;
+                --bs-breadcrumb-border-radius: ;
+                --bs-breadcrumb-divider-color: var(--bs-secondary-color);
+                --bs-breadcrumb-item-padding-x: 0.5rem;
+                --bs-breadcrumb-item-active-color: var(--bs-secondary-color);
+                display: flex;
+                flex-wrap: wrap;
+                padding: var(--bs-breadcrumb-padding-y) var(--bs-breadcrumb-padding-x);
+                margin-bottom: var(--bs-breadcrumb-margin-bottom);
+                font-size: var(--bs-breadcrumb-font-size);
+                list-style: none;
+                background-color: var(--bs-breadcrumb-bg);
+                border-radius: var(--bs-breadcrumb-border-radius);
+            }
+
+            .cardbreadcrumb-item + .cardbreadcrumb-item {
+                padding-left: var(--bs-breadcrumb-item-padding-x);
+            }
+            .cardbreadcrumb-item + .cardbreadcrumb-item::before {
+                float: left;
+                padding-right: var(--bs-breadcrumb-item-padding-x);
+                color: var(--bs-breadcrumb-divider-color);
+            }
+            .cardbreadcrumb-item.active {
+                color: var(--bs-breadcrumb-item-active-color);
+            }
+            
+            .accordion-body {
+                padding: 5px 0 !important;
+            }
+            
+            .accordion-button {
+                align-items: flex-start !important;
+            }
+            
+            .accordion-button:not(.collapsed) {
+                color: #ffffff !important;
+                background-color: #55298a !important;
+            }
+            
+            .btn-outline-primary {
+                color: #55298a !important;
+                border-color: #55298a !important;
+            }
+            
+            .btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+                background-color: #55298a;
+                color: white !important;
+            }
+            
+            .br-35-5-5-5 { border-radius: 35px 5px 35px 5px; }
+            .br-5-35-5-5 { border-radius: 5px 35px 5px 5px; }
+            .br-5-5-35-5 { border-radius: 5px 5px 35px 5px; }
+            .br-5-5-5-35 { border-radius: 5px 5px 5px 35px; }
+            .br-35-35-5-5 { border-radius: 35px 35px 5px 5px; }
+            .br-35-5-35-5 { border-radius: 35px 5px 35px 5px; }
+            .br-35-5-5-35 { border-radius: 35px 5px 5px 5px; }
+            .br-5-35-35-5 { border-radius: 5px 35px 35px 5px; }
+            .br-5-5-35-35 { border-radius: 5px 5px 35px 35px; }
+            .br-5-35-35-35 { border-radius: 5px 35px 35px 35px; }
+            .br-35-5-35-35 { border-radius: 35px 5px 35px 35px; }
+            .br-35-35-5-35 { border-radius: 35px 35px 5px 35px; }
+            .br-35-35-35-5 { border-radius: 35px 35px 35px 5px; }
+            .br-5-35-5-35 { border-radius: 5px 35px 5px 35px; }
+            
+            .searchButton {
+                @media (width < 576px) {
+                    padding-right: 10px !important;
+                    padding-left: 10px !important;
+                }
+            }
+            
+            .modal-content {
+                position: fixed;
+                left: 0;
+            }
+            .card-sidenav {
+                background-color: #55298a;
+                color: white !important;
+                max-width: 70px;
+            }
+            
+            .card-sidenav a {
+                color: white !important;
+                font-size: 36px;
+                border-radius: 0;
+            }
+            
+            .card-sidenav a:hover {
+                background-color: aquamarine;
+                color: black;
+            }
+            
+            card img {
+                width: 300px;
+                height: auto;
+            }
+            
+    </style>
+</head>
+<body class="bg-success-subtle">
+    <div class="container-fluid py-4 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
+        <div class="row flex-grow-sm-1 flex-grow-0">
+            <aside class="col-sm flex-grow-sm-2 flex-shrink-1 flex-grow-0">
+                <div id="filter-container" class="d-flex flex-column gap-3 bg-white shadow py-3 px-4 my-2 br-5-35-5-35">
+                    <!-- Counties Filter -->
+                    <select id="county-filter" class="form-select select2">
+                        <option value="">Select County</option>
+                        <option value="Philadelphia">Philadelphia</option>
+                        <option value="Berks">Berks</option>
+                        <option value="Bucks">Bucks</option>
+                        <option value="Chester">Chester</option>
+                        <option value="Delaware">Delaware</option>
+                        <option value="Lancaster">Lancaster</option>
+                        <option value="Montgomery">Montgomery</option>
+                        <option value="Schuylkill">Schuylkill</option>
+                    </select>
+                    <!-- /Counties Filter -->
+                    
+                    <!-- Domains Filter -->
+                    <select id="domain-filter" class="form-select select2">
+                        <option value="">Select Domain</option>
+                        <option value="Recovery Support">Recovery Support</option>
+                        <option value="Family Support">Family Support</option>
+                        <option value="Housing">Housing</option>
+                        <option value="Transportation">Transportation</option>
+                    </select>
+                    <!-- /Domains Filter -->
+
+                    <!-- Categories Filter -->
+                    <select id="category-filter" class="form-select select2">
+                        <option value="">Select Category</option>
+                        <!-- Categories will be dynamically loaded -->
+                    </select>
+                    <!-- /Categories Filter -->
+
+                    <!-- Populations Served Filter -->
+                    <select id="population-filter" class="form-select select2">
+                        <option value="">Select Population Served</option>
+                        <option value="Men">Men</option>
+                        <option value="Women">Women</option>
+                        <option value="Children">Children</option>
+                        <option value="Adolescents">Adolescents</option>
+                    </select>
+                    <!-- /Populations Served Filter -->
+                </div>
+            </aside>
+            <main class="col overflow-x-auto overflow-y-hidden h-100" style="max-width: 800px">
+                <div class="bg-light shadow py-4 px-3 mt-2 br-35-5-35-5">
+                    <!-- Search Container -->
+                    <input type="text" id="search-input" class="form-control" placeholder="Search...">
+                    <!-- /Search Container -->
+                </div>
+                <!-- Resource Cards Container -->
+                <div id="resource-cards-container" class="grid">
+                    <!-- Dynamically loaded cards will be appended here by JavaScript -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- jQuery Easing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js" integrity="sha512-RtZU3AyMVArmHLiW0suEZ9McadTdegwbgtiQl5Qqo9kunkVg1ofwueXD8/8wv3Af8jkME3DDe3yLfR8HSJfT2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Resources Data -->
+    <script src="https://resourcespage.pages.dev/resourcesData.js"></script>
+    <!-- Custom Script -->
+<script>
+    $(document).ready(function() {
+        // Initialize Select2
+        $('.select2').select2({
+            theme: 'bootstrap-5'
+        });
+
+        // Load categories dynamically
+        const categories = [...new Set(resourcesData.map(item => item.Category))];
+        categories.forEach(category => {
+            $('#category-filter').append(new Option(category, category));
+        });
+
+        // Function to create resource cards
+        function createResourceCard(item) {
+            const populations = item["Populations Served"].join(', ');
+            const counties = item.County.join(', ');
+            const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.Address + ', ' + item.City + ', ' + item.State + ' ' + item["Zip Code"])}`;
+            return `
+                <div class="g-col-12 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
+                    <div class="card shadow-lg text-bg-light">
+                        <div class="row no-gutters p-0">
+                            <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
+                                <a href="${item.Website}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
+                                <a href="${item.phoneLink}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
+                                <a href="${googleMapsUrl}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
+                            </div>
+                            <div class="card-body col-10 p-4">
+                                <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${item["Location Name"]}</h3>
+                                <h5 style="font-weight:100;margin-top:0;font-size:18px">${item.Organization}</h5>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
+                                            ${item.Domain}
+                                        </span> </li>
+                                        <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
+                                            ${item.Category}
+                                        </span> </li>
+                                    </ol>
+                                </nav>
+                                <div class="row d-flex justify-content-end position-relative"> ${item.Image ? `<img src="${item.Image}" alt="Logo" style="width:200px; height:auto; align-self: center; position: absolute">` : ""} </div>
+                                <p><strong>Phone:</strong> ${item.Phone}</p>
+                                <p>${item.Address}
+                                    <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                                <p><strong>Populations Served:</strong> ${populations}</p>
+                                <p><strong>Counties Served:</strong> ${counties}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to load resource cards
+        function loadResourceCards() {
+            $('#resource-cards-container').empty();
+            resourcesData.forEach(item => {
+                const card = createResourceCard(item);
+                $('#resource-cards-container').append(card);
+            });
+        }
+
+        // Function to filter resource cards
+        function filterResourceCards() {
+            const county = $('#county-filter').val();
+            const domain = $('#domain-filter').val();
+            const category = $('#category-filter').val();
+            const population = $('#population-filter').val();
+            const search = $('#search-input').val().toLowerCase();
+
+            $('.js-filter-item').each(function() {
+                const itemCounty = $(this).data('county');
+                const itemDomain = $(this).data('domain');
+                const itemCategory = $(this).data('category');
+                const itemPopulation = $(this).data('population');
+                const itemName = $(this).find('h3').text().toLowerCase();
+
+                const matchesCounty = !county || itemCounty.includes(county);
+                const matchesDomain = !domain || itemDomain === domain;
+                const matchesCategory = !category || itemCategory === category;
+                const matchesPopulation = !population || itemPopulation.includes(population);
+                const matchesSearch = !search || itemName.includes(search);
+
+                if (matchesCounty && matchesDomain && matchesCategory && matchesPopulation && matchesSearch) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        // Event listeners for filters and search
+        $('#county-filter, #domain-filter, #category-filter, #population-filter').on('change', filterResourceCards);
+        $('#search-input').on('input', filterResourceCards);
+
+        // Initial load of resource cards
+        loadResourceCards();
+    });
+    </script>
+</body>
+</html>

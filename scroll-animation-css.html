@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap 5.3 Example</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+.scrollZoom {
+  position: static;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  font: 700 12px system-ui;
+  transition: all 0.5s cubic-bezier(1,2.2,0,2.2);
+}
+    </style>
+</head>
+<body style="height:300vh">
+    <div id="spacer" style="height:100vh"></div>
+    <!-- Your content here -->
+    <div style="background-color:#55298a; color: white; width: 700px; height: 240px" class="scrollZoom">
+        <h1>Scroll with Wheel or Trackpad</h1>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script>
+        const zoomElement = document.querySelector(".scrollZoom");
+        const MIN_ZOOM = 0.01; // 1%
+        const MAX_ZOOM = 1.0;  // 100%
+        
+        document.addEventListener("scroll", function () {
+          const rect = zoomElement.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          const elementCenter = rect.top + rect.height / 2;
+          const distanceFromCenter = Math.abs(viewportHeight / 2 - elementCenter);
+          const maxDistance = viewportHeight / 2 + rect.height / 2;
+          
+          if (elementCenter > viewportHeight / 2) {
+            const zoom = 1 - (distanceFromCenter / maxDistance) * (1 - MIN_ZOOM);
+            zoomElement.style.transform = `scale(${Math.max(MIN_ZOOM, Math.min(zoom, MAX_ZOOM))})`;
+          } else {
+            zoomElement.style.transform = `scale(${MAX_ZOOM})`;
+          }
+        });
+    </script>
+</body>
+</html>
