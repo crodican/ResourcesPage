@@ -104,7 +104,6 @@
                 theme: 'bootstrap-5'
             });
 
-            populate categories
             $.getJSON('https://resourcespage.pages.dev/resourcesData.js', function(data) {
                 let categories = new Set();
                 data.forEach(item => {
@@ -115,7 +114,7 @@
                     $('#category-filter').append(`<option>${category}</option>`);
                 });
             });
- 
+
             // Function to load resource cards
             function loadResourceCards(data, start, count) {
                 let end = start + count;
