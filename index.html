@@ -216,11 +216,19 @@
                 color: black;
             }
             
-            card img {
-                width: 300px;
-                height: auto;
+            .cardImage {
+                max-height: 200px !important;
+                width: auto !important;
+                align-self: center;
+                position: absolute;
+                @media (width < 768px) {
+                    position: static;
+                }
             }
+
             
+        style="width:200px; height:auto; align-self: center; position: absolute"
+
         </style>
     </head>
     <body class="bg-success-subtle">
@@ -775,7 +783,7 @@ $(document).ready(function () {
                                         </span> </li>
                         </ol>
                     </nav>
-                    <div class="row d-flex justify-content-end position-relative"> ${item.Image ? `<img src="${item.Image}" alt="Logo" style="width:200px; height:auto; align-self: center; position: absolute">` : ""} </div>
+                    <div class="row d-flex justify-content-md-end justify-content-sm-center position-relative"> ${item.Image ? `<img class="cardImage" src="${item.Image}" alt="Logo">` : ""} </div>
                     <p><strong>Phone:</strong> ${item.Phone}</p>
                     <p>${item.Address}
                         <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
