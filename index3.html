@@ -305,10 +305,20 @@
     <!-- Custom Script -->
 <script>
     $(document).ready(function() {
-        // Initialize Select2
-        $('.select2').select2({
-            theme: 'bootstrap-5'
+
+
+
+    // Initialize Select2 for individual filters with placeholders
+    $('.select2').each(function() {
+        $(this).select2({
+            theme: 'bootstrap-5',
+            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: true,
+            allowClear: true,
         });
+    });
+
 
         // Load categories dynamically
         const categories = [...new Set(jsonData.map(item => item.Category))];
