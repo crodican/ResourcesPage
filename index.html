@@ -1,875 +1,476 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Resources - The Council of Southeast Pennsylvania</title>
-        <link rel="icon" href="https://www.councilsepa.org/wp-content/uploads/2024/03/favicon.svg" sizes="32x32" />
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href="elevation-bootstrap.css" />
-        <!-- Bootstrap Icons -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- Bootstrap 5 CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="bs-grid.css" />
-        <!-- Custom Colors CSS -->
-        <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
-        <!-- Resources Data -->
-        <script src="https://resourcespage.pages.dev/resourcesData.js"></script>
-        <style>
-            body {
-                font-family: "Oxygen";
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Directory</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Custom Colors CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
+    <style>
+        .card-sidenav {
+            max-width: 70px;
+            border-radius: 5px 0 0 5px;
+        }
 
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6 {
-                font-family: "Lora";
-            }
+        .card-sidenav a {
+            background-color: #55298a;
+            color: white !important;
+            font-size: 36px;
+        }
 
-            .card-body {
-                overflow: hidden;
-                word-wrap: break-word;
-            }
+        .card-sidenav a:hover {
+            background-color: aquamarine;
+            color: #55298a !important;
+            overflow: hidden;
+        }
 
-            .badge {
-                display: inline-block;
-                margin: 2px 0;
-            }
-            kbd {
-                font-family: "Space Mono", serif;
-                font-weight: 700;
-                font-style: normal;
-                color: slateblue; /* Text color */
-                background-color: white; /* Background color */
-                padding: 2px 8px; /* Optional: Adds some padding */
-                border-radius: 3px; /* Optional: Rounds the corners */
-            }
+        .card-sidenav a:nth-of-type(1) {
+            border-radius: 5px 0 0 0;
+        }
 
-            .kbd {
-                @media (width < 768px) {
-                    display: none;
-                }
-            }
+        .card-sidenav a:nth-of-type(2) {
+            border-radius: 0;
+        }
 
-            .form-control:focus {
-                background-color: var(--bg-gray-subtle);
-                box-shadow: 0 0 0 0.25rem hsla(267, 54%, 35%, 0.5); /* Optional: Change the box shadow color */
-            }
+        .card-sidenav a:nth-of-type(3) {
+            border-radius: 0 0 0 5px;
+        }
 
-            .form-control:focus::placeholder {
-                color: transparent; /* Change this to your desired placeholder text color when focused */
+        .cardImage {
+            max-width: 150px;
+            height: auto !important;
+            @media (width < 768px) {
+                position: static;
             }
+        }y
 
-            .reflection {
-                position: relative;
-                display: inline-block;
-            }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 10px;
+            margin: 5px;
+            background-color: #e0e0e0;
+            border-radius: 20px;
+        }
 
-            .reflection::after {
-                content: attr(data-text);
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                transform: scaleY(-1);
-                opacity: 0.5;
-                pointer-events: none;
-            }
+        .close-chip {
+            margin-left: 5px;
+            cursor: pointer;
+        }
 
-            .map-modal {
-                position: fixed;
-                top: 180px;
-                height: var(100vh - 172px);
-                @media (width < 576px) {
-                    width: 100vw !important;
-                    border-radius: 0;
-                }
-                
-            }
+        .br-35-5-35-5 { border-radius: 35px 5px 35px 5px; }
+        .br-35-5-5-5 { border-radius: 35px 5px 35px 5px; }
+        .br-5-35-5-5 { border-radius: 5px 35px 5px 5px; }
+        .br-5-5-35-5 { border-radius: 5px 5px 35px 5px; }
+        .br-5-5-5-35 { border-radius: 5px 5px 5px 35px; }
+        .br-35-35-5-5 { border-radius: 35px 35px 5px 5px; }
+        .br-35-5-35-5 { border-radius: 35px 5px 35px 5px; }
+        .br-35-5-5-35 { border-radius: 35px 5px 5px 5px; }
+        .br-5-35-35-5 { border-radius: 5px 35px 35px 5px; }
+        .br-5-5-35-35 { border-radius: 5px 5px 35px 35px; }
+        .br-5-35-35-35 { border-radius: 5px 35px 35px 35px; }
+        .br-35-5-35-35 { border-radius: 35px 5px 35px 35px; }
+        .br-35-35-5-35 { border-radius: 35px 35px 5px 35px; }
+        .br-35-35-35-5 { border-radius: 35px 35px 35px 5px; }
+        .br-5-35-5-35 { border-radius: 5px 35px 5px 35px; }
 
-            .js-badge {
-                cursor: pointer;
-            }
-
-            .navbar-nav {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-            }
-
-            .navbar {
-                background-color: #ffc0cb; /* Pink background */
-            }
-
-            .nav-link {
-                background-color: #f8f9fa; /* Light background for dropdown buttons */
-            }
-
-            .dropdown-menu {
-                position: absolute;
-                will-change: transform;
-            }
-
-            .breadcrumb {
-                --bs-breadcrumb-padding-x: 0;
-                --bs-breadcrumb-padding-y: 0;
-                --bs-breadcrumb-margin-bottom: 1rem;
-                --bs-breadcrumb-bg: ;
-                --bs-breadcrumb-border-radius: ;
-                --bs-breadcrumb-divider-color: var(--bs-secondary-color);
-                --bs-breadcrumb-item-padding-x: 0.5rem;
-                --bs-breadcrumb-item-active-color: var(--bs-secondary-color);
-                display: flex;
-                flex-wrap: wrap;
-                padding: var(--bs-breadcrumb-padding-y) var(--bs-breadcrumb-padding-x);
-                margin-bottom: var(--bs-breadcrumb-margin-bottom);
-                font-size: var(--bs-breadcrumb-font-size);
-                list-style: none;
-                background-color: var(--bs-breadcrumb-bg);
-                border-radius: var(--bs-breadcrumb-border-radius);
-            }
-
-            .cardbreadcrumb-item + .cardbreadcrumb-item {
-                padding-left: var(--bs-breadcrumb-item-padding-x);
-            }
-            .cardbreadcrumb-item + .cardbreadcrumb-item::before {
-                float: left;
-                padding-right: var(--bs-breadcrumb-item-padding-x);
-                color: var(--bs-breadcrumb-divider-color);
-            }
-            .cardbreadcrumb-item.active {
-                color: var(--bs-breadcrumb-item-active-color);
-            }
-            
-            .accordion-body {
-                padding: 5px 0 !important;
-            }
-            
-            .accordion-button {
-                align-items: flex-start !important;
-            }
-            
-            .accordion-button:not(.collapsed) {
-                color: #ffffff !important;
-                background-color: #55298a !important;
-            }
-            
-            .btn-outline-primary {
-                color: #55298a !important;
-                border-color: #55298a !important;
-            }
-            
-            .btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
-                background-color: #55298a;
-                color: white !important;
-            }
-            
-            .br-35-5-5-5 { border-radius: 35px 5px 35px 5px; }
-            .br-5-35-5-5 { border-radius: 5px 35px 5px 5px; }
-            .br-5-5-35-5 { border-radius: 5px 5px 35px 5px; }
-            .br-5-5-5-35 { border-radius: 5px 5px 5px 35px; }
-            .br-35-35-5-5 { border-radius: 35px 35px 5px 5px; }
-            .br-35-5-35-5 { border-radius: 35px 5px 35px 5px; }
-            .br-35-5-5-35 { border-radius: 35px 5px 5px 5px; }
-            .br-5-35-35-5 { border-radius: 5px 35px 35px 5px; }
-            .br-5-5-35-35 { border-radius: 5px 5px 35px 35px; }
-            .br-5-35-35-35 { border-radius: 5px 35px 35px 35px; }
-            .br-35-5-35-35 { border-radius: 35px 5px 35px 35px; }
-            .br-35-35-5-35 { border-radius: 35px 35px 5px 35px; }
-            .br-35-35-35-5 { border-radius: 35px 35px 35px 5px; }
-            .br-5-35-5-35 { border-radius: 5px 35px 5px 35px; }
-            
-            .searchButton {
-                @media (width < 576px) {
-                    padding-right: 10px !important;
-                    padding-left: 10px !important;
-                }
-            }
-            
-            .modal-content {
-                position: fixed;
-                left: 0;
-            }
-            .card-sidenav {
-                background-color: #55298a;
-                color: white !important;
-                max-width: 70px;
-            }
-            
-            .card-sidenav a {
-                color: white !important;
-                font-size: 36px;
-                border-radius: 0;
-            }
-            
-            .card-sidenav a:hover {
-                background-color: aquamarine;
-                color: black;
-            }
-            
-            .cardImage {
-                max-height: 200px !important;
-                width: auto !important;
-                align-self: center;
-                position: absolute;
-                @media (width < 768px) {
-                    position: static;
-                }
-            }
-
-            
-        style="width:200px; height:auto; align-self: center; position: absolute"
-
-        </style>
-    </head>
-    <body class="bg-success-subtle">
-        <!-- Map Modals -->
-        <div id="modals">
-            <!-- All Counties Modal -->
-<div class="modal pt-5 px-0 mt-5" id="allCountiesModal" tabindex="-1" aria-labelledby="allCountiesModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl map-modal my-3" style="width: 100vw;padding: 0">
-        <div class="modal-content" style="width: 100vw; border-radius: 0; margin: 0">
-            <div class="modal-header bg-pink py-0 px-1" style="border: 2px solid; border-color: transparent transparent #55298a transparent">
-                <div class="btn-group flex-wrap" role="group" aria-label="Counties">
-                    <button type="button" class="btn btn-sm bg-secondary text-white" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</button>
-                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</button>
-                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</button>
-                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</button>
-                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</button>
-                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</button>
-                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</button>
-                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</button>
-                    <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</button>
-                </div>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 2px solid; border-color: transparent transparent transparent #55298a; border-radius: 0"></button>
-            </div>
-            <div class="modal-body">
-                <div class="p-0 container-fluid">
-                    <span class="lh-1" style="font-size: 11px">Use the buttons avove to change between counties.</span>
-                    <span class="lh-1" style="font-size: 11px">Press <span class="bi bi-list" style="font-size: 24px"></span> to toggle menu; Press <img src="data:image/svg+xml;base64,PHN2ZyBzdHlsZT0id2lkdGg6IDIwcHg7IGhlaWdodDogMjBweDsiIGRhdGEtc2xvdD0iaWNvbiIgZmlsbD0iYmxhY2siIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICA8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjUgMTBhNC41IDQuNSAwIDAgMCA0LjI4NC01Ljg4MmMtLjEwNS0uMzI0LS41MS0uMzkxLS43NTItLjE1TDE1LjM0IDYuNjZhLjQ1NC40NTQgMCAwIDEtLjQ5My4xMSAzLjAxIDMuMDEgMCAwIDEtMS42MTgtMS42MTYuNDU1LjQ1NSAwIDAgMSAuMTEtLjQ5NGwyLjY5NC0yLjY5MmMuMjQtLjI0MS4xNzQtLjY0Ny0uMTUtLjc1MmE0LjUgNC41IDAgMCAwLTUuODczIDQuNTc1Yy4wNTUuODczLS4xMjggMS44MDgtLjggMi4zNjhsLTcuMjMgNi4wMjRhMi43MjQgMi43MjQgMCAxIDAgMy44MzcgMy44MzdsNi4wMjQtNy4yM2MuNTYtLjY3MiAxLjQ5NS0uODU1IDIuMzY4LS44LjA5Ni4wMDcuMTkzLjAxLjI5MS4wMVpNNSAxNmExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNMTQuNSAxMS41Yy4xNzMgMCAuMzQ1LS4wMDcuNTE0LS4wMjJsMy43NTQgMy43NTRhMi41IDIuNSAwIDAgMS0zLjUzNiAzLjUzNmwtNC40MS00LjQxIDIuMTcyLTIuNjA3Yy4wNTItLjA2My4xNDctLjEzOC4zNDItLjE5Ni4yMDItLjA2LjQ2OS0uMDg3Ljc3Ny0uMDY3LjEyOC4wMDguMjU3LjAxMi4zODcuMDEyWk02IDQuNTg2bDIuMzMgMi4zM2EuNDUyLjQ1MiAwIDAgMS0uMDguMDlMNi44IDguMjE0IDQuNTg2IDZIMy4zMDlhLjUuNSAwIDAgMS0uNDQ3LS4yNzZsLTEuNy0zLjQwMmEuNS41IDAgMCAxIC4wOTMtLjU3N2wuNDktLjQ5YS41LjUgMCAwIDEgLjU3Ny0uMDk0bDMuNDAyIDEuN0EuNS41IDAgMCAxIDYgMy4zMXYxLjI3N1oiPjwvcGF0aD4KPC9zdmc+" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category.</span>
-                </div>
-                <iframe title="map" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54" style="height: 70vh; width: 100%">
-                </iframe>
-            </div>
-        </div>
-    </div>
-</div>
-            <!-- Philadelphia Modal -->
-            <div class="modal fade pt-5 mt-5" id="philadelphiaModal" tabindex="-1" aria-labelledby="philadelphiaModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl map-modal my-3">
-                    <div class="modal-content">
-                        <div class="modal-header bg-pink py-0 px-1" style="border: 2px solid; border-color: transparent transparent #55298a transparent">
-                            <div class="btn-group flex-wrap" role="group" aria-label="Counties">
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</button>
-                                <button type="button" class="btn btn-sm bg-secondary text-pink" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</button>
-                            </div>
-                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 2px solid; border-color: transparent transparent transparent #55298a; border-radius: 0"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="p-0 container-fluid">
-                                <span class="lh-1" style="font-size: 11px">Use the buttons avove to change between counties.</span>
-                                <span class="lh-1" style="font-size: 11px">Press <span class="bi bi-list" style="font-size: 24px"></span> to toggle menu; Press <img src="data:image/svg+xml;base64,PHN2ZyBzdHlsZT0id2lkdGg6IDIwcHg7IGhlaWdodDogMjBweDsiIGRhdGEtc2xvdD0iaWNvbiIgZmlsbD0iYmxhY2siIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICA8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjUgMTBhNC41IDQuNSAwIDAgMCA0LjI4NC01Ljg4MmMtLjEwNS0uMzI0LS41MS0uMzkxLS43NTItLjE1TDE1LjM0IDYuNjZhLjQ1NC40NTQgMCAwIDEtLjQ5My4xMSAzLjAxIDMuMDEgMCAwIDEtMS42MTgtMS42MTYuNDU1LjQ1NSAwIDAgMSAuMTEtLjQ5NGwyLjY5NC0yLjY5MmMuMjQtLjI0MS4xNzQtLjY0Ny0uMTUtLjc1MmE0LjUgNC41IDAgMCAwLTUuODczIDQuNTc1Yy4wNTUuODczLS4xMjggMS44MDgtLjggMi4zNjhsLTcuMjMgNi4wMjRhMi43MjQgMi43MjQgMCAxIDAgMy44MzcgMy44MzdsNi4wMjQtNy4yM2MuNTYtLjY3MiAxLjQ5NS0uODU1IDIuMzY4LS44LjA5Ni4wMDcuMTkzLjAxLjI5MS4wMVpNNSAxNmExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNMTQuNSAxMS41Yy4xNzMgMCAuMzQ1LS4wMDcuNTE0LS4wMjJsMy43NTQgMy43NTRhMi41IDIuNSAwIDAgMS0zLjUzNiAzLjUzNmwtNC40MS00LjQxIDIuMTcyLTIuNjA3Yy4wNTItLjA2My4xNDctLjEzOC4zNDItLjE5Ni4yMDItLjA2LjQ2OS0uMDg3Ljc3Ny0uMDY3LjEyOC4wMDguMjU3LjAxMi4zODcuMDEyWk02IDQuNTg2bDIuMzMgMi4zM2EuNDUyLjQ1MiAwIDAgMS0uMDguMDlMNi44IDguMjE0IDQuNTg2IDZIMy4zMDlhLjUuNSAwIDAgMS0uNDQ3LS4yNzZsLTEuNy0zLjQwMmEuNS41IDAgMCAxIC4wOTMtLjU3N2wuNDktLjQ5YS41LjUgMCAwIDEgLjU3Ny0uMDk0bDMuNDAyIDEuN0EuNS41IDAgMCAxIDYgMy4zMXYxLjI3N1oiPjwvcGF0aD4KPC9zdmc+" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category.</span>
-                            </div>
-                            <iframe title="map" src="https://fortress.maptive.com/ver4/22ce0ffcea9e517881f5870c64c4bcff" style="height: 70vh; width: 100%"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Berks Modal -->
-            <div class="modal fade pt-5 mt-5" id="berksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl map-modal my-3">
-                    <div class="modal-content">
-                        <div class="modal-header bg-pink py-0 px-1" style="border: 2px solid; border-color: transparent transparent #55298a transparent">
-                            <div class="btn-group flex-wrap" role="group" aria-label="Counties">
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</button>
-                                <button type="button" class="btn btn-sm bg-secondary text-white" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</button>
-                            </div>
-                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 2px solid; border-color: transparent transparent transparent #55298a; border-radius: 0"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="p-0 container-fluid">
-                                <span class="lh-1" style="font-size: 11px">Use the buttons avove to change between counties.</span>
-                                <span class="lh-1" style="font-size: 11px">Press <span class="bi bi-list" style="font-size: 24px"></span> to toggle menu; Press <img src="data:image/svg+xml;base64,PHN2ZyBzdHlsZT0id2lkdGg6IDIwcHg7IGhlaWdodDogMjBweDsiIGRhdGEtc2xvdD0iaWNvbiIgZmlsbD0iYmxhY2siIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICA8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjUgMTBhNC41IDQuNSAwIDAgMCA0LjI4NC01Ljg4MmMtLjEwNS0uMzI0LS41MS0uMzkxLS43NTItLjE1TDE1LjM0IDYuNjZhLjQ1NC40NTQgMCAwIDEtLjQ5My4xMSAzLjAxIDMuMDEgMCAwIDEtMS42MTgtMS42MTYuNDU1LjQ1NSAwIDAgMSAuMTEtLjQ5NGwyLjY5NC0yLjY5MmMuMjQtLjI0MS4xNzQtLjY0Ny0uMTUtLjc1MmE0LjUgNC41IDAgMCAwLTUuODczIDQuNTc1Yy4wNTUuODczLS4xMjggMS44MDgtLjggMi4zNjhsLTcuMjMgNi4wMjRhMi43MjQgMi43MjQgMCAxIDAgMy44MzcgMy44MzdsNi4wMjQtNy4yM2MuNTYtLjY3MiAxLjQ5NS0uODU1IDIuMzY4LS44LjA5Ni4wMDcuMTkzLjAxLjI5MS4wMVpNNSAxNmExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNMTQuNSAxMS41Yy4xNzMgMCAuMzQ1LS4wMDcuNTE0LS4wMjJsMy43NTQgMy43NTRhMi41IDIuNSAwIDAgMS0zLjUzNiAzLjUzNmwtNC40MS00LjQxIDIuMTcyLTIuNjA3Yy4wNTItLjA2My4xNDctLjEzOC4zNDItLjE5Ni4yMDItLjA2LjQ2OS0uMDg3Ljc3Ny0uMDY3LjEyOC4wMDguMjU3LjAxMi4zODcuMDEyWk02IDQuNTg2bDIuMzMgMi4zM2EuNDUyLjQ1MiAwIDAgMS0uMDguMDlMNi44IDguMjE0IDQuNTg2IDZIMy4zMDlhLjUuNSAwIDAgMS0uNDQ3LS4yNzZsLTEuNy0zLjQwMmEuNS41IDAgMCAxIC4wOTMtLjU3N2wuNDktLjQ5YS41LjUgMCAwIDEgLjU3Ny0uMDk0bDMuNDAyIDEuN0EuNS41IDAgMCAxIDYgMy4zMXYxLjI3N1oiPjwvcGF0aD4KPC9zdmc+" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category.</span>
-                            </div>
-                            <iframe title="map" src="https://fortress.maptive.com/ver4/02cf13b4c79f77e04bc512510dbce5fd" style="height: 70vh; width: 100%"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Bucks Modal -->
-            <div class="modal fade pt-5 mt-5" id="bucksModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl map-modal my-3">
-                    <div class="modal-content">
-                        <div class="modal-header bg-pink py-0 px-1" style="border: 2px solid; border-color: transparent transparent #55298a transparent">
-                            <div class="btn-group flex-wrap" role="group" aria-label="Counties">
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</button>
-                                <button type="button" class="btn btn-sm bg-secondary text-white" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</button>
-                            </div>
-                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 2px solid; border-color: transparent transparent transparent #55298a; border-radius: 0"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="p-0 container-fluid">
-                                <span class="lh-1" style="font-size: 11px">Use the buttons avove to change between counties.</span>
-                                <span class="lh-1" style="font-size: 11px">Press <span class="bi bi-list" style="font-size: 24px"></span> to toggle menu; Press <img src="data:image/svg+xml;base64,PHN2ZyBzdHlsZT0id2lkdGg6IDIwcHg7IGhlaWdodDogMjBweDsiIGRhdGEtc2xvdD0iaWNvbiIgZmlsbD0iYmxhY2siIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICA8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjUgMTBhNC41IDQuNSAwIDAgMCA0LjI4NC01Ljg4MmMtLjEwNS0uMzI0LS41MS0uMzkxLS43NTItLjE1TDE1LjM0IDYuNjZhLjQ1NC40NTQgMCAwIDEtLjQ5My4xMSAzLjAxIDMuMDEgMCAwIDEtMS42MTgtMS42MTYuNDU1LjQ1NSAwIDAgMSAuMTEtLjQ5NGwyLjY5NC0yLjY5MmMuMjQtLjI0MS4xNzQtLjY0Ny0uMTUtLjc1MmE0LjUgNC41IDAgMCAwLTUuODczIDQuNTc1Yy4wNTUuODczLS4xMjggMS44MDgtLjggMi4zNjhsLTcuMjMgNi4wMjRhMi43MjQgMi43MjQgMCAxIDAgMy44MzcgMy44MzdsNi4wMjQtNy4yM2MuNTYtLjY3MiAxLjQ5NS0uODU1IDIuMzY4LS44LjA5Ni4wMDcuMTkzLjAxLjI5MS4wMVpNNSAxNmExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNMTQuNSAxMS41Yy4xNzMgMCAuMzQ1LS4wMDcuNTE0LS4wMjJsMy43NTQgMy43NTRhMi41IDIuNSAwIDAgMS0zLjUzNiAzLjUzNmwtNC40MS00LjQxIDIuMTcyLTIuNjA3Yy4wNTItLjA2My4xNDctLjEzOC4zNDItLjE5Ni4yMDItLjA2LjQ2OS0uMDg3Ljc3Ny0uMDY3LjEyOC4wMDguMjU3LjAxMi4zODcuMDEyWk02IDQuNTg2bDIuMzMgMi4zM2EuNDUyLjQ1MiAwIDAgMS0uMDguMDlMNi44IDguMjE0IDQuNTg2IDZIMy4zMDlhLjUuNSAwIDAgMS0uNDQ3LS4yNzZsLTEuNy0zLjQwMmEuNS41IDAgMCAxIC4wOTMtLjU3N2wuNDktLjQ5YS41LjUgMCAwIDEgLjU3Ny0uMDk0bDMuNDAyIDEuN0EuNS41IDAgMCAxIDYgMy4zMXYxLjI3N1oiPjwvcGF0aD4KPC9zdmc+" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category.</span>
-                            </div>
-                            <iframe title="map" src="https://fortress.maptive.com/ver4/3f70f2720ef35f1f5e09335f43726b82" style="height: 70vh; width: 100%"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Chester Modal -->
-            <div class="modal fade pt-5 mt-5" id="chesterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl map-modal my-3">
-                    <div class="modal-content">
-                        <div class="modal-header bg-pink py-0 px-1" style="border: 2px solid; border-color: transparent transparent #55298a transparent">
-                            <div class="btn-group flex-wrap" role="group" aria-label="Counties">
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</button>
-                                <button type="button" class="btn btn-sm bg-secondary text-white" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</button>
-                            </div>
-                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 2px solid; border-color: transparent transparent transparent #55298a; border-radius: 0"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="p-0 container-fluid">
-                                <span class="lh-1" style="font-size: 11px">Use the buttons avove to change between counties.</span>
-                                <span class="lh-1" style="font-size: 11px">Press <span class="bi bi-list" style="font-size: 24px"></span> to toggle menu; Press <img src="data:image/svg+xml;base64,PHN2ZyBzdHlsZT0id2lkdGg6IDIwcHg7IGhlaWdodDogMjBweDsiIGRhdGEtc2xvdD0iaWNvbiIgZmlsbD0iYmxhY2siIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICA8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjUgMTBhNC41IDQuNSAwIDAgMCA0LjI4NC01Ljg4MmMtLjEwNS0uMzI0LS41MS0uMzkxLS43NTItLjE1TDE1LjM0IDYuNjZhLjQ1NC40NTQgMCAwIDEtLjQ5My4xMSAzLjAxIDMuMDEgMCAwIDEtMS42MTgtMS42MTYuNDU1LjQ1NSAwIDAgMSAuMTEtLjQ5NGwyLjY5NC0yLjY5MmMuMjQtLjI0MS4xNzQtLjY0Ny0uMTUtLjc1MmE0LjUgNC41IDAgMCAwLTUuODczIDQuNTc1Yy4wNTUuODczLS4xMjggMS44MDgtLjggMi4zNjhsLTcuMjMgNi4wMjRhMi43MjQgMi43MjQgMCAxIDAgMy44MzcgMy44MzdsNi4wMjQtNy4yM2MuNTYtLjY3MiAxLjQ5NS0uODU1IDIuMzY4LS44LjA5Ni4wMDcuMTkzLjAxLjI5MS4wMVpNNSAxNmExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNMTQuNSAxMS41Yy4xNzMgMCAuMzQ1LS4wMDcuNTE0LS4wMjJsMy43NTQgMy43NTRhMi41IDIuNSAwIDAgMS0zLjUzNiAzLjUzNmwtNC40MS00LjQxIDIuMTcyLTIuNjA3Yy4wNTItLjA2My4xNDctLjEzOC4zNDItLjE5Ni4yMDItLjA2LjQ2OS0uMDg3Ljc3Ny0uMDY3LjEyOC4wMDguMjU3LjAxMi4zODcuMDEyWk02IDQuNTg2bDIuMzMgMi4zM2EuNDUyLjQ1MiAwIDAgMS0uMDguMDlMNi44IDguMjE0IDQuNTg2IDZIMy4zMDlhLjUuNSAwIDAgMS0uNDQ3LS4yNzZsLTEuNy0zLjQwMmEuNS41IDAgMCAxIC4wOTMtLjU3N2wuNDktLjQ5YS41LjUgMCAwIDEgLjU3Ny0uMDk0bDMuNDAyIDEuN0EuNS41IDAgMCAxIDYgMy4zMXYxLjI3N1oiPjwvcGF0aD4KPC9zdmc+" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category.</span>
-                            </div>
-                            <iframe title="map" src="https://fortress.maptive.com/ver4/52434a24012731eebecfc7c9dd9359a3" style="height: 70vh; width: 100%"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Delaware Modal -->
-            <div class="modal fade pt-5 mt-5" id="delawareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl map-modal my-3">
-                    <div class="modal-content">
-                        <div class="modal-header bg-pink py-0 px-1" style="border: 2px solid; border-color: transparent transparent #55298a transparent">
-                            <div class="btn-group flex-wrap" role="group" aria-label="Counties">
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</button>
-                                <button type="button" class="btn btn-sm bg-secondary text-white" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</button>
-                            </div>
-                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 2px solid; border-color: transparent transparent transparent #55298a; border-radius: 0"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="p-0 container-fluid">
-                                <span class="lh-1" style="font-size: 11px">Use the buttons avove to change between counties.</span>
-                                <span class="lh-1" style="font-size: 11px">Press <span class="bi bi-list" style="font-size: 24px"></span> to toggle menu; Press <img src="data:image/svg+xml;base64,PHN2ZyBzdHlsZT0id2lkdGg6IDIwcHg7IGhlaWdodDogMjBweDsiIGRhdGEtc2xvdD0iaWNvbiIgZmlsbD0iYmxhY2siIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICA8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjUgMTBhNC41IDQuNSAwIDAgMCA0LjI4NC01Ljg4MmMtLjEwNS0uMzI0LS41MS0uMzkxLS43NTItLjE1TDE1LjM0IDYuNjZhLjQ1NC40NTQgMCAwIDEtLjQ5My4xMSAzLjAxIDMuMDEgMCAwIDEtMS42MTgtMS42MTYuNDU1LjQ1NSAwIDAgMSAuMTEtLjQ5NGwyLjY5NC0yLjY5MmMuMjQtLjI0MS4xNzQtLjY0Ny0uMTUtLjc1MmE0LjUgNC41IDAgMCAwLTUuODczIDQuNTc1Yy4wNTUuODczLS4xMjggMS44MDgtLjggMi4zNjhsLTcuMjMgNi4wMjRhMi43MjQgMi43MjQgMCAxIDAgMy44MzcgMy44MzdsNi4wMjQtNy4yM2MuNTYtLjY3MiAxLjQ5NS0uODU1IDIuMzY4LS44LjA5Ni4wMDcuMTkzLjAxLjI5MS4wMVpNNSAxNmExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNMTQuNSAxMS41Yy4xNzMgMCAuMzQ1LS4wMDcuNTE0LS4wMjJsMy43NTQgMy43NTRhMi41IDIuNSAwIDAgMS0zLjUzNiAzLjUzNmwtNC40MS00LjQxIDIuMTcyLTIuNjA3Yy4wNTItLjA2My4xNDctLjEzOC4zNDItLjE5Ni4yMDItLjA2LjQ2OS0uMDg3Ljc3Ny0uMDY3LjEyOC4wMDguMjU3LjAxMi4zODcuMDEyWk02IDQuNTg2bDIuMzMgMi4zM2EuNDUyLjQ1MiAwIDAgMS0uMDguMDlMNi44IDguMjE0IDQuNTg2IDZIMy4zMDlhLjUuNSAwIDAgMS0uNDQ3LS4yNzZsLTEuNy0zLjQwMmEuNS41IDAgMCAxIC4wOTMtLjU3N2wuNDktLjQ5YS41LjUgMCAwIDEgLjU3Ny0uMDk0bDMuNDAyIDEuN0EuNS41IDAgMCAxIDYgMy4zMXYxLjI3N1oiPjwvcGF0aD4KPC9zdmc+" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category.</span>
-                            </div>
-                            <iframe title="map" src="https://fortress.maptive.com/ver4/47e4f942dc0cf0aac1f7f7ee964c9e43" style="height: 70vh; width: 100%"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Lancaster Modal -->
-            <div class="modal fade pt-5 mt-5" id="lancasterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl map-modal my-3">
-                    <div class="modal-content">
-                        <div class="modal-header bg-pink py-0 px-1" style="border: 2px solid; border-color: transparent transparent #55298a transparent">
-                            <div class="btn-group flex-wrap" role="group" aria-label="Counties">
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</button>
-                                <button type="button" class="btn btn-sm bg-secondary text-white" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</button>
-                            </div>
-                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 2px solid; border-color: transparent transparent transparent #55298a; border-radius: 0"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="p-0 container-fluid">
-                                <span class="lh-1" style="font-size: 11px">Use the buttons avove to change between counties.</span>
-                                <span class="lh-1" style="font-size: 11px">Press <span class="bi bi-list" style="font-size: 24px"></span> to toggle menu; Press <img src="data:image/svg+xml;base64,PHN2ZyBzdHlsZT0id2lkdGg6IDIwcHg7IGhlaWdodDogMjBweDsiIGRhdGEtc2xvdD0iaWNvbiIgZmlsbD0iYmxhY2siIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICA8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjUgMTBhNC41IDQuNSAwIDAgMCA0LjI4NC01Ljg4MmMtLjEwNS0uMzI0LS41MS0uMzkxLS43NTItLjE1TDE1LjM0IDYuNjZhLjQ1NC40NTQgMCAwIDEtLjQ5My4xMSAzLjAxIDMuMDEgMCAwIDEtMS42MTgtMS42MTYuNDU1LjQ1NSAwIDAgMSAuMTEtLjQ5NGwyLjY5NC0yLjY5MmMuMjQtLjI0MS4xNzQtLjY0Ny0uMTUtLjc1MmE0LjUgNC41IDAgMCAwLTUuODczIDQuNTc1Yy4wNTUuODczLS4xMjggMS44MDgtLjggMi4zNjhsLTcuMjMgNi4wMjRhMi43MjQgMi43MjQgMCAxIDAgMy44MzcgMy44MzdsNi4wMjQtNy4yM2MuNTYtLjY3MiAxLjQ5NS0uODU1IDIuMzY4LS44LjA5Ni4wMDcuMTkzLjAxLjI5MS4wMVpNNSAxNmExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNMTQuNSAxMS41Yy4xNzMgMCAuMzQ1LS4wMDcuNTE0LS4wMjJsMy43NTQgMy43NTRhMi41IDIuNSAwIDAgMS0zLjUzNiAzLjUzNmwtNC40MS00LjQxIDIuMTcyLTIuNjA3Yy4wNTItLjA2My4xNDctLjEzOC4zNDItLjE5Ni4yMDItLjA2LjQ2OS0uMDg3Ljc3Ny0uMDY3LjEyOC4wMDguMjU3LjAxMi4zODcuMDEyWk02IDQuNTg2bDIuMzMgMi4zM2EuNDUyLjQ1MiAwIDAgMS0uMDguMDlMNi44IDguMjE0IDQuNTg2IDZIMy4zMDlhLjUuNSAwIDAgMS0uNDQ3LS4yNzZsLTEuNy0zLjQwMmEuNS41IDAgMCAxIC4wOTMtLjU3N2wuNDktLjQ5YS41LjUgMCAwIDEgLjU3Ny0uMDk0bDMuNDAyIDEuN0EuNS41IDAgMCAxIDYgMy4zMXYxLjI3N1oiPjwvcGF0aD4KPC9zdmc+" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category.</span>
-                            </div>
-                            <iframe title="map" src="https://fortress.maptive.com/ver4/dc2230fe7d4c696eb066d1d2a444833f" style="height: 70vh; width: 100%"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Montgomery Modal -->
-            <div class="modal fade pt-5 mt-5" id="montgomeryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl map-modal my-3">
-                    <div class="modal-content">
-                        <div class="modal-header bg-pink py-0 px-1" style="border: 2px solid; border-color: transparent transparent #55298a transparent">
-                            <div class="btn-group flex-wrap" role="group" aria-label="Counties">
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</button>
-                                <button type="button" class="btn btn-sm bg-secondary text-white" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</button>
-                            </div>
-                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 2px solid; border-color: transparent transparent transparent #55298a; border-radius: 0"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="p-0 container-fluid">
-                                <span class="lh-1" style="font-size: 11px">Use the buttons avove to change between counties.</span>
-                                <span class="lh-1" style="font-size: 11px">Press <span class="bi bi-list" style="font-size: 24px"></span> to toggle menu; Press <img src="data:image/svg+xml;base64,PHN2ZyBzdHlsZT0id2lkdGg6IDIwcHg7IGhlaWdodDogMjBweDsiIGRhdGEtc2xvdD0iaWNvbiIgZmlsbD0iYmxhY2siIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICA8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjUgMTBhNC41IDQuNSAwIDAgMCA0LjI4NC01Ljg4MmMtLjEwNS0uMzI0LS41MS0uMzkxLS43NTItLjE1TDE1LjM0IDYuNjZhLjQ1NC40NTQgMCAwIDEtLjQ5My4xMSAzLjAxIDMuMDEgMCAwIDEtMS42MTgtMS42MTYuNDU1LjQ1NSAwIDAgMSAuMTEtLjQ5NGwyLjY5NC0yLjY5MmMuMjQtLjI0MS4xNzQtLjY0Ny0uMTUtLjc1MmE0LjUgNC41IDAgMCAwLTUuODczIDQuNTc1Yy4wNTUuODczLS4xMjggMS44MDgtLjggMi4zNjhsLTcuMjMgNi4wMjRhMi43MjQgMi43MjQgMCAxIDAgMy44MzcgMy44MzdsNi4wMjQtNy4yM2MuNTYtLjY3MiAxLjQ5NS0uODU1IDIuMzY4LS44LjA5Ni4wMDcuMTkzLjAxLjI5MS4wMVpNNSAxNmExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNMTQuNSAxMS41Yy4xNzMgMCAuMzQ1LS4wMDcuNTE0LS4wMjJsMy43NTQgMy43NTRhMi41IDIuNSAwIDAgMS0zLjUzNiAzLjUzNmwtNC40MS00LjQxIDIuMTcyLTIuNjA3Yy4wNTItLjA2My4xNDctLjEzOC4zNDItLjE5Ni4yMDItLjA2LjQ2OS0uMDg3Ljc3Ny0uMDY3LjEyOC4wMDguMjU3LjAxMi4zODcuMDEyWk02IDQuNTg2bDIuMzMgMi4zM2EuNDUyLjQ1MiAwIDAgMS0uMDguMDlMNi44IDguMjE0IDQuNTg2IDZIMy4zMDlhLjUuNSAwIDAgMS0uNDQ3LS4yNzZsLTEuNy0zLjQwMmEuNS41IDAgMCAxIC4wOTMtLjU3N2wuNDktLjQ5YS41LjUgMCAwIDEgLjU3Ny0uMDk0bDMuNDAyIDEuN0EuNS41IDAgMCAxIDYgMy4zMXYxLjI3N1oiPjwvcGF0aD4KPC9zdmc+" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category.</span>
-                            </div>
-                            <iframe title="map" src="https://fortress.maptive.com/ver4/37edb5e1d7356435b5c5bff88ca9bd41" style="height: 70vh; width: 100%"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Schuylkill Modal -->
-            <div class="modal fade pt-5 mt-5" id="schuylkillModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl map-modal my-3">
-                    <div class="modal-content">
-                        <div class="modal-header bg-pink py-0 px-1" style="border: 2px solid; border-color: transparent transparent #55298a transparent">
-                            <div class="btn-group flex-wrap" role="group" aria-label="Counties">
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#allCountiesModal" data-bs-toggle="modal" data-bs-dismiss="modal">All Counties</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#philadelphiaModal" data-bs-toggle="modal" data-bs-dismiss="modal">Philadelphia</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#berksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Berks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#bucksModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bucks</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#chesterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Chester</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#delawareModal" data-bs-toggle="modal" data-bs-dismiss="modal">Delaware</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#lancasterModal" data-bs-toggle="modal" data-bs-dismiss="modal">Lancaster</button>
-                                <button type="button" class="btn btn-sm bg-pink text-black" data-bs-target="#montgomeryModal" data-bs-toggle="modal" data-bs-dismiss="modal">Montgomery</button>
-                                <button type="button" class="btn btn-sm bg-secondary text-white" data-bs-target="#schuylkillModal" data-bs-toggle="modal" data-bs-dismiss="modal">Schuylkill</button>
-                            </div>
-                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: 2px solid; border-color: transparent transparent transparent #55298a; border-radius: 0"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="p-0 container-fluid">
-                                <span class="lh-1" style="font-size: 11px">Use the buttons avove to change between counties.</span>
-                                <span class="lh-1" style="font-size: 11px">Press <span class="bi bi-list" style="font-size: 24px"></span> to toggle menu; Press <img src="data:image/svg+xml;base64,PHN2ZyBzdHlsZT0id2lkdGg6IDIwcHg7IGhlaWdodDogMjBweDsiIGRhdGEtc2xvdD0iaWNvbiIgZmlsbD0iYmxhY2siIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICA8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjUgMTBhNC41IDQuNSAwIDAgMCA0LjI4NC01Ljg4MmMtLjEwNS0uMzI0LS41MS0uMzkxLS43NTItLjE1TDE1LjM0IDYuNjZhLjQ1NC40NTQgMCAwIDEtLjQ5My4xMSAzLjAxIDMuMDEgMCAwIDEtMS42MTgtMS42MTYuNDU1LjQ1NSAwIDAgMSAuMTEtLjQ5NGwyLjY5NC0yLjY5MmMuMjQtLjI0MS4xNzQtLjY0Ny0uMTUtLjc1MmE0LjUgNC41IDAgMCAwLTUuODczIDQuNTc1Yy4wNTUuODczLS4xMjggMS44MDgtLjggMi4zNjhsLTcuMjMgNi4wMjRhMi43MjQgMi43MjQgMCAxIDAgMy44MzcgMy44MzdsNi4wMjQtNy4yM2MuNTYtLjY3MiAxLjQ5NS0uODU1IDIuMzY4LS44LjA5Ni4wMDcuMTkzLjAxLjI5MS4wMVpNNSAxNmExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaIj48L3BhdGg+CiAgICA8cGF0aCBkPSJNMTQuNSAxMS41Yy4xNzMgMCAuMzQ1LS4wMDcuNTE0LS4wMjJsMy43NTQgMy43NTRhMi41IDIuNSAwIDAgMS0zLjUzNiAzLjUzNmwtNC40MS00LjQxIDIuMTcyLTIuNjA3Yy4wNTItLjA2My4xNDctLjEzOC4zNDItLjE5Ni4yMDItLjA2LjQ2OS0uMDg3Ljc3Ny0uMDY3LjEyOC4wMDguMjU3LjAxMi4zODcuMDEyWk02IDQuNTg2bDIuMzMgMi4zM2EuNDUyLjQ1MiAwIDAgMS0uMDguMDlMNi44IDguMjE0IDQuNTg2IDZIMy4zMDlhLjUuNSAwIDAgMS0uNDQ3LS4yNzZsLTEuNy0zLjQwMmEuNS41IDAgMCAxIC4wOTMtLjU3N2wuNDktLjQ5YS41LjUgMCAwIDEgLjU3Ny0uMDk0bDMuNDAyIDEuN0EuNS41IDAgMCAxIDYgMy4zMXYxLjI3N1oiPjwvcGF0aD4KPC9zdmc+" style="display: inline; width: 20px; height: auto" /> to Filter by Domain and Category.</span>
-                            </div>
-                            <iframe title="map" src="https://fortress.maptive.com/ver4/950e8836ef3f24f3b2247e781eae0a67" style="height: 70vh; width: 100%"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid py-4 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
-            <div class="row flex-grow-sm-1 flex-grow-0">
-                <aside class="col-sm flex-grow-sm-2 flex-shrink-1 flex-grow-0">
-
-                        <div id="filter-container" class="d-flex flex-column gap-3 bg-white shadow py-3 px-4 my-2 br-5-35-5-35">
-                            <!-- Counties Filter -->
-<div>
-    <button class="btn btn-link d-flex justify-content-between align-items-center w-100 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#countiesList" aria-expanded="true" aria-controls="countiesList">
-        <span class="h5 mb-0">Counties</span>
-        <i class="bi bi-chevron-down"></i>
-    </button>
-    <div id="countiesList" class="collapse show">
-        <ul class="list-unstyled mt-3" id="countiesListContainer"></ul>
-    </div>
-</div>
-                            <!-- Domains Filter -->
-<div>
-    <button class="btn btn-link d-flex justify-content-between align-items-center w-100 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#domainsList" aria-expanded="true" aria-controls="domainsList">
-        <span class="h5 mb-0">Domains</span>
-        <i class="bi bi-chevron-down"></i>
-    </button>
-    <div id="domainsList" class="collapse show">
-        <ul class="list-unstyled mt-3" id="domainsListContainer"></ul>
-    </div>
-</div>
-
-                            <!-- Categories Filter -->
-<div>
-    <button class="btn btn-link d-flex justify-content-between align-items-center w-100 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#categoriesList" aria-expanded="true" aria-controls="categoriesList">
-        <span class="h5 mb-0">Categories</span>
-        <i class="bi bi-chevron-down"></i>
-    </button>
-    <div id="categoriesList" class="collapse show">
-        <ul class="list-unstyled mt-3" id="categoriesListContainer"></ul>
-    </div>
-</div>
-                            <!-- Populations Served Filter -->
-<div>
-    <button class="btn btn-link d-flex justify-content-between align-items-center w-100 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#populationsList" aria-expanded="true" aria-controls="populationsList">
-        <span class="h5 mb-0">Populations Served</span>
-        <i class="bi bi-chevron-down"></i>
-    </button>
-    <div id="populationsList" class="collapse show">
-        <ul class="list-unstyled mt-3" id="populationsListContainer"></ul>
-    </div>
-</div>
-                        </div>
-                </aside>
-                <main class="col overflow-x-auto overflow-y-hidden h-100" style="max-width: 800px">
-                    <div class="bg-light shadow py-4 px-3 mt-2 br-35-5-35-5">
-                        <!-- Search Container -->
-                        <div id="search-container" class="container-fluid align-items-center d-flex">
-                            <div class="flex-grow-1 d-flex align-items-center">
-                        <form class="w-100 d-flex" style="white-space: nowrap">
-                            <div class="input-group">
-                            <div class="input-group-prepend">
-                                <button
-                                    class="btn customButton--secondary py-1 px-2"
-                                    type="button"
-                                    style="border-radius: 10px 1px 1px 10px !important"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#allCountiesModal">
-                                    <span class="bi bi-geo-alt-fill"></span><span style="margin-left:15px">MAP</span>
-                                </button>
-                            </div>
-                                <input
-                                    class="form-control border-0 bg-gray-subtle py-0 px-4"
-                                    type="text"
-                                    placeholder="Search"
-                                    id="search-box" />
-                                <div class="input-group-append kbd">
-                                    <div class="bg-gray-subtle px-2 py-1 d-flex" style="height: 100%">
-                                        <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
+        label {
+            padding: 2px 8px;
+        }
+        
+        label:active {
+            background-color: aliceblue;
+            border-radius: 3px;
+        }
+        
+        label:hover {
+            background-color: aliceblue;
+            border-radius: 3px;
+        }
+        
+    </style>
+</head>
+<body class="bg-success-subtle">    <div class="container mt-5">
+        <h1>Resource Directory</h1>
+        <div class="row mb-4">
+            <div class="bg-white br-35-5-35-5 shadow p-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <button class="btn customButton--secondary py-1 px-2" type="button"
+                                            style="border-radius: 10px 1px 1px 10px !important" data-bs-toggle="modal"
+                                            data-bs-target="#allCountiesModal">
+                                            <span class="bi bi-geo-alt-fill"></span><span
+                                                style="margin-left:15px">MAP</span>
+                                        </button>
+                                    </div>                
+<input type="text" id="search-input"  class="form-control border-0 bg-gray-subtle py-0 px-4" placeholder="Search resources...">
+                                    <div class="input-group-append kbd">
+                                        <div class="bg-gray-subtle px-2 py-1 d-flex" style="height: 100%">
+                                            <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <button class="btn customButton--secondary py-1 px-3 searchButton" type="button"
+                                            style="border-radius: 1px 10px 10px 1px !important">
+                                            <span class="bi bi-search"></span>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="input-group-append">
-                                    <button
-                                        class="btn customButton--secondary py-1 px-3 searchButton"
-                                        type="button"
-                                        style="border-radius: 1px 10px 10px 1px !important">
-                                        <span class="bi bi-search"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                            </div>
-                        </div>
-                                </div>
-                    <div class="bg-light py-4 shadow mt-2 mb-2 br-35-5-35-35 d-flex d-sm-none justify p-1">
-                        <!-- Mobile Filter Container -->
-                        <div id="filter-menu-container" class="d-flex flex-row flex-wrap gap-3 justify-content-around">
-                            <!-- Counties Filter -->
-                            <div class="filter-group">
-                                <div class="btn text-bg-secondary text-white w-100">Counties</div>
-                                <div id="countiesDropdownList" class="filter-options"></div>
-                            </div>
-                            <!-- Domains Filter -->
-                            <div class="filter-group">
-                                <div class="btn text-bg-secondary text-white w-100">Domains</div>
-                                <div id="domainsDropdownList" class="filter-options"></div>
-                            </div>
-                            <!-- Categories Filter -->
-                            <div class="filter-group">
-                                <div class="btn text-bg-secondary text-white w-100">Categories</div>
-                                <div id="categoriesDropdownList" class="filter-options"></div>
-                            </div>
-                            <!-- Populations Served Filter -->
-                            <div class="filter-group">
-                                <div class="btn text-bg-secondary text-white w-100">Populations Served</div>
-                                <div id="populationsDropdownList" class="filter-options"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-light shadow py-4 px-3 my-4" style="border-radius: 5px 35px 5px 35px">
-                        <!-- Filter Badges Container -->
-                        <div id="filters-container">
-                            <button class="badge bg-danger" id="clearAllFilters">
-                                <span>Clear Filters</span>
-                                <span class="bi bi-x-lg" style="margin-left: 20px"></span>
-                            </button>
-                            <div id="appliedFilters" class="mb-3"></div>
-                        </div>
-                    </div>
-                    <!-- Resource Cards Container -->
-                    <div id="resource-cards-container" class="grid">
-                        <!-- Dynamically loaded cards will be appended here by JavaScript -->
-                    </div>
-                </main>
+
+<div id="chip-container" class="mb-3"></div>
             </div>
         </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-$(document).ready(function () {
-    const allowedCounties = ["Philadelphia", "Berks", "Bucks", "Chester", "Delaware", "Lancaster", "Montgomery", "Schuylkill"];
-    const allowedPopulations = ["Men", "Women", "Children", "Adolescents"];
-    const countiesSet = new Set();
-    const domainsSet = new Set();
-    const categoriesSet = new Set();
-    const populationsSet = new Set();
 
-    // Populate sets with unique filter values from jsonData
-    function populateSets() {
-        jsonData.forEach((item) => {
-            item.County.split(";").forEach(county => {
-                if (allowedCounties.includes(county.trim())) {
-                    countiesSet.add(county.trim());
-                }
-            });
-            item.Domain.split(";").forEach(domain => domainsSet.add(domain.trim()));
-            item.Category.split(";").forEach(category => categoriesSet.add(category.trim()));
-            item["Populations Served"].split(";").forEach(pop => {
-                if (allowedPopulations.includes(pop.trim())) {
-                    populationsSet.add(pop.trim());
-                }
-            });
-        });
-    }
-
-    // Function to populate filters with Bootstrap checkbox toggle buttons
-    function populateToggleButtons(set, elementId) {
-        const container = $(`#${elementId}Container`);
-        set.forEach(item => {
-            container.append(`
-                <li class="d-flex align-items-center mb-2">
-                    <input type="checkbox" class="form-check-input me-2" id="${elementId}-${item}">
-                    <label class="form-check-label" for="${elementId}-${item}">${item}</label>
-                </li>
-            `);
-        });
-    }
-
-    // Function to populate mobile filters with regular form input checkboxes
-    function populateDiv(set, elementId) {
-        const container = $(`#${elementId}Container`);
-        set.forEach(item => {
-            container.append(`
-                <li class="d-flex align-items-center mb-2">
-                    <input type="checkbox" class="form-check-input me-2" id="${elementId}-${item}">
-                    <label class="form-check-label" for="${elementId}-${item}">${item}</label>
-                </li>
-            `);
-        });
-    }
-
-    // Function to perform search and filter items
-    function performSearch() {
-        const filters = {
-            county: [],
-            domain: [],
-            category: [],
-            population: [],
-            search: $('#search-box').val().toLowerCase()
-        };
-
-        // Collect selected filters
-        $('input[type="checkbox"]:checked').each(function () {
-            const value = $(this).next('label').text();
-            if (countiesSet.has(value)) filters.county.push(value);
-            if (domainsSet.has(value)) filters.domain.push(value);
-            if (categoriesSet.has(value)) filters.category.push(value);
-            if (populationsSet.has(value)) filters.population.push(value);
-        });
-
-        const items = $(".js-filter-item").toArray();
-
-        // Filter items based on selected filters
-        items.forEach(item => {
-            const county = $(item).data('county').split(';').map(c => c.trim());
-            const domain = $(item).data('domain').split(';').map(d => d.trim());
-            const category = $(item).data('category').split(';').map(c => c.trim());
-            const population = $(item).data('population').split(';').map(p => p.trim());
-            const name = $(item).find('h3').text().toLowerCase();
-            const organization = $(item).find('h5').text().toLowerCase();
-
-            const matchesCounty = filters.county.length === 0 || filters.county.some(f => county.includes(f));
-            const matchesDomain = filters.domain.length === 0 || filters.domain.some(f => domain.includes(f));
-            const matchesCategory = filters.category.length === 0 || filters.category.some(f => category.includes(f));
-            const matchesPopulation = filters.population.length === 0 || filters.population.some(f => population.includes(f));
-            const matchesSearch = name.includes(filters.search) || organization.includes(filters.search);
-
-            $(item).toggle(matchesCounty && matchesDomain && matchesCategory && matchesPopulation && matchesSearch);
-        });
-    }
-
-    // Function to clear all filters
-    function clearAllFilters() {
-        $('input[type="checkbox"]').prop('checked', false);
-        $('#appliedFilters').empty();
-        performSearch();
-    }
-
-    // Function to update applied filters
-    function updateAppliedFilters() {
-        const appliedFilters = [];
-        $('input[type="checkbox"]:checked').each(function () {
-            appliedFilters.push($(this).next('label').text());
-        });
-        $('#appliedFilters').html(appliedFilters.map(filter => `<span class="badge bg-primary me-2">${filter}</span>`).join(' '));
-        performSearch();
-    }
-
-    // Function to create Google Maps URL
-    function createGoogleMapsUrl(name, address, city, state, zip) {
-        const query = `${name}, ${address}, ${city}, ${zip}`;
-        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-    }
-
-    // Function to format phone number
-    function formatPhoneNumber(phone) {
-        return "+1" + phone.replace(/-/g, "");
-    }
-
-    // Function to generate resource cards
-    function generateResourceCards() {
-        jsonData.forEach((item) => {
-            const formattedPhoneNumber = formatPhoneNumber(item.Phone);
-            item.phoneLink = `tel:${formattedPhoneNumber}`;
-            const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
-
-            const populations = item["Populations Served"].split(";").map(
-                (pop) => `<span class="badge text-black bg-pink py-2 js-badge" data-filter="population" data-value="${pop.trim()}">${pop.trim()}</span>`).join(" ");
-            const counties = item["County"].split(";").map(
-                (county) => `<span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
-            const card = `
-<div class="g-col-12 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
-    <div class="card shadow-lg text-bg-light">
-        <div class="row no-gutters p-0">
-            <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
-                <a href="${item.Website}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
-                <a href="${item.phoneLink}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
-                <a href="${googleMapsUrl}" class="btn d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
-            </div>
-            <div class="card-body col-10 p-4">
-                <div class="row">
-                
+        <div class="row d-flex justify-content-between">
+            <div class="col-md-3">
+                <div id="filter-area" class="bg-white p-3 br-5-5-5-5">
+                    <div id="counties-filter" class="mb-4">
+                        <h5>Counties</h5>
+                    </div>
+                    <div id="populations-filter" class="mb-4">
+                        <h5>Populations Served</h5>
+                    </div>
+                    <div id="service-areas-filter" class="mb-4">
+                        <h5>Service Areas</h5>
+                    </div>
+                    <div id="categories-filter" class="mb-4">
+                        <h5>Categories</h5>
+                    </div>
                 </div>
-                    <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${item["Location Name"]}</h3>
-                    <h5 style="font-weight:100;margin-top:0;font-size:18px">${item.Organization}</h5>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
-                                        ${item.Domain}
-                                        </span> </li>
-                            <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
-                                        ${item.Category}
-                                        </span> </li>
-                        </ol>
-                    </nav>
-                    <div class="row d-flex justify-content-md-end justify-content-sm-center position-relative"> ${item.Image ? `<img class="cardImage" src="${item.Image}" alt="Logo">` : ""} </div>
-                    <p><strong>Phone:</strong> ${item.Phone}</p>
-                    <p>${item.Address}
-                        <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
-                    <p><strong>Populations Served:</strong> ${populations}</p>
-                    <p><strong>Counties Served:</strong> ${counties}</p>
             </div>
-        </div>
+<div class="col-md-9">
+    <div id="controls-area" class="mb-3 d-flex align-items-center">
+    </div>
+    <div id="results-area" class="px-3">
+    </div>
+    <div id="pagination-controls" class="mt-3 d-flex justify-content-center">
     </div>
 </div>
-            `;
-            $(".grid").append(card);
-        });
-    }
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+    <script src="resourcesData.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to display resources as Bootstrap cards
+        function displayResources(resources, page = 1) {
+            const resultsArea = document.getElementById('results-area');
+            const paginationControls = document.getElementById('pagination-controls');
+            resultsArea.innerHTML = ''; // Clear previous results
+            paginationControls.innerHTML = '';
 
-    // Initialize the page
-    function init() {
-        try {
-            populateSets();
-            populateToggleButtons(countiesSet, 'countiesList');
-            populateToggleButtons(domainsSet, 'domainsList');
-            populateToggleButtons(categoriesSet, 'categoriesList');
-            populateToggleButtons(populationsSet, 'populationsList');
-            populateDiv(countiesSet, 'countiesDropdownList');
-            populateDiv(domainsSet, 'domainsDropdownList');
-            populateDiv(categoriesSet, 'categoriesDropdownList');
-            populateDiv(populationsSet, 'populationsDropdownList');
-            generateResourceCards();
-        } catch (error) {
-            console.error("Error initializing the page:", error);
-        }
-    }
+            const resourcesPerPage = 25;
+            const startIndex = (page - 1) * resourcesPerPage;
+            const endIndex = startIndex + resourcesPerPage;
+            const pageResources = resources.slice(startIndex, endIndex);
 
-    // Debounce function to limit the rate at which a function can fire
-    function debounce(func, wait) {
-        let timeout;
-        return function(...args) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
-        };
-    }
+            pageResources.forEach(resource => {
+                const card = document.createElement('div');
+                card.classList.add('col-12');
+                card.innerHTML = `
+                    <div class="card shadow-lg text-bg-white br-5-5-5-5 mb-5">
+                        <div class="row no-gutters p-0">
+                            <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
+                                <a href="${resource.Website}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
+                                <a href="${resource["Phone URL"]}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
+                                <a href="${resource["Google Maps URL"]}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
+                            </div>
+                            <div class="card-body col-10 p-4">
+                                <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${resource["Location Name"]}</h3>
+                                <h5 style="font-weight:100;margin-top:0;font-size:18px">${resource.Organization}</h5>
+                                <div class="row">
+                                    <div class="col">
+                                        <nav aria-label="breadcrumb">
+                                            <ol class="breadcrumb">
+                                                <li class="cardbreadcrumb-item">
+                                                    ${resource["Service Area"].split('; ').map(area => `<span class="badge text-black bg-pink py-2 my-1"> ${area.trim()} </span>`).join('')}
+                                                </li>
+                                                <li class="cardbreadcrumb-item">
+                                                    ${resource.Category.split('; ').map(cat => `<span class="badge text-black bg-pink py-2 my-1"> ${cat.trim()} </span>`).join('')}
+                                                </li>
+                                            </ol>
+                                        </nav>
+                                        <p><strong>Phone:</strong> ${resource.Phone}</p>
+                                        <p>${resource.Address} <br />${resource.City}, ${resource.State} ${resource["Zip Code"]}</p>
+                                    </div>
+                                    <div class="col d-flex justify-content-end align-items-end"> <img class="cardImage" src="${resource.Image}" alt="Logo"> </div>
+                                </div>
+                                <p><strong>Populations Served:</strong> ${resource["Populations Served"].split('; ').map(pop => `<span class="badge text-black bg-pink py-2 my-1"> ${pop.trim()} </span>`).join('')}</p>
+                                <p><strong>Counties Served:</strong> ${resource.County.split('; ').map(county => `<span class="badge text-black bg-pink py-2 my-1">${county.trim()}</span>`).join('')}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                resultsArea.appendChild(card);
+            });
 
-    // Event listeners
-    $('#clearAllFilters').click(function (e) {
-        e.preventDefault();
-        clearAllFilters();
-    });
-
-    $('input[type="checkbox"]').change(function () {
-        updateAppliedFilters();
-    });
-
-    $('#search-box').on('input', debounce(performSearch, 300));
-
-    $('#search-box').on('keypress', function (e) {
-        if (e.which === 13) { // Enter key pressed
-            e.preventDefault();
-            const searchTerm = $(this).val().trim();
-            if (searchTerm) {
-                $('#appliedFilters').append(`<span class="badge bg-primary me-2">${searchTerm}</span>`);
-                $(this).val('');
-                performSearch();
+            // Pagination controls
+            const totalPages = Math.ceil(resources.length / resourcesPerPage);
+            if (totalPages > 1) {
+                paginationControls.appendChild(createPaginationButton('Previous', page > 1 ? page - 1 : 1, page === 1));
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationControls.appendChild(createPaginationButton(i, i, i === page));
+                }
+                paginationControls.appendChild(createPaginationButton('Next', page < totalPages ? page + 1 : totalPages, page === totalPages));
             }
         }
-    });
+        // Fuse.js options for search
+        const options = {
+            keys: ['Location Name', 'Organization', 'County', 'Service Area', 'Category', 'Populations Served', 'Address', 'City', 'State', 'Zip Code'],
+            threshold: 0.3 // Adjust threshold as needed for fuzzy search accuracy
+        };
+        // Initialize Fuse.js with the loaded JSON data
+        const fuse = new Fuse(jsonData, options);
+        // Initial display of all resources
+        displayResources(jsonData);
+        // Get the search input element
+        const searchInput = document.getElementById('search-input');
+        // Get the chip container
+        const chipContainer = document.getElementById('chip-container');
+        // Get the filter area
+        const filterArea = document.getElementById('filter-area');
+        // Focus search input on Ctrl+K (or Cmd+K)
+        document.addEventListener('keydown', function (event) {
+            if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+                event.preventDefault(); // Prevent browser's default behavior
+                searchInput.focus();
+            }
+        });
+        // Add event listener to the search input for live search
+        searchInput.addEventListener('input', function () {
+            const searchTerm = searchInput.value;
+            filterResources();
+            updateSearchChip(searchTerm);
+        });
+        // Function to populate filter checkboxes
+        function populateFilters(data) {
+            const counties = new Set();
+            const populations = new Set();
+            const serviceAreas = new Set();
+            const categories = new Set();
 
-    $(document).on('click', '.js-badge', function () {
-        const filterType = $(this).data('filter');
-        const filterValue = $(this).data('value');
+            const allowedCounties = new Set(['Philadelphia', 'Berks', 'Bucks', 'Chester', 'Delaware', 'Lancaster', 'Montgomery', 'Schuylkill']); // Create set of allowed counties
+            const allowedPopulations = new Set(['Men', 'Women', 'Children', 'Adolescents']); // Create set of allowed populations
 
-        $(`#${filterType}List input[value="${filterValue}"]`).prop('checked', true).trigger('change');
+            data.forEach(item => {
+                if (allowedCounties.has(item.County)) { // Check if the county is in the allowed list
+                    counties.add(item.County);
+                }
+                item["Populations Served"].split('; ').forEach(pop => {
+                    if (allowedPopulations.has(pop.trim())) { // Check if the population is in the allowed list
+                        populations.add(pop.trim());
+                    }
+                });
+                serviceAreas.add(item["Service Area"]);
+                categories.add(item.Category);
+            });
 
-        if (!$(`#appliedFilters .badge:contains(${filterValue})`).length) {
-            $('#appliedFilters').append(`<span class="badge bg-secondary me-2">${filterValue}</span>`);
+            const countiesFilter = document.getElementById('counties-filter');
+            counties.forEach(county => countiesFilter.appendChild(createCheckbox(county, 'county')));
+
+            const populationsFilter = document.getElementById('populations-filter');
+            populations.forEach(pop => populationsFilter.appendChild(createCheckbox(pop, 'population')));
+            const serviceAreasFilter = document.getElementById('service-areas-filter');
+            serviceAreas.forEach(area => serviceAreasFilter.appendChild(createCheckbox(area, 'serviceArea')));
+            const categoriesFilter = document.getElementById('categories-filter');
+            categories.forEach(cat => categoriesFilter.appendChild(createCheckbox(cat, 'category')));
         }
-    });
-
-    $(document).keydown(function (e) {
-        if (e.ctrlKey && e.key === 'k') {
-            e.preventDefault();
-            $('#search-box').focus();
+        // Function to create a checkbox element
+        function createCheckbox(value, category) {
+            const label = document.createElement('label');
+            label.innerHTML = `<input type="checkbox" value="${value}" data-category="${category}"> ${value} `;
+            return label;
         }
-    });
+        // Populate the filter checkboxes
+        populateFilters(jsonData);
+// Function to filter resources based on checkbox selections
+        function filterResources() {
+            const selectedCounties = getSelectedFilters('county');
+            const selectedPopulations = getSelectedFilters('population');
+            const selectedServiceAreas = getSelectedFilters('serviceArea');
+            const selectedCategories = getSelectedFilters('category');
+            let filteredData = jsonData;
+            if (selectedCounties.length > 0) {
+                filteredData = filteredData.filter(item => selectedCounties.includes(item.County));
+            }
+            if (selectedPopulations.length > 0) {
+                filteredData = filteredData.filter(item => item["Populations Served"].split('; ').some(pop => selectedPopulations.includes(pop)));
+            }
+            if (selectedServiceAreas.length > 0) {
+                filteredData = filteredData.filter(item => selectedServiceAreas.includes(item["Service Area"]));
+            }
+            if (selectedCategories.length > 0) {
+                filteredData = filteredData.filter(item => selectedCategories.includes(item.Category));
+            }
+            const searchTerm = document.getElementById('search-input').value;
+            let results;
+            if (searchTerm) {
+                results = fuse.search(searchTerm).map(result => result.item);
+                results = results.filter(item => filteredData.includes(item));
+            } else {
+                results = filteredData;
+            }
 
-    // Initialize the page
-    init();
-});
+            // Sorting logic
+            const sortBy = sortDropdown.value;
+            if (sortBy) {
+                results.sort((a, b) => {
+                    let aVal, bVal;
+                    if (sortBy === 'county') {
+                        aVal = a.County;
+                        bVal = b.County;
+                    } else if (sortBy === 'populations') {
+                        aVal = a["Populations Served"];
+                        bVal = b["Populations Served"];
+                    } else if (sortBy === 'serviceArea') {
+                        aVal = a["Service Area"];
+                        bVal = b["Service Area"];
+                    } else if (sortBy === 'category') {
+                        aVal = a.Category;
+                        bVal = b.Category;
+                    }
+                    return aVal.localeCompare(bVal);
+                });
+            } else {
+              //if no sort is selected, return to original order.
+              results = results.sort((a,b) => jsonData.indexOf(a) - jsonData.indexOf(b));
+            }
+
+            displayResources(results, currentPage);
+
+            // Update resource count
+            document.getElementById('resource-count').textContent = `Showing ${results.length} resources`;
+        }
+        // Function to get selected filter values
+        function getSelectedFilters(category) {
+            const checkboxes = document.querySelectorAll(`#filter-area input[data-category="${category}"]:checked`);
+            return Array.from(checkboxes).map(checkbox => checkbox.value);
+        }
+        filterArea.addEventListener('change', function () {
+            filterResources();
+            updateFilterChips();
+        });
+        function updateSearchChip(searchTerm) {
+            // Clear existing search chip
+            const existingSearchChip = chipContainer.querySelector('.search-chip');
+            if (existingSearchChip) {
+                existingSearchChip.remove();
+            }
+            if (searchTerm) {
+                const chip = createChip(searchTerm, 'search');
+                chip.classList.add('search-chip');
+                chipContainer.appendChild(chip);
+            }
+        }
+        function updateFilterChips() {
+            // Clear existing filter chips
+            const filterChips = chipContainer.querySelectorAll('.filter-chip');
+            filterChips.forEach(chip => chip.remove());
+            // Add new filter chips
+            const selectedCounties = getSelectedFilters('county');
+            const selectedPopulations = getSelectedFilters('population');
+            const selectedServiceAreas = getSelectedFilters('serviceArea');
+            const selectedCategories = getSelectedFilters('category');
+            selectedCounties.forEach(county => chipContainer.appendChild(createChip(county, 'county')));
+            selectedPopulations.forEach(pop => chipContainer.appendChild(createChip(pop, 'population')));
+            selectedServiceAreas.forEach(area => chipContainer.appendChild(createChip(area, 'serviceArea')));
+            selectedCategories.forEach(cat => chipContainer.appendChild(createChip(cat, 'category')));
+        }
+        function createChip(text, category) {
+            const chip = document.createElement('div');
+            chip.classList.add('chip', 'filter-chip'); // Add your chip styling classes
+            chip.textContent = text;
+            chip.dataset.category = category;
+            const closeButton = document.createElement('span');
+            closeButton.innerHTML = "&times;";
+            closeButton.classList.add('close-chip');
+            chip.appendChild(closeButton);
+            closeButton.addEventListener('click', function () {
+                if (category === 'search') {
+                    searchInput.value = '';
+                } else {
+                    const checkbox = document.querySelector(`#filter-area input[data-category="${category}"][value="${text}"]`);
+                    if (checkbox) {
+                        checkbox.checked = false;
+                    }
+                }
+                filterResources();
+                chip.remove();
+            });
+            return chip;
+        }
+        // Add event listener to the filter area for checkbox changes
+        filterArea.addEventListener('change', filterResources);
+// Get the controls area
+        const controlsArea = document.getElementById('controls-area');
+
+        // Add clear all filters button
+        const clearFiltersButton = document.createElement('button');
+        clearFiltersButton.textContent = 'Clear All Filters';
+        clearFiltersButton.classList.add('btn', 'btn-secondary', 'me-2');
+        clearFiltersButton.addEventListener('click', function () {
+            searchInput.value = '';
+            document.querySelectorAll('#filter-area input:checked').forEach(checkbox => checkbox.checked = false);
+            sortDropdown.value = ""; // Reset sorting dropdown
+            currentPage = 1; // Reset current page
+            filterResources();
+        });
+        controlsArea.appendChild(clearFiltersButton);
+
+        // Add sorting dropdown
+        const sortDropdown = document.createElement('select');
+        sortDropdown.classList.add('form-select', 'me-2');
+        sortDropdown.innerHTML = `
+            <option value="">Sort By</option>
+            <option value="county">County</option>
+            <option value="populations">Populations Served</option>
+            <option value="serviceArea">Service Area</option>
+            <option value="category">Category</option>
+        `;
+        sortDropdown.addEventListener('change', function () {
+            currentPage = 1; // Reset current page
+            filterResources();
+        });
+        controlsArea.appendChild(sortDropdown);
+
+        // Create the resource count element outside filterResources
+        const countElement = document.createElement('div');
+        countElement.id = 'resource-count';
+        countElement.classList.add('ms-2');
+        controlsArea.appendChild(countElement);
+
+        // Function to create pagination buttons
+        function createPaginationButton(text, page, isDisabled) {
+            const button = document.createElement('button');
+            button.textContent = text;
+            button.classList.add('btn', 'btn-outline-secondary', 'mx-1');
+            button.disabled = isDisabled;
+            button.addEventListener('click', () => {
+                currentPage = page;
+                filterResources();
+            });
+            return button;
+        }
+
+        let currentPage = 1;
+        const resourcesPerPage = 25;
+
+        // Initial resource count and display
+        filterResources();
+    });
 </script>
 </body>
 </html>

@@ -4537,10 +4537,13 @@
         "Zip Code": "19403"
     }
 ];
-            
-            
+
+
             // Initialize DataTable with JSON data
             const table = new DataTable('#dataTable', {
+                layout: {
+                top1: 'searchPanes'
+                },
                 data: jsonData,
                 columns: [
                     { data: 'Location Name' },

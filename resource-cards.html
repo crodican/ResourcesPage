@@ -239,7 +239,6 @@
         </style>
     </head>
     <body class="bg-success-subtle">
-        <!-- Map Modals -->
         <div class="container-fluid p-5 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
             <div class="row flex-grow-sm-1 flex-grow-0">
                 <div class="mb-3" id="resource-header">
@@ -248,95 +247,92 @@
                 <div id="resource-cards-container" class="grid">
                     <!-- Dynamically loaded cards will be appended here by JavaScript -->
                 </div>
-                <div class="mt-3 d-flex justify-content-end">
-                <button id="show-more" class="button customButton--pink">Show More</button>
+
+            </div>
+        </div>
+<!-- Resources JSON Data -->
+<script src="resourcesData.js"></script>
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- Bootstrap 5 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- jQuery Easing -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- Custom Script -->
+<script>
+    $(document).ready(function() {
+        // Function to create Google Maps URL
+        function createGoogleMapsUrl(name, address, city, state, zip) {
+            const query = `${name}, ${address}, ${city}, ${zip}`;
+            return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+        }
+
+        // Function to format phone number
+        function formatPhoneNumber(phone) {
+            return "+1" + phone.replace(/-/g, "");
+        }
+
+        // Function to generate resource cards
+        function generateResourceCards() {
+            jsonData.forEach((item) => {
+                const formattedPhoneNumber = formatPhoneNumber(item.Phone);
+                item.phoneLink = `tel:${formattedPhoneNumber}`;
+                const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
+
+                const populations = item["Populations Served"].split(";").map(
+                    (pop) => `<span class="badge text-black bg-pink py-2 js-badge" data-filter="population" data-value="${pop.trim()}">${pop.trim()}</span>`).join(" ");
+                const counties = item["County"].split(";").map(
+                    (county) => `<span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
+                const card = `
+    <div class="g-col-12 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
+        <div class="card shadow-lg text-bg-white br-5-5-5-5">
+            <div class="row no-gutters p-0">
+                <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
+                    <a href="${item.Website}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
+                    <a href="${item.phoneLink}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
+                    <a href="${googleMapsUrl}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
+                </div>
+                <div class="card-body col-10 p-4">
+                    <div class="row">
+                    </div>
+                        <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${item["Location Name"]}</h3>
+                        <h5 style="font-weight:100;margin-top:0;font-size:18px">${item.Organization}</h5>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
+                                            ${item.Domain}
+                                            </span> </li>
+                                <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
+                                            ${item.Category}
+                                            </span> </li>
+                            </ol>
+                        </nav>
+                        <div class="row d-flex justify-content-md-end justify-content-sm-center position-relative"> ${item.Image ? `<img class="cardImage" src="${item.Image}" alt="Logo">` : ""} </div>
+                        <p><strong>Phone:</strong> ${item.Phone}</p>
+                        <p>${item.Address}
+                            <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                        <p><strong>Populations Served:</strong> ${populations}</p>
+                        <p><strong>Counties Served:</strong> ${counties}</p>
                 </div>
             </div>
         </div>
-    <!-- Resources JSON Data -->
-    <script src="https://resourcespage.pages.dev/resourcesData.js"></script>
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- jQuery Easing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Custom Script -->
-    <script>
-        $(document).ready(function() {
-            const itemsPerPage = 25;
-            let currentPage = 1;
+    </div>
+                `;
+                $(".grid").append(card);
+            });
 
-            // Function to create Google Maps URL
-            function createGoogleMapsUrl(name, address, city, state, zip) {
-                const query = `${name}, ${address}, ${city}, ${zip}`;
-                return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-            }
+            updateResourceCount();
+        }
 
-            // Function to format phone number
-            function formatPhoneNumber(phone) {
-                return "+1" + phone.replace(/-/g, "");
-            }
+        // Function to update the resource count
+        function updateResourceCount() {
+            const totalItems = jsonData.length;
+            $("#resource-count").text(`Showing all ${totalItems} resources`);
+        }
 
-            // Function to generate resource cards
-            function generateResourceCards(page) {
-                const startIndex = (page - 1) * itemsPerPage;
-                const endIndex = startIndex + itemsPerPage;
-                const itemsToShow = jsonData.slice(startIndex, endIndex);
-
-                itemsToShow.forEach((item) => {
-                    const formattedPhoneNumber = formatPhoneNumber(item.Phone);
-                    item.phoneLink = `tel:${formattedPhoneNumber}`;
-                    const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
-
-                    const populations = item["Populations Served"].split(";").map(
-                        (pop) => `<span class="badge text-black bg-pink py-2 js-badge" data-filter="population" data-value="${pop.trim()}">${pop.trim()}</span>`).join(" ");
-                    const counties = item["County"].split(";").map(
-                        (county) => `<span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
-                    const card = `
-        <div class="g-col-12 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
-            <div class="card shadow-lg text-bg-white br-5-5-5-5">
-                <div class="row no-gutters p-0">
-                    <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
-                        <a href="${item.Website}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
-                        <a href="${item.phoneLink}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
-                        <a href="${googleMapsUrl}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
-                    </div>
-                    <div class="card-body col-10 p-4">
-                        <div class="row">
-                        </div>
-                            <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${item["Location Name"]}</h3>
-                            <h5 style="font-weight:100;margin-top:0;font-size:18px">${item.Organization}</h5>
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
-                                                ${item.Domain}
-                                                </span> </li>
-                                    <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
-                                                ${item.Category}
-                                                </span> </li>
-                                </ol>
-                            </nav>
-                            <div class="row d-flex justify-content-md-end justify-content-sm-center position-relative"> ${item.Image ? `<img class="cardImage" src="${item.Image}" alt="Logo">` : ""} </div>
-                            <p><strong>Phone:</strong> ${item.Phone}</p>
-                            <p>${item.Address}
-                                <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
-                            <p><strong>Populations Served:</strong> ${populations}</p>
-                            <p><strong>Counties Served:</strong> ${counties}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-                    `;
-                    $(".grid").append(card);
-                });
-
-            }
-
-
-            // Initial load
-            generateResourceCards(currentPage);
-        });
-    </script>
+        // Initial load
+        generateResourceCards();
+    });
+</script>
 </body>
 </html>

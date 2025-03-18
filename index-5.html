@@ -16,6 +16,10 @@
         <!-- Bootstrap 5.1.3 CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- Bootstrap Grid CSS -->
+        <!-- Select2 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+        <!-- Select2 Bootstrap 5 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
         <link rel="stylesheet" href="bs-grid.css" />
         <!-- Custom Colors CSS -->
         <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
@@ -242,6 +246,37 @@
         <!-- Map Modals -->
         <div class="container-fluid p-5 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
             <div class="row flex-grow-sm-1 flex-grow-0">
+<div class="input-group mb-3">
+    <div class="input-group-text">Filter</div>
+    <select class="form-select" data-placeholder="Search..." id="filter-select" multiple>
+        <optgroup label="Counties">
+            <option>Philadelphia</option>
+            <option>Berks</option>
+            <option>Bucks</option>
+            <option>Chester</option>
+            <option>Delaware</option>
+            <option>Lancaster</option>
+            <option>Montgomery</option>
+            <option>Schuylkill</option>
+        </optgroup>
+        <optgroup label="Populations Served">
+            <option>Men</option>
+            <option>Women</option>
+            <option>Children</option>
+            <option>Adolescents</option>
+        </optgroup>
+        <optgroup label="Domains">
+            <option>Recovery Support</option>
+            <option>Family Support</option>
+            <option>Housing</option>
+            <option>Transportation</option>
+        </optgroup>
+        <optgroup label="Categories" id="categories-optgroup">
+            <!-- Dynamically Populated from JSON Data -->
+        </optgroup>
+    </select>
+    <div class="input-group-text">Apply</div>
+</div>
                 <div class="mb-3" id="resource-header">
                     <span id="resource-count"></span>
                 </div>
@@ -261,82 +296,154 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- jQuery Easing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js" integrity="sha512-RtZU3AyMVArmHLiW0suEZ9McadTdegwbgtiQl5Qqo9kunkVg1ofwueXD8/8wv3Af8jkME3DDe3yLfR8HSJfT2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Custom Script -->
     <script>
-        $(document).ready(function() {
-            const itemsPerPage = 25;
-            let currentPage = 1;
+$(document).ready(function() {
+    const itemsPerPage = 25;
+    let currentPage = 1;
 
-            // Function to create Google Maps URL
-            function createGoogleMapsUrl(name, address, city, state, zip) {
-                const query = `${name}, ${address}, ${city}, ${zip}`;
-                return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-            }
+    // Initialize Select2
+    $('#filter-select').select2({
+        theme: "bootstrap-5",
+        width: '100%',
+        placeholder: 'Search...',
+        closeOnSelect: true,
+        tags: true,
+        allowClear: true
+    });
 
-            // Function to format phone number
-            function formatPhoneNumber(phone) {
-                return "+1" + phone.replace(/-/g, "");
-            }
+    // Populate Categories dynamically
+    const categories = new Set();
+    jsonData.forEach(item => {
+        categories.add(item.Category);
+    });
 
-            // Function to generate resource cards
-            function generateResourceCards(page) {
-                const startIndex = (page - 1) * itemsPerPage;
-                const endIndex = startIndex + itemsPerPage;
-                const itemsToShow = jsonData.slice(startIndex, endIndex);
+    categories.forEach(category => {
+        $('#categories-optgroup').append(`<option>${category}</option>`);
+    });
 
-                itemsToShow.forEach((item) => {
-                    const formattedPhoneNumber = formatPhoneNumber(item.Phone);
-                    item.phoneLink = `tel:${formattedPhoneNumber}`;
-                    const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
+    // Function to create Google Maps URL
+    function createGoogleMapsUrl(name, address, city, state, zip) {
+        const query = `${name}, ${address}, ${city}, ${zip}`;
+        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+    }
 
-                    const populations = item["Populations Served"].split(";").map(
-                        (pop) => `<span class="badge text-black bg-pink py-2 js-badge" data-filter="population" data-value="${pop.trim()}">${pop.trim()}</span>`).join(" ");
-                    const counties = item["County"].split(";").map(
-                        (county) => `<span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
-                    const card = `
-        <div class="g-col-12 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
-            <div class="card shadow-lg text-bg-white br-5-5-5-5">
-                <div class="row no-gutters p-0">
-                    <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
-                        <a href="${item.Website}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
-                        <a href="${item.phoneLink}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
-                        <a href="${googleMapsUrl}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
+    // Function to format phone number
+    function formatPhoneNumber(phone) {
+        return "+1" + phone.replace(/-/g, "");
+    }
+
+    // Function to generate resource cards
+    function generateResourceCards(page) {
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const itemsToShow = jsonData.slice(startIndex, endIndex);
+
+        itemsToShow.forEach((item) => {
+            const formattedPhoneNumber = formatPhoneNumber(item.Phone);
+            item.phoneLink = `tel:${formattedPhoneNumber}`;
+            const googleMapsUrl = createGoogleMapsUrl(item["Location Name"], item.Address, item.City, item.State, item["Zip Code"]);
+
+            const populations = item["Populations Served"].split(";").map(
+                (pop) => `<span class="badge text-black bg-pink py-2 js-badge" data-filter="population" data-value="${pop.trim()}">${pop.trim()}</span>`).join(" ");
+            const counties = item["County"].split(";").map(
+                (county) => `<span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="county" data-value="${county.trim()}">${county.trim()} County</span>`).join(" ");
+            const card = `
+    <div class="g-col-12 js-filter-item" data-county="${item.County}" data-domain="${item.Domain}" data-category="${item.Category}" data-population="${item["Populations Served"]}">
+        <div class="card shadow-lg text-bg-white br-5-5-5-5">
+            <div class="row no-gutters p-0">
+                <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
+                    <a href="${item.Website}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
+                    <a href="${item.phoneLink}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
+                    <a href="${googleMapsUrl}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
+                </div>
+                <div class="card-body col-10 p-4">
+                    <div class="row">
                     </div>
-                    <div class="card-body col-10 p-4">
-                        <div class="row">
-                        </div>
-                            <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${item["Location Name"]}</h3>
-                            <h5 style="font-weight:100;margin-top:0;font-size:18px">${item.Organization}</h5>
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
-                                                ${item.Domain}
-                                                </span> </li>
-                                    <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
-                                                ${item.Category}
-                                                </span> </li>
-                                </ol>
-                            </nav>
-                            <div class="row d-flex justify-content-md-end justify-content-sm-center position-relative"> ${item.Image ? `<img class="cardImage" src="${item.Image}" alt="Logo">` : ""} </div>
-                            <p><strong>Phone:</strong> ${item.Phone}</p>
-                            <p>${item.Address}
-                                <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
-                            <p><strong>Populations Served:</strong> ${populations}</p>
-                            <p><strong>Counties Served:</strong> ${counties}</p>
-                    </div>
+                        <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${item["Location Name"]}</h3>
+                        <h5 style="font-weight:100;margin-top:0;font-size:18px">${item.Organization}</h5>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="domain" data-value="${item.Domain}">
+                                            ${item.Domain}
+                                            </span> </li>
+                                <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1 js-badge" data-filter="category" data-value="${item.Category}">
+                                            ${item.Category}
+                                            </span> </li>
+                            </ol>
+                        </nav>
+                        <div class="row d-flex justify-content-md-end justify-content-sm-center position-relative"> ${item.Image ? `<img class="cardImage" src="${item.Image}" alt="Logo">` : ""} </div>
+                        <p><strong>Phone:</strong> ${item.Phone}</p>
+                        <p>${item.Address}
+                            <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                        <p><strong>Populations Served:</strong> ${populations}</p>
+                        <p><strong>Counties Served:</strong> ${counties}</p>
                 </div>
             </div>
         </div>
-                    `;
-                    $(".grid").append(card);
-                });
-
-            }
-
-
-            // Initial load
-            generateResourceCards(currentPage);
+    </div>
+            `;
+            $(".grid").append(card);
         });
+
+        updateResourceCount();
+    }
+
+    // Function to update the resource count
+    function updateResourceCount() {
+        const totalItems = jsonData.length;
+        const itemsShown = Math.min(currentPage * itemsPerPage, totalItems);
+        $("#resource-count").text(`Showing ${itemsShown} of ${totalItems} resources`);
+    }
+
+    // Event listener for "Show More" button
+    $("#show-more").on("click", function() {
+        currentPage++;
+        generateResourceCards(currentPage);
+
+        // Hide the button if all items are shown
+        if (currentPage * itemsPerPage >= jsonData.length) {
+            $(this).hide();
+        }
+    });
+
+    // Function to filter resource cards
+    function filterResourceCards() {
+        const selectedFilters = $('#filter-select').val();
+        $('.js-filter-item').each(function() {
+            const item = $(this);
+            const itemCounties = item.data('county').split(';').map(c => c.trim());
+            const itemPopulations = item.data('population').split(';').map(p => p.trim());
+            const itemDomains = item.data('domain').split(';').map(d => d.trim());
+            const itemCategories = item.data('category').split(';').map(c => c.trim());
+
+            const matchesFilter = selectedFilters.some(filter => 
+                itemCounties.includes(filter) || 
+                itemPopulations.includes(filter) || 
+                itemDomains.includes(filter) || 
+                itemCategories.includes(filter)
+            );
+
+            if (matchesFilter) {
+                item.show();
+            } else {
+                item.hide();
+            }
+        });
+
+        updateResourceCount();
+    }
+
+    // Event listener for filter change
+    $('#filter-select').on('change', function() {
+        filterResourceCards();
+    });
+
+    // Initial load
+    generateResourceCards(currentPage);
+});
     </script>
 </body>
 </html>

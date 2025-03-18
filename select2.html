@@ -238,39 +238,46 @@
                                 <span class="bi bi-geo-alt-fill"></span><span style="margin-left:15px">MAP</span>
                             </button>
                         </div>
-                        <select class="form-control border-0 bg-gray-subtle py-0 px-4" data-placeholder="Search..." id="prepend-append-text-multiple-field" multiple>
-                          <optgroup label="Domains">
-                            <option>Recovery Support</option>
-                            <option>Family Support</option>
-                            <option>Housing</option>
-                            <option>Transportation</option>
-                          </optgroup>
-                          <optgroup label="Categories">
+                        <select class="form-control" data-placeholder="Search..." id="prepend-append-text-multiple-field" multiple>
+                            <optgroup label="Counties">
+                                <option>Philadelpia</option>
+                                <option>Berks</option>
+                                <option>Bucks</option>
+                                <option>Chester</option>
+                                <option>Delaware</option>
+                                <option>Lancaster</option>
+                                <option>Montgomery</option>
+                                <option>Schuylkill</option>
+                            </optgroup>
+                            <optgroup label="Populations Served">
+                                <option>Men</option>
+                                <option>Women</option>
+                                <option>Children</option>
+                                <option>Adolescents</option>
+                            </optgroup>
+                            <optgroup label="Domains">
+                                <option>Recovery Support</option>
+                                <option>Family Support</option>
+                                <option>Housing</option>
+                                <option>Transportation</option>
+                            </optgroup>
+                            <optgroup label="Categories">
                               <!-- Dynamically Populated from JSON Data -->
-                          </optgroup>
-                          <optgroup label="Counties">
-                            <option>Philadelpia</option>
-                            <option>Berks</option>
-                            <option>Bucks</option>
-                            <option>Chester</option>
-                            <option>Delaware</option>
-                            <option>Lancaster</option>
-                            <option>Montgomery</option>
-                            <option>Schuylkill</option>
-                          </optgroup>
-                          <optgroup label="Populations Served">
-                            <option>Men</option>
-                            <option>Women</option>
-                            <option>Children</option>
-                            <option>Adolescents</option>
-                          </optgroup>
-                            </select>
+                            </optgroup>
+                        </select>
                                 <div class="input-group-append kbd">
                                     <div class="bg-gray-subtle px-2 py-1 d-flex" style="height: 100%; z-index: 100">
                                         <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
                                     </div>
                                 </div>
-
+                                <div class="input-group-append">
+                                    <button
+                                        class="btn customButton--secondary py-1 px-3 searchButton"
+                                        type="button"
+                                        style="border-radius: 1px 10px 10px 1px !important">
+                                        <span class="bi bi-search"></span>
+                                    </button>
+                                </div>
                     </div>  </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
