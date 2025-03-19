@@ -119,30 +119,29 @@
         <h1>Resource Directory</h1>
         <div class="row mb-4">
             <div class="bg-white br-35-5-35-5 shadow p-4">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <button class="btn customButton--secondary py-1 px-2" type="button"
-                                            style="border-radius: 10px 1px 1px 10px !important" data-bs-toggle="modal"
-                                            data-bs-target="#allCountiesModal">
-                                            <span class="bi bi-geo-alt-fill"></span><span
-                                                style="margin-left:15px">MAP</span>
-                                        </button>
-                                    </div>                
-<input type="text" id="search-input"  class="form-control border-0 bg-gray-subtle py-0 px-4" placeholder="Search resources...">
-                                    <div class="input-group-append kbd">
-                                        <div class="bg-gray-subtle px-2 py-1 d-flex" style="height: 100%">
-                                            <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
-                                        </div>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <button class="btn customButton--secondary py-1 px-3 searchButton" type="button"
-                                            style="border-radius: 1px 10px 10px 1px !important">
-                                            <span class="bi bi-search"></span>
-                                        </button>
-                                    </div>
-                                </div>
-
-<div id="chip-container" class="mb-3"></div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button class="btn customButton--secondary py-1 px-2" type="button"
+                            style="border-radius: 10px 1px 1px 10px !important" data-bs-toggle="modal"
+                            data-bs-target="#allCountiesModal">
+                            <span class="bi bi-geo-alt-fill"></span><span
+                                style="margin-left:15px">MAP</span>
+                        </button>
+                    </div>                
+                    <input type="text" id="search-input"  class="form-control border-0 bg-gray-subtle py-0 px-4" placeholder="Search resources...">
+                    <div class="input-group-append kbd">
+                        <div class="bg-gray-subtle px-2 py-1 d-flex" style="height: 100%">
+                            <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
+                        </div>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn customButton--secondary py-1 px-3 searchButton" type="button"
+                            style="border-radius: 1px 10px 10px 1px !important">
+                            <span class="bi bi-search"></span>
+                        </button>
+                    </div>
+                </div>
+                <div id="chip-container" class="mb-3"></div>
             </div>
         </div>
 
@@ -666,7 +665,7 @@
                 const card = document.createElement('div');
                 card.classList.add('col-12');
                 card.innerHTML = `
-                    <div class="card shadow-lg text-bg-white br-5-5-5-5 mb-5">
+                    <div class="resourceCard shadow-lg text-bg-white br-5-5-5-5 mb-5">
                         <div class="row no-gutters p-0">
                             <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
                                 <a href="${resource.Website}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
