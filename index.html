@@ -181,7 +181,7 @@
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     <script src="taxonomyData.js"></script>
     <script src="resourcesData.js"></script>
-<script>
+    <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Function to display resources as Bootstrap cards
         function displayResources(resources, page = 1) {
@@ -274,10 +274,11 @@
             updateSearchChip(searchTerm);
         });
         // Function to populate filter checkboxes
-        function populateFilters(taxonomyData) {
-            const counties = taxonomyData[0].County;
-            const populations = taxonomyData[0]["Populations Served"];
-            const serviceAreas = taxonomyData[0]["Service Area"];
+        function populateFilters() {
+            const counties = ['Philadelphia', 'Berks', 'Bucks', 'Chester', 'Delaware', 'Lancaster', 'Montgomery', 'Schuylkill'];
+            const populations = ['Men', 'Women', 'Children', 'Adolescents'];
+            const serviceAreas = ['Recovery Support', 'Family Support', 'Housing', 'Transportation'];
+            const categories = ['Single County Authority', 'Center of Excellence', 'Regional Recovery Hub', 'Recovery Community Organization', 'Warm Handoff', 'Treatment with RSS', 'Counseling', 'Peer Support', 'Assistance Program', 'Recovery House', 'Halfway House', 'Housing Assistance', 'Other', 'Affordable Public Transportation', 'Carpool Service', 'Medical Assistance Transportation', 'Recovery Transportation Services', 'Vehicle Purchase Assistance', 'Other'];
 
             const countiesFilter = document.getElementById('counties-filter');
             counties.forEach(county => countiesFilter.appendChild(createCheckbox(county, 'county')));
@@ -286,16 +287,10 @@
             populations.forEach(pop => populationsFilter.appendChild(createCheckbox(pop, 'population')));
 
             const serviceAreasFilter = document.getElementById('service-areas-filter');
-            for (const category in serviceAreas) {
-                serviceAreas[category].forEach(area => {
-                    serviceAreasFilter.appendChild(createCheckbox(area, 'serviceArea'));
-                });
-            }
+            serviceAreas.forEach(area => serviceAreasFilter.appendChild(createCheckbox(area, 'serviceArea')));
 
-            // Clear and hide the category filter, as taxonomyData doesn't contain it.
             const categoriesFilter = document.getElementById('categories-filter');
-            categoriesFilter.innerHTML = ''; // Clear existing content
-            categoriesFilter.style.display = 'none'; // Hide the category filter
+            categories.forEach(cat => categoriesFilter.appendChild(createCheckbox(cat, 'category')));
         }
         // Function to create a checkbox element
         function createCheckbox(value, category) {
@@ -304,12 +299,13 @@
             return label;
         }
         // Populate the filter checkboxes
-        populateFilters(taxonomyData);
-// Function to filter resources based on checkbox selections
+        populateFilters();
+        // Function to filter resources based on checkbox selections
         function filterResources() {
             const selectedCounties = getSelectedFilters('county');
             const selectedPopulations = getSelectedFilters('population');
             const selectedServiceAreas = getSelectedFilters('serviceArea');
+            const selectedCategories = getSelectedFilters('category');
             let filteredData = jsonData;
             if (selectedCounties.length > 0) {
                 filteredData = filteredData.filter(item => selectedCounties.includes(item.County));
@@ -318,7 +314,10 @@
                 filteredData = filteredData.filter(item => item["Populations Served"].split('; ').some(pop => selectedPopulations.includes(pop)));
             }
             if (selectedServiceAreas.length > 0) {
-                filteredData = filteredData.filter(item => selectedServiceAreas.includes(item["Service Area"]));
+                filteredData = filteredData.filter(item => item["Service Area"].split('; ').some(area => selectedServiceAreas.includes(area)));
+            }
+            if (selectedCategories.length > 0) {
+                filteredData = filteredData.filter(item => item.Category.split('; ').some(cat => selectedCategories.includes(cat)));
             }
             const searchTerm = document.getElementById('search-input').value;
             let results;
@@ -385,9 +384,11 @@
             const selectedCounties = getSelectedFilters('county');
             const selectedPopulations = getSelectedFilters('population');
             const selectedServiceAreas = getSelectedFilters('serviceArea');
+            const selectedCategories = getSelectedFilters('category');
             selectedCounties.forEach(county => chipContainer.appendChild(createChip(county, 'county')));
             selectedPopulations.forEach(pop => chipContainer.appendChild(createChip(pop, 'population')));
             selectedServiceAreas.forEach(area => chipContainer.appendChild(createChip(area, 'serviceArea')));
+            selectedCategories.forEach(cat => chipContainer.appendChild(createChip(cat, 'category')));
         }
         function createChip(text, category) {
             const chip = document.createElement('div');
