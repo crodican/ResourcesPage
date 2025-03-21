@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel to JSON Converter</title>
+</head>
+<body>
+    <h1>Excel to JSON Converter</h1>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script>
+        window.onload = function() {
+    const filePath = 'resourcesData.xlsx';
+
+    fetch(filePath)
+    .then(response => response.arrayBuffer())
+    .then(data => {
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+
+        const json = XLSX.utils.sheet_to_json(worksheet);
+        const jsonContent = `const jsonData = ${JSON.stringify(json, null, 2)};`;
+
+        saveFile(jsonContent, 'resourcesData1.js');
+    })
+    .catch(error => {
+        console.error('Error fetching the Excel file:', error);
+    });
+};
+
+function saveFile(content, fileName) {
+    const blob = new Blob([content], { type: 'application/javascript' });
+    const link = document.createElement('a');
+
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+
+    URL.revokeObjectURL(link.href);
+}
+    </script>
+</body>
+</html>
