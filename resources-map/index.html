@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Item Filter</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8NxbLTG-2oTwtXjvWEsSiUcrCzg-UQsw"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .items {
+        .col50 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        .col-60 {
+            flex: 0 0 60%;
+            max-width: 50%;
+        }
+        .col-40 {
+            flex: 0 0 40%;
+            max-width: 40%;
+        }
+        @media (max-width: 992px) {
+            .col-60, .col-40 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+        @media (max-width: 576px) {
+            .col-60, .col-40 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+
+         .items {
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -18,86 +46,355 @@
 
         .card img {
             max-height: 200px;
-            width: 200px;
+            max-width: 200px;
+            margin: auto;
+            display: block;
         }
+
+        .info-bg {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .primary-bg {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .warning-bg {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .danger-bg {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .card-body {
+            flex-grow: 1;
+            padding: 10px;
+        }
+
+        .card-title.info {
+            color: #0c5460;
+        }
+
+        .card-title.primary {
+            color: #004085;
+        }
+
+        .card-title.warning {
+            color: #856404;
+        }
+
+        .card-title.danger {
+            color: #721c24;
+        }
+
+        #map {
+            height: 500px;
+            width: 500px;
+            margin-top: 20px;
+        }
+
     </style>
 </head>
+
 <body>
-    <div class="container mt-4">
-        <input type="text" id="search-box" class="form-control mb-3" placeholder="Search..." />
-        <div class="filters mb-3">
-            <h5>Domain</h5>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Recovery Support" id="domainRecoverySupport">
-                <label class="form-check-label" for="domainRecoverySupport">Recovery Support</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Family Support" id="domainFamilySupport">
-                <label class="form-check-label" for="domainFamilySupport">Family Support</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Housing" id="domainHousing">
-                <label class="form-check-label" for="domainHousing">Housing</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Transportation" id="domainTransportation">
-                <label class="form-check-label" for="domainTransportation">Transportation</label>
-            </div>
 
-            <h5>County</h5>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Berks" id="countyBerks">
-                <label class="form-check-label" for="countyBerks">Berks</label>
+    <div class="container">
+        <div class="row">
+            <div class="col-40 col-12 col-md-6">
+                <div id="map"></div>
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Bucks" id="countyBucks">
-                <label class="form-check-label" for="countyBucks">Bucks</label>
+            <div class="col-60 col-12 col-md-6">
+                <div>
+                    <div class="filters mb-3">
+                        <h5>Domain</h5>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Recovery Support"
+                                id="domainRecoverySupport">
+                            <label class="form-check-label" for="domainRecoverySupport">Recovery Support</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Family Support" id="domainFamilySupport">
+                            <label class="form-check-label" for="domainFamilySupport">Family Support</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Housing" id="domainHousing">
+                            <label class="form-check-label" for="domainHousing">Housing</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Transportation" id="domainTransportation">
+                            <label class="form-check-label" for="domainTransportation">Transportation</label>
+                        </div>
+            
+                        <h5>County</h5>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Berks" id="countyBerks">
+                            <label class="form-check-label" for="countyBerks">Berks</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Bucks" id="countyBucks">
+                            <label class="form-check-label" for="countyBucks">Bucks</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Chester" id="countyChester">
+                            <label class="form-check-label" for="countyChester">Chester</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Delaware" id="countyDelaware">
+                            <label class="form-check-label" for="countyDelaware">Delaware</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Lancaster" id="countyLancaster">
+                            <label class="form-check-label" for="countyLancaster">Lancaster</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Montgomery" id="countyMontgomery">
+                            <label class="form-check-label" for="countyMontgomery">Montgomery</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Schuylkill" id="countySchuylkill">
+                            <label class="form-check-label" for="countySchuylkill">Schuylkill</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Philadelphia" id="countyPhiladelphia">
+                            <label class="form-check-label" for="countyPhiladelphia">Philadelphia</label>
+                        </div>
+            
+                        <h5>Populations Served</h5>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Men" id="populationMen">
+                            <label class="form-check-label" for="populationMen">Men</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Women" id="populationWomen">
+                            <label class="form-check-label" for="populationWomen">Women</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Children" id="populationChildren">
+                            <label class="form-check-label" for="populationChildren">Children</label>
+                        </div>
+                        <button id="reset" class="btn btn-secondary ms-3">Reset</button>
+                    </div>
+                    
+                    
+            
+            
+                    <div class="items" id="items-container">
+                        <!-- Items will be populated here by JavaScript -->
+                    </div>
+                </div>
+             
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Chester" id="countyChester">
-                <label class="form-check-label" for="countyChester">Chester</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Delaware" id="countyDelaware">
-                <label class="form-check-label" for="countyDelaware">Delaware</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Lancaster" id="countyLancaster">
-                <label class="form-check-label" for="countyLancaster">Lancaster</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Montgomery" id="countyMontgomery">
-                <label class="form-check-label" for="countyMontgomery">Montgomery</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Schuylkill" id="countySchuylkill">
-                <label class="form-check-label" for="countySchuylkill">Schuylkill</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Philadelphia" id="countyPhiladelphia">
-                <label class="form-check-label" for="countyPhiladelphia">Philadelphia</label>
-            </div>
-
-            <h5>Populations Served</h5>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Men" id="populationMen">
-                <label class="form-check-label" for="populationMen">Men</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Women" id="populationWomen">
-                <label class="form-check-label" for="populationWomen">Women</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input filter" type="checkbox" value="Children" id="populationChildren">
-                <label class="form-check-label" for="populationChildren">Children</label>
-            </div>
-            <button id="reset" class="btn btn-secondary ms-3">Reset</button>
-        </div>
-        <div class="items" id="items-container">
-            <!-- Items will be populated here by JavaScript -->
         </div>
     </div>
-    <script src="resources.json"></script>
-    <script src="resources.js"></script>
+
+
+    
+    <script type="text/javascript" src="resources.json"></script>
+    
+    <script>
+        // Global variables to manage the Google Map and markers
+        let map; // Holds the Google Map instance
+        let markers = []; // Array to store Google Map markers
+      
+        // Function to initialize the Google Map
+        function initMap() {
+          // Create a new Google Map instance and attach it to the 'map' div
+          map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 40.2454, lng: -75.6496 }, // Set the initial center coordinates
+            zoom: 10, // Set the initial zoom level
+          });
+      
+          // Call functions to render items and apply filters
+          renderItems(); // Populate the item cards from the data
+          filterItems(); // Apply initial filters (if any)
+        }
+      
+        // Select all elements with the class 'filter' (checkboxes)
+        const filters = document.querySelectorAll('.filter');
+        // Select the container for the item cards
+        const itemsContainer = document.getElementById('items-container');
+        // Select the reset button
+        const resetButton = document.getElementById('reset');
+      
+        // Function to determine the background color class based on the domain
+        const getColorClass = (domain) => {
+          switch (domain) {
+            case 'Recovery Support':
+              return 'info-bg';
+            case 'Family Support':
+              return 'primary-bg';
+            case 'Housing':
+              return 'warning-bg';
+            case 'Transportation':
+              return 'danger-bg';
+            default:
+              return ''; // Return an empty string for default cases
+          }
+        };
+      
+        // Function to determine the title color class based on the domain
+        const getTitleColorClass = (domain) => {
+          switch (domain) {
+            case 'Recovery Support':
+              return 'info';
+            case 'Family Support':
+              return 'primary';
+            case 'Housing':
+              return 'warning';
+            case 'Transportation':
+              return 'danger';
+            default:
+              return ''; // Return an empty string for default cases
+          }
+        };
+      
+        // Function to create an HTML card for each item
+        const createCard = (item) => {
+          const colorClass = getColorClass(item.Domain); // Get the background color class
+          const titleColorClass = getTitleColorClass(item.Domain); // Get the title color class
+      
+          // Return the HTML string for the card
+          return `
+            <div class="card">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="${item.Image}" class="img img-fluid rounded-start" alt="${item['Location Name']}">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">${item['Location Name']}</h5>
+                    <p class="card-text">${item.Domain} - ${item.County}</p>
+                    <p class="card-text">Populations Served: ${item['Populations Served']}</p>
+                    <a href="${item.Website}" class="btn btn-primary">More Info</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        };
+      
+        // Function to render the item cards in the container
+        const renderItems = () => {
+          // Map the data array to create card HTML strings and join them into a single string
+          itemsContainer.innerHTML = data.map(createCard).join('');
+        };
+      
+        // Function to filter the items based on selected filters
+        const filterItems = () => {
+          // Get an array of selected filter values
+          const selectedFilters = Array.from(filters)
+            .filter((f) => f.checked)
+            .map((f) => f.value);
+      
+          // Separate filters into domain, county, and population categories
+          const domainFilters = selectedFilters.filter((f) =>
+            ['Recovery Support', 'Family Support', 'Housing', 'Transportation'].includes(f)
+          );
+          const countyFilters = selectedFilters.filter((f) =>
+            ['Berks', 'Bucks', 'Chester', 'Delaware', 'Lancaster', 'Montgomery', 'Schuylkill', 'Philadelphia'].includes(f)
+          );
+          const populationFilters = selectedFilters.filter((f) =>
+            ['Men', 'Women', 'Children'].includes(f)
+          );
+      
+          // Select all item cards
+          const items = document.querySelectorAll('.card');
+      
+          // Iterate through each item card
+          items.forEach((item) => {
+            // Extract item data from card text
+            const itemDomain = item.querySelector('.card-text').textContent.split(' - ')[0];
+            const itemCounty = item.querySelector('.card-text').textContent.split(' - ')[1];
+            const itemPopulations = item.querySelector('.card-text:nth-child(3)').textContent
+              .split(': ')[1]
+              .split(', ');
+      
+            // Check if the item matches the filters
+            const matchesDomain = domainFilters.length === 0 || domainFilters.includes(itemDomain);
+            const matchesCounty = countyFilters.length === 0 || countyFilters.includes(itemCounty);
+            const matchesPopulation = populationFilters.length === 0 || populationFilters.some((filter) =>
+              itemPopulations.includes(filter)
+            );
+      
+            // Determine if the item should be visible
+            const isVisible =
+              (domainFilters.length === 0 || matchesDomain) &&
+              (countyFilters.length === 0 || matchesCounty) &&
+              (populationFilters.length === 0 || matchesPopulation);
+      
+            // Set the item's display style based on visibility
+            item.style.display = isVisible ? 'block' : 'none';
+          });
+      
+          // Update the map markers based on the filtered items
+          updateMap();
+        };
+      
+        // Function to update the Google Map markers based on visible items
+        const updateMap = () => {
+          // Clear existing markers from the map
+          markers.forEach((marker) => marker.setMap(null));
+          markers = [];
+      
+          // Get an array of visible item cards
+          const visibleItems = Array.from(document.querySelectorAll('.card')).filter(
+            (item) => item.style.display === 'block'
+          );
+      
+          // Iterate through visible items and add markers
+          visibleItems.forEach((item) => {
+            // Find the item data in the original data array
+            const itemData = data.find((d) => d['Location Name'] === item.querySelector('.card-title').textContent);
+      
+            // If item data has latitude and longitude, create a marker
+            if (itemData && itemData.Latitude && itemData.Longitude) {
+              const marker = new google.maps.Marker({
+                position: { lat: itemData.Latitude, lng: itemData.Longitude },
+                map: map, // Attach the marker to the map
+                title: itemData['Location Name'], // Set the marker title
+              });
+              markers.push(marker); // Add the marker to the markers array
+            }
+          });
+        };
+      
+        // Add event listeners to filter checkboxes
+        filters.forEach((filter) => {
+          filter.addEventListener('change', filterItems);
+        });
+      
+        // Add event listener to the reset button
+        resetButton.addEventListener('click', () => {
+          // Uncheck all filters
+          filters.forEach((filter) => (filter.checked = false));
+          // Apply filters to reset the view
+          filterItems();
+        });
+      
+        // Initial rendering and filtering
+        renderItems();
+        filterItems(); // Initial call to show all items
+      
+        // Function to load a script dynamically
+        function loadScript(src) {
+          const script = document.createElement('script');
+          script.src = src;
+          script.async = true;
+          script.defer = true;
+          document.head.appendChild(script);
+        }
+      
+        // Load the Google Maps API script and call initMap when loaded
+        loadScript(
+          `https://maps.googleapis.com/maps/api/js?key=AIzaSyB8aw9j5wdmvScIUMxsj5rU_SPd1fkmrN4&callback=initMap`
+        );
+      </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
