@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Filter</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card {
+            width: 100%;
+        }
+
+        .card img {
+            max-height: 200px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <input type="text" id="search-box" class="form-control mb-3" placeholder="Search..." />
+        <div class="filters mb-3">
+            <h5>Domain</h5>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Recovery Support" id="domainRecoverySupport">
+                <label class="form-check-label" for="domainRecoverySupport">Recovery Support</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Family Support" id="domainFamilySupport">
+                <label class="form-check-label" for="domainFamilySupport">Family Support</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Housing" id="domainHousing">
+                <label class="form-check-label" for="domainHousing">Housing</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Transportation" id="domainTransportation">
+                <label class="form-check-label" for="domainTransportation">Transportation</label>
+            </div>
+
+            <h5>County</h5>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Berks" id="countyBerks">
+                <label class="form-check-label" for="countyBerks">Berks</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Bucks" id="countyBucks">
+                <label class="form-check-label" for="countyBucks">Bucks</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Chester" id="countyChester">
+                <label class="form-check-label" for="countyChester">Chester</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Delaware" id="countyDelaware">
+                <label class="form-check-label" for="countyDelaware">Delaware</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Lancaster" id="countyLancaster">
+                <label class="form-check-label" for="countyLancaster">Lancaster</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Montgomery" id="countyMontgomery">
+                <label class="form-check-label" for="countyMontgomery">Montgomery</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Schuylkill" id="countySchuylkill">
+                <label class="form-check-label" for="countySchuylkill">Schuylkill</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Philadelphia" id="countyPhiladelphia">
+                <label class="form-check-label" for="countyPhiladelphia">Philadelphia</label>
+            </div>
+
+            <h5>Populations Served</h5>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Men" id="populationMen">
+                <label class="form-check-label" for="populationMen">Men</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Women" id="populationWomen">
+                <label class="form-check-label" for="populationWomen">Women</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input filter" type="checkbox" value="Children" id="populationChildren">
+                <label class="form-check-label" for="populationChildren">Children</label>
+            </div>
+            <button id="reset" class="btn btn-secondary ms-3">Reset</button>
+        </div>
+        <div class="items" id="items-container">
+            <!-- Items will be populated here by JavaScript -->
+        </div>
+    </div>
+    <script src="resources.json"></script>
+    <script src="resources.js"></script>
+</body>
+</html>

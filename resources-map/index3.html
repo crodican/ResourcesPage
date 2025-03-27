@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Filter</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8NxbLTG-2oTwtXjvWEsSiUcrCzg-UQsw"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .col50 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        .col-60 {
+            flex: 0 0 60%;
+            max-width: 50%;
+        }
+        .col-40 {
+            flex: 0 0 40%;
+            max-width: 40%;
+        }
+        @media (max-width: 992px) {
+            .col-60, .col-40 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+        @media (max-width: 576px) {
+            .col-60, .col-40 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+
+         .items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card {
+            width: 100%;
+        }
+
+        .card img {
+            max-height: 200px;
+            max-width: 200px;
+            margin: auto;
+            display: block;
+        }
+
+        .info-bg {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .primary-bg {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .warning-bg {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .danger-bg {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .card-body {
+            flex-grow: 1;
+            padding: 10px;
+        }
+
+        .card-title.info {
+            color: #0c5460;
+        }
+
+        .card-title.primary {
+            color: #004085;
+        }
+
+        .card-title.warning {
+            color: #856404;
+        }
+
+        .card-title.danger {
+            color: #721c24;
+        }
+
+        #map {
+            height: 500px;
+            width: 500px;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-40 col-12 col-md-6">
+                <div id="map"></div>
+            </div>
+            <div class="col-60 col-12 col-md-6">
+                <div>
+                    <div class="filters mb-3">
+                        <h5>Domain</h5>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Recovery Support"
+                                id="domainRecoverySupport">
+                            <label class="form-check-label" for="domainRecoverySupport">Recovery Support</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Family Support" id="domainFamilySupport">
+                            <label class="form-check-label" for="domainFamilySupport">Family Support</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Housing" id="domainHousing">
+                            <label class="form-check-label" for="domainHousing">Housing</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Transportation" id="domainTransportation">
+                            <label class="form-check-label" for="domainTransportation">Transportation</label>
+                        </div>
+            
+                        <h5>County</h5>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Berks" id="countyBerks">
+                            <label class="form-check-label" for="countyBerks">Berks</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Bucks" id="countyBucks">
+                            <label class="form-check-label" for="countyBucks">Bucks</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Chester" id="countyChester">
+                            <label class="form-check-label" for="countyChester">Chester</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Delaware" id="countyDelaware">
+                            <label class="form-check-label" for="countyDelaware">Delaware</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Lancaster" id="countyLancaster">
+                            <label class="form-check-label" for="countyLancaster">Lancaster</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Montgomery" id="countyMontgomery">
+                            <label class="form-check-label" for="countyMontgomery">Montgomery</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Schuylkill" id="countySchuylkill">
+                            <label class="form-check-label" for="countySchuylkill">Schuylkill</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Philadelphia" id="countyPhiladelphia">
+                            <label class="form-check-label" for="countyPhiladelphia">Philadelphia</label>
+                        </div>
+            
+                        <h5>Populations Served</h5>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Men" id="populationMen">
+                            <label class="form-check-label" for="populationMen">Men</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Women" id="populationWomen">
+                            <label class="form-check-label" for="populationWomen">Women</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input filter" type="checkbox" value="Children" id="populationChildren">
+                            <label class="form-check-label" for="populationChildren">Children</label>
+                        </div>
+                        <button id="reset" class="btn btn-secondary ms-3">Reset</button>
+                    </div>
+                    
+                    
+            
+            
+                    <div class="items" id="items-container">
+                        <!-- Items will be populated here by JavaScript -->
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+    </div>
+
+
+    
+    <script type="text/javascript" src="resources.json"></script>
+    
+    <script>
+let map;
+let markers = [];
+
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 40.2454, lng: -75.6496 },
+        zoom: 10
+    });
+
+    renderItems();
+    filterItems();
+}
+
+const filters = document.querySelectorAll('.filter');
+const itemsContainer = document.getElementById('items-container');
+const resetButton = document.getElementById('reset');
+
+const getColorClass = (domain) => {
+    switch (domain) {
+        case 'Recovery Support':
+            return 'info-bg';
+        case 'Family Support':
+            return 'primary-bg';
+        case 'Housing':
+            return 'warning-bg';
+        case 'Transportation':
+            return 'danger-bg';
+        default:
+            return '';
+    }
+};
+
+const getTitleColorClass = (domain) => {
+    switch (domain) {
+        case 'Recovery Support':
+            return 'info';
+        case 'Family Support':
+            return 'primary';
+        case 'Housing':
+            return 'warning';
+        case 'Transportation':
+            return 'danger';
+        default:
+            return '';
+    }
+};
+
+const createCard = (item) => {
+    const colorClass = getColorClass(item.Domain);
+    const titleColorClass = getTitleColorClass(item.Domain);
+    return `
+        <div class="card shadow">
+            <div class="row g-0">
+                <div class="col-md-4 d-flex align-items-center justify-content-center ${colorClass}" style="max-width:400px">
+                    <img src="${item.Image}" class="img-fluid rounded-start" alt="${item['Location Name']}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body" style="padding-left:30px; padding-top: 20px; padding-bottom: 20px">
+                        <h5 class="card-title ${titleColorClass}">${item['Location Name']}</h5>
+                        <p class="card-text">${item.Domain} - ${item.County}</p>
+                        <p class="card-text">Populations Served: ${item['Populations Served']}</p>
+                        <a href="${item.Website}" class="btn btn-primary">More Info</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+const renderItems = () => {
+    itemsContainer.innerHTML = data.map(createCard).join('');
+};
+
+const filterItems = () => {
+    const selectedFilters = Array.from(filters)
+        .filter(f => f.checked)
+        .map(f => f.value);
+
+    const domainFilters = selectedFilters.filter(f => ['Recovery Support', 'Family Support', 'Housing', 'Transportation'].includes(f));
+    const countyFilters = selectedFilters.filter(f => ['Berks', 'Bucks', 'Chester', 'Delaware', 'Lancaster', 'Montgomery', 'Schuylkill', 'Philadelphia'].includes(f));
+    const populationFilters = selectedFilters.filter(f => ['Men', 'Women', 'Children'].includes(f));
+
+    const items = document.querySelectorAll('.card');
+    items.forEach(item => {
+        const itemDomain = item.querySelector('.card-text').textContent.split(' - ')[0];
+        const itemCounty = item.querySelector('.card-text').textContent.split(' - ')[1];
+        const itemPopulations = item.querySelector('.card-text:nth-child(3)').textContent.split(': ')[1].split(', ');
+
+        // Check if the item matches the filters
+        const matchesDomain = domainFilters.length === 0 || domainFilters.includes(itemDomain);
+        const matchesCounty = countyFilters.length === 0 || countyFilters.includes(itemCounty);
+        const matchesPopulation = populationFilters.length === 0 || populationFilters.some(filter => itemPopulations.includes(filter));
+
+        const isVisible = (domainFilters.length === 0 || matchesDomain) &&
+                          (countyFilters.length === 0 || matchesCounty) &&
+                          (populationFilters.length === 0 || matchesPopulation);
+        item.style.display = isVisible ? 'block' : 'none';
+    });
+
+    updateMap();
+};
+
+const updateMap = () => {
+    // Clear existing markers
+    markers.forEach(marker => marker.setMap(null));
+    markers = [];
+
+    // Add markers for visible items
+    const visibleItems = Array.from(document.querySelectorAll('.card')).filter(item => item.style.display === 'block');
+    visibleItems.forEach(item => {
+        const itemData = data.find(d => d['Location Name'] === item.querySelector('.card-title').textContent);
+        if (itemData && itemData.Latitude && itemData.Longitude) {
+            const marker = new google.maps.Marker({
+                position: { lat: itemData.Latitude, lng: itemData.Longitude },
+                map: map,
+                title: itemData['Location Name']
+            });
+            markers.push(marker);
+        }
+    });
+};
+
+filters.forEach(filter => {
+    filter.addEventListener('change', filterItems);
+});
+
+resetButton.addEventListener('click', () => {
+    filters.forEach(filter => filter.checked = false);
+    filterItems();
+});
+
+renderItems();
+filterItems(); // Initial call to show all items
+
+// Load the Google Maps script
+function loadScript(src) {
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+}
+
+loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyB8NxbLTG-2oTwtXjvWEsSiUcrCzg-UQsw&callback=initMap`);
+
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
