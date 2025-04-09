@@ -20,6 +20,8 @@ const jsonData =
         "Longitude": "-75.9269",
         "Slug": "1",
         "Phone URL": "tel://+16103768669",
+        "Column1": "601 Penn Street, Suite 60, Reading, PA, 19601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=601%20Penn%20Street%2C%20Suite%2060%2C%20Reading%2C%20PA%2C%2019601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=601%20Penn%20Street%2C%20Suite%2060%2CReading%2CPA%2C19601"
     },
     {
@@ -42,6 +44,8 @@ const jsonData =
         "Longitude": "-75.1299",
         "Slug": "2",
         "Phone URL": "tel://+12154442700",
+        "Column1": "55 East Court Street, 4th Floor, Doylestown, PA, 18901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=55%20East%20Court%20Street%2C%204th%20Floor%2C%20Doylestown%2C%20PA%2C%2018901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=55%20East%20Court%20Street%2C%204th%20Floor%2CDoylestown%2CPA%2C18901"
     },
     {
@@ -59,11 +63,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19382",
         "Website": "https://www.chesco.org/216/Drug-and-Alcohol",
-        "Image": "https://resourcespage.pages.dev/assets/resource-logos/chestercounty-drugandalcoholservices.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/chestercountydrugandalcohol.svg",
         "Latitude": "39.9607",
         "Longitude": "-75.6055",
         "Slug": "3",
         "Phone URL": "tel://+16103446620",
+        "Column1": "601 Westtown Road, Suite 325, West Chester, PA, 19382",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=601%20Westtown%20Road%2C%20Suite%20325%2C%20West%20Chester%2C%20PA%2C%2019382&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=601%20Westtown%20Road%2C%20Suite%20325%2CWest%20Chester%2CPA%2C19382"
     },
     {
@@ -81,11 +87,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19082",
         "Website": "https://delcohsa.org/mentalhealth.html",
-        "Image": "https://delcohsa.org/images/headerhsa.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/delawarecountyofficeofbehavioralhealth.svg",
         "Latitude": "39.9576",
         "Longitude": "-75.2591",
         "Slug": "4",
         "Phone URL": "tel://+16107132365",
+        "Column1": "20 South 69th Street, Upper Darby, PA, 19082",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=20%20South%2069th%20Street%2C%20Upper%20Darby%2C%20PA%2C%2019082&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=20%20South%2069th%20Street%2CUpper%20Darby%2CPA%2C19082"
     },
     {
@@ -108,6 +116,8 @@ const jsonData =
         "Longitude": "-76.3062",
         "Slug": "5",
         "Phone URL": "tel://+17172998023",
+        "Column1": "150 North Queen Street, Suite 111, Lancaster, PA, 17603",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=150%20North%20Queen%20Street%2C%20Suite%20111%2C%20Lancaster%2C%20PA%2C%2017603&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=150%20North%20Queen%20Street%2C%20Suite%20111%2CLancaster%2CPA%2C17603"
     },
     {
@@ -125,11 +135,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19401",
         "Website": "https://www.montgomerycountypa.gov/1339/Drug-Alcohol",
-        "Image": "https://raw.githubusercontent.com/crodican/RS-Training-Counties/refs/heads/main/montgomery_county_drug_and_alcohol.jpg",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/montgomerycountyofficeofdrugandalcohol.png",
         "Latitude": "40.123",
         "Longitude": "-75.3399",
         "Slug": "6",
         "Phone URL": "tel://+16102783642",
+        "Column1": "1430 DeKalb Street, Norristown, PA, 19401",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1430%20DeKalb%20Street%2C%20Norristown%2C%20PA%2C%2019401&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1430%20DeKalb%20Street%2CNorristown%2CPA%2C19401"
     },
     {
@@ -152,6 +164,8 @@ const jsonData =
         "Longitude": "-76.195",
         "Slug": "7",
         "Phone URL": "tel://+15706212890",
+        "Column1": "108 South Claude A. Lord Blvd, 2nd Floor, Pottsville, PA, 17901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=108%20South%20Claude%20A.%20Lord%20Blvd%2C%202nd%20Floor%2C%20Pottsville%2C%20PA%2C%2017901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=108%20South%20Claude%20A.%20Lord%20Blvd%2C%202nd%20Floor%2CPottsville%2CPA%2C17901"
     },
     {
@@ -169,11 +183,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19127",
         "Website": "https://unityrecovery.org/rss-interest-philadelphia",
-        "Image": "https://unityrecovery.org/wp-content/uploads/2019/03/Main_Logo_Large-1.jpg",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/unity.png",
         "Latitude": "40.02689179",
         "Longitude": "-75.22501327",
         "Slug": "8",
         "Phone URL": "tel://+12677482454",
+        "Column1": "106 Gay Street, Floor 2, Philadelphia, PA, 19127",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=106%20Gay%20Street%2C%20Floor%202%2C%20Philadelphia%2C%20PA%2C%2019127&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=106%20Gay%20Street%2C%20Floor%202%2CPhiladelphia%2CPA%2C19127"
     },
     {
@@ -191,11 +207,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "18902",
         "Website": "https://www.councilsepa.org/our-locations/",
-        "Image": "https://i.imgur.com/SJgeyeL.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/PRO-ACT.svg",
         "Latitude": "40.333219",
         "Longitude": "-75.136382",
         "Slug": "9",
         "Phone URL": "tel://+12153456644",
+        "Column1": "4459 West Swamp Road, Doylestown, PA, 18902",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=4459%20West%20Swamp%20Road%2C%20Doylestown%2C%20PA%2C%2018902&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=4459%20West%20Swamp%20Road%2CDoylestown%2CPA%2C18902"
     },
     {
@@ -213,11 +231,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19341",
         "Website": "https://www.councilsepa.org/pro-act-recovery-support-services/",
-        "Image": "https://lh3.googleusercontent.com/d/17HjRJ68MnAoRokMSl5cWd0ezsN2sbB9I",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/PRO-ACT.svg",
         "Latitude": "40.029",
         "Longitude": "-75.6208",
         "Slug": "10",
         "Phone URL": "tel://+18002216333",
+        "Column1": "660 Exton Commons, Exton, PA, 19341",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=660%20Exton%20Commons%2C%20Exton%2C%20PA%2C%2019341&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=660%20Exton%20Commons%2CExton%2CPA%2C19341"
     },
     {
@@ -235,11 +255,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19007",
         "Website": "https://www.councilsepa.org/pro-act-recovery-support-services/",
-        "Image": "https://lh3.googleusercontent.com/d/17HjRJ68MnAoRokMSl5cWd0ezsN2sbB9I",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/PRO-ACT.svg",
         "Latitude": "40.10849",
         "Longitude": "-74.87646",
         "Slug": "11",
         "Phone URL": "tel://+12157883738 ext. 5",
+        "Column1": "1286 Veterans Highway, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1286%20Veterans%20Highway%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1286%20Veterans%20Highway%2CBristol%2CPA%2C19007"
     },
     {
@@ -257,11 +279,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19401",
         "Website": "https://www.councilsepa.org/pro-act-recovery-support-services/",
-        "Image": "https://lh3.googleusercontent.com/d/17HjRJ68MnAoRokMSl5cWd0ezsN2sbB9I",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/PRO-ACT.svg",
         "Latitude": "40.104172",
         "Longitude": "-75.347468",
         "Slug": "12",
         "Phone URL": "tel://+14843830802",
+        "Column1": "601 DeKalb Street, Norristown, PA, 19401",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=601%20DeKalb%20Street%2C%20Norristown%2C%20PA%2C%2019401&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=601%20DeKalb%20Street%2CNorristown%2CPA%2C19401"
     },
     {
@@ -279,11 +303,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19132",
         "Website": "https://www.councilsepa.org/pro-act-recovery-support-services/",
-        "Image": "https://lh3.googleusercontent.com/d/17HjRJ68MnAoRokMSl5cWd0ezsN2sbB9I",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/PRO-ACT.svg",
         "Latitude": "39.994841",
         "Longitude": "-75.160134",
         "Slug": "13",
         "Phone URL": "tel://+12152237700",
+        "Column1": "1701 W. Lehigh Avenue, #6, Philadelphia, PA, 19132",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1701%20W.%20Lehigh%20Avenue%2C%20%236%2C%20Philadelphia%2C%20PA%2C%2019132&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1701%20W.%20Lehigh%20Avenue%2C%20%236%2CPhiladelphia%2CPA%2C19132"
     },
     {
@@ -301,11 +327,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19123",
         "Website": "https://www.councilsepa.org/prevention-training-and-education/",
-        "Image": "https://lh3.googleusercontent.com/d/1aEt7QZJNtfXQyKqfP0V0v2l9uSZ7QHoQ",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/PRO-ACT.svg",
         "Latitude": "39.959861",
         "Longitude": "-75.137905",
         "Slug": "14",
         "Phone URL": "tel://+12678177661",
+        "Column1": "520 North Columbus Blvd., Suite 203, Philadelphia, PA, 19123",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=520%20North%20Columbus%20Blvd.%2C%20Suite%20203%2C%20Philadelphia%2C%20PA%2C%2019123&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=520%20North%20Columbus%20Blvd.%2C%20Suite%20203%2CPhiladelphia%2CPA%2C19123"
     },
     {
@@ -323,11 +351,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "18901",
         "Website": "https://www.councilsepa.org/pro-act-recovery-support-services/",
-        "Image": "https://lh3.googleusercontent.com/d/17HjRJ68MnAoRokMSl5cWd0ezsN2sbB9I",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/PRO-ACT.svg",
         "Latitude": "40.299",
         "Longitude": "-75.178",
         "Slug": "15",
         "Phone URL": "tel://+12154896120",
+        "Column1": "25 Beulah Road, New Brittain, PA, 18901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=25%20Beulah%20Road%2C%20New%20Brittain%2C%20PA%2C%2018901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=25%20Beulah%20Road%2CNew%20Brittain%2CPA%2C18901"
     },
     {
@@ -350,6 +380,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "16",
         "Phone URL": "tel://+17174924596",
+        "Column1": "78 East Main Street, Mount Jou, PA, 17552",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=78%20East%20Main%20Street%2C%20Mount%20Jou%2C%20PA%2C%2017552&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=78%20East%20Main%20Street%2CMount%20Jou%2CPA%2C17552"
     },
     {
@@ -372,6 +404,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "17",
         "Phone URL": "tel://+18556872410",
+        "Column1": "2200 Providence Ave, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2200%20Providence%20Ave%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2200%20Providence%20Ave%2CChester%2CPA%2C19013"
     },
     {
@@ -394,6 +428,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "18",
         "Phone URL": "tel://+18556872410",
+        "Column1": "206 South Orange Street, Media, PA, 19063",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=206%20South%20Orange%20Street%2C%20Media%2C%20PA%2C%2019063&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=206%20South%20Orange%20Street%2CMedia%2CPA%2C19063"
     },
     {
@@ -416,6 +452,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "19",
         "Phone URL": "tel://+18556872410",
+        "Column1": "300 West Baltimore Avenue, Media, PA, 19063",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=300%20West%20Baltimore%20Avenue%2C%20Media%2C%20PA%2C%2019063&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=300%20West%20Baltimore%20Avenue%2CMedia%2CPA%2C19063"
     },
     {
@@ -438,6 +476,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "20",
         "Phone URL": "tel://+18556872410",
+        "Column1": "479 Thomas Jones Way, Suite 800, Exton, PA, 19341",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=479%20Thomas%20Jones%20Way%2C%20Suite%20800%2C%20Exton%2C%20PA%2C%2019341&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=479%20Thomas%20Jones%20Way%2C%20Suite%20800%2CExton%2CPA%2C19341"
     },
     {
@@ -460,6 +500,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "21",
         "Phone URL": "tel://+18556872410",
+        "Column1": "239 East Market Street, Chester, PA, 19382",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=239%20East%20Market%20Street%2C%20Chester%2C%20PA%2C%2019382&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=239%20East%20Market%20Street%2CChester%2CPA%2C19382"
     },
     {
@@ -477,11 +519,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19047",
         "Website": "https://www.councilsepa.org/our-locations/",
-        "Image": "https://i.imgur.com/SJgeyeL.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/PRO-ACT.svg",
         "Latitude": "",
         "Longitude": "",
         "Slug": "22",
         "Phone URL": "tel://+12159495000",
+        "Column1": "380 North Oxford Valley Road, Langhorne, PA, 19047",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=380%20North%20Oxford%20Valley%20Road%2C%20Langhorne%2C%20PA%2C%2019047&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=380%20North%20Oxford%20Valley%20Road%2CLanghorne%2CPA%2C19047"
     },
     {
@@ -499,11 +543,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19047",
         "Website": "https://www.councilsepa.org/our-locations/",
-        "Image": "https://i.imgur.com/SJgeyeL.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/PRO-ACT.svg",
         "Latitude": "",
         "Longitude": "",
         "Slug": "23",
         "Phone URL": "tel://+12157102000",
+        "Column1": "1201 Langhorne Newtown Rd, Langhorne, PA, 19047",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1201%20Langhorne%20Newtown%20Rd%2C%20Langhorne%2C%20PA%2C%2019047&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1201%20Langhorne%20Newtown%20Rd%2CLanghorne%2CPA%2C19047"
     },
     {
@@ -521,11 +567,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19007",
         "Website": "http://www.gaudenzia.org/",
-        "Image": "https://www.gaudenzia.org/wp-content/uploads/2022/04/guadenzia-logo-1000x400-1-e1658090273832.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/gaudenzia.svg",
         "Latitude": "",
         "Longitude": "",
         "Slug": "24",
         "Phone URL": "tel://+12157859200",
+        "Column1": "501 Bath  Road, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=501%20Bath%20%20Road%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=501%20Bath%20%20Road%2CBristol%2CPA%2C19007"
     },
     {
@@ -548,6 +596,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "25",
         "Phone URL": "tel://+12154534000",
+        "Column1": "700 Lawn Ave, Sellersville, PA, 18960",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=700%20Lawn%20Ave%2C%20Sellersville%2C%20PA%2C%2018960&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=700%20Lawn%20Ave%2CSellersville%2CPA%2C18960"
     },
     {
@@ -570,6 +620,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "26",
         "Phone URL": "tel://+12153452200",
+        "Column1": "595 W State St, Doylestown, PA, 18901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=595%20W%20State%20St%2C%20Doylestown%2C%20PA%2C%2018901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=595%20W%20State%20St%2CDoylestown%2CPA%2C18901"
     },
     {
@@ -592,6 +644,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "27",
         "Phone URL": "tel://+12155384500",
+        "Column1": "3000 Saint Luke's Drive, Quakertown, PA, 18951",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=3000%20Saint%20Luke%27s%20Drive%2C%20Quakertown%2C%20PA%2C%2018951&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=3000%20Saint%20Luke%27s%20Drive%2CQuakertown%2CPA%2C18951"
     },
     {
@@ -614,6 +668,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "28",
         "Phone URL": "tel://+12152576551",
+        "Column1": "807 Lawn Avenue, Sellersville, PA, 18960",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=807%20Lawn%20Avenue%2C%20Sellersville%2C%20PA%2C%2018960&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=807%20Lawn%20Avenue%2CSellersville%2CPA%2C18960"
     },
     {
@@ -636,6 +692,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "29",
         "Phone URL": "tel://+12674733855",
+        "Column1": "701 East Marshall Street, West Chester, PA, 19380",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=701%20East%20Marshall%20Street%2C%20West%20Chester%2C%20PA%2C%2019380&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=701%20East%20Marshall%20Street%2CWest%20Chester%2CPA%2C19380"
     },
     {
@@ -658,6 +716,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "30",
         "Phone URL": "tel://+12674733855",
+        "Column1": "255 West Lancaster Avenue, Paoli, PA, 19301",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=255%20West%20Lancaster%20Avenue%2C%20Paoli%2C%20PA%2C%2019301&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=255%20West%20Lancaster%20Avenue%2CPaoli%2CPA%2C19301"
     },
     {
@@ -680,6 +740,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "31",
         "Phone URL": "tel://+12674733855",
+        "Column1": "140 Nutt Road, Phoenixville, PA, 19460",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=140%20Nutt%20Road%2C%20Phoenixville%2C%20PA%2C%2019460&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=140%20Nutt%20Road%2CPhoenixville%2CPA%2C19460"
     },
     {
@@ -702,6 +764,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "32",
         "Phone URL": "tel://+12674733855",
+        "Column1": "467 Creamery Lane, Exton, PA, 19341",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=467%20Creamery%20Lane%2C%20Exton%2C%20PA%2C%2019341&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=467%20Creamery%20Lane%2CExton%2CPA%2C19341"
     },
     {
@@ -724,6 +788,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "33",
         "Phone URL": "tel://+16104151140",
+        "Column1": "237 Bridge Street, Phoenixville, PA, 19460",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=237%20Bridge%20Street%2C%20Phoenixville%2C%20PA%2C%2019460&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=237%20Bridge%20Street%2CPhoenixville%2CPA%2C19460"
     },
     {
@@ -746,6 +812,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "34",
         "Phone URL": "tel://+14849410500",
+        "Column1": "11 Robinson Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=11%20Robinson%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=11%20Robinson%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -768,6 +836,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "35",
         "Phone URL": "tel://+16102399600",
+        "Column1": "166 West Main Street, Norristown, PA, 19401",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=166%20West%20Main%20Street%2C%20Norristown%2C%20PA%2C%2019401&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=166%20West%20Main%20Street%2CNorristown%2CPA%2C19401"
     },
     {
@@ -790,6 +860,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "36",
         "Phone URL": "tel://+12158497200",
+        "Column1": "830 Twining Road, Suite 1, Dresher, PA, 19025",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=830%20Twining%20Road%2C%20Suite%201%2C%20Dresher%2C%20PA%2C%2019025&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=830%20Twining%20Road%2C%20Suite%201%2CDresher%2CPA%2C19025"
     },
     {
@@ -812,6 +884,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "37",
         "Phone URL": "tel://+14848776337",
+        "Column1": "601 DeKalb Street, Suite 1, Norristown, PA, 19401",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=601%20DeKalb%20Street%2C%20Suite%201%2C%20Norristown%2C%20PA%2C%2019401&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=601%20DeKalb%20Street%2C%20Suite%201%2CNorristown%2CPA%2C19401"
     },
     {
@@ -834,6 +908,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "38",
         "Phone URL": "tel://+14848776337",
+        "Column1": "2500 Bernville Rd, Reading, PA, 19605",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2500%20Bernville%20Rd%2C%20Reading%2C%20PA%2C%2019605&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2500%20Bernville%20Rd%2CReading%2CPA%2C19605"
     },
     {
@@ -856,6 +932,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "39",
         "Phone URL": "tel://+16104786920",
+        "Column1": "401 Buttonwood Street, West Reading, PA, 19611",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=401%20Buttonwood%20Street%2C%20West%20Reading%2C%20PA%2C%2019611&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=401%20Buttonwood%20Street%2CWest%20Reading%2CPA%2C19611"
     },
     {
@@ -878,6 +956,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "40",
         "Phone URL": "tel://+18556872410",
+        "Column1": "271 Bethlehem Pike, Suite 201, Colmar, PA, 18915",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=271%20Bethlehem%20Pike%2C%20Suite%20201%2C%20Colmar%2C%20PA%2C%2018915&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=271%20Bethlehem%20Pike%2C%20Suite%20201%2CColmar%2CPA%2C18915"
     },
     {
@@ -900,6 +980,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "41",
         "Phone URL": "tel://+18556872410",
+        "Column1": "2200 Providence Ave, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2200%20Providence%20Ave%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2200%20Providence%20Ave%2CChester%2CPA%2C19013"
     },
     {
@@ -922,6 +1004,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "42",
         "Phone URL": "tel://+16102399600",
+        "Column1": "106 W Main St, Norristown, PA, 19401",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=106%20W%20Main%20St%2C%20Norristown%2C%20PA%2C%2019401&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=106%20W%20Main%20St%2CNorristown%2CPA%2C19401"
     },
     {
@@ -944,6 +1028,8 @@ const jsonData =
         "Longitude": "-75.78965",
         "Slug": "43",
         "Phone URL": "tel://+18663033128 ",
+        "Column1": "1825 East Lincoln Highway , Coatsville , PA, 19320",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1825%20East%20Lincoln%20Highway%20%2C%20Coatsville%20%2C%20PA%2C%2019320&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1825%20East%20Lincoln%20Highway%20%2CCoatsville%20%2CPA%2C19320"
     },
     {
@@ -966,6 +1052,8 @@ const jsonData =
         "Longitude": "-75.27089",
         "Slug": "44",
         "Phone URL": "tel://+16105833800",
+        "Column1": "904 Chester Pike, Sharon Hill, PA, 19079",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=904%20Chester%20Pike%2C%20Sharon%20Hill%2C%20PA%2C%2019079&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=904%20Chester%20Pike%2CSharon%20Hill%2CPA%2C19079"
     },
     {
@@ -983,11 +1071,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19047",
         "Website": "https://aldie.org/",
-        "Image": "https://aldie.org/wp-content/uploads/2023/01/Aldie-logo-400w.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/aldie.svg",
         "Latitude": "40.191533",
         "Longitude": "-74.868307",
         "Slug": "45",
         "Phone URL": "tel://+12156423230",
+        "Column1": "2291 Cabot Blvd. West, Langhorne, PA, 19047",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2291%20Cabot%20Blvd.%20West%2C%20Langhorne%2C%20PA%2C%2019047&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2291%20Cabot%20Blvd.%20West%2CLanghorne%2CPA%2C19047"
     },
     {
@@ -1010,6 +1100,8 @@ const jsonData =
         "Longitude": "-75.118737",
         "Slug": "46",
         "Phone URL": "tel://+12153458530 ",
+        "Column1": "11 Welden Drive , Doylestown , PA, 18901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=11%20Welden%20Drive%20%2C%20Doylestown%20%2C%20PA%2C%2018901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=11%20Welden%20Drive%20%2CDoylestown%20%2CPA%2C18901"
     },
     {
@@ -1032,6 +1124,8 @@ const jsonData =
         "Longitude": "-75.91482",
         "Slug": "47",
         "Phone URL": "tel://+16109884838",
+        "Column1": "1110 Rockland Street, Reading, PA, 19604",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1110%20Rockland%20Street%2C%20Reading%2C%20PA%2C%2019604&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1110%20Rockland%20Street%2CReading%2CPA%2C19604"
     },
     {
@@ -1054,6 +1148,8 @@ const jsonData =
         "Longitude": "-75.945572",
         "Slug": "48",
         "Phone URL": "tel://+16109884838",
+        "Column1": "1040 Liggett Avenue, Reading, PA, 19611",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1040%20Liggett%20Avenue%2C%20Reading%2C%20PA%2C%2019611&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1040%20Liggett%20Avenue%2CReading%2CPA%2C19611"
     },
     {
@@ -1076,6 +1172,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "49",
         "Phone URL": "tel://+16102723710",
+        "Column1": "316 DeKalb Street, Norristown, PA, 19401",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=316%20DeKalb%20Street%2C%20Norristown%2C%20PA%2C%2019401&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=316%20DeKalb%20Street%2CNorristown%2CPA%2C19401"
     },
     {
@@ -1098,6 +1196,8 @@ const jsonData =
         "Longitude": "-75.926872",
         "Slug": "50",
         "Phone URL": "tel://+16109884838",
+        "Column1": "838 Penn Street, Reading, PA, 19602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=838%20Penn%20Street%2C%20Reading%2C%20PA%2C%2019602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=838%20Penn%20Street%2CReading%2CPA%2C19602"
     },
     {
@@ -1120,6 +1220,8 @@ const jsonData =
         "Longitude": "-76.19617",
         "Slug": "51",
         "Phone URL": "tel://+15706286990",
+        "Column1": "1 South 2nd Street, Pottsville, PA, 17901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1%20South%202nd%20Street%2C%20Pottsville%2C%20PA%2C%2017901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1%20South%202nd%20Street%2CPottsville%2CPA%2C17901"
     },
     {
@@ -1142,6 +1244,8 @@ const jsonData =
         "Longitude": "-75.662291",
         "Slug": "52",
         "Phone URL": "tel://+16103269460",
+        "Column1": "351 W. Schuylkill Rd., Suite G-15A, Pottstown, PA, 19465",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=351%20W.%20Schuylkill%20Rd.%2C%20Suite%20G-15A%2C%20Pottstown%2C%20PA%2C%2019465&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=351%20W.%20Schuylkill%20Rd.%2C%20Suite%20G-15A%2CPottstown%2CPA%2C19465"
     },
     {
@@ -1164,6 +1268,8 @@ const jsonData =
         "Longitude": "-75.339905",
         "Slug": "53",
         "Phone URL": "tel://+18008056989",
+        "Column1": "152 West Main Street, Norristown, PA, 19401",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=152%20West%20Main%20Street%2C%20Norristown%2C%20PA%2C%2019401&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=152%20West%20Main%20Street%2CNorristown%2CPA%2C19401"
     },
     {
@@ -1186,6 +1292,8 @@ const jsonData =
         "Longitude": "-75.926872",
         "Slug": "54",
         "Phone URL": "tel://+18008056989",
+        "Column1": "501 Washington Street, Unit 101, Reading, PA, 19601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=501%20Washington%20Street%2C%20Unit%20101%2C%20Reading%2C%20PA%2C%2019601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=501%20Washington%20Street%2C%20Unit%20101%2CReading%2CPA%2C19601"
     },
     {
@@ -1208,6 +1316,8 @@ const jsonData =
         "Longitude": "-74.96254",
         "Slug": "55",
         "Phone URL": "tel://+18008056989",
+        "Column1": "4432 East Bristol Road, Suite 1B, Feasterville Trevose, PA, 19053",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=4432%20East%20Bristol%20Road%2C%20Suite%201B%2C%20Feasterville%20Trevose%2C%20PA%2C%2019053&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=4432%20East%20Bristol%20Road%2C%20Suite%201B%2CFeasterville%20Trevose%2CPA%2C19053"
     },
     {
@@ -1230,6 +1340,8 @@ const jsonData =
         "Longitude": "-75.277215",
         "Slug": "56",
         "Phone URL": "tel://+18008056989",
+        "Column1": "1320 Chester Pike, Sharon Hill, PA, 19079",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1320%20Chester%20Pike%2C%20Sharon%20Hill%2C%20PA%2C%2019079&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1320%20Chester%20Pike%2CSharon%20Hill%2CPA%2C19079"
     },
     {
@@ -1252,6 +1364,8 @@ const jsonData =
         "Longitude": "-75.366166",
         "Slug": "57",
         "Phone URL": "tel://+16106198600",
+        "Column1": "301 West 15th Street, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=301%20West%2015th%20Street%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=301%20West%2015th%20Street%2CChester%2CPA%2C19013"
     },
     {
@@ -1274,6 +1388,8 @@ const jsonData =
         "Longitude": "-75.04815",
         "Slug": "58",
         "Phone URL": "tel://+18663033128",
+        "Column1": "2755 Philmont Avenue, Suite 110, Huntington Valley, PA, 19006",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2755%20Philmont%20Avenue%2C%20Suite%20110%2C%20Huntington%20Valley%2C%20PA%2C%2019006&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2755%20Philmont%20Avenue%2C%20Suite%20110%2CHuntington%20Valley%2CPA%2C19006"
     },
     {
@@ -1296,6 +1412,8 @@ const jsonData =
         "Longitude": "-74.885054",
         "Slug": "59",
         "Phone URL": "tel://+12157476916",
+        "Column1": "4 Cornerstone Drive, Langhorne, PA, 19047",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=4%20Cornerstone%20Drive%2C%20Langhorne%2C%20PA%2C%2019047&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=4%20Cornerstone%20Drive%2CLanghorne%2CPA%2C19047"
     },
     {
@@ -1318,6 +1436,8 @@ const jsonData =
         "Longitude": "-76.30421",
         "Slug": "60",
         "Phone URL": "tel://+17175441427",
+        "Column1": "555 North Duke Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=555%20North%20Duke%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=555%20North%20Duke%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -1340,6 +1460,8 @@ const jsonData =
         "Longitude": "-75.958691",
         "Slug": "61",
         "Phone URL": "tel://+16107506130",
+        "Column1": "832 N Park Road (1 Park Plaza), Wyomissing, PA, 19610",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=832%20N%20Park%20Road%20%281%20Park%20Plaza%29%2C%20Wyomissing%2C%20PA%2C%2019610&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=832%20N%20Park%20Road%20%281%20Park%20Plaza%29%2CWyomissing%2CPA%2C19610"
     },
     {
@@ -1362,6 +1484,8 @@ const jsonData =
         "Longitude": "-75.345228",
         "Slug": "62",
         "Phone URL": "tel://+12673474562",
+        "Column1": "1040 S West End Blvd, Quakertown, PA, 18951",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1040%20S%20West%20End%20Blvd%2C%20Quakertown%2C%20PA%2C%2018951&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1040%20S%20West%20End%20Blvd%2CQuakertown%2CPA%2C18951"
     },
     {
@@ -1384,6 +1508,8 @@ const jsonData =
         "Longitude": "-75.3157",
         "Slug": "63",
         "Phone URL": "tel://+12152579999",
+        "Column1": "807 Lawn Avenue, Sellersville, PA, 18960",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=807%20Lawn%20Avenue%2C%20Sellersville%2C%20PA%2C%2018960&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=807%20Lawn%20Avenue%2CSellersville%2CPA%2C18960"
     },
     {
@@ -1406,6 +1532,8 @@ const jsonData =
         "Longitude": "-75.6349",
         "Slug": "64",
         "Phone URL": "tel://+18663033128",
+        "Column1": "301 Circle of Progress Drive, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=301%20Circle%20of%20Progress%20Drive%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=301%20Circle%20of%20Progress%20Drive%2CPottstown%2CPA%2C19464"
     },
     {
@@ -1428,6 +1556,8 @@ const jsonData =
         "Longitude": "-75.9505",
         "Slug": "65",
         "Phone URL": "tel://+14846289591",
+        "Column1": "420 South 5th Street, West Reading, PA, 19611",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=420%20South%205th%20Street%2C%20West%20Reading%2C%20PA%2C%2019611&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=420%20South%205th%20Street%2CWest%20Reading%2CPA%2C19611"
     },
     {
@@ -1450,6 +1580,8 @@ const jsonData =
         "Longitude": "-75.9269",
         "Slug": "66",
         "Phone URL": "tel://+16103768669",
+        "Column1": "601 Penn Street, Suite 60, Reading, PA, 19601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=601%20Penn%20Street%2C%20Suite%2060%2C%20Reading%2C%20PA%2C%2019601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=601%20Penn%20Street%2C%20Suite%2060%2CReading%2CPA%2C19601"
     },
     {
@@ -1472,6 +1604,8 @@ const jsonData =
         "Longitude": "-75.1299",
         "Slug": "67",
         "Phone URL": "tel://+12154442700",
+        "Column1": "55 East Court Street, 4th Floor, Doylestown, PA, 18901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=55%20East%20Court%20Street%2C%204th%20Floor%2C%20Doylestown%2C%20PA%2C%2018901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=55%20East%20Court%20Street%2C%204th%20Floor%2CDoylestown%2CPA%2C18901"
     },
     {
@@ -1489,11 +1623,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19382",
         "Website": "chesco.org",
-        "Image": "",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/chestercountydrugandalcohol.svg",
         "Latitude": "39.9607",
         "Longitude": "-75.6055",
         "Slug": "68",
         "Phone URL": "tel://+16103446620",
+        "Column1": "601 Westtown Road, Suite 325, West Chester, PA, 19382",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=601%20Westtown%20Road%2C%20Suite%20325%2C%20West%20Chester%2C%20PA%2C%2019382&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=601%20Westtown%20Road%2C%20Suite%20325%2CWest%20Chester%2CPA%2C19382"
     },
     {
@@ -1511,11 +1647,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19082",
         "Website": "delcohsa.org",
-        "Image": "",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/delawarecountyofficeofbehavioralhealth.svg",
         "Latitude": "39.9576",
         "Longitude": "-75.2591",
         "Slug": "69",
         "Phone URL": "tel://+16107132365",
+        "Column1": "20 South 69th Street, Upper Darby, PA, 19082",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=20%20South%2069th%20Street%2C%20Upper%20Darby%2C%20PA%2C%2019082&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=20%20South%2069th%20Street%2CUpper%20Darby%2CPA%2C19082"
     },
     {
@@ -1538,6 +1676,8 @@ const jsonData =
         "Longitude": "-76.3062",
         "Slug": "70",
         "Phone URL": "tel://+17172998023",
+        "Column1": "150 North Queen Street, Suite 111, Lancaster, PA, 17603",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=150%20North%20Queen%20Street%2C%20Suite%20111%2C%20Lancaster%2C%20PA%2C%2017603&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=150%20North%20Queen%20Street%2C%20Suite%20111%2CLancaster%2CPA%2C17603"
     },
     {
@@ -1560,6 +1700,8 @@ const jsonData =
         "Longitude": "-75.3399",
         "Slug": "71",
         "Phone URL": "tel://+16102783642",
+        "Column1": "1430 DeKalb Street, Norristown, PA, 19401",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1430%20DeKalb%20Street%2C%20Norristown%2C%20PA%2C%2019401&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1430%20DeKalb%20Street%2CNorristown%2CPA%2C19401"
     },
     {
@@ -1582,6 +1724,8 @@ const jsonData =
         "Longitude": "-76.195",
         "Slug": "72",
         "Phone URL": "tel://+15706212890",
+        "Column1": "108 South Claude A. Lord Blvd, 2nd Floor, Pottsville, PA, 17901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=108%20South%20Claude%20A.%20Lord%20Blvd%2C%202nd%20Floor%2C%20Pottsville%2C%20PA%2C%2017901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=108%20South%20Claude%20A.%20Lord%20Blvd%2C%202nd%20Floor%2CPottsville%2CPA%2C17901"
     },
     {
@@ -1599,11 +1743,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19132",
         "Website": "https://www.councilsepa.org/recovery-hubs/",
-        "Image": "https://councilsepa.org/wp-content/uploads/2024/03/logo.svg",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/rrhubs-banner-static.png",
         "Latitude": "39.99507238",
         "Longitude": "-75.16011318",
         "Slug": "73",
         "Phone URL": "tel://+12152237700",
+        "Column1": "1701 West Lehigh Ave, Philadelphia, PA, 19132",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1701%20West%20Lehigh%20Ave%2C%20Philadelphia%2C%20PA%2C%2019132&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1701%20West%20Lehigh%20Ave%2CPhiladelphia%2CPA%2C19132"
     },
     {
@@ -1621,11 +1767,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "15208",
         "Website": " https://unityrecovery.org/portfolios/recovery-hub",
-        "Image": "https://unityrecovery.org/wp-content/uploads/2023/04/8-e1681382839775-1536x533.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/unity.png",
         "Latitude": "40.45536167",
         "Longitude": "-79.89876016",
         "Slug": "74",
         "Phone URL": "tel://+14127277654",
+        "Column1": "7119 Hamilton Ave, Pittsburgh, PA, 15208",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=7119%20Hamilton%20Ave%2C%20Pittsburgh%2C%20PA%2C%2015208&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=7119%20Hamilton%20Ave%2CPittsburgh%2CPA%2C15208"
     },
     {
@@ -1643,11 +1791,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "16501",
         "Website": "https://eriecountypa.gov/departments/human-services/drug-and-alcohol-abuse/",
-        "Image": "https://eriecountypa.gov/wp-content/uploads/2019/03/County-Seal-Color-Web.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/erie.png",
         "Latitude": "42.12293196",
         "Longitude": "-80.08717609",
         "Slug": "75",
         "Phone URL": "tel://+18144516886",
+        "Column1": "240 West 11th St.; Suite B-050, Erie, PA, 16501",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=240%20West%2011th%20St.%3B%20Suite%20B-050%2C%20Erie%2C%20PA%2C%2016501&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=240%20West%2011th%20St.%3B%20Suite%20B-050%2CErie%2CPA%2C16501"
     },
     {
@@ -1665,11 +1815,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19405",
         "Website": "https://www.councilsepa.org/recovery-hubs/",
-        "Image": "https://councilsepa.org/wp-content/uploads/2024/03/logo.svg",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/rrhubs-banner-static.svg",
         "Latitude": "40.10431647",
         "Longitude": "-75.34756009",
         "Slug": "76",
         "Phone URL": "tel://+14843830802",
+        "Column1": "601 DeKalb Street, Norristown, PA, 19405",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=601%20DeKalb%20Street%2C%20Norristown%2C%20PA%2C%2019405&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=601%20DeKalb%20Street%2CNorristown%2CPA%2C19405"
     },
     {
@@ -1687,11 +1839,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "17103",
         "Website": "https://pmhca.org/Recovery-Hub",
-        "Image": "https://pmhca.org/resources/Pictures/Recovery%20Hub/Recovery%20Empowerment%20Hub%20Header%20Image.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/hub5-pmhca.png",
         "Latitude": "40.27834959",
         "Longitude": "-76.84974183",
         "Slug": "77",
         "Phone URL": "tel://+17175644930",
+        "Column1": "2551 Walnut Street, Harrisburg, PA, 17103",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2551%20Walnut%20Street%2C%20Harrisburg%2C%20PA%2C%2017103&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2551%20Walnut%20Street%2CHarrisburg%2CPA%2C17103"
     },
     {
@@ -1709,11 +1863,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "16201",
         "Website": "https://aicdac.org/recovery-hub/",
-        "Image": "https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_922/https://aicdac.org/wp-content/uploads/2020/06/AICDAC-Logo-Updated-Color.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/aicdac.png",
         "Latitude": "40.81578413",
         "Longitude": "-79.51901321",
         "Slug": "78",
         "Phone URL": "tel://+17245451614",
+        "Column1": "130 North McKean Street, Kittanning, PA, 16201",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=130%20North%20McKean%20Street%2C%20Kittanning%2C%20PA%2C%2016201&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=130%20North%20McKean%20Street%2CKittanning%2CPA%2C16201"
     },
     {
@@ -1731,11 +1887,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "16201",
         "Website": "https://aicdac.org/recovery-hub/",
-        "Image": "https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_922/https://aicdac.org/wp-content/uploads/2020/06/AICDAC-Logo-Updated-Color.png",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/aicdac.png",
         "Latitude": "40.81578413",
         "Longitude": "-79.51901321",
         "Slug": "79",
         "Phone URL": "tel://+17245451614",
+        "Column1": "130 North McKean Street, Kittanning, PA, 16201",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=130%20North%20McKean%20Street%2C%20Kittanning%2C%20PA%2C%2016201&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=130%20North%20McKean%20Street%2CKittanning%2CPA%2C16201"
     },
     {
@@ -1753,11 +1911,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "17701",
         "Website": "https://wbdrugandalcohol.org/",
-        "Image": "https://wbdrugandalcohol.org/wp-content/uploads/2018/09/West-Branch-Logo.jpg",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/westbranch.png",
         "Latitude": "41.24060595",
         "Longitude": "-77.00525685",
         "Slug": "80",
         "Phone URL": "tel://+15703238543",
+        "Column1": "213 W 4th St Unit 2, Williamsport, PA, 17701",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=213%20W%204th%20St%20Unit%202%2C%20Williamsport%2C%20PA%2C%2017701&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=213%20W%204th%20St%20Unit%202%2CWilliamsport%2CPA%2C17701"
     },
     {
@@ -1780,6 +1940,8 @@ const jsonData =
         "Longitude": "-75.97570695",
         "Slug": "81",
         "Phone URL": "tel://+15704557000",
+        "Column1": "100 South Wyoming Street, Hazleton, PA, 18201",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=100%20South%20Wyoming%20Street%2C%20Hazleton%2C%20PA%2C%2018201&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=100%20South%20Wyoming%20Street%2CHazleton%2CPA%2C18201"
     },
     {
@@ -1802,6 +1964,8 @@ const jsonData =
         "Longitude": "-75.87553039",
         "Slug": "82",
         "Phone URL": "tel://+15707634073",
+        "Column1": "121 Water Street, Wilkes Barre, PA, 18702",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=121%20Water%20Street%2C%20Wilkes%20Barre%2C%20PA%2C%2018702&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=121%20Water%20Street%2CWilkes%20Barre%2CPA%2C18702"
     },
     {
@@ -1824,6 +1988,8 @@ const jsonData =
         "Longitude": "-75.96888957",
         "Slug": "83",
         "Phone URL": "tel://+15708102221",
+        "Column1": "232 Pine Street, Tamaqua, PA, 18252",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=232%20Pine%20Street%2C%20Tamaqua%2C%20PA%2C%2018252&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=232%20Pine%20Street%2CTamaqua%2CPA%2C18252"
     },
     {
@@ -1841,11 +2007,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "18360",
         "Website": "https://northboundandco.org",
-        "Image": "https://northboundandco.org/cdn/shop/files/NB_Official_Copper_Navy_Horz_Compass_Logo_x155.png?v=1653085769",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/northbound.png",
         "Latitude": "40.95880072",
         "Longitude": "-75.29232543",
         "Slug": "84",
         "Phone URL": "tel://+15708002466",
+        "Column1": "6258 Rte 209, Stroudsburg, PA, 18360",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=6258%20Rte%20209%2C%20Stroudsburg%2C%20PA%2C%2018360&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=6258%20Rte%20209%2CStroudsburg%2CPA%2C18360"
     },
     {
@@ -1868,6 +2036,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "85",
         "Phone URL": "tel://+16108165101",
+        "Column1": "505 Penn St. 1st floor, Reading, PA, 19601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=505%20Penn%20St.%201st%20floor%2C%20Reading%2C%20PA%2C%2019601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=505%20Penn%20St.%201st%20floor%2CReading%2CPA%2C19601"
     },
     {
@@ -1890,6 +2060,8 @@ const jsonData =
         "Longitude": "-76.30266836",
         "Slug": "86",
         "Phone URL": "tel://+17172328535",
+        "Column1": "131 East Orange Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=131%20East%20Orange%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=131%20East%20Orange%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -1912,6 +2084,8 @@ const jsonData =
         "Longitude": "-76.24482623",
         "Slug": "87",
         "Phone URL": "tel://+17172086417",
+        "Column1": "1901 Olde Homestead Lane, Lancaster, PA, 17601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1901%20Olde%20Homestead%20Lane%2C%20Lancaster%2C%20PA%2C%2017601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1901%20Olde%20Homestead%20Lane%2CLancaster%2CPA%2C17601"
     },
     {
@@ -1934,6 +2108,8 @@ const jsonData =
         "Longitude": "-75.15510753",
         "Slug": "88",
         "Phone URL": "tel://+18006884226",
+        "Column1": "833 Chestnut St # 1100, Philadelphia, PA, 19107",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=833%20Chestnut%20St%20%23%201100%2C%20Philadelphia%2C%20PA%2C%2019107&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=833%20Chestnut%20St%20%23%201100%2CPhiladelphia%2CPA%2C19107"
     },
     {
@@ -1956,6 +2132,8 @@ const jsonData =
         "Longitude": "-75.218546",
         "Slug": "89",
         "Phone URL": "tel://+12675073950",
+        "Column1": "4950 Parkside Avenue, Suite 200, Philadelphia, PA, 19131",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=4950%20Parkside%20Avenue%2C%20Suite%20200%2C%20Philadelphia%2C%20PA%2C%2019131&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=4950%20Parkside%20Avenue%2C%20Suite%20200%2CPhiladelphia%2CPA%2C19131"
     },
     {
@@ -1978,6 +2156,8 @@ const jsonData =
         "Longitude": "-75.15407396",
         "Slug": "90",
         "Phone URL": "tel://+12675073466",
+        "Column1": "2709 North Broad Street, Philadelphia, PA, 19132",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2709%20North%20Broad%20Street%2C%20Philadelphia%2C%20PA%2C%2019132&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2709%20North%20Broad%20Street%2CPhiladelphia%2CPA%2C19132"
     },
     {
@@ -2000,6 +2180,8 @@ const jsonData =
         "Longitude": "-75.18847145",
         "Slug": "91",
         "Phone URL": "tel://+12675073530",
+        "Column1": "3119 Spring Garden Street, Philadelphia, PA, 19104",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=3119%20Spring%20Garden%20Street%2C%20Philadelphia%2C%20PA%2C%2019104&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=3119%20Spring%20Garden%20Street%2CPhiladelphia%2CPA%2C19104"
     },
     {
@@ -2022,6 +2204,8 @@ const jsonData =
         "Longitude": "-75.64383167",
         "Slug": "92",
         "Phone URL": "tel://+12675073525",
+        "Column1": "414 East High Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=414%20East%20High%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=414%20East%20High%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -2044,6 +2228,8 @@ const jsonData =
         "Longitude": "-75.26330345",
         "Slug": "93",
         "Phone URL": "tel://+12675073850",
+        "Column1": "7200 Chestnut Street, Upper Darby, PA, 19082",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=7200%20Chestnut%20Street%2C%20Upper%20Darby%2C%20PA%2C%2019082&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=7200%20Chestnut%20Street%2CUpper%20Darby%2CPA%2C19082"
     },
     {
@@ -2066,6 +2252,8 @@ const jsonData =
         "Longitude": "-74.88598126",
         "Slug": "94",
         "Phone URL": "tel://+12675073990",
+        "Column1": "2605 Durham Road, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2605%20Durham%20Road%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2605%20Durham%20Road%2CBristol%2CPA%2C19007"
     },
     {
@@ -2088,6 +2276,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "95",
         "Phone URL": "tel://+14847693028",
+        "Column1": "643 Walnut Street, Reading, PA, 19601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=643%20Walnut%20Street%2C%20Reading%2C%20PA%2C%2019601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=643%20Walnut%20Street%2CReading%2CPA%2C19601"
     },
     {
@@ -2110,6 +2300,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "96",
         "Phone URL": "tel://+14847693028",
+        "Column1": "645 Walnut Street, Reading, PA, 19601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=645%20Walnut%20Street%2C%20Reading%2C%20PA%2C%2019601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=645%20Walnut%20Street%2CReading%2CPA%2C19601"
     },
     {
@@ -2132,6 +2324,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+14847693028",
+        "Column1": "647 Walnut Street, Reading, PA, 19601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=647%20Walnut%20Street%2C%20Reading%2C%20PA%2C%2019601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=647%20Walnut%20Street%2CReading%2CPA%2C19601"
     },
     {
@@ -2154,6 +2348,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "97",
         "Phone URL": "tel://+14847693028",
+        "Column1": "649 Walnut Street, Reading, PA, 19601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=649%20Walnut%20Street%2C%20Reading%2C%20PA%2C%2019601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=649%20Walnut%20Street%2CReading%2CPA%2C19601"
     },
     {
@@ -2176,6 +2372,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "98",
         "Phone URL": "tel://+16106214432",
+        "Column1": "2126 North 18th Street, Reading, PA, 19604",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2126%20North%2018th%20Street%2C%20Reading%2C%20PA%2C%2019604&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2126%20North%2018th%20Street%2CReading%2CPA%2C19604"
     },
     {
@@ -2198,6 +2396,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "99",
         "Phone URL": "tel://+16106214432",
+        "Column1": "225 East Wyomissing Avenue, Mohnton, PA, 19540",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=225%20East%20Wyomissing%20Avenue%2C%20Mohnton%2C%20PA%2C%2019540&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=225%20East%20Wyomissing%20Avenue%2CMohnton%2CPA%2C19540"
     },
     {
@@ -2220,6 +2420,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "100",
         "Phone URL": "tel://+16103734281",
+        "Column1": "1018 Cotton Street, Reading, PA, 19602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1018%20Cotton%20Street%2C%20Reading%2C%20PA%2C%2019602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1018%20Cotton%20Street%2CReading%2CPA%2C19602"
     },
     {
@@ -2242,6 +2444,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "101",
         "Phone URL": "tel://+16103784748",
+        "Column1": "631 Washington St, Reading, PA, 19601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=631%20Washington%20St%2C%20Reading%2C%20PA%2C%2019601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=631%20Washington%20St%2CReading%2CPA%2C19601"
     },
     {
@@ -2264,6 +2468,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "102",
         "Phone URL": "tel://+14849262308",
+        "Column1": "1120 Berks Road, Leesport, PA, 19533",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1120%20Berks%20Road%2C%20Leesport%2C%20PA%2C%2019533&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1120%20Berks%20Road%2CLeesport%2CPA%2C19533"
     },
     {
@@ -2286,6 +2492,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "103",
         "Phone URL": "tel://+12672666500",
+        "Column1": "1033 Anne St., Croydon, PA, 19021",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1033%20Anne%20St.%2C%20Croydon%2C%20PA%2C%2019021&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1033%20Anne%20St.%2CCroydon%2CPA%2C19021"
     },
     {
@@ -2308,6 +2516,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "104",
         "Phone URL": "tel://+12678540464",
+        "Column1": "4501 Brookside Ave, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=4501%20Brookside%20Ave%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=4501%20Brookside%20Ave%2CBristol%2CPA%2C19007"
     },
     {
@@ -2330,6 +2540,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "105",
         "Phone URL": "tel://+12678540464",
+        "Column1": "4502 Brookside Ave, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=4502%20Brookside%20Ave%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=4502%20Brookside%20Ave%2CBristol%2CPA%2C19007"
     },
     {
@@ -2352,6 +2564,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "106",
         "Phone URL": "tel://+12678540464",
+        "Column1": "14 Cornflower Lane, Levittown, PA, 19058",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=14%20Cornflower%20Lane%2C%20Levittown%2C%20PA%2C%2019058&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=14%20Cornflower%20Lane%2CLevittown%2CPA%2C19058"
     },
     {
@@ -2374,6 +2588,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "107",
         "Phone URL": "tel://+12678540464",
+        "Column1": "14 Farmbrook Dr., Levittown, PA, 19055",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=14%20Farmbrook%20Dr.%2C%20Levittown%2C%20PA%2C%2019055&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=14%20Farmbrook%20Dr.%2CLevittown%2CPA%2C19055"
     },
     {
@@ -2396,6 +2612,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "108",
         "Phone URL": "tel://+12678540464",
+        "Column1": "15 Plumtree Road, Levittown, PA, 19056",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=15%20Plumtree%20Road%2C%20Levittown%2C%20PA%2C%2019056&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=15%20Plumtree%20Road%2CLevittown%2CPA%2C19056"
     },
     {
@@ -2418,6 +2636,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "109",
         "Phone URL": "tel://+12678540464",
+        "Column1": "175 Red Cedar Dr., Levittown, PA, 19055",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=175%20Red%20Cedar%20Dr.%2C%20Levittown%2C%20PA%2C%2019055&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=175%20Red%20Cedar%20Dr.%2CLevittown%2CPA%2C19055"
     },
     {
@@ -2440,6 +2660,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "110",
         "Phone URL": "tel://+12678540464",
+        "Column1": "373 Stonybrook Drive, Levittown, PA, 19055",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=373%20Stonybrook%20Drive%2C%20Levittown%2C%20PA%2C%2019055&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=373%20Stonybrook%20Drive%2CLevittown%2CPA%2C19055"
     },
     {
@@ -2462,6 +2684,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "111",
         "Phone URL": "tel://+12157020308",
+        "Column1": "5929 Bristol-Emilie Rd., Levittown, PA, 19057",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=5929%20Bristol-Emilie%20Rd.%2C%20Levittown%2C%20PA%2C%2019057&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=5929%20Bristol-Emilie%20Rd.%2CLevittown%2CPA%2C19057"
     },
     {
@@ -2484,6 +2708,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "112",
         "Phone URL": "tel://+12157020308",
+        "Column1": "46 Whitewood Dr., Levittown, PA, 19057",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=46%20Whitewood%20Dr.%2C%20Levittown%2C%20PA%2C%2019057&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=46%20Whitewood%20Dr.%2CLevittown%2CPA%2C19057"
     },
     {
@@ -2506,6 +2732,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "113",
         "Phone URL": "tel://+12157020308",
+        "Column1": "11 Ivory Rock Rd., Levittown, PA, 19057",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=11%20Ivory%20Rock%20Rd.%2C%20Levittown%2C%20PA%2C%2019057&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=11%20Ivory%20Rock%20Rd.%2CLevittown%2CPA%2C19057"
     },
     {
@@ -2528,6 +2756,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "114",
         "Phone URL": "tel://+12157020308",
+        "Column1": "53 Parkside Circle, Levittown, PA, 19057",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=53%20Parkside%20Circle%2C%20Levittown%2C%20PA%2C%2019057&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=53%20Parkside%20Circle%2CLevittown%2CPA%2C19057"
     },
     {
@@ -2550,6 +2780,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "115",
         "Phone URL": "tel://+12157020308",
+        "Column1": "35 Woodbine Rd., Levittown, PA, 19057",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=35%20Woodbine%20Rd.%2C%20Levittown%2C%20PA%2C%2019057&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=35%20Woodbine%20Rd.%2CLevittown%2CPA%2C19057"
     },
     {
@@ -2572,6 +2804,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "116",
         "Phone URL": "tel://+12677185200",
+        "Column1": "444 Main Street, Tullytown, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=444%20Main%20Street%2C%20Tullytown%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=444%20Main%20Street%2CTullytown%2CPA%2C19007"
     },
     {
@@ -2594,6 +2828,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "117",
         "Phone URL": "tel://+12677185200",
+        "Column1": "412 Main Street, Tulytown, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=412%20Main%20Street%2C%20Tulytown%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=412%20Main%20Street%2CTulytown%2CPA%2C19007"
     },
     {
@@ -2616,6 +2852,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "118",
         "Phone URL": "tel://+12156398681",
+        "Column1": "5245 Bensalem Boulevard, Bensalem, PA, 19020",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=5245%20Bensalem%20Boulevard%2C%20Bensalem%2C%20PA%2C%2019020&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=5245%20Bensalem%20Boulevard%2CBensalem%2CPA%2C19020"
     },
     {
@@ -2638,6 +2876,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "119",
         "Phone URL": "tel://+12672500504",
+        "Column1": "2205 State Road, Croydon, PA, 19021",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2205%20State%20Road%2C%20Croydon%2C%20PA%2C%2019021&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2205%20State%20Road%2CCroydon%2CPA%2C19021"
     },
     {
@@ -2660,6 +2900,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "120",
         "Phone URL": "tel://+12672500504",
+        "Column1": "53 Old Spruce Lane, Levittown, PA, 19055",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=53%20Old%20Spruce%20Lane%2C%20Levittown%2C%20PA%2C%2019055&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=53%20Old%20Spruce%20Lane%2CLevittown%2CPA%2C19055"
     },
     {
@@ -2682,6 +2924,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "121",
         "Phone URL": "tel://+12672500504",
+        "Column1": "145 Blueridge Drive, Levittown, PA, 19057",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=145%20Blueridge%20Drive%2C%20Levittown%2C%20PA%2C%2019057&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=145%20Blueridge%20Drive%2CLevittown%2CPA%2C19057"
     },
     {
@@ -2704,6 +2948,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "122",
         "Phone URL": "tel://+12672500504",
+        "Column1": "23 Basswood Road, Levittown, PA, 19057",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=23%20Basswood%20Road%2C%20Levittown%2C%20PA%2C%2019057&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=23%20Basswood%20Road%2CLevittown%2CPA%2C19057"
     },
     {
@@ -2726,6 +2972,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "123",
         "Phone URL": "tel://+12672500504",
+        "Column1": "3101 Newportville Road, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=3101%20Newportville%20Road%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=3101%20Newportville%20Road%2CBristol%2CPA%2C19007"
     },
     {
@@ -2748,6 +2996,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "124",
         "Phone URL": "tel://+12672500504",
+        "Column1": "650 Durham Road, Langhorne, PA, 19047",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=650%20Durham%20Road%2C%20Langhorne%2C%20PA%2C%2019047&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=650%20Durham%20Road%2CLanghorne%2CPA%2C19047"
     },
     {
@@ -2770,6 +3020,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "125",
         "Phone URL": "tel://+12672500504",
+        "Column1": "564 W Bridge St, Morrisville, PA, 19067",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=564%20W%20Bridge%20St%2C%20Morrisville%2C%20PA%2C%2019067&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=564%20W%20Bridge%20St%2CMorrisville%2CPA%2C19067"
     },
     {
@@ -2792,6 +3044,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "126",
         "Phone URL": "tel://+12154310921",
+        "Column1": "5 Aster Lane, Levittown, PA, 19055",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=5%20Aster%20Lane%2C%20Levittown%2C%20PA%2C%2019055&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=5%20Aster%20Lane%2CLevittown%2CPA%2C19055"
     },
     {
@@ -2814,6 +3068,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "127",
         "Phone URL": "tel://+12154310921",
+        "Column1": "87 Appletree Drive, Levittown, PA, 19055",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=87%20Appletree%20Drive%2C%20Levittown%2C%20PA%2C%2019055&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=87%20Appletree%20Drive%2CLevittown%2CPA%2C19055"
     },
     {
@@ -2836,6 +3092,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "128",
         "Phone URL": "tel://+12154310921",
+        "Column1": "377 Blue Ridge Drive, Levittown, PA, 19057",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=377%20Blue%20Ridge%20Drive%2C%20Levittown%2C%20PA%2C%2019057&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=377%20Blue%20Ridge%20Drive%2CLevittown%2CPA%2C19057"
     },
     {
@@ -2858,6 +3116,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "129",
         "Phone URL": "tel://+12154310921",
+        "Column1": "706 Old Orchard Ln, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=706%20Old%20Orchard%20Ln%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=706%20Old%20Orchard%20Ln%2CBristol%2CPA%2C19007"
     },
     {
@@ -2880,6 +3140,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "130",
         "Phone URL": "tel://+12154310921",
+        "Column1": "712 Old Orchard Lane, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=712%20Old%20Orchard%20Lane%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=712%20Old%20Orchard%20Lane%2CBristol%2CPA%2C19007"
     },
     {
@@ -2902,6 +3164,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "131",
         "Phone URL": "tel://+12154310921",
+        "Column1": "147 Idlewild Road, Levittown, PA, 19057",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=147%20Idlewild%20Road%2C%20Levittown%2C%20PA%2C%2019057&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=147%20Idlewild%20Road%2CLevittown%2CPA%2C19057"
     },
     {
@@ -2924,6 +3188,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "132",
         "Phone URL": "tel://+12154310921",
+        "Column1": "60 Jonquil Lane, Levittown, PA, 19055",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=60%20Jonquil%20Lane%2C%20Levittown%2C%20PA%2C%2019055&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=60%20Jonquil%20Lane%2CLevittown%2CPA%2C19055"
     },
     {
@@ -2946,6 +3212,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "133",
         "Phone URL": "tel://+12154310921",
+        "Column1": "82 Jonquil Lane, Levittown, PA, 19055",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=82%20Jonquil%20Lane%2C%20Levittown%2C%20PA%2C%2019055&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=82%20Jonquil%20Lane%2CLevittown%2CPA%2C19055"
     },
     {
@@ -2968,6 +3236,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "134",
         "Phone URL": "tel://+12154310921",
+        "Column1": "11 River Lane, Levittown, PA, 19057",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=11%20River%20Lane%2C%20Levittown%2C%20PA%2C%2019057&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=11%20River%20Lane%2CLevittown%2CPA%2C19057"
     },
     {
@@ -2990,6 +3260,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "135",
         "Phone URL": "tel://+12677388655",
+        "Column1": "633 Bath Street, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=633%20Bath%20Street%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=633%20Bath%20Street%2CBristol%2CPA%2C19007"
     },
     {
@@ -3012,6 +3284,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "136",
         "Phone URL": "tel://+12677388655",
+        "Column1": "151 Buckley Street, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=151%20Buckley%20Street%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=151%20Buckley%20Street%2CBristol%2CPA%2C19007"
     },
     {
@@ -3034,6 +3308,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "137",
         "Phone URL": "tel://+14848006487",
+        "Column1": "3779 Bristol Road, Bensalem, PA, 19020",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=3779%20Bristol%20Road%2C%20Bensalem%2C%20PA%2C%2019020&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=3779%20Bristol%20Road%2CBensalem%2CPA%2C19020"
     },
     {
@@ -3056,6 +3332,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "138",
         "Phone URL": "tel://+14848006487",
+        "Column1": "100 Cedar Ave, Croydon, PA, 19021",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=100%20Cedar%20Ave%2C%20Croydon%2C%20PA%2C%2019021&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=100%20Cedar%20Ave%2CCroydon%2CPA%2C19021"
     },
     {
@@ -3078,6 +3356,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "139",
         "Phone URL": "tel://+14848006487",
+        "Column1": "74 Candle Road, Levittown, PA, 19057",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=74%20Candle%20Road%2C%20Levittown%2C%20PA%2C%2019057&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=74%20Candle%20Road%2CLevittown%2CPA%2C19057"
     },
     {
@@ -3100,6 +3380,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "140",
         "Phone URL": "tel://+14848006487",
+        "Column1": "57 Serpentine Lane, Levittown, PA, 19055",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=57%20Serpentine%20Lane%2C%20Levittown%2C%20PA%2C%2019055&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=57%20Serpentine%20Lane%2CLevittown%2CPA%2C19055"
     },
     {
@@ -3122,6 +3404,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "141",
         "Phone URL": "tel://+16107557708",
+        "Column1": "281 Oak Park Road, Hatfield, PA, 19440",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=281%20Oak%20Park%20Road%2C%20Hatfield%2C%20PA%2C%2019440&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=281%20Oak%20Park%20Road%2CHatfield%2CPA%2C19440"
     },
     {
@@ -3144,6 +3428,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "142",
         "Phone URL": "tel://+12678174755",
+        "Column1": "25 Beulah Road, New Britain, PA, 18901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=25%20Beulah%20Road%2C%20New%20Britain%2C%20PA%2C%2018901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=25%20Beulah%20Road%2CNew%20Britain%2CPA%2C18901"
     },
     {
@@ -3166,6 +3452,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "143",
         "Phone URL": "tel://+14843693539",
+        "Column1": "301 Dayton Street, Phoenixville, PA, 19460",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=301%20Dayton%20Street%2C%20Phoenixville%2C%20PA%2C%2019460&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=301%20Dayton%20Street%2CPhoenixville%2CPA%2C19460"
     },
     {
@@ -3188,6 +3476,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "144",
         "Phone URL": "tel://+16108838315",
+        "Column1": "2875 W Lincoln Hwy, Coatesville, PA, 19320",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2875%20W%20Lincoln%20Hwy%2C%20Coatesville%2C%20PA%2C%2019320&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2875%20W%20Lincoln%20Hwy%2CCoatesville%2CPA%2C19320"
     },
     {
@@ -3210,6 +3500,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "145",
         "Phone URL": "tel://+16108838315",
+        "Column1": "720 Buck Run Road, Coatesville, PA, 19320",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=720%20Buck%20Run%20Road%2C%20Coatesville%2C%20PA%2C%2019320&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=720%20Buck%20Run%20Road%2CCoatesville%2CPA%2C19320"
     },
     {
@@ -3232,6 +3524,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "146",
         "Phone URL": "tel://+18556872410",
+        "Column1": "1007 Paradise Street, Phoenixville, PA, 19460",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1007%20Paradise%20Street%2C%20Phoenixville%2C%20PA%2C%2019460&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1007%20Paradise%20Street%2CPhoenixville%2CPA%2C19460"
     },
     {
@@ -3254,6 +3548,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "147",
         "Phone URL": "tel://+18556872410",
+        "Column1": "1005 Paradise Street, Phoenixville, PA, 19460",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1005%20Paradise%20Street%2C%20Phoenixville%2C%20PA%2C%2019460&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1005%20Paradise%20Street%2CPhoenixville%2CPA%2C19460"
     },
     {
@@ -3276,6 +3572,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "148",
         "Phone URL": "tel://+12678506569",
+        "Column1": "147 E Baltimore Ave, Clifton Heights, PA, 19018",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=147%20E%20Baltimore%20Ave%2C%20Clifton%20Heights%2C%20PA%2C%2019018&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=147%20E%20Baltimore%20Ave%2CClifton%20Heights%2CPA%2C19018"
     },
     {
@@ -3298,6 +3596,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "149",
         "Phone URL": "tel://+12678506569",
+        "Column1": "327 E. Baltimore Ave, Clifton Heights, PA, 19018",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=327%20E.%20Baltimore%20Ave%2C%20Clifton%20Heights%2C%20PA%2C%2019018&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=327%20E.%20Baltimore%20Ave%2CClifton%20Heights%2CPA%2C19018"
     },
     {
@@ -3320,6 +3620,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "150",
         "Phone URL": "tel://+12678506569",
+        "Column1": "927 Bedford Ave, Collingdale, PA, 19023",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=927%20Bedford%20Ave%2C%20Collingdale%2C%20PA%2C%2019023&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=927%20Bedford%20Ave%2CCollingdale%2CPA%2C19023"
     },
     {
@@ -3342,6 +3644,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "151",
         "Phone URL": "tel://+16108004072",
+        "Column1": "1206 Main Street, Darby, PA, 19023",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1206%20Main%20Street%2C%20Darby%2C%20PA%2C%2019023&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1206%20Main%20Street%2CDarby%2CPA%2C19023"
     },
     {
@@ -3364,6 +3668,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "152",
         "Phone URL": "tel://+12678506569",
+        "Column1": "1401 E 11th Street, Eddystone, PA, 19022",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1401%20E%2011th%20Street%2C%20Eddystone%2C%20PA%2C%2019022&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1401%20E%2011th%20Street%2CEddystone%2CPA%2C19022"
     },
     {
@@ -3386,6 +3692,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "153",
         "Phone URL": "tel://+12678506569",
+        "Column1": "24 W Stewart Ave, Lansdowne, PA, 19050",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=24%20W%20Stewart%20Ave%2C%20Lansdowne%2C%20PA%2C%2019050&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=24%20W%20Stewart%20Ave%2CLansdowne%2CPA%2C19050"
     },
     {
@@ -3408,6 +3716,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "154",
         "Phone URL": "tel://+12678506569",
+        "Column1": "78 Clifton Ave, Sharon Hill, PA, 19079",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=78%20Clifton%20Ave%2C%20Sharon%20Hill%2C%20PA%2C%2019079&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=78%20Clifton%20Ave%2CSharon%20Hill%2CPA%2C19079"
     },
     {
@@ -3430,6 +3740,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "155",
         "Phone URL": "tel://+12678506569",
+        "Column1": "508 Sharon Ave, Sharon Hill, PA, 19079",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=508%20Sharon%20Ave%2C%20Sharon%20Hill%2C%20PA%2C%2019079&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=508%20Sharon%20Ave%2CSharon%20Hill%2CPA%2C19079"
     },
     {
@@ -3452,6 +3764,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "156",
         "Phone URL": "tel://+16108004072",
+        "Column1": "510 Sharon Avenue, Sharon Hill, PA, 19079",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=510%20Sharon%20Avenue%2C%20Sharon%20Hill%2C%20PA%2C%2019079&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=510%20Sharon%20Avenue%2CSharon%20Hill%2CPA%2C19079"
     },
     {
@@ -3474,6 +3788,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "157",
         "Phone URL": "tel://+12679738575",
+        "Column1": "6814 Baltimore Avenue, Lansdowne, PA, 19050",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=6814%20Baltimore%20Avenue%2C%20Lansdowne%2C%20PA%2C%2019050&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=6814%20Baltimore%20Avenue%2CLansdowne%2CPA%2C19050"
     },
     {
@@ -3496,6 +3812,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "158",
         "Phone URL": "tel://+16108884344",
+        "Column1": "119 E. Berkley Avenue, Clifton Heights, PA, 19018",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=119%20E.%20Berkley%20Avenue%2C%20Clifton%20Heights%2C%20PA%2C%2019018&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=119%20E.%20Berkley%20Avenue%2CClifton%20Heights%2CPA%2C19018"
     },
     {
@@ -3518,6 +3836,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "159",
         "Phone URL": "tel://+16106348787",
+        "Column1": "59 East 24th Street, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=59%20East%2024th%20Street%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=59%20East%2024th%20Street%2CChester%2CPA%2C19013"
     },
     {
@@ -3540,6 +3860,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "160",
         "Phone URL": "tel://+16106348787",
+        "Column1": "7 6th Street, Upland, PA, 19015",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=7%206th%20Street%2C%20Upland%2C%20PA%2C%2019015&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=7%206th%20Street%2CUpland%2CPA%2C19015"
     },
     {
@@ -3562,6 +3884,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "161",
         "Phone URL": "tel://+12676832949",
+        "Column1": "629 Colwyn Ave, Collingdale, PA, 19023",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=629%20Colwyn%20Ave%2C%20Collingdale%2C%20PA%2C%2019023&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=629%20Colwyn%20Ave%2CCollingdale%2CPA%2C19023"
     },
     {
@@ -3584,6 +3908,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "162",
         "Phone URL": "tel://+18556872412",
+        "Column1": "21 E 15th Street, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=21%20E%2015th%20Street%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=21%20E%2015th%20Street%2CChester%2CPA%2C19013"
     },
     {
@@ -3606,6 +3932,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "163",
         "Phone URL": "tel://+18556872412Women",
+        "Column1": "11 Greenhill Rd., Media, PA, 19063",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=11%20Greenhill%20Rd.%2C%20Media%2C%20PA%2C%2019063&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=11%20Greenhill%20Rd.%2CMedia%2CPA%2C19063"
     },
     {
@@ -3628,6 +3956,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "164",
         "Phone URL": "tel://+18556872412",
+        "Column1": "13 Greenhill Rd., Media, PA, 19063",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=13%20Greenhill%20Rd.%2C%20Media%2C%20PA%2C%2019063&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=13%20Greenhill%20Rd.%2CMedia%2CPA%2C19063"
     },
     {
@@ -3650,6 +3980,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "165",
         "Phone URL": "tel://+18556872412",
+        "Column1": "15 Greenhill Rd., Media, PA, 19063",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=15%20Greenhill%20Rd.%2C%20Media%2C%20PA%2C%2019063&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=15%20Greenhill%20Rd.%2CMedia%2CPA%2C19063"
     },
     {
@@ -3672,6 +4004,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "166",
         "Phone URL": "tel://+18556872412",
+        "Column1": "1600 Upland St., Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1600%20Upland%20St.%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1600%20Upland%20St.%2CChester%2CPA%2C19013"
     },
     {
@@ -3694,6 +4028,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "167",
         "Phone URL": "tel://+18556872412",
+        "Column1": "17 E. 16th St., Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=17%20E.%2016th%20St.%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=17%20E.%2016th%20St.%2CChester%2CPA%2C19013"
     },
     {
@@ -3716,6 +4052,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "168",
         "Phone URL": "tel://+18556872412",
+        "Column1": "17 Greenhill Rd., Media, PA, 19063",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=17%20Greenhill%20Rd.%2C%20Media%2C%20PA%2C%2019063&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=17%20Greenhill%20Rd.%2CMedia%2CPA%2C19063"
     },
     {
@@ -3738,6 +4076,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "169",
         "Phone URL": "tel://+14843431323",
+        "Column1": "1725 Providence Ave, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1725%20Providence%20Ave%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1725%20Providence%20Ave%2CChester%2CPA%2C19013"
     },
     {
@@ -3760,6 +4100,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "170",
         "Phone URL": "tel://+18556872412",
+        "Column1": "1727 Providence Ave., Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1727%20Providence%20Ave.%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1727%20Providence%20Ave.%2CChester%2CPA%2C19013"
     },
     {
@@ -3782,6 +4124,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "171",
         "Phone URL": "tel://+18556872412",
+        "Column1": "1808 Providence Ave, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1808%20Providence%20Ave%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1808%20Providence%20Ave%2CChester%2CPA%2C19013"
     },
     {
@@ -3804,6 +4148,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "172",
         "Phone URL": "tel://+18556872412",
+        "Column1": "19 E 15th Street, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=19%20E%2015th%20Street%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=19%20E%2015th%20Street%2CChester%2CPA%2C19013"
     },
     {
@@ -3826,6 +4172,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "173",
         "Phone URL": "tel://+18556872412",
+        "Column1": "2412 Providence Ave., Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2412%20Providence%20Ave.%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2412%20Providence%20Ave.%2CChester%2CPA%2C19013"
     },
     {
@@ -3848,6 +4196,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "174",
         "Phone URL": "tel://+18556872412",
+        "Column1": "2413 Chestnut St., Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2413%20Chestnut%20St.%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2413%20Chestnut%20St.%2CChester%2CPA%2C19013"
     },
     {
@@ -3870,6 +4220,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "175",
         "Phone URL": "tel://+18556872412",
+        "Column1": "401 E 19th St., Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=401%20E%2019th%20St.%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=401%20E%2019th%20St.%2CChester%2CPA%2C19013"
     },
     {
@@ -3892,6 +4244,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "176",
         "Phone URL": "tel://+18556872412",
+        "Column1": "421 E. 19th St., Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=421%20E.%2019th%20St.%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=421%20E.%2019th%20St.%2CChester%2CPA%2C19013"
     },
     {
@@ -3914,6 +4268,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "177",
         "Phone URL": "tel://+14843431323",
+        "Column1": "501 E 23rd St, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=501%20E%2023rd%20St%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=501%20E%2023rd%20St%2CChester%2CPA%2C19013"
     },
     {
@@ -3936,6 +4292,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "178",
         "Phone URL": "tel://+14843431323",
+        "Column1": "515 E 19th St, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=515%20E%2019th%20St%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=515%20E%2019th%20St%2CChester%2CPA%2C19013"
     },
     {
@@ -3958,6 +4316,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "179",
         "Phone URL": "tel://+18556872412",
+        "Column1": "631 E. 19th St, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=631%20E.%2019th%20St%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=631%20E.%2019th%20St%2CChester%2CPA%2C19013"
     },
     {
@@ -3980,6 +4340,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "180",
         "Phone URL": "tel://+18556872412",
+        "Column1": "928 E. 18th St., Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=928%20E.%2018th%20St.%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=928%20E.%2018th%20St.%2CChester%2CPA%2C19013"
     },
     {
@@ -4002,6 +4364,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "181",
         "Phone URL": "tel://+12152057714",
+        "Column1": "361 W. 22nd Street, Chester, PA, 19013",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=361%20W.%2022nd%20Street%2C%20Chester%2C%20PA%2C%2019013&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=361%20W.%2022nd%20Street%2CChester%2CPA%2C19013"
     },
     {
@@ -4024,6 +4388,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "182",
         "Phone URL": "",
+        "Column1": "19, 26, 28, 30, 32, 34, and 36 Oxford Street, Lansdowne, PA, 19050",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=19%2C%2026%2C%2028%2C%2030%2C%2032%2C%2034%2C%20and%2036%20Oxford%20Street%2C%20Lansdowne%2C%20PA%2C%2019050&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=19%2C%2026%2C%2028%2C%2030%2C%2032%2C%2034%2C%20and%2036%20Oxford%20Street%2CLansdowne%2CPA%2C19050"
     },
     {
@@ -4046,6 +4412,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "183",
         "Phone URL": "",
+        "Column1": "23, 31, 33, and 35 South Church Lane, Lansdowne, PA, 19050",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=23%2C%2031%2C%2033%2C%20and%2035%20South%20Church%20Lane%2C%20Lansdowne%2C%20PA%2C%2019050&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=23%2C%2031%2C%2033%2C%20and%2035%20South%20Church%20Lane%2CLansdowne%2CPA%2C19050"
     },
     {
@@ -4068,6 +4436,8 @@ const jsonData =
         "Longitude": "-76.501769",
         "Slug": "184",
         "Phone URL": "tel://+17173611660",
+        "Column1": "228-230 Cherry Street, Columbia, PA, 17512",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=228-230%20Cherry%20Street%2C%20Columbia%2C%20PA%2C%2017512&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=228-230%20Cherry%20Street%2CColumbia%2CPA%2C17512"
     },
     {
@@ -4090,6 +4460,8 @@ const jsonData =
         "Longitude": "-76.501769",
         "Slug": "185",
         "Phone URL": "tel://+17173611660",
+        "Column1": "228-230 Cherry Street, Columbia, PA, 17512",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=228-230%20Cherry%20Street%2C%20Columbia%2C%20PA%2C%2017512&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=228-230%20Cherry%20Street%2CColumbia%2CPA%2C17512"
     },
     {
@@ -4112,6 +4484,8 @@ const jsonData =
         "Longitude": "-76.29511",
         "Slug": "186",
         "Phone URL": "tel://+17173611660",
+        "Column1": "740 E Chestnut Street, Lancaster, PA, 17601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=740%20E%20Chestnut%20Street%2C%20Lancaster%2C%20PA%2C%2017601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=740%20E%20Chestnut%20Street%2CLancaster%2CPA%2C17601"
     },
     {
@@ -4134,6 +4508,8 @@ const jsonData =
         "Longitude": "-76.29511",
         "Slug": "187",
         "Phone URL": "tel://+17173611660",
+        "Column1": "740 E Chestnut Street, Lancaster, PA, 17601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=740%20E%20Chestnut%20Street%2C%20Lancaster%2C%20PA%2C%2017601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=740%20E%20Chestnut%20Street%2CLancaster%2CPA%2C17601"
     },
     {
@@ -4156,6 +4532,8 @@ const jsonData =
         "Longitude": "-76.296",
         "Slug": "188",
         "Phone URL": "tel://+17173611660",
+        "Column1": "630 E King Street, Lancaster, PA, 17601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=630%20E%20King%20Street%2C%20Lancaster%2C%20PA%2C%2017601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=630%20E%20King%20Street%2CLancaster%2CPA%2C17601"
     },
     {
@@ -4178,6 +4556,8 @@ const jsonData =
         "Longitude": "-76.296",
         "Slug": "189",
         "Phone URL": "tel://+17173611660",
+        "Column1": "630 E King Street, Lancaster, PA, 17601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=630%20E%20King%20Street%2C%20Lancaster%2C%20PA%2C%2017601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=630%20E%20King%20Street%2CLancaster%2CPA%2C17601"
     },
     {
@@ -4200,6 +4580,8 @@ const jsonData =
         "Longitude": "-76.48653",
         "Slug": "190",
         "Phone URL": "tel://+17173611660",
+        "Column1": "1133 Lancaster Avenue, Columbia, PA, 17512",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1133%20Lancaster%20Avenue%2C%20Columbia%2C%20PA%2C%2017512&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1133%20Lancaster%20Avenue%2CColumbia%2CPA%2C17512"
     },
     {
@@ -4222,6 +4604,8 @@ const jsonData =
         "Longitude": "-76.48653",
         "Slug": "191",
         "Phone URL": "tel://+17173611660",
+        "Column1": "1133 Lancaster Avenue, Columbia, PA, 17512",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1133%20Lancaster%20Avenue%2C%20Columbia%2C%20PA%2C%2017512&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1133%20Lancaster%20Avenue%2CColumbia%2CPA%2C17512"
     },
     {
@@ -4244,6 +4628,8 @@ const jsonData =
         "Longitude": "-76.303904",
         "Slug": "192",
         "Phone URL": "tel://+17176613677",
+        "Column1": "724 N Lime Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=724%20N%20Lime%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=724%20N%20Lime%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4266,6 +4652,8 @@ const jsonData =
         "Longitude": "-76.303904",
         "Slug": "193",
         "Phone URL": "tel://+17176613677",
+        "Column1": "724 N Lime Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=724%20N%20Lime%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=724%20N%20Lime%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4288,6 +4676,8 @@ const jsonData =
         "Longitude": "-76.544105",
         "Slug": "194",
         "Phone URL": "tel://+17173611660",
+        "Column1": "1315 Donegal Springs Road, Mount Joy, PA, 17552",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1315%20Donegal%20Springs%20Road%2C%20Mount%20Joy%2C%20PA%2C%2017552&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1315%20Donegal%20Springs%20Road%2CMount%20Joy%2CPA%2C17552"
     },
     {
@@ -4310,6 +4700,8 @@ const jsonData =
         "Longitude": "-76.544105",
         "Slug": "195",
         "Phone URL": "tel://+17173611660",
+        "Column1": "1315 Donegal Springs Road, Mount Joy, PA, 17552",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1315%20Donegal%20Springs%20Road%2C%20Mount%20Joy%2C%20PA%2C%2017552&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1315%20Donegal%20Springs%20Road%2CMount%20Joy%2CPA%2C17552"
     },
     {
@@ -4332,6 +4724,8 @@ const jsonData =
         "Longitude": "-76.318108",
         "Slug": "196",
         "Phone URL": "tel://+17176613677",
+        "Column1": "435 Nevin Street, Lancaster, PA, 17603",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=435%20Nevin%20Street%2C%20Lancaster%2C%20PA%2C%2017603&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=435%20Nevin%20Street%2CLancaster%2CPA%2C17603"
     },
     {
@@ -4354,6 +4748,8 @@ const jsonData =
         "Longitude": "-76.318108",
         "Slug": "197",
         "Phone URL": "tel://+17176613677",
+        "Column1": "435 Nevin Street, Lancaster, PA, 17603",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=435%20Nevin%20Street%2C%20Lancaster%2C%20PA%2C%2017603&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=435%20Nevin%20Street%2CLancaster%2CPA%2C17603"
     },
     {
@@ -4376,6 +4772,8 @@ const jsonData =
         "Longitude": "-76.2393978",
         "Slug": "198",
         "Phone URL": "tel://+17173611660",
+        "Column1": "2037 Old Philadelphia Pike, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2037%20Old%20Philadelphia%20Pike%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2037%20Old%20Philadelphia%20Pike%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4398,6 +4796,8 @@ const jsonData =
         "Longitude": "-76.2393978",
         "Slug": "199",
         "Phone URL": "tel://+17173611660",
+        "Column1": "2037 Old Philadelphia Pike, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2037%20Old%20Philadelphia%20Pike%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2037%20Old%20Philadelphia%20Pike%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4420,6 +4820,8 @@ const jsonData =
         "Longitude": " -76.4964805",
         "Slug": "200",
         "Phone URL": "tel://+17173611660",
+        "Column1": "747-749 Walnut Street, Columbia, PA, 17512",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=747-749%20Walnut%20Street%2C%20Columbia%2C%20PA%2C%2017512&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=747-749%20Walnut%20Street%2CColumbia%2CPA%2C17512"
     },
     {
@@ -4442,6 +4844,8 @@ const jsonData =
         "Longitude": " -76.4964805",
         "Slug": "201",
         "Phone URL": "tel://+17173611660",
+        "Column1": "747-749 Walnut Street, Columbia, PA, 17512",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=747-749%20Walnut%20Street%2C%20Columbia%2C%20PA%2C%2017512&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=747-749%20Walnut%20Street%2CColumbia%2CPA%2C17512"
     },
     {
@@ -4464,6 +4868,8 @@ const jsonData =
         "Longitude": "-76.300615",
         "Slug": "202",
         "Phone URL": "tel://+13015244530",
+        "Column1": "525 South Christian Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=525%20South%20Christian%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=525%20South%20Christian%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4486,6 +4892,8 @@ const jsonData =
         "Longitude": "-76.292812",
         "Slug": "203",
         "Phone URL": "tel://+16104636848",
+        "Column1": "632 East Walnut Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=632%20East%20Walnut%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=632%20East%20Walnut%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4508,6 +4916,8 @@ const jsonData =
         "Longitude": "-76.292703",
         "Slug": "204",
         "Phone URL": "tel://+16104636848",
+        "Column1": "634 East Walnut Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=634%20East%20Walnut%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=634%20East%20Walnut%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4530,6 +4940,8 @@ const jsonData =
         "Longitude": "-76.322148",
         "Slug": "205",
         "Phone URL": "tel://+16104636848",
+        "Column1": "830 Marietta Avenue, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=830%20Marietta%20Avenue%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=830%20Marietta%20Avenue%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4552,6 +4964,8 @@ const jsonData =
         "Longitude": "-76.322228",
         "Slug": "206",
         "Phone URL": "tel://+16104636848",
+        "Column1": "832 Marietta Avenue, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=832%20Marietta%20Avenue%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=832%20Marietta%20Avenue%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4574,6 +4988,8 @@ const jsonData =
         "Longitude": "-76.082788",
         "Slug": "207",
         "Phone URL": "tel://+16104636848",
+        "Column1": "326 East New Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=326%20East%20New%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=326%20East%20New%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4596,6 +5012,8 @@ const jsonData =
         "Longitude": "-76.297",
         "Slug": "208",
         "Phone URL": "tel://+16104636848",
+        "Column1": "512 E. King St, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=512%20E.%20King%20St%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=512%20E.%20King%20St%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4618,6 +5036,8 @@ const jsonData =
         "Longitude": "-76.3069",
         "Slug": "209",
         "Phone URL": "tel://+16104636848",
+        "Column1": "324 North Lane, Lititz, PA, 17543",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=324%20North%20Lane%2C%20Lititz%2C%20PA%2C%2017543&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=324%20North%20Lane%2CLititz%2CPA%2C17543"
     },
     {
@@ -4640,6 +5060,8 @@ const jsonData =
         "Longitude": "-76.304082",
         "Slug": "210",
         "Phone URL": "tel://+16104636848",
+        "Column1": "824 North Lime Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=824%20North%20Lime%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=824%20North%20Lime%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4662,6 +5084,8 @@ const jsonData =
         "Longitude": "-76.2863275",
         "Slug": "211",
         "Phone URL": "tel://+17172247898",
+        "Column1": "921 E King Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=921%20E%20King%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=921%20E%20King%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4684,6 +5108,8 @@ const jsonData =
         "Longitude": "-76.286133",
         "Slug": "212",
         "Phone URL": "tel://+17172247898",
+        "Column1": "927 E. King Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=927%20E.%20King%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=927%20E.%20King%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4706,6 +5132,8 @@ const jsonData =
         "Longitude": "-76.28597",
         "Slug": "213",
         "Phone URL": "tel://+17172247898",
+        "Column1": "929 E. King Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=929%20E.%20King%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=929%20E.%20King%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4728,6 +5156,8 @@ const jsonData =
         "Longitude": "-76.28597",
         "Slug": "214",
         "Phone URL": "tel://+17172247898",
+        "Column1": "935 E. King Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=935%20E.%20King%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=935%20E.%20King%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4750,6 +5180,8 @@ const jsonData =
         "Longitude": "-76.299398",
         "Slug": "215",
         "Phone URL": "tel://+17172247898",
+        "Column1": "546 S. Duke Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=546%20S.%20Duke%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=546%20S.%20Duke%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4772,6 +5204,8 @@ const jsonData =
         "Longitude": "-76.2917",
         "Slug": "216",
         "Phone URL": "tel://+17172247898",
+        "Column1": "635 East End Avenue, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=635%20East%20End%20Avenue%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=635%20East%20End%20Avenue%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4794,6 +5228,8 @@ const jsonData =
         "Longitude": "-76.309834",
         "Slug": "217",
         "Phone URL": "tel://+17172247898",
+        "Column1": "462 Fremont Street, Lancaster, PA, 17603",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=462%20Fremont%20Street%2C%20Lancaster%2C%20PA%2C%2017603&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=462%20Fremont%20Street%2CLancaster%2CPA%2C17603"
     },
     {
@@ -4816,6 +5252,8 @@ const jsonData =
         "Longitude": "-76.294033",
         "Slug": "218",
         "Phone URL": "tel://+17172247898",
+        "Column1": "339 N. Marshall Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=339%20N.%20Marshall%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=339%20N.%20Marshall%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4838,6 +5276,8 @@ const jsonData =
         "Longitude": "-76.312728",
         "Slug": "219",
         "Phone URL": "tel://+17172247898",
+        "Column1": "609 Poplar Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=609%20Poplar%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=609%20Poplar%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4860,6 +5300,8 @@ const jsonData =
         "Longitude": "-76.307419",
         "Slug": "220",
         "Phone URL": "tel://+17172247898",
+        "Column1": "21 E. Ross Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=21%20E.%20Ross%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=21%20E.%20Ross%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4882,6 +5324,8 @@ const jsonData =
         "Longitude": "-76.3013296",
         "Slug": "221",
         "Phone URL": "tel://+17172247898",
+        "Column1": "821 N. Shippen Street, Lancaster, PA, 17602",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=821%20N.%20Shippen%20Street%2C%20Lancaster%2C%20PA%2C%2017602&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=821%20N.%20Shippen%20Street%2CLancaster%2CPA%2C17602"
     },
     {
@@ -4904,6 +5348,8 @@ const jsonData =
         "Longitude": "-75.647075",
         "Slug": "222",
         "Phone URL": "tel://+14843693539",
+        "Column1": "308 King Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=308%20King%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=308%20King%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -4926,6 +5372,8 @@ const jsonData =
         "Longitude": "-75.6469164",
         "Slug": "223",
         "Phone URL": "tel://+14843693539",
+        "Column1": "312 King Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=312%20King%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=312%20King%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -4948,6 +5396,8 @@ const jsonData =
         "Longitude": "-75.6445771",
         "Slug": "224",
         "Phone URL": "tel://+14843693539",
+        "Column1": "401 South Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=401%20South%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=401%20South%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -4970,6 +5420,8 @@ const jsonData =
         "Longitude": "-75.644516",
         "Slug": "225",
         "Phone URL": "tel://+14843693539",
+        "Column1": "403 South Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=403%20South%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=403%20South%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -4992,6 +5444,8 @@ const jsonData =
         "Longitude": "-75.65033",
         "Slug": "226",
         "Phone URL": "tel://+14843693539",
+        "Column1": "67 North Hanover Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=67%20North%20Hanover%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=67%20North%20Hanover%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -5014,6 +5468,8 @@ const jsonData =
         "Longitude": "-75.644818",
         "Slug": "227",
         "Phone URL": "tel://+14843693539",
+        "Column1": "382 New Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=382%20New%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=382%20New%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -5036,6 +5492,8 @@ const jsonData =
         "Longitude": "-75.64641",
         "Slug": "228",
         "Phone URL": "tel://+14843693539",
+        "Column1": "205 Jefferson Ave, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=205%20Jefferson%20Ave%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=205%20Jefferson%20Ave%2CPottstown%2CPA%2C19464"
     },
     {
@@ -5058,6 +5516,8 @@ const jsonData =
         "Longitude": "-75.650742",
         "Slug": "229",
         "Phone URL": "tel://+14843693533",
+        "Column1": "304 N. York St, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=304%20N.%20York%20St%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=304%20N.%20York%20St%2CPottstown%2CPA%2C19464"
     },
     {
@@ -5080,6 +5540,8 @@ const jsonData =
         "Longitude": "-75.279659",
         "Slug": "230",
         "Phone URL": "tel://+12676216901",
+        "Column1": "125 East 3rd Street, Lansdale, PA, 19446",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=125%20East%203rd%20Street%2C%20Lansdale%2C%20PA%2C%2019446&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=125%20East%203rd%20Street%2CLansdale%2CPA%2C19446"
     },
     {
@@ -5102,6 +5564,8 @@ const jsonData =
         "Longitude": "-75.279223",
         "Slug": "231",
         "Phone URL": "tel://+12676216901",
+        "Column1": "217 Ridge Street, Lansdale, PA, 19446",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=217%20Ridge%20Street%2C%20Lansdale%2C%20PA%2C%2019446&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=217%20Ridge%20Street%2CLansdale%2CPA%2C19446"
     },
     {
@@ -5124,6 +5588,8 @@ const jsonData =
         "Longitude": "-75.29771",
         "Slug": "232",
         "Phone URL": "tel://+12676134768",
+        "Column1": "113 Penn Ave, Hatfield, PA, 19440",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=113%20Penn%20Ave%2C%20Hatfield%2C%20PA%2C%2019440&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=113%20Penn%20Ave%2CHatfield%2CPA%2C19440"
     },
     {
@@ -5146,6 +5612,8 @@ const jsonData =
         "Longitude": "-75.297669",
         "Slug": "233",
         "Phone URL": "tel://+12676134768",
+        "Column1": "115 Penn Ave, Hatfield, PA, 19440",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=115%20Penn%20Ave%2C%20Hatfield%2C%20PA%2C%2019440&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=115%20Penn%20Ave%2CHatfield%2CPA%2C19440"
     },
     {
@@ -5168,6 +5636,8 @@ const jsonData =
         "Longitude": "-75.297627",
         "Slug": "234",
         "Phone URL": "tel://+12676134768",
+        "Column1": "117 Penn Ave, Hatfield, PA, 19440",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=117%20Penn%20Ave%2C%20Hatfield%2C%20PA%2C%2019440&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=117%20Penn%20Ave%2CHatfield%2CPA%2C19440"
     },
     {
@@ -5190,6 +5660,8 @@ const jsonData =
         "Longitude": "-75.265813",
         "Slug": "235",
         "Phone URL": "tel://+12676134768",
+        "Column1": "3218 Line Lexington Rd., Hatfield, PA, 19440",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=3218%20Line%20Lexington%20Rd.%2C%20Hatfield%2C%20PA%2C%2019440&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=3218%20Line%20Lexington%20Rd.%2CHatfield%2CPA%2C19440"
     },
     {
@@ -5212,6 +5684,8 @@ const jsonData =
         "Longitude": "-75.310154",
         "Slug": "236",
         "Phone URL": "tel://+12674754991",
+        "Column1": "1839 Welsh Road, Lansdale, PA, 19446",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1839%20Welsh%20Road%2C%20Lansdale%2C%20PA%2C%2019446&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1839%20Welsh%20Road%2CLansdale%2CPA%2C19446"
     },
     {
@@ -5234,6 +5708,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "237",
         "Phone URL": "tel://+18132204468",
+        "Column1": "2816 Morris Road, Lansdale, PA, 19446",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2816%20Morris%20Road%2C%20Lansdale%2C%20PA%2C%2019446&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2816%20Morris%20Road%2CLansdale%2CPA%2C19446"
     },
     {
@@ -5256,6 +5732,8 @@ const jsonData =
         "Longitude": "-75.35543328",
         "Slug": "238",
         "Phone URL": "tel://+16107557708",
+        "Column1": "843 W. Main Street, Audubon, PA, 19403",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=843%20W.%20Main%20Street%2C%20Audubon%2C%20PA%2C%2019403&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=843%20W.%20Main%20Street%2CAudubon%2CPA%2C19403"
     },
     {
@@ -5278,6 +5756,8 @@ const jsonData =
         "Longitude": "-75.287",
         "Slug": "239",
         "Phone URL": "tel://+16107557708",
+        "Column1": "99 Laurel Lane, Lansdale, PA, 19446",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=99%20Laurel%20Lane%2C%20Lansdale%2C%20PA%2C%2019446&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=99%20Laurel%20Lane%2CLansdale%2CPA%2C19446"
     },
     {
@@ -5300,6 +5780,8 @@ const jsonData =
         "Longitude": "-75.282808",
         "Slug": "240",
         "Phone URL": "tel://+16107557708",
+        "Column1": "319 South Line Street, Lansdale, PA, 19446",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=319%20South%20Line%20Street%2C%20Lansdale%2C%20PA%2C%2019446&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=319%20South%20Line%20Street%2CLansdale%2CPA%2C19446"
     },
     {
@@ -5322,6 +5804,8 @@ const jsonData =
         "Longitude": "-75.306502",
         "Slug": "241",
         "Phone URL": "tel://+12679682708",
+        "Column1": "1050 Pross Road, Lansdale, PA, 19446",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1050%20Pross%20Road%2C%20Lansdale%2C%20PA%2C%2019446&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1050%20Pross%20Road%2CLansdale%2CPA%2C19446"
     },
     {
@@ -5344,6 +5828,8 @@ const jsonData =
         "Longitude": "-75.645672",
         "Slug": "242",
         "Phone URL": "tel://+14846448214",
+        "Column1": "354 Apple Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=354%20Apple%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=354%20Apple%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -5366,6 +5852,8 @@ const jsonData =
         "Longitude": "-75.642193",
         "Slug": "243",
         "Phone URL": "tel://+16105854308",
+        "Column1": "434 Beech Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=434%20Beech%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=434%20Beech%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -5388,6 +5876,8 @@ const jsonData =
         "Longitude": "-75.644574",
         "Slug": "244",
         "Phone URL": "tel://+14846249577",
+        "Column1": "376 Chestnut Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=376%20Chestnut%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=376%20Chestnut%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -5410,6 +5900,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "245",
         "Phone URL": "",
+        "Column1": "1700 North 11th Street, Reading, PA, 19604",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1700%20North%2011th%20Street%2C%20Reading%2C%20PA%2C%2019604&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1700%20North%2011th%20Street%2CReading%2CPA%2C19604"
     },
     {
@@ -5432,6 +5924,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "246",
         "Phone URL": "tel://+12157945554",
+        "Column1": "4920 York Rd., Suite 2MM, Holicong, PA, 18928",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=4920%20York%20Rd.%2C%20Suite%202MM%2C%20Holicong%2C%20PA%2C%2018928&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=4920%20York%20Rd.%2C%20Suite%202MM%2CHolicong%2CPA%2C18928"
     },
     {
@@ -5454,6 +5948,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "247",
         "Phone URL": "tel://+16103445545",
+        "Column1": "601 Westtown Road, West Chester, PA, 19380",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=601%20Westtown%20Road%2C%20West%20Chester%2C%20PA%2C%2019380&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=601%20Westtown%20Road%2CWest%20Chester%2CPA%2C19380"
     },
     {
@@ -5476,6 +5972,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "248",
         "Phone URL": "tel://+18778357412",
+        "Column1": "n/a, Philadelphia, PA, 19104",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=n%2Fa%2C%20Philadelphia%2C%20PA%2C%2019104&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=n%2Fa%2CPhiladelphia%2CPA%2C19104"
     },
     {
@@ -5498,6 +5996,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "249",
         "Phone URL": "tel://+16104903960",
+        "Column1": "2001 Industrial Hwy, Eddystone, PA, 19022",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=2001%20Industrial%20Hwy%2C%20Eddystone%2C%20PA%2C%2019022&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=2001%20Industrial%20Hwy%2CEddystone%2CPA%2C19022"
     },
     {
@@ -5520,6 +6020,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "250",
         "Phone URL": "tel://+17172911243\n",
+        "Column1": "45 Erick Road, Lancaster, PA, 17601",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=45%20Erick%20Road%2C%20Lancaster%2C%20PA%2C%2017601&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=45%20Erick%20Road%2CLancaster%2CPA%2C17601"
     },
     {
@@ -5542,6 +6044,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "251",
         "Phone URL": "tel://+12155427433",
+        "Column1": "980 Harvest Drive, Suite 100, Blue Bell, PA, 19422",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=980%20Harvest%20Drive%2C%20Suite%20100%2C%20Blue%20Bell%2C%20PA%2C%2019422&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=980%20Harvest%20Drive%2C%20Suite%20100%2CBlue%20Bell%2CPA%2C19422"
     },
     {
@@ -5564,6 +6068,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "252",
         "Phone URL": "tel://+15706281425",
+        "Column1": "420 North Center Street, Pottsville, PA, 17901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=420%20North%20Center%20Street%2C%20Pottsville%2C%20PA%2C%2017901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=420%20North%20Center%20Street%2CPottsville%2CPA%2C17901"
     },
     {
@@ -5586,6 +6092,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "253",
         "Phone URL": "",
+        "Column1": "n/a, n/a, PA, n/a",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=n%2Fa%2C%20n%2Fa%2C%20PA%2C%20n%2Fa&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=n%2Fa%2Cn%2Fa%2CPA%2Cn%2Fa"
     },
     {
@@ -5608,6 +6116,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "254",
         "Phone URL": "",
+        "Column1": "n/a, n/a, PA, n/a",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=n%2Fa%2C%20n%2Fa%2C%20PA%2C%20n%2Fa&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=n%2Fa%2Cn%2Fa%2CPA%2Cn%2Fa"
     },
     {
@@ -5630,6 +6140,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "255",
         "Phone URL": "tel://+12157945554",
+        "Column1": " 4920 York Rd., Suite 2MM, Holicong, PA, 18928",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=%204920%20York%20Rd.%2C%20Suite%202MM%2C%20Holicong%2C%20PA%2C%2018928&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=%204920%20York%20Rd.%2C%20Suite%202MM%2CHolicong%2CPA%2C18928"
     },
     {
@@ -5652,6 +6164,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "256",
         "Phone URL": "",
+        "Column1": "n/a, Doylestown, PA, 18901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=n%2Fa%2C%20Doylestown%2C%20PA%2C%2018901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=n%2Fa%2CDoylestown%2CPA%2C18901"
     },
     {
@@ -5674,6 +6188,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "257",
         "Phone URL": "",
+        "Column1": ", , , ",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=%2C%20%2C%20%2C%20&format=json&addressdetails=1&limit=1",
         "Google Maps URL": ""
     },
     {
@@ -5696,6 +6212,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "258",
         "Phone URL": "",
+        "Column1": ", , , ",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=%2C%20%2C%20%2C%20&format=json&addressdetails=1&limit=1",
         "Google Maps URL": ""
     },
     {
@@ -5718,6 +6236,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "259",
         "Phone URL": "tel://+16102801033",
+        "Column1": ", , , ",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=%2C%20%2C%20%2C%20&format=json&addressdetails=1&limit=1",
         "Google Maps URL": ""
     },
     {
@@ -5740,6 +6260,8 @@ const jsonData =
         "Longitude": "n/a",
         "Slug": "260",
         "Phone URL": "tel://+1n/a",
+        "Column1": ", , , ",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=%2C%20%2C%20%2C%20&format=json&addressdetails=1&limit=1",
         "Google Maps URL": ""
     },
     {
@@ -5762,6 +6284,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "261",
         "Phone URL": "",
+        "Column1": "1286 Veterans Hwy, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1286%20Veterans%20Hwy%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1286%20Veterans%20Hwy%2CBristol%2CPA%2C19007"
     },
     {
@@ -5779,11 +6303,13 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19003",
         "Website": "https://www.conversation.zone",
-        "Image": "",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/beapartoftheconversation.svg",
         "Latitude": "",
         "Longitude": "",
         "Slug": "262",
         "Phone URL": "tel://+12676292214",
+        "Column1": "16 East Lancaster Avenue, Ardmore, PA, 19003",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=16%20East%20Lancaster%20Avenue%2C%20Ardmore%2C%20PA%2C%2019003&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=16%20East%20Lancaster%20Avenue%2CArdmore%2CPA%2C19003"
     },
     {
@@ -5806,6 +6332,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "263",
         "Phone URL": "tel://+16106302111 ",
+        "Column1": "1976 East High Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1976%20East%20High%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1976%20East%20High%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -5828,6 +6356,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "264",
         "Phone URL": "tel://+16103261610",
+        "Column1": "3125 Ridge Pike, Eagleville, PA, 19403",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=3125%20Ridge%20Pike%2C%20Eagleville%2C%20PA%2C%2019403&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=3125%20Ridge%20Pike%2CEagleville%2CPA%2C19403"
     },
     {
@@ -5850,6 +6380,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "265",
         "Phone URL": "",
+        "Column1": ", , , ",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=%2C%20%2C%20%2C%20&format=json&addressdetails=1&limit=1",
         "Google Maps URL": ""
     },
     {
@@ -5872,6 +6404,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "266",
         "Phone URL": "tel://+12157764406",
+        "Column1": ", , , ",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=%2C%20%2C%20%2C%20&format=json&addressdetails=1&limit=1",
         "Google Maps URL": ""
     },
     {
@@ -5894,6 +6428,8 @@ const jsonData =
         "Longitude": "-75.18909891",
         "Slug": "267",
         "Phone URL": "tel://+12158490606",
+        "Column1": "333 West Upsal Street, Philadelphia, PA, 19119",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=333%20West%20Upsal%20Street%2C%20Philadelphia%2C%20PA%2C%2019119&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=333%20West%20Upsal%20Street%2CPhiladelphia%2CPA%2C19119"
     },
     {
@@ -5916,6 +6452,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "268",
         "Phone URL": "tel://+12158710300",
+        "Column1": "4108 Parkside Avenue, Philadelphia, PA, 19104",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=4108%20Parkside%20Avenue%2C%20Philadelphia%2C%20PA%2C%2019104&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=4108%20Parkside%20Avenue%2CPhiladelphia%2CPA%2C19104"
     },
     {
@@ -5938,6 +6476,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "269",
         "Phone URL": "",
+        "Column1": ", , , ",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=%2C%20%2C%20%2C%20&format=json&addressdetails=1&limit=1",
         "Google Maps URL": ""
     },
     {
@@ -5960,6 +6500,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "270",
         "Phone URL": "",
+        "Column1": ", , , ",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=%2C%20%2C%20%2C%20&format=json&addressdetails=1&limit=1",
         "Google Maps URL": ""
     },
     {
@@ -5982,6 +6524,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "271",
         "Phone URL": "tel://+14843500305",
+        "Column1": "306 North Charlotte Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=306%20North%20Charlotte%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=306%20North%20Charlotte%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -6004,6 +6548,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "272",
         "Phone URL": "tel://+1 ",
+        "Column1": "Hanover Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=Hanover%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=Hanover%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -6026,6 +6572,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "273",
         "Phone URL": "tel://+14843500305",
+        "Column1": "Beech Street, Pottstown, PA, 19464",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=Beech%20Street%2C%20Pottstown%2C%20PA%2C%2019464&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=Beech%20Street%2CPottstown%2CPA%2C19464"
     },
     {
@@ -6048,6 +6596,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+18002216333",
+        "Column1": "1286 Veterans Highway, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1286%20Veterans%20Highway%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1286%20Veterans%20Highway%2CBristol%2CPA%2C19007"
     },
     {
@@ -6070,6 +6620,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "",
+        "Column1": ", , , ",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=%2C%20%2C%20%2C%20&format=json&addressdetails=1&limit=1",
         "Google Maps URL": ""
     },
     {
@@ -6092,6 +6644,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+12157576916",
+        "Column1": "4 Cornerstone Drive, Langhorne, PA, 19047",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=4%20Cornerstone%20Drive%2C%20Langhorne%2C%20PA%2C%2019047&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=4%20Cornerstone%20Drive%2CLanghorne%2CPA%2C19047"
     },
     {
@@ -6114,6 +6668,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+18002454746",
+        "Column1": "4833 Hulmeville Road, Bensalem, PA, 19020",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=4833%20Hulmeville%20Road%2C%20Bensalem%2C%20PA%2C%2019020&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=4833%20Hulmeville%20Road%2CBensalem%2CPA%2C19020"
     },
     {
@@ -6136,6 +6692,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+16106258376",
+        "Column1": "940 West King Road, Malvern, PA, 19355",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=940%20West%20King%20Road%2C%20Malvern%2C%20PA%2C%2019355&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=940%20West%20King%20Road%2CMalvern%2CPA%2C19355"
     },
     {
@@ -6158,6 +6716,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "",
+        "Column1": ", , , ",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=%2C%20%2C%20%2C%20&format=json&addressdetails=1&limit=1",
         "Google Maps URL": ""
     },
     {
@@ -6180,6 +6740,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+12679855409",
+        "Column1": "807 Lawn Avenue, Sellersville, PA, 18960",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=807%20Lawn%20Avenue%2C%20Sellersville%2C%20PA%2C%2018960&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=807%20Lawn%20Avenue%2CSellersville%2CPA%2C18960"
     },
     {
@@ -6202,6 +6764,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+12154535178",
+        "Column1": "807 Lawn Avenue, Sellersville, PA, 18960",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=807%20Lawn%20Avenue%2C%20Sellersville%2C%20PA%2C%2018960&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=807%20Lawn%20Avenue%2CSellersville%2CPA%2C18960"
     },
     {
@@ -6224,6 +6788,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+12154535178",
+        "Column1": "807 Lawn Avenue, Sellersville, PA, 18960",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=807%20Lawn%20Avenue%2C%20Sellersville%2C%20PA%2C%2018960&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=807%20Lawn%20Avenue%2CSellersville%2CPA%2C18960"
     },
     {
@@ -6246,6 +6812,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+12679855409",
+        "Column1": "807 Lawn Avenue, Sellersville, PA, 18960",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=807%20Lawn%20Avenue%2C%20Sellersville%2C%20PA%2C%2018960&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=807%20Lawn%20Avenue%2CSellersville%2CPA%2C18960"
     },
     {
@@ -6268,6 +6836,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+12679855409",
+        "Column1": "807 Lawn Avenue, Sellersville, PA, 18960",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=807%20Lawn%20Avenue%2C%20Sellersville%2C%20PA%2C%2018960&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=807%20Lawn%20Avenue%2CSellersville%2CPA%2C18960"
     },
     {
@@ -6290,6 +6860,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+12154442700",
+        "Column1": "55 East Court Street, 4ᵗʰ Floor, Doylestown, PA, 18901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=55%20East%20Court%20Street%2C%204%E1%B5%97%CA%B0%20Floor%2C%20Doylestown%2C%20PA%2C%2018901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=55%20East%20Court%20Street%2C%204%E1%B5%97%CA%B0%20Floor%2CDoylestown%2CPA%2C18901"
     },
     {
@@ -6312,6 +6884,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+18002216333",
+        "Column1": "1286 Veterans Highway, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1286%20Veterans%20Highway%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1286%20Veterans%20Highway%2CBristol%2CPA%2C19007"
     },
     {
@@ -6334,6 +6908,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+18002216333",
+        "Column1": "1286 Veterans Highway, Bristol, PA, 19007",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1286%20Veterans%20Highway%2C%20Bristol%2C%20PA%2C%2019007&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1286%20Veterans%20Highway%2CBristol%2CPA%2C19007"
     },
     {
@@ -6356,6 +6932,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+12676292214",
+        "Column1": "16 East Lancaster Avenue, Suite 101, Ardmore, PA, 19003",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=16%20East%20Lancaster%20Avenue%2C%20Suite%20101%2C%20Ardmore%2C%20PA%2C%2019003&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=16%20East%20Lancaster%20Avenue%2C%20Suite%20101%2CArdmore%2CPA%2C19003"
     },
     {
@@ -6378,6 +6956,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+12676292214",
+        "Column1": "16 East Lancaster Avenue, Suite 101, Ardmore, PA, 19003",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=16%20East%20Lancaster%20Avenue%2C%20Suite%20101%2C%20Ardmore%2C%20PA%2C%2019003&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=16%20East%20Lancaster%20Avenue%2C%20Suite%20101%2CArdmore%2CPA%2C19003"
     },
     {
@@ -6400,6 +6980,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "",
         "Phone URL": "tel://+12672289719",
+        "Column1": "321 West Buler Ave, New Brittain, PA, 18901",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=321%20West%20Buler%20Ave%2C%20New%20Brittain%2C%20PA%2C%2018901&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=321%20West%20Buler%20Ave%2CNew%20Brittain%2CPA%2C18901"
     },
     {
@@ -6422,6 +7004,8 @@ const jsonData =
         "Longitude": "",
         "Slug": "103",
         "Phone URL": "tel://+16108987915",
+        "Column1": "1300 Hilltop Road, Leesport, PA, 19533",
+        "Column2": "https://nominatim.openstreetmap.org/search?q=1300%20Hilltop%20Road%2C%20Leesport%2C%20PA%2C%2019533&format=json&addressdetails=1&limit=1",
         "Google Maps URL": "https://www.google.com/maps/search/?api=1&query=1300%20Hilltop%20Road%2CLeesport%2CPA%2C19533"
     }
 ];
