@@ -81,7 +81,7 @@ const jsonData =
         "State": "PA",
         "Zip Code": "19082",
         "Website": "https://delcohsa.org/mentalhealth.html",
-        "Image": "https://resourcespage.pages.dev/assets/resource-logos/delawarecountyseal.svg",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/DelawareCountySeal.svg",
         "Latitude": "39.9576",
         "Longitude": "-75.2591",
         "Phone URL": "tel://+16107132365",
