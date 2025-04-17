@@ -345,7 +345,7 @@ const jsonData =
         "State": "PA",
         "Zip Code": "17552",
         "Website": "https://dsasquared.org/",
-        "Image": "https://resourcespage.pages.dev/assets/resource-logos/DSAA.svg",
+        "Image": "https://resourcespage.pages.dev/assets/resource-logos/dsaa.png",
         "Latitude": "40.109",
         "Longitude": "-76.4995",
         "Phone URL": "tel://+17174924596",
