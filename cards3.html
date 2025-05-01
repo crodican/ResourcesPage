@@ -20,6 +20,177 @@
     <link rel="stylesheet" href="elevation-bootstrap.css" />
     <!-- Elevation Bootstrap CSS -->
     <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css" />
+<style id='elevation-home-horizontal-cards-style-inline-css'>
+    .horizontal-cards .block__row {
+        row-gap: 30px
+    }
+    
+    .horizontal-cards .block__col--image {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 34px;
+        padding-right: 15px;
+        position: relative;
+        row-gap: 20px
+    }
+    
+    @media(min-width:576px) {
+        .horizontal-cards .block__col--image {
+            padding-right: 48px
+        }
+    }
+    
+    .horizontal-cards {
+        display: flex;
+        flex-direction: column;
+        row-gap: 30px
+    }
+    
+    .horizontal-cards .card {
+        padding-left: 15px;
+        padding-top: 24px;
+        position: relative
+    }
+    
+    @media(min-width:576px) {
+        .horizontal-cards .card {
+            padding-left: 24px
+        }
+    }
+    
+    .horizontal-cards .card__icon {
+        background-color: #55298a;
+        height: 46px;
+        left: 34px;
+        position: absolute;
+        top: 0;
+        transition: all .5s ease;
+        width: 46px;
+        z-index: 1
+    }
+    
+    @media(min-width:576px) {
+        .horizontal-cards .card__icon {
+            left: 0;
+            top: 35px
+        }
+    }
+    
+    .horizontal-cards .card__icon img {
+        bottom: unset;
+        height: calc(100% - 25px);
+        left: 50%;
+        -o-object-fit: contain;
+        object-fit: contain;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition-duration: .4s;
+        transition-property: filter;
+        transition-timing-function: ease-in-out;
+        width: calc(100% - 25px)
+    }
+    
+    .horizontal-cards .card__body {
+        background-color: #fff;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        padding: 45px 30px 30px;
+        row-gap: 15px;
+        transition: all .4s ease
+    }
+    
+    @media(min-width:576px) {
+        .horizontal-cards .card__body {
+            padding: 35px 80px 39px 85px
+        }
+    }
+    
+    .horizontal-cards .card__body__excerpt {
+        color: #1e1e1e
+    }
+    
+    @media(min-width:1200px) {
+        .horizontal-cards .card:hover .card__body {
+            background-color: #f5ebf3;
+            box-shadow: 0 0 40px 0 rgba(0, 0, 0, .102)
+        }
+    }
+</style>
+<style id='elevation-home-social-feed-style-inline-css'>
+    .block__home-social-feed {
+        padding-bottom: 0;
+        padding-top: 0;
+        position: relative
+    }
+    
+    .block__home-social-feed .block__content {
+        align-items: center;
+        border-bottom: .5px solid #bcb9b9;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 0 0 26px;
+        position: relative;
+        z-index: 1
+    }
+    
+    .block__home-social-feed--frame {
+        bottom: 0;
+        height: 350px;
+        left: 0;
+        margin-top: -72px;
+        position: relative;
+        width: 100%
+    }
+    
+    @media(min-width:768px) {
+        .block__home-social-feed--frame {
+            height: 500px;
+            margin-top: -50px
+        }
+    }
+    
+    @media(min-width:1200px) {
+        .block__home-social-feed--frame {
+            height: 762px
+        }
+    }
+    
+    .block__home-social-feed--frame picture {
+        height: 100%;
+        width: 100%
+    }
+    
+    .block__home-social-feed--frame:after {
+        background-image: url(/wp-content/themes/elevation-framework/build/blocks/home-social-feed/../../images/home-social-feed-gradient.90ff26e9.png);
+        background-position: top;
+        background-repeat: no-repeat;
+        background-size: cover;
+        content: "";
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%
+    }
+    
+    .block__home-social-feed--background {
+        height: 100%;
+        width: 100%
+    }
+    
+    .block__home-social-feed--background>img {
+        height: 100%!important;
+        -o-object-fit: cover;
+        object-fit: cover;
+        vertical-align: bottom;
+        width: 100%
+    }
+</style>
+    
+    
     <style id="programs-cards">
         .programs-cards {
             padding-bottom: 60px
@@ -438,6 +609,47 @@
                 </div>
             </div>
     </div>
+<section class="bg-teal">
+<div class="container">
+<div class="horizontal-cards">
+    
+    
+<article class="card">
+    <figure class="card__icon"><img loading="lazy" decoding="async" width="128" height="128" src="https://www.councilsepa.org/wp-content/uploads/2025/01/icon-certificate-filled.png" alt="" class="wp-image-125830"></figure>
+    <div class="card__body">
+        <h2 class="card__body__title h5">Expand CRS Workforce</h2> </div>
+</article>
+
+<article class="card">
+    <figure class="card__icon"><img loading="lazy" decoding="async" width="128" height="128" src="https://www.councilsepa.org/wp-content/uploads/2025/01/icon-certificate-filled.png" alt="" class="wp-image-125830"></figure>
+    <div class="card__body">
+        <h2 class="card__body__title h5">Expand CFRS & Family Resources</h2> </div>
+</article>
+
+<article class="card">
+    <figure class="card__icon"><img loading="lazy" decoding="async" width="128" height="128" src="https://www.councilsepa.org/wp-content/uploads/2025/01/icon-certificate-filled.png" alt="" class="wp-image-125830"></figure>
+    <div class="card__body">
+        <h2 class="card__body__title h5">Stigma Reduction & Education</h2> </div>
+</article>
+
+<article class="card">
+    <figure class="card__icon"><img loading="lazy" decoding="async" width="128" height="128" src="https://www.councilsepa.org/wp-content/uploads/2025/01/icon-certificate-filled.png" alt="" class="wp-image-125830"></figure>
+    <div class="card__body">
+        <h2 class="card__body__title h5">Recovery Community Centers</h2> </div>
+</article>
+
+<article class="card">
+    <figure class="card__icon"><img loading="lazy" decoding="async" width="128" height="128" src="https://www.councilsepa.org/wp-content/uploads/2025/01/icon-certificate-filled.png" alt="" class="wp-image-125830"></figure>
+    <div class="card__body">
+        <h2 class="card__body__title h5">Housing & Transportation</h2> </div>
+</article>
+
+</div>
+    
+
+</div>
+
+</section>
 </body>
 
 </html>

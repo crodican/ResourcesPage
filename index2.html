@@ -120,15 +120,7 @@
 </head>
 <body>
     <!--  Search Bar  -->
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <button class="btn customButton--secondary py-1 px-2" type="button"
-                            style="border-radius: 10px 1px 1px 10px !important" data-bs-toggle="modal"
-                            data-bs-target="#allCountiesModal">
-                            <span class="bi bi-geo-alt-fill"></span><span
-                                style="margin-left:15px">MAP</span>
-                        </button>
-                    </div>                
+                <div class="input-group">             
                     <input type="text" id="search-input"  class="form-control border-0 bg-gray-subtle py-0 px-4" placeholder="Search resources...">
                     <div class="input-group-append kbd">
                         <div class="bg-gray-subtle px-2 py-1 d-flex" style="height: 100%">
@@ -164,12 +156,17 @@
                         </div>
                 </div>
                 <div id="map"></div>
-    <div id="controls-area" class="mb-3 d-flex align-items-center">
+
+        <div id="controls-area" class="mx-2 mb-3 d-flex align-items-center">
+    <div class="container p-4">
+            <button class="text-nowrap text-white bg-secondary px-1 rounded-2" type="button" data-bs-toggle="modal" data-bs-target="#allCountiesModal">
+            <span class="bi bi-geo-alt-fill"></span><span style="margin-left:15px">MAP</span>
+        </button>
     </div>
+        </div>
     <div id="results-area" class="px-3">
     </div>
     <div id="pagination-controls" class="mt-3 d-flex justify-content-center">
-    </div>
     </div>
 
 <script>
@@ -423,7 +420,7 @@
         // Add clear all filters button
         const clearFiltersButton = document.createElement('button');
         clearFiltersButton.textContent = 'Clear All Filters';
-        clearFiltersButton.classList.add('btn', 'btn-secondary', 'me-2');
+        clearFiltersButton.classList.add('bg-secondary', 'text-white', 'rounded-2', 'px-2', 'text-nowrap');
         clearFiltersButton.addEventListener('click', function () {
             searchInput.value = '';
             document.querySelectorAll('#filter-area input:checked').forEach(checkbox => checkbox.checked = false);

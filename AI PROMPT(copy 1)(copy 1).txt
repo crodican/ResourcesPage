@@ -1,0 +1,243 @@
+I need help to develop a bootstrap css html web page that allows the searching, filtering and displaying of a collection of resources from a NocoDB
+database, in custom bootstrap cards.
+
+I have a template for the resource cards. My database contains the following columns: ID, LOCATION NAME, ORGANIZATION, COUNTY, RESOURCE TYPE, CATEGORY, 
+POPULATIONS, MORE INFO, PHONE,  ADDRESS, CITY, STATE, ZIP CODE, WEBSITE, IMAGE, LATITUDE, LONGITUDE, PHONE URL, FULL ADDRESS, and 
+GOOGLE MAPS URL.  Of those columns, COUNTY, RESOURCE TYPE, CATEGORY, and POPULATIONS are the facets which will be used for filtering.
+The rest are the attributes.
+
+There are about 300 resources. 
+
+I need a page to search and filter the resources and display them as bootstrap cards. 
+
+The page should have the following structure:
+
+A search bar at the top ( need the cards to update as info is typed into the search bar, and if enter is pressed or the search button 
+clicked, the text from the box clears, and the searched term becomes a chip in the chips area below the search bar). 
+Additionally, i would like CTRL+K to automatically focus the search bar. I would like the placeholder text to say 
+"Click Here or CTRL + K to Search".
+
+Below the search bar an area for chips for any of the filters applied ( I would like a chip created for the search terms after 
+enter is pressed or after a filter is checked in the checkbox filters).
+
+Below the chip area should be the filters area, in a bootstrap row, with four columns set to "col-lg-3 col-md-3 
+col-sm-10", one column for each of the filter facets containing checkbox filters:
+
+-Counties (The options should be Berks, Bucks, Chester, Delaware, Lancaster, Montgomery, and Schuylkill)
+
+-Populations (The options should be Men, Women, Children, and Adolescents)
+
+-Resource Types (The options should be Recovery Support, Family Support, Housing, and Transportation)
+
+-Categories (The options should be dynamic depending on the resource type that is selected. If Recovery Support is selected, the, the
+options should be Single County Authority, Center of Excellence, Regional Recovery Hub, Recovery Community Organization, Warm Handoff, 
+and Treatment with RSS. if Family Support is selected the options should be Family Counseling, Family Peer Support, Family Assistance 
+Program, Family Education Program, and Family Resources. If Housing is the selected Resource Type then the categories shown should be 
+Recovery House, Halfway House, and Housing Assistance. If Transportation is selected, the categories shown should be Affordable Public 
+Transportation, Carpool Service, Medical Assistance Transportation, Recovery Transportation Services, and 
+Vehicle Purchase Assistance. Additionally, the categories of Government and Other should be shown no matter 
+which Resource Type is selected. Finally, if no Resource Type is selected, none of them should be shown.
+
+
+
+Below this should be the results area. The results should be displayed as the cards from the format I am about to share, 
+in a list format or flex-column, with pagination to show only 25 show at a time, with a load more button at the bottom 
+to load more. There should be a "Results 1-25 of X" Counter at the top, which would change to "1-50 of x" and so 
+forth as well as a Sort By drop down to sort by Relevance or Alphabetical.
+
+The Card Format Template is shown below.  There is a row element containing two cols, a sidenav, which contains a link for
+WEBSITE, PHONE URL, and GOOGLE MAPS URL, then the card body.  The card should have the bootstrap classes 
+'shadow-lg text-bg-white', inside of which is a div 'row no-gutters p-0', and then the card sidenav and card body.
+The card sidenav should have classes 'col-2 d-flex flex-column justify-content-between align-items-center p-0'.
+Inside the card sidenav are the links for WEBSITE, PHONE URL, and GOOGLE MAPS URL, taken from the database columns.
+They should have the classes of 'd-flex align-items-center justify-content-center flex-grow-1 w-100 text-white'.
+They will use the bootstrap icons bi-globe, bi-telephone-fill, and bi-geo-alt-fill.
+
+The Card body should have 'col-10 p-4'.
+This contains the LOCATION NAME, then the ORGANIZATION.  Then bootstrap
+badges to show the RESOURCE TYPE and the CATEGORY.   Next is the ADDRESS followed by CITY, STATE, and ZIP CODE.  Then there is the 
+place for POPULATION and then for COUNTY, each of which are bootstrap badges.  If there are more than one values for a facet, such
+as a resource with POPULATIONS of Men, Women, and Children, there should be a bootstrap badge for each of them.  All of the 
+bootstrap badges on the card should be clickable so that if clicked on, a filter chip is added to filter the resources by that facet.
+
+Card Template should be something like:
+
+                <div class="card shadow-lg text-bg-light">
+                    <div class="row no-gutters p-0">
+                        <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
+                                <a href="(WEBSITE)" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
+                                <a href="(PHONE URL)" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
+                                <a href="(Google Maps URL)" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
+                        </div>
+                        <div class="card-body col-10 p-4">
+                            <div class="row"> </div>
+                            <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${item['LOCATION NAME']}</h3>
+                            <h5 style="font-weight:100;margin-top:0;font-size:18px">${item.ORGANIZATION}</h5>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                         ${generateBadgeHTML('RESOURCE TYPE', item['RESOURCE TYPE']) }
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                         ${generateBadgeHTML('CATEGORY', item.CATEGORY)}
+                                    </li>
+                                </ol>
+                            </nav>
+                            <div class="row d-flex justify-content-end position-relative"><img src="${image}" alt="Logo" style="width:200px; height:auto; align-self: center; position: absolute">
+                            </div>
+                            <p><strong>Phone:</strong> ${item.PHONE}</p>
+                            <p>Address
+                                <br />${item.CITY}, ${item.STATE} ${item['ZIP CODE']}</p>
+                            <div><strong>Populations Served:</strong>
+                                ${generateBadgeHTML('POPULATIONS', item.POPULATIONS)}
+                            </div>
+                            <div><strong>Counties Served:</strong>
+                                ${generateBadgeHTML('COUNTY', item.COUNTY)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+Here is the some css for page's style tag:
+<style>
+        .card-sidenav {
+            max-width: 70px;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .card-sidenav a {
+            background-color: #55298a;
+            color: white !important;
+            font-size: 36px;
+        }
+
+        .card-sidenav a:hover {
+            background-color: #f5ebf3;
+            color: #55298a !important;
+            overflow: hidden;
+        }
+
+        .card-sidenav a:nth-of-type(1) {
+            border-radius: 5px 0 0 0;
+        }
+
+        .card-sidenav a:nth-of-type(2) {
+            border-radius: 0;
+        }
+
+        .card-sidenav a:nth-of-type(3) {
+            border-radius: 0 0 0 5px;
+        }
+
+        .cardImage {
+            max-width: 150px;
+            height: auto !important;
+            @media (width < 768px) {
+                position: static;
+            }
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 10px;
+            margin: 5px;
+            background-color: #e0e0e0;
+            border-radius: 20px;
+        }
+
+        .close-chip {
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+
+        label {
+            padding: 2px 8px;
+        }
+        
+        label:active {
+            background-color: rgba(89, 49, 150, 0.25);
+            border-radius: 3px;
+        }
+        
+        label:hover {
+            background-color: rgba(89, 49, 150, 0.25);
+            border-radius: 3px;
+        }
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .results-count {
+            font-size: 1rem;
+            color: #666;
+        }
+        .sort-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sort-control label {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #555;
+            margin-bottom: 0;
+        }
+        .sort-control select {
+            border-radius: 5px;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid #ddd;
+        }
+        .sort-control select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        #load-more {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #load-more button {
+            border-radius: 5px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+</style>
+
+My API token for NocoDB is IG35M16lOwlnPQWP3EcNcjI6nO7jXE4zBWvhdIOL
+My database Table ID is mu8v5qw718w8hkd
+
+here are the rest apis:
+
+GET
+/api/v2/tables/mu8v5qw718w8hkd/records
+Resources list
+
+
+POST
+/api/v2/tables/mu8v5qw718w8hkd/records
+Resources create
+
+
+PATCH
+/api/v2/tables/mu8v5qw718w8hkd/records
+Resources update
+
+
+DELETE
+/api/v2/tables/mu8v5qw718w8hkd/records
+Resources delete
+
+
+GET
+/api/v2/tables/mu8v5qw718w8hkd/records/{recordId}
+Resources read
+
+
+GET
+/api/v2/tables/mu8v5qw718w8hkd/records/count
+Resources count

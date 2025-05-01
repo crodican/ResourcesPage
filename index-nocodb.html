@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const options = {
+	method: 'GET',
+	headers: {
+		'xc-token': 'IG35M16lOwlnPQWP3EcNcjI6nO7jXE4zBWvhdIOL'
+	}
+};
+
+fetch('https://app.nocodb.com/api/v2/tables/mu8v5qw718w8hkd/records?offset=0&limit=25&where=&viewId=vwr1w8nwoolz254r', options)
+	.then(response => response.json())
+	.then(response => console.log(response))
+	.catch(err => console.error(err));
+    </script>
+</body>
+</html>

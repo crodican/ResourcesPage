@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Resource Directory</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-        rel="stylesheet" />
-    <!-- Elevation Bootstrap CSS -->
-    <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css" />
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <!-- Bootstrap 5.3.3 CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
-    <!-- Custom Colors CSS -->
-    <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
-    <!-- MapLibre JS and CSS -->
-    <script src="https://unpkg.com/maplibre-gl@^5.2.0/dist/maplibre-gl.js"></script>
-    <link href="https://unpkg.com/maplibre-gl@^5.2.0/dist/maplibre-gl.css" rel="stylesheet" />
-    <style>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Resource Search and Filter</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://resourcespage.pages.dev/customColors.css"
+        />
+        <style>
         .card-sidenav {
             max-width: 70px;
             border-radius: 5px 0 0 5px;
@@ -57,7 +63,6 @@
         .cardImage {
             max-width: 150px;
             height: auto !important;
-
             @media (width < 768px) {
                 position: static;
             }
@@ -77,494 +82,840 @@
             cursor: pointer;
         }
 
-        .br-35-5-35-5 {
-            border-radius: 35px 5px 35px 5px;
-        }
-
-        .br-35-5-5-5 {
-            border-radius: 35px 5px 35px 5px;
-        }
-
-        .br-5-35-5-5 {
-            border-radius: 5px 35px 5px 5px;
-        }
-
-        .br-5-5-35-5 {
-            border-radius: 5px 5px 35px 5px;
-        }
-
-        .br-5-5-5-35 {
-            border-radius: 5px 5px 5px 35px;
-        }
-
-        .br-35-35-5-5 {
-            border-radius: 35px 35px 5px 5px;
-        }
-
-        .br-35-5-35-5 {
-            border-radius: 35px 5px 35px 5px;
-        }
-
-        .br-35-5-5-35 {
-            border-radius: 35px 5px 5px 5px;
-        }
-
-        .br-5-35-35-5 {
-            border-radius: 5px 35px 35px 5px;
-        }
-
-        .br-5-5-35-35 {
-            border-radius: 5px 5px 35px 35px;
-        }
-
-        .br-5-35-35-35 {
-            border-radius: 5px 35px 35px 35px;
-        }
-
-        .br-35-5-35-35 {
-            border-radius: 35px 5px 35px 35px;
-        }
-
-        .br-35-35-5-35 {
-            border-radius: 35px 35px 5px 35px;
-        }
-
-        .br-35-35-35-5 {
-            border-radius: 35px 35px 35px 5px;
-        }
-
-        .br-5-35-5-35 {
-            border-radius: 5px 35px 5px 35px;
-        }
 
         label {
             padding: 2px 8px;
         }
-
+        
         label:active {
             background-color: rgba(89, 49, 150, 0.25);
             border-radius: 3px;
         }
-
+        
         label:hover {
             background-color: rgba(89, 49, 150, 0.25);
             border-radius: 3px;
         }
 
-        .resourceCard .breadcrumb {
-            background-color: transparent;
-        }
+            .cardImage {
+                max-width: 150px;
+                height: auto !important;
+                @media (width < 768px) {
+                    position: static;
+                }
+            }
 
-        .resourceCard .badge {
-            margin-right: 15px;
-        }
+            .chip {
+                display: inline-flex;
+                align-items: center;
+                padding: 5px 10px;
+                margin: 5px;
+                background-color: #e0e0e0;
+                border-radius: 20px;
+            }
 
-        .modal-content {
-            position: fixed;
-            left: 0;
-        }
-    </style>
-</head>
+            .close-chip {
+                margin-left: 5px;
+                cursor: pointer;
+            }
 
-<body>
-    <!--  Search Bar  -->
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <button class="btn customButton--secondary py-1 px-2" type="button"
-                style="border-radius: 10px 1px 1px 10px !important" data-bs-toggle="modal"
-                data-bs-target="#allCountiesModal">
-                <span class="bi bi-geo-alt-fill"></span><span style="margin-left:15px">MAP</span>
-            </button>
-        </div>
-        <input type="text" id="search-input" class="form-control border-0 bg-gray-subtle py-0 px-4"
-            placeholder="Search resources...">
-        <div class="input-group-append kbd">
-            <div class="bg-gray-subtle px-2 py-1 d-flex" style="height: 100%">
-                <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
+            label {
+                padding: 2px 8px;
+            }
+
+            label:active {
+                background-color: rgba(89, 49, 150, 0.25);
+                border-radius: 3px;
+            }
+
+            label:hover {
+                background-color: rgba(89, 49, 150, 0.25);
+                border-radius: 3px;
+            }
+
+            .results-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+
+            .results-count {
+                font-size: 1rem;
+                color: #666;
+            }
+
+            .sort-control {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .sort-control label {
+                font-size: 0.9rem;
+                font-weight: 400;
+                color: #555;
+                margin-bottom: 0;
+            }
+
+            .sort-control select {
+                border-radius: 5px;
+                padding: 0.5rem;
+                font-size: 0.9rem;
+                border: 1px solid #ddd;
+            }
+
+            .sort-control select:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            }
+
+            #load-more {
+                margin-top: 20px;
+                text-align: center;
+            }
+
+            #load-more button {
+                border-radius: 5px;
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+        </style>
+    </head>
+    <body class="bg-light">
+        <div class="container-fluid">
+            <div class="row justify-content-center mt-4">
+                <div class="col-12 col-md-8">
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            id="search-bar"
+                            class="form-control form-control-lg"
+                            placeholder="Click Here or CTRL + K to Search"
+                        />
+                        <button id="search-button" class="btn btn-primary" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="input-group-append">
-            <button class="btn customButton--secondary py-1 px-3 searchButton" type="button"
-                style="border-radius: 1px 10px 10px 1px !important">
-                <span class="bi bi-search"></span>
-            </button>
-        </div>
-    </div>
-    <div id="chip-container" class="p-2" style="height:60px"></div>
-    <!--  /Search Bar + Chips  -->
-    <!--  Filter Area  -->
-    <div id="filter-area">
-        <h5>Counties</h5>
-        <div id="counties-filter">
-        </div>
-        <h5>Populations Served</h5>
-        <div id="populations-filter">
-        </div>
-        <h5>Resource Types</h5>
-        <div id="service-areas-filter">
-        </div>
-        <h5>Categories</h5>
-        <div id="categories-filter">
-        </div>
-    </div>
-    <!--  /Filter Area  -->
-    <!-- Map -->
-    <div class="container">
-        <div style="height: 400px;width:auto" id="map"></div>
-    </div>
-    <!--  /Map  -->
-    <!--  Results Area  -->
-    <div id="controls-area" class="mb-3 d-flex align-items-center">
-    </div>
-    <div id="results-area" class="px-3">
-    </div>
-    <div id="pagination-controls" class="mt-3 d-flex justify-content-center">
-    </div>
-    </div>
 
-    <script>
+            <div class="row justify-content-center mt-2">
+                <div class="col-12 col-md-8" id="chips-container"></div>
+            </div>
 
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
-    <script src="resourcesData.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Function to display resources as Bootstrap cards
-            function displayResources(resources, page = 1) {
-                const resultsArea = document.getElementById('results-area');
-                const paginationControls = document.getElementById('pagination-controls');
-                resultsArea.innerHTML = ''; // Clear previous results
-                paginationControls.innerHTML = '';
-    
-                const resourcesPerPage = 25;
-                const startIndex = (page - 1) * resourcesPerPage;
-                const endIndex = startIndex + resourcesPerPage;
-                const pageResources = resources.slice(startIndex, endIndex);
-    
-                pageResources.forEach(resource => {
-                    const card = document.createElement('div');
-                    card.classList.add('col-12');
-                    card.innerHTML = `
-                        <div class="resourceCard shadow-lg text-bg-white br-5-5-5-5 mb-5">
-                            <div class="row no-gutters p-0">
-                                <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
-                                    <a href="${resource.Website}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
-                                    <a href="${resource["Phone URL"]}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
-                                    <a href="${resource["Google Maps URL"]}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
+            <div class="row justify-content-center mt-4">
+                <div class="col-12 col-md-8">
+                    <h2>Filters</h2>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <h5 class="mb-2 text-secondary">Counties</h5>
+                            <div id="counties-filter">
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Berks"
+                                        id="county-berks"
+                                    />
+                                    <label class="form-check-label" for="county-berks"
+                                        >Berks</label
+                                    >
                                 </div>
-                                <div class="card-body col-10 p-4">
-                                    <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${resource["Location Name"]}</h3>
-                                    <h5 style="font-weight:100;margin-top:0;font-size:18px">${resource.Organization}</h5>
-                                    <div class="row">
-                                        <div class="col">
-                                            <nav aria-label="breadcrumb">
-                                                <ol class="breadcrumb">
-                                                    <li class="cardbreadcrumb-item">
-                                                        ${resource["Service Area"].split('; ').map(area => `<span class="badge text-black bg-pink py-2 my-1"> ${area.trim()} </span>`).join('')}
-                                                    </li>
-                                                    <li class="cardbreadcrumb-item">
-                                                        ${resource.Category.split('; ').map(cat => `<span class="badge text-black bg-pink py-2 my-1"> ${cat.trim()} </span>`).join('')}
-                                                    </li>
-                                                </ol>
-                                            </nav>
-                                            <p><strong>Phone:</strong> ${resource.Phone}</p>
-                                            <p>${resource.Address} <br />${resource.City}, ${resource.State} ${resource["Zip Code"]}</p>
-                                        </div>
-                                        <div class="col d-flex justify-content-end align-items-end"> <img class="cardImage" src="${resource.Image}" alt="Logo"> </div>
-                                    </div>
-                                    <p><strong>Populations Served:</strong> ${resource["Populations Served"].split('; ').map(pop => `<span class="badge text-black bg-pink py-2 my-1"> ${pop.trim()} </span>`).join('')}</p>
-                                    <p><strong>Counties Served:</strong> ${resource.County.split('; ').map(county => `<span class="badge text-black bg-pink py-2 my-1">${county.trim()}</span>`).join('')}</p>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Bucks"
+                                        id="county-bucks"
+                                    />
+                                    <label class="form-check-label" for="county-bucks"
+                                        >Bucks</label
+                                    >
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Chester"
+                                        id="county-chester"
+                                    />
+                                    <label class="form-check-label" for="county-chester"
+                                        >Chester</label
+                                    >
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Delaware"
+                                        id="county-delaware"
+                                    />
+                                    <label class="form-check-label" for="county-delaware"
+                                        >Delaware</label
+                                    >
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Lancaster"
+                                        id="county-lancaster"
+                                    />
+                                    <label class="form-check-label" for="county-lancaster"
+                                        >Lancaster</label
+                                    >
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Montgomery"
+                                        id="county-montgomery"
+                                    />
+                                    <label class="form-check-label" for="county-montgomery"
+                                        >Montgomery</label
+                                    >
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Schuylkill"
+                                        id="county-schuylkill"
+                                    />
+                                    <label class="form-check-label" for="county-schuylkill"
+                                        >Schuylkill</label
+                                    >
                                 </div>
                             </div>
                         </div>
-                    `;
-                    resultsArea.appendChild(card);
+
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <h5 class="mb-2 text-secondary">Populations</h5>
+                            <div id="populations-filter">
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Men"
+                                        id="population-men"
+                                    />
+                                    <label class="form-check-label" for="population-men"
+                                        >Men</label
+                                    >
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Women"
+                                        id="population-women"
+                                    />
+                                    <label class="form-check-label" for="population-women"
+                                        >Women</label
+                                    >
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Children"
+                                        id="population-children"
+                                    />
+                                    <label class="form-check-label" for="population-children"
+                                        >Children</label
+                                    >
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Adolescents"
+                                        id="population-adolescents"
+                                    />
+                                    <label class="form-check-label" for="population-adolescents"
+                                        >Adolescents</label
+                                    >
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <h5 class="mb-2 text-secondary">Resource Types</h5>
+                            <div id="resource-types-filter">
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Recovery Support"
+                                        id="resource-type-recovery"
+                                    />
+                                    <label
+                                        class="form-check-label"
+                                        for="resource-type-recovery"
+                                        >Recovery Support</label
+                                    >
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Family Support"
+                                        id="resource-type-family"
+                                    />
+                                    <label
+                                        class="form-check-label"
+                                        for="resource-type-family"
+                                        >Family Support</label
+                                    >
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Housing"
+                                        id="resource-type-housing"
+                                    />
+                                    <label
+                                        class="form-check-label"
+                                        for="resource-type-housing"
+                                        >Housing</label
+                                    >
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="Transportation"
+                                        id="resource-type-transportation"
+                                    />
+                                    <label
+                                        class="form-check-label"
+                                        for="resource-type-transportation"
+                                        >Transportation</label
+                                    >
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <h5 class="mb-2 text-secondary">Categories</h5>
+                            <div id="categories-filter"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-4">
+                <div class="col-12 col-md-8">
+                    <div class="results-header">
+                        <h3 class="results-count">Results 1-25 of <span id="total-results">0</span></h3>
+                        <div class="sort-control">
+                            <label for="sort-by">Sort By:</label>
+                            <select id="sort-by">
+                                <option value="relevance">Relevance</option>
+                                <option value="alphabetical">Alphabetical</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="results-container" class="row g-4">
+                        </div>
+                    <div id="load-more" class="mt-4">
+                        <button class="btn btn-primary" id="load-more-button">Load More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+        <script>
+            const tsvDataUrl =
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6vEL-KJVJHDmWJ9MGJEJMJBjDX7JzM-a-DfIJ_p7nEt4oha1UaeIhMp5dlldvuV8iqsAIDG69E8oI/pub?gid=1459594612&single=true&output=tsv";
+
+            const countyFilter = document.getElementById("counties-filter");
+            const populationsFilter = document.getElementById("populations-filter");
+            const resourceTypesFilter = document.getElementById("resource-types-filter");
+            const categoriesFilter = document.getElementById("categories-filter");
+            const searchBar = document.getElementById("search-bar");
+            const searchButton = document.getElementById("search-button");
+            const resultsContainer = document.getElementById("results-container");
+            const chipsContainer = document.getElementById("chips-container");
+            const sortBySelect = document.getElementById("sort-by");
+            const loadMoreButton = document.getElementById("load-more-button");
+            const resultsCountElement = document.querySelector(".results-count");
+            const totalResultsElement = document.getElementById("total-results");
+
+            const itemsPerPage = 25;
+            let currentPage = 1;
+            let allData = [];
+            let filteredData = [];
+            let activeFilters = {
+                search: "",
+                counties: [],
+                populations: [],
+                resourceTypes: [],
+                categories: [],
+            };
+            let fuse;
+            let categoryOptions = {
+                "Recovery Support": [
+                    "Single County Authority",
+                    "Center of Excellence",
+                    "Regional Recovery Hub",
+                    "Recovery Community Organization",
+                    "Warm Handoff",
+                    "Treatment with RSS",
+                ],
+                "Family Support": [
+                    "Family Counseling",
+                    "Family Peer Support",
+                    "Family Assistance Program",
+                    "Family Education Program",
+                    "Family Resources",
+                ],
+                "Housing": ["Recovery House", "Halfway House", "Housing Assistance"],
+                "Transportation": [
+                    "Affordable Public Transportation",
+                    "Carpool Service",
+                    "Medical Assistance Transportation",
+                    "Recovery Transportation Services",
+                    "Vehicle Purchase Assistance",
+                ],
+                "All": [
+                    "Single County Authority",
+                    "Center of Excellence",
+                    "Regional Recovery Hub",
+                    "Recovery Community Organization",
+                    "Warm Handoff",
+                    "Treatment with RSS",
+                    "Family Counseling",
+                    "Family Peer Support",
+                    "Family Assistance Program",
+                    "Family Education Program",
+                    "Family Resources",
+                    "Recovery House",
+                    "Halfway House",
+                    "Housing Assistance",
+                    "Affordable Public Transportation",
+                    "Carpool Service",
+                    "Medical Assistance Transportation",
+                    "Recovery Transportation Services",
+                    "Vehicle Purchase Assistance",
+                    "Government",
+                    "Other"
+                ],
+            };
+
+            /**
+             * Parses TSV data and converts it into an array of objects.
+             * @param {string} tsv - The TSV data string.
+             * @returns {Array<object>} An array of objects representing the data.
+             */
+            function parseTSV(tsv) {
+                const lines = tsv.trim().split("\n");
+                const headers = lines[0].split("\t").map((header) => header.replace(/"/g, ""));
+                return lines.slice(1).map((line) => {
+                    const values = line.split("\t").map((value) => value.replace(/"/g, ""));
+                    return headers.reduce((obj, header, index) => {
+                        obj[header] = values[index] ? values[index].trim() : "";
+                        return obj;
+                    }, {});
                 });
-    
-                // Pagination controls
-                const totalPages = Math.ceil(resources.length / resourcesPerPage);
-                if (totalPages > 1) {
-                    paginationControls.appendChild(createPaginationButton('Previous', page > 1 ? page - 1 : 1, page === 1));
-                    for (let i = 1; i <= totalPages; i++) {
-                        paginationControls.appendChild(createPaginationButton(i, i, i === page));
+            }
+
+            /**
+             * Fetches TSV data from a URL, parses it, and initializes the app.
+             */
+            function fetchData() {
+                fetch(tsvDataUrl)
+                    .then((response) => response.text())
+                    .then((tsvData) => {
+                        allData = parseTSV(tsvData);
+                        initializeFuse();
+                        initializeEventListeners();
+                        updateCategoryOptions();
+                        filterAndDisplayResults(); // Initial display
+                    })
+                    .catch((error) => console.error("Error fetching TSV data:", error));
+            }
+
+            /**
+             * Initializes Fuse.js for searching.
+             */
+            function initializeFuse() {
+                const fuseOptions = {
+                    keys: [
+                        "LOCATION NAME",
+                        "ORGANIZATION",
+                        "COUNTY",
+                        "RESOURCE TYPE",
+                        "CATEGORY",
+                        "POPULATIONS",
+                        "ADDRESS",
+                        "CITY",
+                        "STATE",
+                        "ZIP CODE",
+                    ],
+                    includeMatches: true,
+                    threshold: 0.3,
+                };
+                fuse = new Fuse(allData, fuseOptions);
+            }
+
+            /**
+             * Initializes event listeners for filters, search, and sorting.
+             */
+            function initializeEventListeners() {
+                countyFilter.addEventListener("change", handleFilterChange);
+                populationsFilter.addEventListener("change", handleFilterChange);
+                resourceTypesFilter.addEventListener("change", handleFilterChange);
+                categoriesFilter.addEventListener("change", handleFilterChange);
+                searchBar.addEventListener("input", handleSearch);
+                searchButton.addEventListener("click", handleSearch);
+                sortBySelect.addEventListener("change", handleSort);
+                loadMoreButton.addEventListener("click", loadMoreResults);
+
+                // Keyboard shortcut for search bar focus (Ctrl+K)
+                document.addEventListener("keydown", (e) => {
+                    if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+                        e.preventDefault(); // Prevent browser's default behavior
+                        searchBar.focus();
                     }
-                    paginationControls.appendChild(createPaginationButton('Next', page < totalPages ? page + 1 : totalPages, page === totalPages));
+                });
+                searchBar.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") {
+                        handleSearch();
+                        searchBar.value = "";
+                    }
+                });
+            }
+
+            /**
+             * Handles changes in filter checkboxes.
+             */
+            function handleFilterChange() {
+                activeFilters.counties = Array.from(
+                    countyFilter.querySelectorAll('input[type="checkbox"]:checked')
+                ).map((checkbox) => checkbox.value);
+                activeFilters.populations = Array.from(
+                    populationsFilter.querySelectorAll('input[type="checkbox"]:checked')
+                ).map((checkbox) => checkbox.value);
+                activeFilters.resourceTypes = Array.from(
+                    resourceTypesFilter.querySelectorAll('input[type="checkbox"]:checked')
+                ).map((checkbox) => checkbox.value);
+                activeFilters.categories = Array.from(
+                    categoriesFilter.querySelectorAll('input[type="checkbox"]:checked')
+                ).map((checkbox) => checkbox.value);
+
+                updateCategoryOptions();
+                filterAndDisplayResults();
+            }
+
+            /**
+             * Updates the category filter options based on selected resource types.
+             */
+            function updateCategoryOptions() {
+                let selectedResourceTypes = activeFilters.resourceTypes;
+
+                let categories = [];
+                if (selectedResourceTypes.length === 0) {
+                    categories = categoryOptions["All"];
+                } else {
+                    selectedResourceTypes.forEach((type) => {
+                        const typeCategories = categoryOptions[type] || [];
+                        categories = [...new Set([...categories, ...typeCategories])]; //prevent duplicates
+                    });
+                    categories = [...new Set([...categories, "Government", "Other"])];
+                }
+
+                categoriesFilter.innerHTML = ""; // Clear existing options
+                categories.forEach((category) => {
+                    const div = document.createElement("div");
+                    div.className = "form-check";
+                    const input = document.createElement("input");
+                    input.className = "form-check-input";
+                    input.type = "checkbox";
+                    input.value = category;
+                    input.id = `category-${category.toLowerCase().replace(/ /g, "-")}`; //create id
+                    const label = document.createElement("label");
+                    label.className = "form-check-label";
+                    label.htmlFor = `category-${category.toLowerCase().replace(/ /g, "-")}`;
+                    label.textContent = category;
+                    div.appendChild(input);
+                    div.appendChild(label);
+                    categoriesFilter.appendChild(div);
+
+                    //re-add the event listener.
+                    input.addEventListener("change", handleFilterChange);
+                });
+            }
+
+            /**
+             * Handles search input changes.
+             */
+            function handleSearch() {
+                activeFilters.search = searchBar.value.trim();
+                filterAndDisplayResults();
+            }
+
+            /**
+             * Applies filters and search to the data, and then displays the results.
+             */
+            function filterAndDisplayResults() {
+                currentPage = 1; // Reset to first page of results
+                let results = allData;
+
+                // Apply search if there is a search term
+                if (activeFilters.search) {
+                    const searchResults = fuse.search(activeFilters.search);
+                    results = searchResults.map((result) => result.item);
+                    if (searchResults.length > 0) {
+                        createChip("Search", activeFilters.search);
+                    }
+                }
+
+                // Apply category filters
+                if (activeFilters.categories.length > 0) {
+                    results = results.filter((item) =>
+                        activeFilters.categories.includes(item.CATEGORY)
+                    );
+                }
+                // Apply county filters
+                if (activeFilters.counties.length > 0) {
+                    results = results.filter((item) =>
+                        activeFilters.counties.includes(item.COUNTY)
+                    );
+                }
+
+                // Apply population filters
+                if (activeFilters.populations.length > 0) {
+                    results = results.filter((item) => {
+                        if (!item.POPULATIONS) return false;
+                        const populations = item.POPULATIONS.split(",").map((p) => p.trim());
+                        return activeFilters.populations.some((pop) => populations.includes(pop));
+                    });
+                }
+
+                // Apply resource type filters
+                if (activeFilters.resourceTypes.length > 0) {
+                    results = results.filter((item) =>
+                        activeFilters.resourceTypes.includes(item["RESOURCE TYPE"])
+                    );
+                }
+                filteredData = results;
+                displayResults(filteredData);
+            }
+
+            /**
+             * Displays the filtered results, paginated.
+             * @param {Array<object>} data - The data to display.
+             */
+            function displayResults(data) {
+                resultsContainer.innerHTML = ""; // Clear previous results
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const currentResults = data.slice(startIndex, endIndex);
+
+                currentResults.forEach((item) => {
+                    const cardHTML = generateCardHTML(item);
+                    resultsContainer.insertAdjacentHTML("beforeend", cardHTML);
+                });
+                updateResultsCount(data.length);
+                toggleLoadMoreButton(data.length);
+            }
+
+            /**
+             * Handles "Load More" button clicks.
+             */
+            function loadMoreResults() {
+                currentPage++;
+                displayResults(filteredData);
+            }
+
+            /**
+             * Toggles the visibility of the "Load More" button.
+             * @param {number} totalResults - The total number of results.
+             */
+            function toggleLoadMoreButton(totalResults) {
+                if (currentPage * itemsPerPage >= totalResults) {
+                    loadMoreButton.style.display = "none";
+                } else {
+                    loadMoreButton.style.display = "block";
                 }
             }
-            // Fuse.js options for search
-            const options = {
-                keys: ['Location Name', 'Organization', 'County', 'Service Area', 'Category', 'Populations Served', 'Address', 'City', 'State', 'Zip Code'],
-                threshold: 0.3 // Adjust threshold as needed for fuzzy search accuracy
-            };
-            // Initialize Fuse.js with the loaded JSON data
-            const fuse = new Fuse(jsonData, options);
-            // Initial display of all resources
-            displayResources(jsonData);
-// Get the search input element
-const searchInput = document.getElementById('search-input');
-        // Get the chip container
-        const chipContainer = document.getElementById('chip-container');
-        // Get the filter area
-        const filterArea = document.getElementById('filter-area');
-        // Focus search input on Ctrl+K (or Cmd+K)
-        document.addEventListener('keydown', function (event) {
-            if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
-                event.preventDefault(); // Prevent browser's default behavior
-                searchInput.focus();
-            }
-        });
-        // Add event listener to the search input for live search
-        searchInput.addEventListener('input', function () {
-            const searchTerm = searchInput.value;
-            filterResources();
-            updateSearchChip(searchTerm);
-        });
-        // Function to populate filter checkboxes
-        function populateFilters() {
-            const counties = ['Philadelphia', 'Berks', 'Bucks', 'Chester', 'Delaware', 'Lancaster', 'Montgomery', 'Schuylkill'];
-            const populations = ['Men', 'Women', 'Children', 'Adolescents'];
-            const serviceAreas = ['Recovery Support', 'Family Support', 'Housing', 'Transportation'];
-            const categories = ['Single County Authority', 'Center of Excellence', 'Regional Recovery Hub', 'Recovery Community Organization', 'Warm Handoff', 'Treatment with RSS', 'Counseling', 'Peer Support', 'Assistance Program', 'Recovery House', 'Halfway House', 'Housing Assistance', 'Other', 'Affordable Public Transportation', 'Carpool Service', 'Medical Assistance Transportation', 'Recovery Transportation Services', 'Vehicle Purchase Assistance', 'Other'];
 
-            const countiesFilter = document.getElementById('counties-filter');
-            counties.forEach(county => countiesFilter.appendChild(createCheckbox(county, 'county')));
-
-            const populationsFilter = document.getElementById('populations-filter');
-            populations.forEach(pop => populationsFilter.appendChild(createCheckbox(pop, 'population')));
-
-            const serviceAreasFilter = document.getElementById('service-areas-filter');
-            serviceAreas.forEach(area => serviceAreasFilter.appendChild(createCheckbox(area, 'serviceArea')));
-
-            const categoriesFilter = document.getElementById('categories-filter');
-            categories.forEach(cat => categoriesFilter.appendChild(createCheckbox(cat, 'category')));
-        }
-        // Function to create a checkbox element
-        function createCheckbox(value, category) {
-            const label = document.createElement('label');
-            label.innerHTML = `<input type="checkbox" value="<span class="math-inline">\{value\}" data\-category\="</span>{category}"> ${value} `;
-            return label;
-        }
-        // Populate the filter checkboxes
-        populateFilters();
-        // Function to filter resources based on checkbox selections
-        function filterResources() {
-            const selectedCounties = getSelectedFilters('county');
-            const selectedPopulations = getSelectedFilters('population');
-            const selectedServiceAreas = getSelectedFilters('serviceArea');
-            const selectedCategories = getSelectedFilters('category');
-            let filteredData = jsonData;
-            if (selectedCounties.length > 0) {
-                filteredData = filteredData.filter(item => selectedCounties.includes(item.County));
-            }
-            if (selectedPopulations.length > 0) {
-                filteredData = filteredData.filter(item => item["Populations Served"].split('; ').some(pop => selectedPopulations.includes(pop)));
-            }
-            if (selectedServiceAreas.length > 0) {
-                filteredData = filteredData.filter(item => item["Service Area"].split('; ').some(area => selectedServiceAreas.includes(area)));
-            }
-            if (selectedCategories.length > 0) {
-                filteredData = filteredData.filter(item => item.Category.split('; ').some(cat => selectedCategories.includes(cat)));
-            }
-            const searchTerm = document.getElementById('search-input').value;
-            let results;
-            if (searchTerm) {
-                results = fuse.search(searchTerm).map(result => result.item);
-                results = results.filter(item => filteredData.includes(item));
-            } else {
-                results = filteredData;
+            /**
+             * Updates the results count text.
+             * @param {number} total - The total number of results.
+             */
+            function updateResultsCount(total) {
+                const start = (currentPage - 1) * itemsPerPage + 1;
+                const end = Math.min(currentPage * itemsPerPage, total);
+                resultsCountElement.textContent = `Results ${start}-${end} of `;
+                totalResultsElement.textContent = total;
             }
 
-            // Sorting logic
-            const sortBy = sortDropdown.value;
-            if (sortBy) {
-                results.sort((a, b) => {
-                    let aVal, bVal;
-                    if (sortBy === 'county') {
-                        aVal = a.County;
-                        bVal = b.County;
-                    } else if (sortBy === 'populations') {
-                        aVal = a["Populations Served"];
-                        bVal = b["Populations Served"];
-                    } else if (sortBy === 'serviceArea') {
-                        aVal = a["Service Area"];
-                        bVal = b["Service Area"];
-                    }
-                    return aVal.localeCompare(bVal);
+            /**
+             * Handles sorting of results.
+             */
+            function handleSort() {
+                const sortValue = sortBySelect.value;
+                if (sortValue === "relevance") {
+                    // Reset to the original order (before any sorting)
+                    filteredData = Array.from(filteredData);
+                } else if (sortValue === "alphabetical") {
+                    // Sort alphabetically by location name
+                    filteredData.sort((a, b) =>
+                        a["LOCATION NAME"].localeCompare(b["LOCATION NAME"])
+                    );
+                }
+                displayResults(filteredData);
+            }
+
+            /**
+             * Generates the HTML for a resource card.
+             * @param {object} item - The resource data.
+             * @returns {string} The HTML for the card.
+             */
+            function generateCardHTML(item) {
+                const website = item.WEBSITE
+                    ? `<a class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" href="${item.WEBSITE}" target="_blank" rel="noopener noreferrer"
+                  ><i class="bi bi-globe"></i
+              ></a>`
+                    : "";
+                const phoneUrl = item["PHONE URL"]
+                    ? `<a class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" href="${item["PHONE URL"]}"
+                  ><i class="bi bi-telephone"></i
+              ></a>`
+                    : "";
+                const fullAddress = item["FULL ADDRESS"]
+                    ? `<a class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" href="${item["GOOGLE MAPS URL"]}" target="_blank" rel="noopener noreferrer"
+                  ><i class="bi bi-geo-alt"></i
+              ></a>`
+                    : "";
+                const image = item.IMAGE
+                    ? item.IMAGE
+                    : "https://resourcespage.pages.dev/assets/resource-logos/default.png";
+
+                return `
+              <div class="col-12">
+                  <div class="card shadow-lg text-bg-white br-5-5-5-5 mb-5">
+                      <div class="row no-gutters p-0">
+                          <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
+                              ${website}
+                              ${phoneUrl}
+                              ${fullAddress}
+                          </div>
+                          <div class="card-body col-10 p-4">
+                              <div class="row"> </div>
+                              <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${item["LOCATION NAME"]}</h3>
+                              <h5 style="font-weight:100;margin-top:0;font-size:18px">${item.ORGANIZATION}</h5>
+                              <nav aria-label="breadcrumb">
+                                  <ol class="breadcrumb">
+                                      <li class="breadcrumb-item">
+                                          ${generateBadgeHTML("RESOURCE TYPE", item["RESOURCE TYPE"])}
+                                      </li>
+                                      <li class="breadcrumb-item">
+                                          ${generateBadgeHTML("CATEGORY", item.CATEGORY)}
+                                      </li>
+                                  </ol>
+                              </nav>
+                              <div class="row d-flex justify-content-end position-relative"><img src="${image}" alt="Logo" style="width:200px; height:auto; align-self: center; position: absolute">
+                              </div>
+                              <p><strong>Phone:</strong> ${item.PHONE}</p>
+                              <p>Address
+                                  <br />${item.CITY}, ${item.STATE} ${item["ZIP CODE"]}</p>
+                              <div><strong>Populations Served:</strong>
+                                  ${generateBadgeHTML("POPULATIONS", item.POPULATIONS)}
+                              </div>
+                              <div><strong>Counties Served:</strong>
+                                  ${generateBadgeHTML("COUNTY", item.COUNTY)}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          `;
+            }
+
+            /**
+             * Generates the HTML for a badge, with a link to filter by the badge's value
+             * @param {string} filterType - The type of filter (e.g., "COUNTY", "POPULATIONS").
+             * @param {string} value - The value of the badge.
+             * @returns {string} The HTML for the badge.
+             */
+            function generateBadgeHTML(filterType, value) {
+                if (!value) return "";
+
+                const values = value.split(",").map((v) => v.trim()); // Handle comma-separated values
+                let badgeHTML = "";
+
+                values.forEach((val) => {
+                    const filterId = filterType.toLowerCase().replace(/ /g, "-");
+                    const uniqueFilterId = `${filterId}-${val.toLowerCase().replace(/ /g, "-")}`;
+                    badgeHTML += `<span class="badge bg-primary me-1" id="${uniqueFilterId}" style="cursor: pointer;">${val}</span>`;
                 });
-            } else {
-                //if no sort is selected, return to original order.
-                results = results.sort((a, b) => jsonData.indexOf(a) - jsonData.indexOf(b));
+                return badgeHTML;
             }
 
-            displayResources(results, currentPage);
+            /**
+             * Creates a filter chip and adds it to the chips container.
+             * @param {string} filterType - The type of filter.
+             * @param {string} value - The value of the filter.
+             */
+            function createChip(filterType, value) {
+                const chip = document.createElement("div");
+                chip.className = "chip";
+                chip.textContent = `${filterType}: ${value}`;
+                const close = document.createElement("span");
+                close.className = "close-chip";
+                close.innerHTML = "&times;"; // "x" character
+                close.addEventListener("click", () => {
+                    removeChip(chip, filterType, value);
+                });
+                chip.appendChild(close);
+                chipsContainer.appendChild(chip);
+            }
 
-            // Update resource count
-            document.getElementById('resource-count').textContent = `Showing ${results.length} resources`;
-        }
-        // Function to get selected filter values
-        function getSelectedFilters(category) {
-            const checkboxes = document.querySelectorAll(`#filter-area input[data-category="${category}"]:checked`);
-            return Array.from(checkboxes).map(checkbox => checkbox.value);
-        }
-        filterArea.addEventListener('change', function () {
-            filterResources();
-            updateFilterChips();
-        });
-        function updateSearchChip(searchTerm) {
-            // Clear existing search chip
-            const existingSearchChip = chipContainer.querySelector('.search-chip');
-            if (existingSearchChip) {
-                existingSearchChip.remove();
-            }
-            if (searchTerm) {
-                const chip = createChip(searchTerm, 'search');
-                chip.classList.add('search-chip');
-                chipContainer.appendChild(chip);
-            }
-        }
-        function updateFilterChips() {
-            // Clear existing filter chips
-            const filterChips = chipContainer.querySelectorAll('.filter-chip');
-            filterChips.forEach(chip => chip.remove());
-            // Add new filter chips
-            const selectedCounties = getSelectedFilters('county');
-            const selectedPopulations = getSelectedFilters('population');
-            const selectedServiceAreas = getSelectedFilters('serviceArea');
-            const selectedCategories = getSelectedFilters('category');
-            selectedCounties.forEach(county => chipContainer.appendChild(createChip(county, 'county')));
-            selectedPopulations.forEach(pop => chipContainer.appendChild(createChip(pop, 'population')));
-            selectedServiceAreas.forEach(area => chipContainer.appendChild(createChip(area, 'serviceArea')));
-            selectedCategories.forEach(cat => chipContainer.appendChild(createChip(cat, 'category')));
-        }
-        function createChip(text, category) {
-            const chip = document.createElement('div');
-            chip.classList.add('chip', 'filter-chip'); // Add your chip styling classes
-            chip.textContent = text;
-            chip.dataset.category = category;
-            const closeButton = document.createElement('span');
-            closeButton.innerHTML = "&times;";
-            closeButton.classList.add('close-chip');
-            chip.appendChild(closeButton);
-            closeButton.addEventListener('click', function () {
-                if (category === 'search') {
-                    searchInput.value = '';
-                } else {
-                    const checkbox = document.querySelector(`#filter-area input[data-category="<span class="math-inline">\{category\}"\]\[value\="</span>{text}"]`);
+            /**
+             * Removes a filter chip and updates the filters.
+             * @param {HTMLElement} chip - The chip to remove.
+             * @param {string} filterType - The type of filter.
+             * @param {string} value - The value of the filter.
+             */
+            function removeChip(chip, filterType, value) {
+                chip.remove();
+
+                // Update the activeFilters object
+                if (filterType === "Search") {
+                    activeFilters.search = "";
+                    searchBar.value = "";
+                } else if (
+                    filterType === "COUNTY" ||
+                    filterType === "POPULATIONS" ||
+                    filterType === "RESOURCE TYPE" ||
+                    filterType === "CATEGORY"
+                ) {
+                    const filterArray = activeFilters[filterType.toLowerCase()];
+                    const index = filterArray.indexOf(value);
+                    if (index > -1) {
+                        filterArray.splice(index, 1);
+                    }
+                    // Uncheck the corresponding checkbox
+                    const checkboxId = `${filterType
+                        .toLowerCase()
+                        .replace(/ /g, "-")}-${value.toLowerCase().replace(/ /g, "-")}`;
+                    const checkbox = document.getElementById(checkboxId);
                     if (checkbox) {
                         checkbox.checked = false;
                     }
                 }
-                filterResources();
-                chip.remove();
-            });
-            return chip;
-        }
-        // Add event listener to the filter area for checkbox changes
-        filterArea.addEventListener('change', filterResources);
-        // Get the controls area
-        const controlsArea = document.getElementById('controls-area');
-
-        // Add clear all filters button
-        const clearFiltersButton = document.createElement('button');
-        clearFiltersButton.textContent = 'Clear All Filters';
-        clearFiltersButton.classList.add('btn', 'btn-secondary', 'me-2');
-        clearFiltersButton.addEventListener('click', function () {
-            searchInput.value = '';
-            document.querySelectorAll('#filter-area input:checked').forEach(checkbox => checkbox.checked = false);
-            sortDropdown.value = ""; // Reset sorting dropdown
-            currentPage = 1; // Reset current page
-            filterResources();
-        });
-        controlsArea.appendChild(clearFiltersButton);
-
-        // Add sorting dropdown
-        const sortDropdown = document.createElement('select');
-        sortDropdown.classList.add('form-select', 'me-2');
-        sortDropdown.innerHTML = `
-            <option value="">Sort By</option>
-            <option value="county">County</option>
-            <option value="populations">Populations Served
-</option>
-            <option value="serviceArea">Resource Type</option>
-        `;
-        sortDropdown.addEventListener('change', function () {
-            currentPage = 1; // Reset current page
-            filterResources();
-        });
-        controlsArea.appendChild(sortDropdown);
-
-        // Create the resource count element outside filterResources
-        const countElement = document.createElement('div');
-        countElement.id = 'resource-count';
-        countElement.classList.add('ms-2');
-        controlsArea.appendChild(countElement);
-
-        // Function to create pagination buttons
-        function createPaginationButton(text, page, isDisabled) {
-            const button = document.createElement('button');
-            button.textContent = text;
-            button.classList.add('btn', 'btn-outline-secondary', 'mx-1');
-            button.disabled = isDisabled;
-            button.addEventListener('click', () => {
-                currentPage = page;
-                filterResources();
-            });
-            return button;
-        }
-
-        let currentPage = 1;
-        const resourcesPerPage = 25;
-
-        // Initial resource count and display
-        filterResources();
-
-        // Function to initialize the map
-        function initMap(resources) {
-            var map = new maplibregl.Map({
-                container: 'map',
-                style: 'https://demotiles.maplibre.org/style.json',
-                center: [-75.1299, 40.3101], // Initial center (example)
-                zoom: 8 // Initial zoom
-            });
-
-            // Filter resources with valid coordinates
-            const validResources = resources.filter(resource =>
-                resource.Latitude && resource.Longitude &&
-                !isNaN(parseFloat(resource.Latitude)) && !isNaN(parseFloat(resource.Longitude))
-            );
-
-            // Add markers to the map
-            validResources.forEach(resource => {
-                const marker = new maplibregl.Marker()
-                    .setLngLat([parseFloat(resource.Longitude), parseFloat(resource.Latitude)])
-                    .addTo(map);
-
-                //Optional popup
-                marker.setPopup(new maplibregl.Popup().setHTML(
-                    `<h3>${resource["Location Name"]}</h3>
-                    <p>${resource.Organization}</p>
-                    <p>${resource.Address}, ${resource.City}, ${resource.State} ${resource["Zip Code"]}</p>
-                    <p>Phone: ${resource.Phone}</p>`
-                ));
-            });
-
-            //set the map bounds to show all markers
-            if (validResources.length > 0) {
-                const bounds = new maplibregl.LngLatBounds();
-                validResources.forEach(resource => {
-                    bounds.extend([parseFloat(resource.Longitude), parseFloat(resource.Latitude)]);
-                });
-                map.fitBounds(bounds, {padding: 50});
+                filterAndDisplayResults();
             }
 
-        }
-
-        // Initial display of resources and map
-        displayResources(jsonData);
-        initMap(jsonData);
-    });
-</script>
-</body>
-
+            // Initialize the app.
+            fetchData();
+        </script>
+    </body>
 </html>
