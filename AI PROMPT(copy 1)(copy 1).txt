@@ -1,4 +1,8 @@
-I need help to develop a bootstrap css html web page that allows the searching, filtering and displaying of a collection of resources from a NocoDB
+I need a database 
+
+
+
+help to develop a bootstrap css html web page that allows the searching, filtering and displaying of a collection of resources from a NocoDB
 database, in custom bootstrap cards.
 
 I have a template for the resource cards. My database contains the following columns: ID, LOCATION NAME, ORGANIZATION, COUNTY, RESOURCE TYPE, CATEGORY, 

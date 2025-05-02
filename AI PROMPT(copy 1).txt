@@ -36,7 +36,7 @@ with the following template:
                     </div>
                 </div>
 
-Below the search bar an area for chips for any of the filters applied ( I would like a chip created for the search terms after 
+Below the search bar should be an area for chips for any of the filters applied ( I would like a chip created for the search terms after 
 enter is pressed or after a filter is checked in the checkbox filters).  These chips should 
 look like or use the bootstrap badge class, with a bg color of #f5ebf3 and a text color of
 #000.
@@ -97,8 +97,6 @@ ZIP CODE.  Below that should be an h6 saying "Populations Served:" and bootstrap
 facet.  Below that should be an h6 saying "County:" and bootstrap badges for the values of the COUNTY
 facet.  Each of the bootstrap badges containing facet values should be clickable, and if clicked, that facet value should
 be added as a filter with a filter chip shown in the chip area.
-
-
 
 The card should have the bootstrap classes 
 'shadow-lg text-bg-white', inside of which is a div 'row no-gutters p-0', and then the card sidenav and card body.
