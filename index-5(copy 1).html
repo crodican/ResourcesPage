@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Recovery Resources</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://resourcespage.pages.dev/elevation-bootstrap.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://resourcespage.pages.dev/customColors.css"
+        />
+        <style>
+            .card-sidenav {
+                max-width: 70px;
+                border-radius: 5px 0 0 5px;
+            }
+
+            .card-sidenav a {
+                background-color: #55298a;
+                color: white !important;
+                font-size: 36px;
+            }
+
+            .card-sidenav a:hover {
+                background-color: #f5ebf3;
+                color: #55298a !important;
+                overflow: hidden;
+            }
+
+            .card-sidenav a:nth-of-type(1) {
+                border-radius: 5px 0 0 0;
+            }
+
+            .card-sidenav a:nth-of-type(2) {
+                border-radius: 0;
+            }
+
+            .card-sidenav a:nth-of-type(3) {
+                border-radius: 0 0 0 5px;
+            }
+
+            .cardImage {
+                max-width: 150px;
+                height: auto !important;
+                @media (width < 768px) {
+                    position: static;
+                }
+            }
+
+            .chip {
+                display: inline-flex;
+                align-items: center;
+                padding: 5px 10px;
+                margin: 5px;
+                background-color: #e0e0e0;
+                border-radius: 20px;
+            }
+
+            .close-chip {
+                margin-left: 5px;
+                cursor: pointer;
+            }
+
+            label {
+                padding: 2px 8px;
+            }
+
+            label:active {
+                background-color: rgba(89, 49, 150, 0.25);
+                border-radius: 3px;
+            }
+
+            label:hover {
+                background-color: rgba(89, 49, 150, 0.25);
+                border-radius: 3px;
+            }
+
+            .results-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+
+            .results-count {
+                font-size: 1rem;
+                color: #666;
+            }
+
+            .sort-control {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .sort-control label {
+                font-size: 0.9rem;
+                font-weight: 400;
+                color: #555;
+                margin-bottom: 0;
+            }
+
+            .sort-control select {
+                border-radius: 5px;
+                padding: 0.5rem;
+                font-size: 0.9rem;
+                border: 1px solid #ddd;
+            }
+
+            .sort-control select:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            }
+
+            #load-more {
+                margin-top: 20px;
+                text-align: center;
+            }
+
+            #load-more button {
+                border-radius: 5px;
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+        </style>
+    </head>
+    <body
+        style="
+            font-family: 'Oxygen', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        "
+    >
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 mx-auto">
+                    <div class="input-group mt-5">
+                        <input
+                            type="text"
+                            id="search-input"
+                            class="form-control border-0 bg-gray-subtle py-0 px-4"
+                            placeholder="Click Here or CTRL + K to Search"
+                        />
+                        <div class="input-group-append kbd">
+                            <div
+                                class="bg-gray-subtle px-2 py-1 d-flex"
+                                style="height: 100%"
+                            >
+                                <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
+                            </div>
+                        </div>
+                        <div class="input-group-append">
+                            <button
+                                class="btn customButton--secondary py-1 px-3 searchButton"
+                                type="button"
+                                style="
+                                    border-radius: 1px 10px 10px 1px !important;
+                                "
+                            >
+                                <span class="bi bi-search"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="filter-chips" class="mt-3 d-flex flex-wrap"></div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h2
+                                class="mb-4"
+                                style="
+                                    font-family: 'Lora', serif;
+                                    font-weight: 600;
+                                    font-style: italic;
+                                "
+                            >
+                                Filters
+                            </h2>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-10">
+                                    <h5
+                                        style="
+                                            font-family: 'Lora', serif;
+                                            font-weight: 600;
+                                        "
+                                    >
+                                        Counties
+                                    </h5>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Philadelphia"
+                                            id="county-philadelphia"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="county-philadelphia"
+                                            >Philadelphia</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Berks"
+                                            id="county-berks"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="county-berks"
+                                            >Berks</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Bucks"
+                                            id="county-bucks"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="county-bucks"
+                                            >Bucks</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Chester"
+                                            id="county-chester"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="county-chester"
+                                            >Chester</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Delaware"
+                                            id="county-delaware"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="county-delaware"
+                                            >Delaware</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Lancaster"
+                                            id="county-lancaster"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="county-lancaster"
+                                            >Lancaster</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Montgomery"
+                                            id="county-montgomery"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="county-montgomery"
+                                            >Montgomery</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Schuylkill"
+                                            id="county-schuylkill"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="county-schuylkill"
+                                            >Schuylkill</label
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-10">
+                                    <h5
+                                        style="
+                                            font-family: 'Lora', serif;
+                                            font-weight: 600;
+                                        "
+                                    >
+                                        Populations Served
+                                    </h5>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Men"
+                                            id="population-men"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="population-men"
+                                            >Men</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Women"
+                                            id="population-women"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="population-women"
+                                            >Women</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Children"
+                                            id="population-children"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="population-children"
+                                            >Children</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Adolescents"
+                                            id="population-adolescents"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="population-adolescents"
+                                            >Adolescents</label
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-10">
+                                    <h5
+                                        style="
+                                            font-family: 'Lora', serif;
+                                            font-weight: 600;
+                                        "
+                                    >
+                                        Resource Types
+                                    </h5>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Recovery Support"
+                                            id="resource-type-recovery"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="resource-type-recovery"
+                                            >Recovery Support</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Family Support"
+                                            id="resource-type-family"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="resource-type-family"
+                                            >Family Support</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Housing"
+                                            id="resource-type-housing"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="resource-type-housing"
+                                            >Housing</label
+                                        >
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Transportation"
+                                            id="resource-type-transport"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="resource-type-transport"
+                                            >Transportation</label
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-10">
+                                    <h5
+                                        style="
+                                            font-family: 'Lora', serif;
+                                            font-weight: 600;
+                                        "
+                                    >
+                                        Categories
+                                    </h5>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Single County Authority"
+                                            id="category-single-county"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-single-county"
+                                            >Single County Authority</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Center of Excellence"
+                                            id="category-center-excellence"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-center-excellence"
+                                            >Center of Excellence</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Regional Recovery Hub"
+                                            id="category-regional-hub"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-regional-hub"
+                                            >Regional Recovery Hub</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Recovery Community Organization"
+                                            id="category-recovery-community"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-recovery-community"
+                                            >Recovery Community Organization</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Warm Handoff"
+                                            id="category-warm-handoff"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-warm-handoff"
+                                            >Warm Handoff</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Treatment with RSS"
+                                            id="category-treatment-rss"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-treatment-rss"
+                                            >Treatment with RSS</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Family Counseling"
+                                            id="category-family-counseling"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-family-counseling"
+                                            >Family Counseling</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Family Peer Support"
+                                            id="category-family-peer"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-family-peer"
+                                            >Family Peer Support</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Family Assistance Program"
+                                            id="category-family-assistance"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-family-assistance"
+                                            >Family Assistance Program</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Family Education Program"
+                                            id="category-family-education"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-family-education"
+                                            >Family Education Program</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Family Resources"
+                                            id="category-family-resources"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-family-resources"
+                                            >Family Resources</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Recovery House"
+                                            id="category-recovery-house"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-recovery-house"
+                                            >Recovery House</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Halfway House"
+                                            id="category-halfway-house"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-halfway-house"
+                                            >Halfway House</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Housing Assistance"
+                                            id="category-housing-assistance"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-housing-assistance"
+                                            >Housing Assistance</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Affordable Public Transportation"
+                                            id="category-public-transport"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-public-transport"
+                                            >Affordable Public Transportation</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Carpool Service"
+                                            id="category-carpool"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-carpool"
+                                            >Carpool Service</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Medical Assistance Transportation"
+                                            id="category-medical-transport"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-medical-transport"
+                                            >Medical Assistance Transportation</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Recovery Transportation Services"
+                                            id="category-recovery-transport"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-recovery-transport"
+                                            >Recovery Transportation Services</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Vehicle Purchase Assistance"
+                                            id="category-vehicle-purchase"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-vehicle-purchase"
+                                            >Vehicle Purchase Assistance</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Government"
+                                            id="category-government"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-government"
+                                            >Government</label
+                                        >
+                                    </div>
+                                    <div class="form-check category-item" style="display: none;">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="Other"
+                                            id="category-other"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="category-other"
+                                            >Other</label
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="results-header mt-4">
+                        <div id="counter" class="results-count h4">Results 1-25 of X</div>
+                        <div class="sort-control">
+                            <h6 style="font-size: 1rem; font-weight: 400; color: #555">
+                                Sort By:
+                            </h6>
+                            <select id="sort-dropdown">
+                                <option value="relevance">Relevance</option>
+                                <option value="alphabetical">Alphabetical</option>
+                                <option value="distance">Distance</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="resource-cards" class="d-flex flex-column">
+                        </div>
+
+                    <div id="load-more" class="mt-3">
+                        <button class="btn customButton--primary" id="load-more-button">
+                            Load More
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+        <script>
+            let resources = [];
+            let filteredResources = [];
+            let currentPage = 1;
+            const resourcesPerPage = 25;
+            let activeFilters = {
+                search: "",
+                counties: [],
+                populations: [],
+                resourceTypes: [],
+                categories: [],
+            };
+            let fuse;
+
+            const countyCheckboxes = document.querySelectorAll(
+                'input[id^="county-"]'
+            );
+            const populationCheckboxes = document.querySelectorAll(
+                'input[id^="population-"]'
+            );
+            const resourceTypeCheckboxes = document.querySelectorAll(
+                'input[id^="resource-type-"]'
+            );
+            const categoryCheckboxes = document.querySelectorAll(
+                'input[id^="category-"]'
+            );
+            const filterChipsContainer = document.getElementById("filter-chips");
+            const searchInput = document.getElementById("search-input");
+            const searchButton = document.querySelector(".searchButton");
+            const loadMoreButton = document.getElementById("load-more-button");
+            const resourceCardsContainer = document.getElementById("resource-cards");
+            const counterElement = document.getElementById("counter");
+            const sortDropdown = document.getElementById("sort-dropdown");
+
+            const resourceTypeCategoryMap = {
+                "Recovery Support": [
+                    "Single County Authority",
+                    "Center of Excellence",
+                    "Regional Recovery Hub",
+                    "Recovery Community Organization",
+                    "Warm Handoff",
+                    "Treatment with RSS",
+                ],
+                "Family Support": [
+                    "Family Counseling",
+                    "Family Peer Support",
+                    "Family Assistance Program",
+                    "Family Education Program",
+                    "Family Resources",
+                ],
+                "Housing": ["Recovery House", "Halfway House", "Housing Assistance"],
+                "Transportation": [
+                    "Affordable Public Transportation",
+                    "Carpool Service",
+                    "Medical Assistance Transportation",
+                    "Recovery Transportation Services",
+                    "Vehicle Purchase Assistance",
+                ],
+            };
+
+            // Function to fetch resources from the proxy
+            async function fetchResources(page = 1) {
+                const url = `resourcesdatabaseproxy.crodican.workers.dev/?page=${page}`;
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(
+                            `Failed to fetch resources: ${response.status} ${response.statusText}`
+                        );
+                    }
+                    const data = await response.json();
+                    return data; // Return the whole data object
+                } catch (error) {
+                    console.error("Error fetching resources:", error);
+                    displayErrorMessage(); // Show error message
+                    return { list: [], pageInfo: { totalRows: 0 } }; // Return empty data to avoid breaking the app
+                }
+            }
+
+            function displayErrorMessage() {
+                resourceCardsContainer.innerHTML =
+                    "<div class='alert alert-danger'>Failed to load resources. Please try again later.</div>";
+                loadMoreButton.style.display = "none"; // Hide the load more button
+            }
+
+            // Function to initialize Fuse.js
+            function initializeFuse() {
+                const fuseOptions = {
+                    shouldSort: true,
+                    keys: [
+                        "LOCATION NAME",
+                        "ORGANIZATION",
+                        "COUNTY",
+                        "RESOURCE TYPE",
+                        "CATEGORY",
+                        "POPULATIONS",
+                        "ADDRESS",
+                        "CITY",
+                        "STATE",
+                        "ZIP CODE",
+                    ],
+                    threshold: 0.3,
+                };
+                fuse = new Fuse(resources, fuseOptions);
+            }
+
+            /**
+             * Renders the resource cards based on the current filteredResources and page.
+             */
+            function renderResourceCards() {
+                resourceCardsContainer.innerHTML = ""; // Clear existing cards
+                const start = (currentPage - 1) * resourcesPerPage;
+                const end = start + resourcesPerPage;
+                const currentPageResources = filteredResources.slice(start, end);
+
+                currentPageResources.forEach((item) => {
+                    const website = item.Website
+                        ? `<a href="${item.Website}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"
+                target="_blank" rel="noopener noreferrer"><span class="bi bi-globe"></span></a>`
+                        : "";
+                    const phoneUrl = item["Phone URL"]
+                        ? `<a href="tel:${item["Phone URL"]}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white">
+                <span class="bi bi-telephone-fill"></span>
+              </a>`
+                        : "";
+                    const fullAddress = item["Google Maps URL"]
+                        ? `<a href="${item["Google Maps URL"]}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"
+                target="_blank" rel="noopener noreferrer"><span class="bi bi-geo-alt-fill"></span></a>`
+                        : "";
+
+                    const cardHTML = `
+            <div class="card shadow-lg text-bg-light mb-4">
+              <div class="row no-gutters p-0">
+                <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
+                  ${website}
+                  ${phoneUrl}
+                  ${fullAddress}
+                </div>
+                <div class="card-body col-10 p-4">
+                  <div class="row"> </div>
+                  <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">${item["Location Name"]}</h3>
+                  <h5 style="font-weight:100;margin-top:0;font-size:18px">${item.Organization}</h5>
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        ${generateBadgeHTML("RESOURCE TYPE", item["Resource Type"])}
+                      </li>
+                      <li class="breadcrumb-item">
+                        ${generateBadgeHTML("CATEGORY", item.Category)}
+                      </li>
+                    </ol>
+                  </nav>
+                  <div class="row d-flex justify-content-end position-relative"><img src="${item.Image}" alt="Logo" style="width:200px; height:auto; align-self: center; position: absolute">
+                  </div>
+                  <p><strong>Phone:</strong> ${item.Phone}</p>
+                  <p>Address
+                    <br />${item.City}, ${item.State} ${item["Zip Code"]}</p>
+                  <div><strong>Populations Served:</strong>
+                    ${generateBadgeHTML("POPULATIONS", item.Populations)}
+                  </div>
+                  <div><strong>Counties Served:</strong>
+                    ${generateBadgeHTML("COUNTY", item.County)}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+                    resourceCardsContainer.insertAdjacentHTML("beforeend", cardHTML);
+                });
+
+                updateCounter();
+                if (filteredResources.length <= end) {
+                    loadMoreButton.style.display = "none";
+                } else {
+                    loadMoreButton.style.display = "block";
+                }
+            }
+
+            function generateBadgeHTML(filterType, values) {
+                if (!values) return "";
+
+                const valueArray = Array.isArray(values) ? values : values.split(", ");
+                return valueArray
+                    .map(
+                        (value) =>
+                            `<span class="badge bg-secondary text-white rounded-pill clickable-badge" data-filter-type="${filterType.toLowerCase()}" data-filter-value="${value}">${value}</span>`
+                    )
+                    .join("");
+            }
+
+            function updateCounter() {
+                const total = filteredResources.length;
+                const start = (currentPage - 1) * resourcesPerPage + 1;
+                const end = Math.min(currentPage * resourcesPerPage, total);
+                counterElement.textContent = `Results ${start}-${end} of ${total}`;
+            }
+
+            function handleSearch() {
+                const searchTerm = searchInput.value.trim();
+                activeFilters.search = searchTerm;
+                currentPage = 1; // Reset to first page on new search
+                filterResources();
+                if (searchTerm) {
+                    addFilterChip("search", searchTerm);
+                    searchInput.value = "";
+                }
+            }
+
+            function handleFilterChange(filterType, value, checked) {
+                if (checked) {
+                    activeFilters[filterType].push(value);
+                } else {
+                    activeFilters[filterType] = activeFilters[filterType].filter(
+                        (item) => item !== value
+                    );
+                }
+                currentPage = 1; // Reset to first page on filter change
+                filterResources();
+                const filterText = `${filterType}: ${value}`;
+                if (checked) {
+                    addFilterChip(filterType, value);
+                } else {
+                    removeFilterChip(filterText);
+                }
+            }
+
+            function filterResources() {
+                let tempResources = [...resources];
+
+                if (activeFilters.search) {
+                    tempResources = fuse.search(activeFilters.search).map((item) => item.item);
+                }
+
+                for (const key in activeFilters) {
+                    if (key === "search") continue;
+                    if (activeFilters[key].length > 0) {
+                        tempResources = tempResources.filter((resource) => {
+                            const resourceValues = resource[key.toUpperCase()]
+                                ? resource[key.toUpperCase()].split(", ").map((v) => v.trim())
+                                : [];
+                            return activeFilters[key].some((filterValue) =>
+                                resourceValues.includes(filterValue)
+                            );
+                        });
+                    }
+                }
+                filteredResources = tempResources;
+                renderResourceCards();
+            }
+
+            function addFilterChip(filterType, value) {
+                const chipText = `${filterType}: ${value}`;
+                const chip = document.createElement("div");
+                chip.className = "chip";
+                chip.textContent = chipText;
+                const closeButton = document.createElement("span");
+                closeButton.className = "close-chip bi bi-x-circle";
+                closeButton.addEventListener("click", () => {
+                    removeFilterChip(chipText);
+                    if (filterType === "search") {
+                        activeFilters.search = "";
+                    } else {
+                        const checkbox = document.getElementById(
+                            `${filterType}-${value.toLowerCase().replace(/\s+/g, "-")}`
+                        );
+                        if (checkbox) {
+                            checkbox.checked = false;
+                            handleFilterChange(filterType, value, false);
+                        }
+                    }
+                    currentPage = 1;
+                    filterResources();
+                });
+                chip.appendChild(closeButton);
+                filterChipsContainer.appendChild(chip);
+            }
+
+            function removeFilterChip(chipText) {
+                const chips = filterChipsContainer.querySelectorAll(".chip");
+                chips.forEach((chip) => {
+                    if (chip.textContent.startsWith(chipText)) {
+                        chip.remove();
+                    }
+                });
+            }
+
+            function handleLoadMore() {
+                currentPage++;
+                renderResourceCards();
+            }
+
+            function handleSortChange(event) {
+                const sortType = event.target.value;
+                currentPage = 1;
+                switch (sortType) {
+                    case "relevance":
+                        // filteredResources = filteredResources;
+                        break;
+                    case "alphabetical":
+                        filteredResources.sort((a, b) =>
+                            a["Location Name"].localeCompare(b["Location Name"])
+                        );
+                        break;
+                    case "distance":
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(
+                                (position) => {
+                                    const userLat = position.coords.latitude;
+                                    const userLng = position.coords.longitude;
+                                    filteredResources.sort((a, b) => {
+                                        const distanceA = calculateDistance(
+                                            userLat,
+                                            userLng,
+                                            parseFloat(a.Latitude),
+                                            parseFloat(a.Longitude)
+                                        );
+                                        const distanceB = calculateDistance(
+                                            userLat,
+                                            userLng,
+                                            parseFloat(b.Latitude),
+                                            parseFloat(b.Longitude)
+                                        );
+                                        return distanceA - distanceB;
+                                    });
+                                    renderResourceCards();
+                                },
+                                (error) => {
+                                    console.error("Error getting user location:", error);
+                                    alert(
+                                        "Could not retrieve your location. Sorting by distance is disabled."
+                                    );
+                                    sortDropdown.value = "relevance";
+                                    renderResourceCards();
+                                }
+                            );
+                        } else {
+                            alert(
+                                "Geolocation is not supported by your browser. Sorting by distance is disabled."
+                            );
+                            sortDropdown.value = "relevance";
+                            renderResourceCards();
+                        }
+                        break;
+                }
+                renderResourceCards();
+            }
+
+            function calculateDistance(lat1, lon1, lat2, lon2) {
+                const R = 6371;
+                const dLat = deg2rad(lat2 - lat1);
+                const dLon = deg2rad(lon2 - lon1);
+                const a =
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(deg2rad(lat1)) *
+                        Math.cos(deg2rad(lat2)) *
+                        Math.sin(dLon / 2) *
+                        Math.sin(dLon / 2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                const d = R * c;
+                return d;
+            }
+
+            function deg2rad(deg) {
+                return deg * (Math.PI / 180);
+            }
+
+            // Event Listeners
+            searchInput.addEventListener("keydown", (event) => {
+                if (event.key === "Enter") {
+                    handleSearch();
+                }
+            });
+            searchButton.addEventListener("click", handleSearch);
+            loadMoreButton.addEventListener("click", handleLoadMore);
+            sortDropdown.addEventListener("change", handleSortChange);
+
+            countyCheckboxes.forEach((checkbox) => {
+                checkbox.addEventListener("change", (event) => {
+                    handleFilterChange(
+                        "counties",
+                        event.target.value,
+                        event.target.checked
+                    );
+                });
+            });
+
+            populationCheckboxes.forEach((checkbox) => {
+                checkbox.addEventListener("change", (event) => {
+                    handleFilterChange(
+                        "populations",
+                        event.target.value,
+                        event.target.checked
+                    );
+                });
+            });
+
+            resourceTypeCheckboxes.forEach((checkbox) => {
+                checkbox.addEventListener("change", (event) => {
+                    const resourceType = event.target.value;
+                    const checked = event.target.checked;
+                    handleFilterChange("resourceTypes", resourceType, checked);
+
+                    // Show/hide relevant categories
+                    const categoriesToShow = resourceTypeCategoryMap[resourceType] || [];
+                    categoryCheckboxes.forEach((categoryCheckbox) => {
+                        const categoryItem = categoryCheckbox.closest(".form-check");
+                        if (checked) {
+                            if (
+                                categoriesToShow.includes(categoryCheckbox.value) ||
+                                categoryCheckbox.value === "Government" ||
+                                categoryCheckbox.value === "Other"
+                            ) {
+                                categoryItem.style.display = "";
+                            }
+                        } else {
+                            if (categoriesToShow.includes(categoryCheckbox.value)) {
+                                categoryItem.style.display = "none";
+                                categoryCheckbox.checked = false;
+                                handleFilterChange(
+                                    "categories",
+                                    categoryCheckbox.value,
+                                    false
+                                );
+                            }
+                        }
+                    });
+                });
+            });
+
+            categoryCheckboxes.forEach((checkbox) => {
+                checkbox.addEventListener("change", (event) => {
+                    handleFilterChange(
+                        "categories",
+                        event.target.value,
+                        event.target.checked
+                    );
+                });
+            });
+
+            filterChipsContainer.addEventListener("click", (event) => {
+                const target = event.target;
+                if (target.classList.contains("clickable-badge")) {
+                    const filterType = target.dataset.filterType;
+                    const filterValue = target.dataset.filterValue;
+
+                    // Find the corresponding checkbox and uncheck it
+                    const checkboxId = `${filterType}-${filterValue
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`;
+                    const checkbox = document.getElementById(checkboxId);
+
+                    if (checkbox) {
+                        checkbox.checked = false; // Uncheck the box
+                        handleFilterChange(filterType, filterValue, false); // Update filters
+                    }
+
+                    // Remove the chip
+                    const chipToRemove = target.closest(".chip");
+                    if (chipToRemove) {
+                        chipToRemove.remove();
+                    }
+                }
+            });
+
+            // Initialize the page
+            async function initializePage() {
+                const initialData = await fetchResources();
+                resources = initialData.list;
+                initializeFuse();
+                filterResources();
+                // Add event listener for the key combination CTRL+K to focus search input
+                document.addEventListener("keydown", function (event) {
+                    if (
+                        (event.ctrlKey || event.metaKey) &&
+                        event.key === "k"
+                    ) {
+                        event.preventDefault(); // Prevent the browser's default Ctrl+K behavior
+                        searchInput.focus(); // Focus on the search input
+                    }
+                });
+            }
+
+            initializePage();
+        </script>
+    </body>
+</html>
