@@ -6,25 +6,27 @@
     <title>Hub Resources</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora&family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Elevation Bootstrap CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+    <!-- Custom Colors CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
+
     <style>
         body {
             font-family: 'Oxygen', sans-serif;
         }
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Lora', serif;
+            font-weight: 700;
         }
         .bg-gray-subtle {
             background-color: #f8f9fa !important; /* Bootstrap's light gray */
         }
-        .customButton--secondary {
-            background-color: #6c757d; /* Bootstrap's secondary */
-            color: white;
-            border: none;
-        }
-        .customButton--secondary:hover {
-            background-color: #5a6268;
-        }
+
         .chip-area {
             margin-bottom: 10px;
         }
@@ -95,7 +97,9 @@
             cursor: pointer;
         }
         .cardImage {
-            max-width: 120px; /* Adjusted image size */
+            max-height: 120px; /* Adjusted image size */
+            max-width: 200px;
+            width: auto;
             height: auto !important;
         }
         .results-header {
@@ -108,135 +112,265 @@
             text-align: center;
             margin-top: 20px;
         }
+
+        .accordion-button:not(.collapsed) {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        
+        .form-control::placeholder {
+            color: whitesmoke;
+        }
+        
+        .input-group {
+            background-color: lightsteelblue
+        }
+        
+        .maptivemap {
+            @media (width < 768px) {
+                height: 400px;
+            }
+            @media (width > 767px) {
+                height: 80vh;
+            }
+        }
+        
     </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <div class="input-group mb-3">
-            <input type="text" id="search-input" class="form-control border-0 bg-gray-subtle py-2 px-4" placeholder="Click Here or CTRL + K to Search">
-            <div class="input-group-append kbd">
-                <div class="bg-gray-subtle px-2 py-1 d-flex" style="height: 100%">
-                    <span><kbd>CTRL</kbd> + <kbd>K</kbd></span>
-                </div>
-            </div>
-            <div class="input-group-append">
-                <button class="btn customButton--secondary py-2 px-3 searchButton" type="button"
-                    style="border-radius: 1px 10px 10px 1px !important">
-                    <i class="bi bi-search"></i>
-                </button>
-            </div>
-        </div>
+    <div class="container-fluid mt-4">
 
-        <div id="chips-area" class="mb-3">
+        <div class="row">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
             </div>
+            <div class="col-12 col-md-8 col-lg-8 col-xl-8">
+                <div style="display: flex;flex-direction: row">
+                    <a class="btn bg-secondary text-white rounded-3 mb-3 me-3 text-nowrap" data-bs-toggle="collapse" href="#collapseWidthExample" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">MAP <i class="bi bi-geo-alt-fill"></i></a>
+                    <div class="input-group mb-3 rounded-3">
+                    <input type="text" id="search-input" class="form-control border-0 bg-transparent py-2 px-4" placeholder="Search Resources">
+                    <div class="input-group-append">
+                        <div class="bg-transparent px-2 py-1 d-flex align-items-center justify-content-center" style="height: 100%">
+                            <span><kbd style="background-color: ghostwhite;color:black">CTRL</kbd> + <kbd style="background-color: ghostwhite;color:black;margin-right: 20px">K</kbd></span>
+                        </div>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn bg-secondary text-white py-2 px-3 searchButton" type="button"
+                            style="border-radius: 1px 10px 10px 1px !important">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
 
-        <div class="filter-section">
-            <h2>Filters</h2>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-10 mb-3">
-                    <h5>Counties</h5>
-                    <div id="county-filters">
-                        <div class="form-check">
-                            <input class="form-check-input county-filter" type="checkbox" value="Philadelphia" id="county-philadelphia">
-                            <label class="form-check-label" for="county-philadelphia">Philadelphia</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input county-filter" type="checkbox" value="Berks" id="county-berks">
-                            <label class="form-check-label" for="county-berks">Berks</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input county-filter" type="checkbox" value="Bucks" id="county-bucks">
-                            <label class="form-check-label" for="county-bucks">Bucks</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input county-filter" type="checkbox" value="Chester" id="county-chester">
-                            <label class="form-check-label" for="county-chester">Chester</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input county-filter" type="checkbox" value="Delaware" id="county-delaware">
-                            <label class="form-check-label" for="county-delaware">Delaware</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input county-filter" type="checkbox" value="Lancaster" id="county-lancaster">
-                            <label class="form-check-label" for="county-lancaster">Lancaster</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input county-filter" type="checkbox" value="Montgomery" id="county-montgomery">
-                            <label class="form-check-label" for="county-montgomery">Montgomery</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input county-filter" type="checkbox" value="Schuylkill" id="county-schuylkill">
-                            <label class="form-check-label" for="county-schuylkill">Schuylkill</label>
-                        </div>
-                    </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-10 mb-3">
-                    <h5>Populations Served</h5>
-                    <div id="population-filters">
-                        <div class="form-check">
-                            <input class="form-check-input population-filter" type="checkbox" value="Men" id="population-men">
-                            <label class="form-check-label" for="population-men">Men</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input population-filter" type="checkbox" value="Women" id="population-women">
-                            <label class="form-check-label" for="population-women">Women</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input population-filter" type="checkbox" value="Children" id="population-children">
-                            <label class="form-check-label" for="population-children">Children</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input population-filter" type="checkbox" value="Adolescents" id="population-adolescents">
-                            <label class="form-check-label" for="population-adolescents">Adolescents</label>
-                        </div>
-                    </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-10 mb-3">
-                    <h5>Resource Types</h5>
-                    <div id="resource-type-filters">
-                        <div class="form-check">
-                            <input class="form-check-input resource-type-filter" type="checkbox" value="Recovery Support" id="resource-type-recovery-support">
-                            <label class="form-check-label" for="resource-type-recovery-support">Recovery Support</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input resource-type-filter" type="checkbox" value="Family Support" id="resource-type-family-support">
-                            <label class="form-check-label" for="resource-type-family-support">Family Support</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input resource-type-filter" type="checkbox" value="Housing" id="resource-type-housing">
-                            <label class="form-check-label" for="resource-type-housing">Housing</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input resource-type-filter" type="checkbox" value="Transportation" id="resource-type-transportation">
-                            <label class="form-check-label" for="resource-type-transportation">Transportation</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-10 mb-3">
-                    <h5>Categories</h5>
-                    <div id="category-filters">
-                        </div>
+                <div id="chips-area" class="mb-3">
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                <p>
+</p>
+<div>
+  <div class="collapse collapse.show" id="collapseWidthExample">
+    <div class="card card-body mb-4" style="width: 100%;">
 
-        <div class="results-header">
-            <h4 id="results-counter" class="results-count">Results 0-0 of 0</h4>
-            <div class="sort-control">
-                <h6>Sort By:</h6>
-                <select id="sort-by" class="form-select form-select-sm">
-                    <option value="relevance">Relevance</option>
-                    <option value="alphabetical">Alphabetical</option>
-                    <option value="distance">Distance</option>
-                </select>
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="collapse" href="#collapsePhiladelphia" role="button" aria-expanded="false" aria-controls="collapseExample">Philadelphia</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="collapse" href="#collapseBerks" role="button" aria-expanded="false" aria-controls="collapseExample">Berks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="collapse" href="#collapseBucks" role="button" aria-expanded="false" aria-controls="collapseExample">Bucks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="collapse" href="#collapseChester" role="button" aria-expanded="false" aria-controls="collapseExample">Chester</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="collapse" href="#collapseDelaware" role="button" aria-expanded="false" aria-controls="collapseExample">Delaware</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="collapse" href="#collapseLancaster" role="button" aria-expanded="false" aria-controls="collapseExample">Lancaster</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="collapse" href="#collapseMontgomery" role="button" aria-expanded="false" aria-controls="collapseExample">Montgomery</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="collapse" href="#collapseSchuylkill" role="button" aria-expanded="false" aria-controls="collapseExample">Schuylkill</a>
+  </li>
+</ul>
+<div class="collapse" id="collapsePhiladelphia">
+<div class="card card-body">
+    <iframe title="maptive" class="maptivemap container-fluid" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"></iframe>
+</div>
+</div>
+<div class="collapse" id="collapseBerks">
+  <div class="card card-body">
+    <iframe title="maptive" class="maptivemap container-fluid" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"></iframe>
+  </div>
+</div>
+<div class="collapse" id="collapseBucks">
+  <div class="card card-body">
+    <iframe title="maptive" class="maptivemap container-fluid" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"></iframe>
+  </div>
+</div>
+<div class="collapse" id="collapseChester">
+  <div class="card card-body">
+    <iframe title="maptive" class="maptivemap container-fluid" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"></iframe>
+  </div>
+</div>
+<div class="collapse" id="collapseDelaware">
+  <div class="card card-body">
+    <iframe title="maptive" class="maptivemap container-fluid" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"></iframe>
+  </div>
+</div>
+<div class="collapse" id="collapseLancaster">
+  <div class="card card-body">
+    <iframe title="maptive" class="maptivemap container-fluid" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"></iframe>
+  </div>
+</div>
+<div class="collapse" id="collapseMontgomery">
+  <div class="card card-body">
+    <iframe title="maptive" class="maptivemap container-fluid" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"></iframe>
+  </div>
+</div>
+<div class="collapse" id="collapseSchuylkill">
+  <div class="card card-body">
+    <iframe title="maptive" class="maptivemap container-fluid" src="https://fortress.maptive.com/ver4/8d238d157cbe5e0494941db0d0aa8e54"></iframe>
+  </div>
+</div>        
+        
+        
+        
+        
+        
+    </div>
+  </div>
+</div>
             </div>
-        </div>
+            <div class="col-12 col-md-8 col-lg-8 col-xl-8">
+                <div class="filter-section">
+                    <div class="accordion" id="filterAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFilters">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="true" aria-controls="collapseFilters">
+                                    <span class="h4 text-secondary">
+                                    Filters
+                                    </span>
+                                </button>
+                            </h2>
+                            <div id="collapseFilters" class="accordion-collapse collapse show" aria-labelledby="headingFilters" data-bs-parent="#filterAccordion">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
+                                            <h5 class="text-secondary">Counties</h5>
+                                            <div id="county-filters">
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Philadelphia" id="county-philadelphia">
+                                                    <label class="form-check-label" for="county-philadelphia">Philadelphia</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Berks" id="county-berks">
+                                                    <label class="form-check-label" for="county-berks">Berks</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Bucks" id="county-bucks">
+                                                    <label class="form-check-label" for="county-bucks">Bucks</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Chester" id="county-chester">
+                                                    <label class="form-check-label" for="county-chester">Chester</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Delaware" id="county-delaware">
+                                                    <label class="form-check-label" for="county-delaware">Delaware</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Lancaster" id="county-lancaster">
+                                                    <label class="form-check-label" for="county-lancaster">Lancaster</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Montgomery" id="county-montgomery">
+                                                    <label class="form-check-label" for="county-montgomery">Montgomery</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Schuylkill" id="county-schuylkill">
+                                                    <label class="form-check-label" for="county-schuylkill">Schuylkill</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
+                                            <h5 class="text-secondary">Populations Served</h5>
+                                            <div id="population-filters">
+                                                <div class="form-check">
+                                                    <input class="form-check-input population-filter" type="checkbox" value="Men" id="population-men">
+                                                    <label class="form-check-label" for="population-men">Men</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input population-filter" type="checkbox" value="Women" id="population-women">
+                                                    <label class="form-check-label" for="population-women">Women</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input population-filter" type="checkbox" value="Children" id="population-children">
+                                                    <label class="form-check-label" for="population-children">Children</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input population-filter" type="checkbox" value="Adolescents" id="population-adolescents">
+                                                    <label class="form-check-label" for="population-adolescents">Adolescents</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
+                                            <h5 class="text-secondary">Resource Types</h5>
+                                            <div id="resource-type-filters">
+                                                <div class="form-check">
+                                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Recovery Support" id="resource-type-recovery-support">
+                                                    <label class="form-check-label" for="resource-type-recovery-support">Recovery Support</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Family Support" id="resource-type-family-support">
+                                                    <label class="form-check-label" for="resource-type-family-support">Family Support</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Housing" id="resource-type-housing">
+                                                    <label class="form-check-label" for="resource-type-housing">Housing</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Transportation" id="resource-type-transportation">
+                                                    <label class="form-check-label" for="resource-type-transportation">Transportation</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
+                                            <h5 class="text-secondary">Categories</h5>
+                                            <div id="category-filters">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-        <div id="resource-list" class="d-flex flex-column">
+                </div>
+                <div class="results-header">
+                    <h4 id="results-counter" class="results-count">Results 0-0 of 0</h4>
+                    <div class="sort-control">
+                        <h6>Sort By:</h6>
+                        <select id="sort-by" class="form-select form-select-sm">
+                            <option value="alphabetical">Alphabetical</option>
+                            <option value="distance">Distance</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div id="resource-list" class="d-flex flex-column px-2" style="max-height: 5000PX;width:100%;overflow-x:hidden;overflow-y:auto">
+                </div>
+                <div id="load-more" class="d-none">
+                    <button class="btn btn-primary" id="load-more-button">Load More</button>
+                </div>
             </div>
-
-        <div id="load-more" class="d-none">
-            <button class="btn btn-primary" id="load-more-button">Load More</button>
         </div>
     </div>
 
