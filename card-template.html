@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="elevation-bootstrap.css" />
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css" />
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Bootstrap 5 CSS -->
@@ -488,8 +488,12 @@
         }
         
         .card-sidenav a:hover {
-            background-color: aquamarine;
+            background-color: #f5ebf3;
             color: black;
+        }
+
+        .card-sidenav i:hover {
+            color: bl
         }
         
         card img {
@@ -512,86 +516,40 @@
             background-color: #f5ebf3;
             color: #55298a;
         }
+        .cardImage {
+            max-width: 150px;
+            position: relative;
+        }
+        
+        .cardWrapper  {
+            position: static;
+        }
+
+        .card-bottomnav {
+            background-color: #55298a;
+            color: white !important;
+            max-width: 70px;
+        }
+        
+        .card-bottomnav a {
+            color: white !important;
+            font-size: 36px;
+            border-radius: 0;
+        }
+        
+        .card-bottomnav a:hover {
+            background-color: #f5ebf3;
+            color: black;
+        }
+
+        .bg-pink {
+            background-color: #f5ebf3;
+        }
     </style>
 </head>
 
 <body>
 <div class="container">
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link" data-bs-toggle="collapse" href="#collapsePhiladelphia" role="button" aria-expanded="false" aria-controls="collapseExample">Philadelphia</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-bs-toggle="collapse" href="#collapseBerks" role="button" aria-expanded="false" aria-controls="collapseExample">Berks</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-bs-toggle="collapse" href="#collapseBucks" role="button" aria-expanded="false" aria-controls="collapseExample">Bucks</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-bs-toggle="collapse" href="#collapseChester" role="button" aria-expanded="false" aria-controls="collapseExample">Chester</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-bs-toggle="collapse" href="#collapseDelaware" role="button" aria-expanded="false" aria-controls="collapseExample">Delaware</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-bs-toggle="collapse" href="#collapseLancaster" role="button" aria-expanded="false" aria-controls="collapseExample">Lancaster</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-bs-toggle="collapse" href="#collapseMontgomery" role="button" aria-expanded="false" aria-controls="collapseExample">Montgomery</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-bs-toggle="collapse" href="#collapseSchuylkill" role="button" aria-expanded="false" aria-controls="collapseExample">Schuylkill</a>
-  </li>
-</ul>
-<div class="collapse" id="collapsePhiladelphia">
-  <div class="card card-body">
-    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-  </div>
-</div>
-<div class="collapse" id="collapseBerks">
-  <div class="card card-body">
-    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-  </div>
-</div>
-<div class="collapse" id="collapseBucks">
-  <div class="card card-body">
-    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-  </div>
-</div>
-<div class="collapse" id="collapseChester">
-  <div class="card card-body">
-    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-  </div>
-</div>
-<div class="collapse" id="collapseDelaware">
-  <div class="card card-body">
-    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-  </div>
-</div>
-<div class="collapse" id="collapseLancaster">
-  <div class="card card-body">
-    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-  </div>
-</div>
-<div class="collapse" id="collapseMontgomery">
-  <div class="card card-body">
-    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-  </div>
-</div>
-<div class="collapse" id="collapseSchuylkill">
-  <div class="card card-body">
-    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-  </div>
-</div>    
-</div>    
-    
-    
-    
-    
-
-
-
-    <div class="container">
 <div class="row">
         <div class="col-12 js-filter-item">
             <div class="card shadow-lg text-bg-light">
@@ -635,44 +593,79 @@
 
 <br /><br /><br /><br />
 
-
-<div class="resourceCard shadow-lg text-bg-white br-5-5-5-5 mb-5">
-    <div class="row no-gutters p-0">
-        <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
-            <a href="https://www.councilsepa.org" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
-            <a href="null" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
-            <a href="undefined" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
-        </div>
-        <div class="card-body col-10 p-4">
-            <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">Regional Recovery Hub 4</h3>
-            <h5 style="font-weight:100;margin-top:0;font-size:18px">The Council of Southeast Pennsylvania</h5>
-            <div class="row">
-                <div class="col">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1"> Recovery Support </span> </li>
-                            <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1"> Regional Recovery Hub </span> </li>
-                        </ol>
-                    </nav>
-                    <p><strong>Phone:</strong>484-383-0802</p>
-                    <p>601 Dekalb Street
-                        <br>Norristown, PA 19426</p>
-                </div>
-                <div class="col d-flex justify-content-end align-items-end"> <img class="cardImage" src="null" alt="Logo"> </div>
+<div class="container">
+    <div class="resourceCard shadow-lg text-bg-white br-5-5-5-5 mb-5">
+        <div class="row no-gutters p-0">
+            <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
+                <a href="https://www.councilsepa.org/hubs/" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
+                <a href="tel://+14843830802" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
+                <a href="https://www.google.com/maps/search/?api=1&query=601%20DeKalb%20Street%2CNorristown%2CPA%2C19405" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-geo-alt-fill"></i> </a>
             </div>
-            <p><strong>Populations Served:</strong> <span class="badge text-black bg-pink py-2 my-1">Men</span><span class="badge text-black bg-pink py-2 my-1 mx">Women</span></p>
-            <p><strong>Counties Served:</strong> 
-                <span class="badge text-black bg-pink py-2 my-1">Berks</span>
-                <span class="badge text-black bg-pink py-2 my-1">Bucks</span>
-                <span class="badge text-black bg-pink py-2 my-1">Chester</span>
-                <span class="badge text-black bg-pink py-2 my-1">Delaware</span>
-                <span class="badge text-black bg-pink py-2 my-1">Lancaster</span>
-                <span class="badge text-black bg-pink py-2 my-1">Montgomery</span>
-                <span class="badge text-black bg-pink py-2 my-1">Schuylkill</span>
-            </p>
+            <div class="card-body col-10 p-4">
+                <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:36px">Regional Recovery Hub 4</h3>
+                <h5 style="font-weight:100;margin-top:0;font-size:18px">The Council of Southeast Pennsylvania</h5>
+                <div class="row">
+                    <div class="col">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1"> Recovery Support </span> </li>
+                                <li class="cardbreadcrumb-item"> <span class="badge text-black bg-pink py-2 my-1"> Regional Recovery Hub </span> </li>
+                            </ol>
+                        </nav>
+                        <p><strong>Phone:</strong>484-383-0802</p>
+                        <p>601 Dekalb Street
+                            <br>Norristown, PA 19426</p>
+                    </div>
+                    <div class="col d-flex justify-content-end align-items-end"> <img class="cardImage" src="https://councilsepa.org/wp-content/uploads/2024/03/logo.svg" alt="Logo"> </div>
+                </div>
+                <p><strong>Populations Served:</strong> <span class="badge text-black bg-pink py-2 my-1">Men</span><span class="badge text-black bg-pink py-2 my-1 mx">Women</span></p>
+                <p><strong>Counties Served:</strong> 
+                    <span class="badge text-black bg-pink py-2 my-1">Berks</span>
+                    <span class="badge text-black bg-pink py-2 my-1">Bucks</span>
+                    <span class="badge text-black bg-pink py-2 my-1">Chester</span>
+                    <span class="badge text-black bg-pink py-2 my-1">Delaware</span>
+                    <span class="badge text-black bg-pink py-2 my-1">Lancaster</span>
+                    <span class="badge text-black bg-pink py-2 my-1">Montgomery</span>
+                    <span class="badge text-black bg-pink py-2 my-1">Schuylkill</span>
+                </p>
+            </div>
         </div>
     </div>
 </div>
+    
+<div class="contariner">
+    <div class="resourceCard shadow-lg text-bg-white br-5-5-5-5 mb-5" style="border-radius: 15px">
+        <div class="row no-gutters p-0">
+            <div class="card-body col-10 p-4">
+                <h3 class="text-secondary" style="font-weight:400;margin-bottom:0;line-height:1.2em;font-size:28px">Regional Recovery Hub 4</h3>
+                <h5 style="font-weight:100;margin-top:0;font-size:14px">The Council of Southeast Pennsylvania</h5>
+                <div class="row">
+                    <div class="col d-flex justify-content-start align-items-center cardWrapper"> <img class="cardImage" src="https://councilsepa.org/wp-content/uploads/2024/03/logo.svg" alt="Logo"> </div>
+                        <p><strong>Phone:</strong>484-383-0802</p>
+                        <p>601 Dekalb Street
+                            <br>Norristown, PA 19426</p>
+                </div>
+                <p><strong>Counties Served:</strong> 
+                    <span class="badge text-black bg-pink py-2 m-1">Berks</span>
+                    <span class="badge text-black bg-pink py-2 m-1">Bucks</span>
+                    <span class="badge text-black bg-pink py-2 m-1">Chester</span>
+                    <span class="badge text-black bg-pink py-2 m-1">Delaware</span>
+                    <span class="badge text-black bg-pink py-2 m-1">Lancaster</span>
+                    <span class="badge text-black bg-pink py-2 m-1">Montgomery</span>
+                    <span class="badge text-black bg-pink py-2 m-1">Schuylkill</span>
+                </p>
+            </div>
+        </div>
+        <div class="col bg-55298a d-flex flex-row align-content-between justify-content-center py-3" style="border-radius:0 0 15px 15px">
+            <a href="https://www.councilsepa.org/hubs/" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 h1"> <i class="bi bi-globe text-white"></i> </a>
+            <a href="tel://+14843830802" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 h2"> <i class="bi bi-telephone-fill text-white"></i> </a>
+            <a href="https://www.google.com/maps/search/?api=1&query=601%20DeKalb%20Street%2CNorristown%2CPA%2C19405" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 h2"> <i class="bi bi-geo-alt-fill text-white"></i> </a>
+        </div>
+    </div>
+</div>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

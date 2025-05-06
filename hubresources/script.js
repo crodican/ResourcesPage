@@ -153,23 +153,23 @@ function renderResources(resources, shouldAppend = false) {
                             <h3 class="text-secondary">${resource['Location Name'] || 'N/A'}</h3>
                             <h5 class="text-dark">${resource.Organization || 'N/A'}</h5>
                             <div class="mb-2">
-                                <span class="badge text-black bg-pink py-2 my-1" data-filter="resourceTypes" data-value="${resource['Resource Type']}" style="background-color: #f5ebf3; color: #000;">${resource['Resource Type'] || 'N/A'}</span>
-                                <span class="badge text-black bg-pink py-2 my-1" data-filter="categories" data-value="${resource.Category}" style="background-color: #f5ebf3; color: #000;">${resource.Category || 'N/A'}</span>
+                                <span class="badge text-black bg-pink py-2 my-1 filter-badge" data-filter="resourceTypes" data-value="${resource['Resource Type']}" style="background-color: #f5ebf3; color: #000;">${resource['Resource Type'] || 'N/A'}</span>
+                                <span class="badge text-black bg-pink py-2 my-1 filter-badge" data-filter="categories" data-value="${resource.Category}" style="background-color: #f5ebf3; color: #000;">${resource.Category || 'N/A'}</span>
                             </div>
                             <h6>Phone: ${resource.Phone || 'N/A'}</h6>
                             <p>${resource.Address || 'N/A'} <br>
                                 ${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}<br />
-                            <strong><a href="${resource['Google Maps URL'] || '#'}" class="text-secondary" target="_blank">Directions</a></strong></p>
+                                <strong><a href="${resource['Google Maps URL'] || '#'}" class="text-secondary" target="_blank">Directions</a></strong></p>
                             <h6>Populations Served:</h6>
                             <div>
-                                ${(resource['Populations Served'] || '').split(',').map(pop => pop.trim()).filter(pop => pop).map(pop => `<span class="badge text-black bg-pink py-2 my-1" data-filter="populations" data-value="${pop}" style="background-color: #f5ebf3; color: #000;">${pop}</span>`).join('')}
+                                ${(resource['Populations Served'] || '').split(',').map(pop => pop.trim()).filter(pop => pop).map(pop => `<span class="badge text-black bg-pink py-2 my-1 filter-badge" data-filter="populations" data-value="${pop}" style="background-color: #f5ebf3; color: #000;">${pop}</span>`).join('')}
                             </div>
                             <h6>County:</h6>
                             <div>
-                                <span class="badge text-black bg-pink py-2 my-1" data-filter="counties" data-value="${resource.County}" style="background-color: #f5ebf3; color: #000;">${resource.County || 'N/A'}</span>
+                                <span class="badge text-black bg-pink py-2 my-1 filter-badge" data-filter="counties" data-value="${resource.County}" style="background-color: #f5ebf3; color: #000;">${resource.County || 'N/A'}</span>
                             </div>
                         <div class="row d-flex justify-content-end position-relative">
-                            ${resource.Image ? `<div class="col-md-auto d-flex justify-content-end align-items-end p-2" style="position:relative"><img class="cardImage" src="${resource.Image}" alt="Logo" style="position:absolute;height:600px"></div>` : ''}
+                            ${resource.Image ? `<div class="col-md-auto d-flex justify-content-end align-items-end p-2" style="position:relative"><img class="cardImage" src="${resource.Image}" alt="Logo" style="position:absolute;height:200px"></div>` : ''}
                         </div>
                         </div>
                     </div>
@@ -178,13 +178,31 @@ function renderResources(resources, shouldAppend = false) {
             resourceListDiv.innerHTML += card;
         });
 
-        // Add event listeners to the badges for filtering (moved inside renderResources to apply to newly loaded elements)
-        document.querySelectorAll('.resourceCard .badge').forEach(badge => {
+        // Add event listeners to the badges for filtering
+        document.querySelectorAll('.resourceCard .filter-badge').forEach(badge => {
             badge.addEventListener('click', function() {
                 const filterType = this.dataset.filter;
                 const filterValue = this.dataset.value;
                 if (filterType && filterValue) {
-                    addFilterChip(filterType, filterValue);
+                    // Simulate a change event on the corresponding checkbox
+                    const checkbox = document.querySelector(`.${filterType.slice(0, -1)}-filter[value="${filterValue}"]`);
+                    if (checkbox) {
+                        checkbox.checked = true; // Check the checkbox!
+                        // Manually trigger the handleFilterChange function
+                        const event = { target: checkbox };
+                        handleFilterChange(event);
+                    } else {
+                        // If no checkbox is found (e.g., for dynamically added categories),
+                        // directly update the activeFilters and apply the filters.
+                        if (!activeFilters[filterType].includes(filterValue)) {
+                            activeFilters[filterType] = [...activeFilters[filterType], filterValue];
+                            addFilterChip(filterType, filterValue);
+                            applyFilters();
+                            if (filterType === 'resourceTypes') {
+                                renderCategoryFilters();
+                            }
+                        }
+                    }
                 }
             });
         });
