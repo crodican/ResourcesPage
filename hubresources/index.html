@@ -123,14 +123,16 @@
   }
   .input-group {
     background-color: lightsteelblue;
+      z-index: 10000;
   }
   #map {
+    margin-top: -75px;
     @media (width < 768px) {
       height: 400px;
         width: 100%;
     }
     @media (width > 767px) {
-        height: calc(100vh - 20px);
+        height: calc(90vh - 60px);
         top: 10px;
         bottom: 10px;
     }
@@ -153,20 +155,48 @@
     maplibregl-ctrl { 
     display: none;
     }
+    
+    .right-section {
+    @media (width > 767px) {
+        height: calc(90vh - 60px);
+        top: 10px;
+        bottom: 10px;
+        overflow: scroll;
+    }
+    }
+    
+    .topright-section {
+        z-index: 10000;
+    @media (width < 768px) {
+        display: none;
+        }
+    }
+    
+    .mapsearch {
+        display: flex;
+        z-index: 1000;
+        background-color: transparent;
+        padding: 10px 30px 0 30px;
+    }
 
+.maplibregl-marker svg g[fill] path {
+  fill: #55298a !important; /* Use your desired purple color */
+}
+
+.maplibregl-marker svg g[stroke] path {
+  stroke: #55298a !important; /* Optionally change the stroke color */
+}
 </style>
 
 </head>
 <body>
     <div class="container-fluid mt-4">
 
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-6 col-xl-6">
-            </div>
-            <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+        <div class="row d-flex justify-content-center">
+            <div class="mapsearch col-12 col-md-6 col-lg-6 col-xl-6">
                 <div style="display: flex;flex-direction: row">
                     <div class="input-group mb-3 rounded-3">
-                    <input type="text" id="search-input" class="form-control border-0 bg-transparent py-2 px-4" placeholder="Search Resources">
+                    <input type="text" id="search-input" class="form-control border-0 bg-transparent py-2 px-4 text-white" placeholder="Search Resources">
                     <div class="input-group-append">
                         <div class="bg-transparent px-2 py-1 d-flex align-items-center justify-content-center" style="height: 100%">
                             <span><kbd style="background-color: ghostwhite;color:black">CTRL</kbd> + <kbd style="background-color: ghostwhite;color:black;margin-right: 20px">K</kbd></span>
@@ -184,13 +214,14 @@
                 <div id="chips-area" class="mb-3">
                 </div>
             </div>
+            <div class="topright-section col-12 col-md-6 col-lg-6 col-xl-6">
+            </div>
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-md-6 col-lg-6 col-xl-6" style="display: flex; align-items: stretch; justifu-content: stretch">
-<div id="map" class="col-12"></div>
-
+                <div id="map" class="col-12"></div>
             </div>
-            <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="right-section col-12 col-md-6 col-lg-6 col-xl-6">
                 <div class="filter-section">
                     <div class="accordion" id="filterAccordion">
                         <div class="accordion-item">
@@ -201,7 +232,7 @@
                                     </span>
                                 </button>
                             </h2>
-                            <div id="collapseFilters" class="accordion-collapse collapse show" aria-labelledby="headingFilters" data-bs-parent="#filterAccordion">
+                            <div id="collapseFilters" class="accordion-collapse collapse" aria-labelledby="headingFilters" data-bs-parent="#filterAccordion">
                                 <div class="accordion-body">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">

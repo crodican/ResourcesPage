@@ -29,7 +29,7 @@
     const markers = [];
 
     //  Add a variable to store the SVG URL.  Make it configurable.
-    const markerSvgUrl = 'https://your-svg-url.com/marker.svg';  //  <--  Replace this with your actual SVG URL
+    const markerSvgUrl = 'assets/geo-alt-fill.svg';  //  <--  Replace this with your actual SVG URL
 
     const categoryOptions = {
         'Recovery Support': ['Single County Authority', 'Center of Excellence', 'Regional Recovery Hub', 'Recovery Community Organization', 'Warm Handoff', 'Treatment with RSS', 'Government', 'Other'],
@@ -85,7 +85,7 @@
         }), 'bottom-right');
 
         // Add zoom controls
-        map.addControl(new maplibregl.NavigationControl(), 'top-left');
+        map.addControl(new maplibregl.NavigationControl(), 'bottom-left');
 
         // Add geolocation control
         map.addControl(
@@ -96,23 +96,25 @@
                 trackUserLocation: true,
                 showUserHeading: true
             }),
-            'top-left'
+            'bottom-left'
         );
+
+
     }
 
     function addMapMarker(resource) {
         if (map && resource.Longitude && resource.Latitude) {
             const popupContent = `
                 <div style="transform:scale(0.8);transform:translate(-15px,0)" class="map-popup text-bg-white br-5-5-5-5 mb-5" style="max-width: 300px">
-                    <div class="row no-gutters p-0">
-                        <div class="card-body col-10 p-4">
-                            <h3 class="text-secondary">${resource['Location Name'] || 'N/A'}</h3>
-                            <h5 class="text-dark">${resource.Organization || 'N/A'}</h5>
-                            <h6><i class="bi bi-telephone-fill text-secondary"></i><a href="${resource['Phone URL'] || '#'}"> ${resource.Phone || 'N/A'}</a></h6>
-                            <p>${resource.Address || 'N/A'}
-                                <br> ${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}
-                                <br /> <i class="bi bi-geo-alt-fill text-secondary"></i><strong><a class="text-black" href="${resource['Google Maps URL'] || '#'}" class="text-secondary" target="_blank">Directions</a></strong>
-                                <br /><br /><i class="bi bi-globe text-secondary"></i><a class="text-black" href="${resource.Website || '#'}" target="_blank">Website</a></p>
+                    <div class="row no-gutters py-0 px-1">
+                        <div class="card-body col-10 px-4 pt-4 pb-0">
+                            <h3 class="text-secondary fw-bold lh-1 py-0">${resource['Location Name'] || 'N/A'}</h3>
+                            <h5 class="text-dark fw-light lh-1 py-0">${resource.Organization || 'N/A'}</h5>
+                            <p class="text-body-tertiary lh-1 py-0">${resource.Address || 'N/A'}
+                                <br /> ${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}</p>
+                                <p><a class="text-primary fw-bold pt-3" href="${resource['Google Maps URL'] || '#'}" class="text-secondary" target="_blank"><i class="bi bi-geo-alt-fill"></i>  Directions</a>
+                                <br /><a class="text-primary" href="${resource.Website || '#'}" target="_blank"><i class="bi bi-globe"></i>  Website</a>
+                                <br /><a class="text-primary text-decoration-none fw-bold" href="${resource['Phone URL'] || '#'}"><i class="bi bi-telephone-fill text-primary"></i> ${resource.Phone || 'N/A'}</a></p>
                         </div>
                     </div>
                 </div>
@@ -121,16 +123,20 @@
             const popup = new maplibregl.Popup({ offset: 25 })
                 .setHTML(popupContent);
 
+            popup.on('open', () => {
+                map.flyTo({
+                    center: [parseFloat(resource.Longitude), parseFloat(resource.Latitude)],
+                    offset: [0, -180], // Adjust vertical offset as needed
+                    zoom: 14,          // Set your desired zoom level here
+                    essential: true
+                });
+            });
+
             const markerElement = document.createElement('div');
             markerElement.className = 'custom-marker';
-            markerElement.innerHTML = `<img src="${markerSvgUrl}" alt="Marker">`;  //  Set the inner HTML to include the image
-
-            //  Important:  Set the style properties here, in the JavaScript, so they apply to the image's container.
-            markerElement.style.width = '15px';
-            markerElement.style.height = '15px';
-            markerElement.style.borderRadius = '50%';
-            markerElement.style.border = '2px solid darkred';
-
+            markerElement.innerHTML = `<img src="${markerSvgUrl}" alt="Marker">`;
+            markerElement.style.width = '30px';
+            markerElement.style.height = '30px';
 
             const marker = new maplibregl.Marker(markerElement)
                 .setLngLat([parseFloat(resource.Longitude), parseFloat(resource.Latitude)])
