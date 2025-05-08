@@ -14,10 +14,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
     <!-- Custom Colors CSS -->
     <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css" />
-    <!-- Map Libre -->
-    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
-    <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
-<style>
+
+    <style>
         body {
             font-family: 'Oxygen', sans-serif;
         }
@@ -104,67 +102,50 @@
             width: auto;
             height: auto !important;
         }
-  .results-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  #load-more {
-    text-align: center;
-    margin-top: 20px;
-  }
-  .accordion-button:not(.collapsed) {
-    background-color: transparent;
-    box-shadow: none;
-  }
-  .form-control::placeholder {
-    color: whitesmoke;
-  }
-  .input-group {
-    background-color: lightsteelblue;
-  }
-  #map {
-    @media (width < 768px) {
-      height: 400px;
-        width: 100%;
-    }
-    @media (width > 767px) {
-        height: calc(100vh - 20px);
-        top: 10px;
-        bottom: 10px;
-    }
-  }
-    
-  .maplibregl-popup-content {
-    background-color: transparent !important;
-    color: your-desired-text-color !important;
-    padding: 0;
-  }
-  .maplibregl-marker {
-    cursor: pointer;
-  }
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        #load-more {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .maplibregl-marker div {
-        background-color: aquamarine;
-        color: red;
-    }
-    
-    maplibregl-ctrl { 
-    display: none;
-    }
-
-</style>
-
+        .accordion-button:not(.collapsed) {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        
+        .form-control::placeholder {
+            color: whitesmoke;
+        }
+        
+        .input-group {
+            background-color: lightsteelblue
+        }
+        
+        .maptivemap {
+            @media (width < 768px) {
+                height: 400px;
+            }
+            @media (width > 767px) {
+                height: 80vh;
+            }
+        }
+        
+    </style>
 </head>
 <body>
     <div class="container-fluid mt-4">
 
         <div class="row">
-            <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
             </div>
-            <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="col-12 col-md-8 col-lg-8 col-xl-8">
                 <div style="display: flex;flex-direction: row">
+                    <a class="btn bg-secondary text-white rounded-3 mb-3 me-3 text-nowrap" data-bs-toggle="collapse" href="#collapseWidthExample" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">MAP <i class="bi bi-geo-alt-fill"></i></a>
                     <div class="input-group mb-3 rounded-3">
                     <input type="text" id="search-input" class="form-control border-0 bg-transparent py-2 px-4" placeholder="Search Resources">
                     <div class="input-group-append">
@@ -185,12 +166,19 @@
                 </div>
             </div>
         </div>
-        <div class="row d-flex justify-content-center">
-            <div class="col-12 col-md-6 col-lg-6 col-xl-6" style="display: flex; align-items: stretch; justifu-content: stretch">
-<div id="map" class="col-12"></div>
-
+        <div class="row">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                <p>
+</p>
+<div>
+    <div class="collapse collapse.show" id="collapseWidthExample">
+<div id="map"></div>
+<br /><br />This is the map area
+        
+    </div>
+</div>
             </div>
-            <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="col-12 col-md-8 col-lg-8 col-xl-8">
                 <div class="filter-section">
                     <div class="accordion" id="filterAccordion">
                         <div class="accordion-item">
@@ -316,6 +304,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
+    <script src="assets/js/script-backup.js"></script>
 </body>
 </html>

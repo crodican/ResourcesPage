@@ -1,123 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Recovery Support Locations</title>
+    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; }
+        #map { width: 100%; height: 500px; }
+        .location-links { margin-top: 20px; }
+        .location-links button { padding: 8px 15px; margin-right: 10px; cursor: pointer; }
+        .map-popup { padding: 10px; }
+        .map-popup h3 { margin-top: 0; }
+        .custom-marker {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div class="location-links">
+    <h3>View Location Details:</h3>
+    <p id="loading-message">Loading location data...</p>
+    </div>
+
 <script>
     const map = new maplibregl.Map({
         style: 'https://tiles.openfreemap.org/styles/liberty',
         center: [-75.347468, 40.104172],
         zoom: 9.5,
-        pitch: 45,
-        bearing: 0,
         container: 'map',
-        terrain: { source: 'openmaptiles', exaggeration: 1 }
+        attributionControl: false // Disable the default attribution control
     });
 
-    map.on('load', () => {
-        map.addSource('openmaptiles', {
-            type: 'raster-dem',
-            url: 'https://tiles.openmaptiles.org/data/terrain-rgb/{z}/{x}/{y}.pngraw',
-            tileSize: 256,
-            attribution:
-                '<a href="https://www.openmaptiles.org/" target="_blank">&copy; OpenMapTiles</a> <a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox</a> <a href="http://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap</a>'
-        });
+    // Add a custom attribution control
+    map.addControl(new maplibregl.AttributionControl({
+        customAttribution: '© 2025 The Council of Southeast Pennsylvania' // Replace with your desired text
+    }), 'bottom-right');
 
-        const locationsData = [
-            {
-                name: 'Berks County Council on Chemical Abuse',
-                longitude: -75.9269,
-                latitude: 40.3356,
-                phone: '610-376-8669',
-                address: '601 Penn Street, Suite 60 Reading, PA 19601',
-                website: 'https://cocaberks.org/'
-            },
-            {
-                name: 'Bucks County Drug & Alcohol Commission',
-                longitude: -75.1299,
-                latitude: 40.3101,
-                phone: '215-444-2700',
-                address: '55 East Court Street, 4th Floor Doylestown, PA 18901',
-                website: 'https://www.bcdac.org/'
-            },
-            {
-                name: 'Chester County Department of Drug and Alcohol Services',
-                longitude: -75.6055,
-                latitude: 39.9607,
-                phone: '610-344-6620',
-                address: '601 Westtown Road, Suite 325 West Chester, PA 19382',
-                website: 'https://www.chesco.org/216/Drug-and-Alcohol'
-            },
-            {
-                name: 'Delaware County Office of Behavioral Health',
-                longitude: -75.2591,
-                latitude: 39.9576,
-                phone: '610-713-2365',
-                address: '20 South 69th Street Upper Darby, PA 19082',
-                website: 'https://delcohsa.org/mentalhealth.html'
-            },
-            {
-                name: 'Lancaster County Drug & Alcohol Commission',
-                longitude: -76.3062,
-                latitude: 40.0417,
-                phone: '717-299-8023',
-                address: '150 North Queen Street, Suite 111 Lancaster, PA 17603',
-                website: 'https://co.lancaster.pa.us/140/Drug-Alcohol-Commission'
+    const locationLinksContainer = document.querySelector('.location-links');
+    const loadingMessage = document.getElementById('loading-message');
+    let locationsData = [];
+    const markers = [];
+
+    fetch('https://resourcesdatabaseproxy.crodican.workers.dev/?limit=999999')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        ];
+            return response.json();
+        })
+        .then(data => {
+            loadingMessage.style.display = 'none';
 
-        const markers = [];
+            if (data && Array.isArray(data.list)) {
+                locationsData = data.list;
+                locationLinksContainer.innerHTML = '<h3>View Location Details:</h3>';
 
-        locationsData.forEach((location, index) => {
-            const popupContent = `
-                <div class="map-popup">
-                    <h3>${location.name}</h3>
-                    <p><strong>Phone:</strong> <a href="tel:${location.phone}">${location.phone}</a></p>
-                    <p><strong>Address:</strong> ${location.address}</p>
-                    <p><a href="${location.website}" target="_blank">Website</a></p>
-                </div>
-            `;
+                locationsData.forEach((location, index) => {
+                    const popupContent = `
+                        <div class="map-popup">
+                            <h3>${location["Location Name"]}</h3>
+                            <p><strong>Phone:</strong> <a href="tel:${location.Phone}">${location.Phone}</a></p>
+                            <p><strong>Address:</strong> ${location["Full Address"]}</p>
+                            ${location.Website ? `<p><a href="${location.Website}" target="_blank">Website</a></p>` : ''}
+                        </div>
+                    `;
 
-            const popup = new maplibregl.Popup({ offset: 25 })
-                .setHTML(popupContent);
+                    const popup = new maplibregl.Popup({ offset: 25 })
+                        .setHTML(popupContent);
 
-            const marker = new maplibregl.Marker()
-                .setLngLat([location.longitude, location.latitude])
-                .setPopup(popup)
-                .addTo(map);
+                    const markerElement = document.createElement('div');
+                    markerElement.className = 'custom-marker';
 
-            markers.push({ marker: marker, index: index });
+                    const marker = new maplibregl.Marker(markerElement)
+                        .setLngLat([parseFloat(location.Longitude), parseFloat(location.Latitude)])
+                        .setPopup(popup)
+                        .addTo(map);
+
+                    markers.push({ marker: marker, index: index });
+
+                    const button = document.createElement('button');
+                    button.textContent = location.County + ' County';
+                    button.onclick = () => flyToLocationAndOpenPopup(index);
+                    locationLinksContainer.appendChild(button);
+                });
+
+                if (locationsData.length > 0) {
+                    const bounds = new maplibregl.LngLatBounds();
+                    locationsData.forEach(location => bounds.extend([parseFloat(location.Longitude), parseFloat(location.Latitude)]));
+                    map.fitBounds(bounds, { padding: 50 });
+                }
+            } else {
+                console.error('Error: Fetched data does not contain a valid list of locations:', data);
+                locationLinksContainer.innerHTML = '<p>Error: Invalid location data received.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching location data:', error);
+            loadingMessage.style.display = 'none';
+            locationLinksContainer.innerHTML = `<p>Error loading location data: ${error.message}</p>`;
         });
 
-        function flyToLocationAndOpenPopup(locationIndex) {
-            const location = locationsData[locationIndex];
-            map.flyTo({
-                center: [location.longitude, location.latitude],
-                zoom: 12,
-                pitch: 45,
-                bearing: 0,
-                essential: true
-            });
-
-            markers.forEach(item => {
-                if (item.index === locationIndex) {
-                    item.marker.togglePopup();
-                } else {
-                    item.marker.getPopup().remove();
-                }
-            });
+    function flyToLocationAndOpenPopup(locationIndex) {
+        if (!locationsData[locationIndex]) {
+            console.error('Location index out of bounds:', locationIndex);
+            return;
         }
+        const location = locationsData[locationIndex];
+        map.flyTo({
+            center: [parseFloat(location.Longitude), parseFloat(location.Latitude)],
+            zoom: 12,
+            essential: true
+        });
 
         markers.forEach(item => {
-            item.marker.on('click', () => {
-                markers.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.marker.getPopup().remove();
-                    }
-                });
+            if (item.index === locationIndex) {
+                item.marker.togglePopup();
+            } else {
+                item.marker.getPopup().remove();
+            }
+        });
+    }
+
+    markers.forEach(item => {
+        item.marker.on('click', () => {
+            markers.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.marker.getPopup().remove();
+                }
             });
         });
-
-        // Check if terrain is enabled (basic check)
-        if (map.getTerrain()) {
-            console.log("Terrain is enabled.");
-        } else {
-            console.warn("Terrain might not be enabled. Check for console errors.");
-        }
     });
 </script>
+
+</body>
+</html>
