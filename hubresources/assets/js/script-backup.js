@@ -11,7 +11,9 @@ const resultsCounter = document.getElementById('results-counter');
 const loadMoreButton = document.getElementById('load-more-button');
 const loadMoreDiv = document.getElementById('load-more');
 const sortBySelect = document.getElementById('sort-by');
+const mapContainer = document.getElementById('map');
 
+let map;
 let allResources = [];
 let filteredResources = [];
 let activeFilters = {
@@ -23,23 +25,25 @@ let activeFilters = {
 };
 let currentPage = 1;
 const resourcesPerPage = 25;
-let totalResourceCount = 0; // To store the total number of resources
+let totalResourceCount = 0;
+const markers = [];
+
+//  Add a variable to store the SVG URL.  Make it configurable.
+const markerSvgUrl = 'assets/geo-alt-fill.svg';  //  <--  Replace this with your actual SVG URL
 
 const categoryOptions = {
     'Recovery Support': ['Single County Authority', 'Center of Excellence', 'Regional Recovery Hub', 'Recovery Community Organization', 'Warm Handoff', 'Treatment with RSS', 'Government', 'Other'],
-    'Family Support': ['Family Counseling', 'Family Peer Support', 'Family Assistance Program', 'Family Education Program', 'Family Resources', 'Government', 'Other'],
+    'Family Support': ['Family Counseling', 'Family Peer Support', Family Assistance Program', Family Education Program', 'Family Resources', 'Government', 'Other'],
     'Housing': ['Recovery House', 'Halfway House', 'Housing Assistance', 'Government', 'Other'],
     'Transportation': ['Affordable Public Transportation', 'Carpool Service', 'Medical Assistance Transportation', 'Recovery Transportation Services', 'Vehicle Purchase Assistance', 'Government', 'Other']
 };
 
-// Function to convert degrees to radians
 function deg2rad(deg) {
     return deg * (Math.PI / 180);
 }
 
-// Function to calculate the distance between two coordinates using the Haversine formula
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 3958.8; // Radius of the Earth in miles
+    const R = 3958.8;
     const dLat = deg2rad(lat2 - lat1);
     const dLon = deg2rad(lon2 - lon1);
     const a =
@@ -47,16 +51,15 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
         Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in miles
+    const distance = R * c;
     return distance;
 }
 
-// Function to construct the API URL with filters and pagination
 function constructApiUrl(page = currentPage, limit = resourcesPerPage, sort = sortBySelect.value, search = activeFilters.search, counties = activeFilters.counties, populations = activeFilters.populations, resourceTypes = activeFilters.resourceTypes, categories = activeFilters.categories) {
     const params = new URLSearchParams();
     params.append('page', page);
     params.append('limit', limit);
-    if (sort && sort !== 'relevance') params.append('sort', sort === 'alphabetical' ? 'Location Name' : ''); // Adjust sort parameters as needed
+    if (sort && sort !== 'relevance') params.append('sort', sort === 'alphabetical' ? 'Location Name' : '');
     if (search) params.append('search', search);
     counties.forEach(county => params.append('County', county));
     populations.forEach(population => params.append('Populations', population));
@@ -65,7 +68,95 @@ function constructApiUrl(page = currentPage, limit = resourcesPerPage, sort = so
     return `${apiBaseUrl}?${params.toString()}`;
 }
 
-// Function to fetch resources from the API
+function initializeMap() {
+    if (!mapContainer) return;
+
+    map = new maplibregl.Map({
+        style: 'https://api.maptiler.com/maps/streets-v2/style.json?key=1nPjVtGASMJJCaJkeKXQ',
+        center: [-75.347468, 40.104172],
+        zoom: 50.0,
+        pitch: 45,                                        //  <---  Add this line to set the initial pitch (angle)
+        container: 'map',
+        attributionControl: false
+    });
+
+    map.addControl(new maplibregl.AttributionControl({
+        customAttribution: '©2025 PRO-ACT, Ambassadors for Recovery'
+    }), 'bottom-right');
+
+    // Add zoom controls
+    map.addControl(new maplibregl.NavigationControl(), 'bottom-left');
+
+    // Add geolocation control
+    map.addControl(
+        new maplibregl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true,
+            showUserHeading: true
+        }),
+        'bottom-left'
+    );
+
+
+}
+
+function addMapMarker(resource) {
+    if (map && resource.Longitude && resource.Latitude) {
+        const popupContent = `
+                    <div style="transform:scale(0.8);transform:translate(-15px,0)" class="map-popup text-bg-white br-5-5-5-5 mb-5" style="max-width: 300px">
+                        <div class="row no-gutters py-0 px-1">
+                            <div class="card-body col-10 px-4 pt-4 pb-0">
+                                <h3 class="text-secondary fw-bold lh-1 py-0">${resource['Location Name'] || 'N/A'}</h3>
+                                <h5 class="text-dark fw-light lh-1 py-0">${resource.Organization || 'N/A'}</h5>
+                                <p class="text-body-tertiary lh-1 py-0">${resource.Address || 'N/A'}
+                                    <br /> ${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}</p>
+                                    <p><a class="text-primary fw-bold pt-3" href="${resource['Google Maps URL'] || '#'}" class="text-secondary" target="_blank"><i class="bi bi-geo-alt-fill"></i>  Directions</a>
+                                    <br /><a class="text-primary" href="${resource.Website || '#'}" target="_blank"><i class="bi bi-globe"></i>  Website</a>
+                                    <br /><a class="text-primary text-decoration-none fw-bold" href="${resource['Phone URL'] || '#'}"><i class="bi bi-telephone-fill text-primary"></i> ${resource.Phone || 'N/A'}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+        const popup = new maplibregl.Popup({ offset: 25 })
+            .setHTML(popupContent);
+
+        popup.on('open', () => {
+            map.flyTo({
+                center: [parseFloat(resource.Longitude), parseFloat(resource.Latitude)],
+                offset: [0, -180], // Adjust vertical offset as needed
+                zoom: 14,             // Set your desired zoom level here
+                essential: true
+            });
+        });
+
+        const markerElement = document.createElement('div');
+        markerElement.className = 'custom-marker';
+        markerElement.innerHTML = `<img src="${markerSvgUrl}" alt="Marker">`;
+        markerElement.style.width = '30px';
+        markerElement.style.height = '30px';
+
+        const marker = new maplibregl.Marker(markerElement)
+            .setLngLat([parseFloat(resource.Longitude), parseFloat(resource.Latitude)])
+            .setPopup(popup)
+            .addTo(map);
+
+        markers.push({ marker: marker, id: resource.Id });
+    }
+}
+
+function flyToResource(longitude, latitude) {
+    if (map) {
+        map.flyTo({
+            center: [parseFloat(longitude), parseFloat(latitude)],
+            zoom: 13,
+            essential: true
+        });
+    }
+}
+
 async function fetchResources(url, shouldAppend = false) {
     try {
         const response = await fetch(url);
@@ -77,13 +168,22 @@ async function fetchResources(url, shouldAppend = false) {
         const data = await response.json();
         const newResources = data.list || [];
         const pageInfo = data.pageInfo || {};
-        totalResourceCount = pageInfo.totalRows || totalResourceCount; // Update total count
+        totalResourceCount = pageInfo.totalRows || totalResourceCount;
 
         if (shouldAppend) {
-            renderResources(newResources, true); // Append new resources
+            renderResources(newResources, true);
         } else {
-            allResources = newResources; // Reset all resources on initial load or filter
-            renderResources(allResources); // Render the initial set
+            allResources = newResources;
+            renderResources(allResources);
+            if (mapContainer && !map) {
+                initializeMap();
+                allResources.forEach(addMapMarker);
+                if (allResources.length > 0) {
+                    const bounds = new maplibregl.LngLatBounds();
+                    allResources.forEach(resource => bounds.extend([parseFloat(resource.Longitude), parseFloat(resource.Latitude)]));
+                    map.fitBounds(bounds, { padding: 50, maxZoom: 15 });
+                }
+            }
         }
         updateResultsCounter();
         updateLoadMoreVisibility();
@@ -93,12 +193,11 @@ async function fetchResources(url, shouldAppend = false) {
     }
 }
 
-// Function to render the category filters based on selected resource types
 function renderCategoryFilters() {
     categoryFiltersDiv.innerHTML = '';
     const selectedResourceTypes = Array.from(resourceTypeFiltersDiv.querySelectorAll('input:checked'))
         .map(checkbox => checkbox.value);
-    const visibleCategories = new Set(['Government', 'Other']); // Always show these
+    const visibleCategories = new Set(['Government', 'Other']);
 
     selectedResourceTypes.forEach(type => {
         if (categoryOptions[type]) {
@@ -112,42 +211,41 @@ function renderCategoryFilters() {
         const div = document.createElement('div');
         div.classList.add('form-check');
         div.innerHTML = `
-            <input class="form-check-input category-filter" type="checkbox" value="${category}" id="${id}" ${isChecked ? 'checked' : ''}>
-            <label class="form-check-label" for="${id}">${category}</label>
-        `;
+                    <input class="form-check-input category-filter" type="checkbox" value="${category}" id="${id}" ${isChecked ? 'checked' : ''}>
+                    <label class="form-check-label" for="${id}">${category}</label>
+                `;
         categoryFiltersDiv.appendChild(div);
     });
 
-    // Add event listeners to dynamically created category checkboxes
     const categoryCheckboxes = document.querySelectorAll('.category-filter');
     categoryCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', handleFilterChange);
     });
 }
 
-// Function to apply filters and fetch the first page of results
 function applyFilters(shouldResetPage = true) {
     if (shouldResetPage) {
         currentPage = 1;
     }
     const apiUrl = constructApiUrl();
-    fetchResources(apiUrl); // Do not append when applying new filters
+    fetchResources(apiUrl);
 }
 
-// Function to display the current page of resources
 function renderResources(resources, shouldAppend = false) {
     if (!shouldAppend) {
-        resourceListDiv.innerHTML = ''; // Clear existing content only on initial load or filter
+        resourceListDiv.innerHTML = '';
+        markers.forEach(m => m.marker.remove());
+        markers.length = 0;
     }
     if (resources && resources.length > 0) {
         resources.forEach(resource => {
             const card = `
-                <div class="resourceCard shadow-lg text-bg-white br-5-5-5-5 mb-5">
+                    <div class="resourceCard shadow-lg text-bg-white br-5-5-5-5 mb-5">
                     <div class="row no-gutters p-0">
                         <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
-                            <a href="${resource.Website || '#'}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" target="_blank"> <i class="bi bi-globe"></i> </a>
+                            <a href="${resource.Website || '#'}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-globe"></i> </a>
                             <a href="${resource['Phone URL'] || '#'}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"> <i class="bi bi-telephone-fill"></i> </a>
-                            <a href="#" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 h-100 text-white py-1 map-focus-button" data-longitude="${resource.Longitude}" data-latitude="${resource.Latitude}"> <i class="bi bi-geo-alt-fill"></i> </a>                        </div>
+                            <a href="#" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white map-focus-button" data-longitude="${resource.Longitude}" data-latitude="${resource.Latitude}"> <i class="bi bi-geo-alt-fill"></i> </a>                                    </div>
                         <div class="card-body col-10 p-4">
                             <h3 class="text-secondary">${resource['Location Name'] || 'N/A'}</h3>
                             <h5 class="text-dark">${resource.Organization || 'N/A'}</h5>
@@ -173,26 +271,22 @@ function renderResources(resources, shouldAppend = false) {
                         </div>
                     </div>
                 </div>
-            `;
+                    `;
             resourceListDiv.innerHTML += card;
+            addMapMarker(resource);
         });
 
-        // Add event listeners to the badges for filtering
         document.querySelectorAll('.resourceCard .filter-badge').forEach(badge => {
             badge.addEventListener('click', function() {
                 const filterType = this.dataset.filter;
                 const filterValue = this.dataset.value;
                 if (filterType && filterValue) {
-                    // Simulate a change event on the corresponding checkbox
                     const checkbox = document.querySelector(`.${filterType.slice(0, -1)}-filter[value="${filterValue}"]`);
                     if (checkbox) {
-                        checkbox.checked = true; // Check the checkbox!
-                        // Manually trigger the handleFilterChange function
+                        checkbox.checked = true;
                         const event = { target: checkbox };
                         handleFilterChange(event);
                     } else {
-                        // If no checkbox is found (e.g., for dynamically added categories),
-                        // directly update the activeFilters and apply the filters.
                         if (!activeFilters[filterType].includes(filterValue)) {
                             activeFilters[filterType] = [...activeFilters[filterType], filterValue];
                             addFilterChip(filterType, filterValue);
@@ -205,8 +299,31 @@ function renderResources(resources, shouldAppend = false) {
                 }
             });
         });
+
+        document.querySelectorAll('.resourceCard .map-focus-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const longitude = this.dataset.longitude;
+                const latitude = this.dataset.latitude;
+                flyToResource(longitude, latitude);
+                const resourceId = this.closest('.resourceCard').querySelector('h3')?.textContent?.trim();
+                if (resourceId) {
+                    const foundMarker = markers.find(m => m.id === allResources.find(r => r['Location Name']?.trim() === resourceId)?.Id);
+                    foundMarker?.marker?.togglePopup();
+                }
+            });
+        });
+
     } else if (!shouldAppend) {
         resourceListDiv.innerHTML = '<div class="alert alert-info">No resources found with the current filters.</div>';
+        markers.forEach(m => m.marker.remove());
+        markers.length = 0;
+         if (map) {
+            map.flyTo({
+                center: [-75.347468, 40.104172],
+                zoom: 9.5,
+                essential: true
+            });
+        }
     }
 }
 
@@ -215,7 +332,6 @@ function updateResultsCounter() {
     resultsCounter.textContent = `Results ${currentlyDisplayed > 0 ? 1 : 0}-${currentlyDisplayed} of ${totalResourceCount}`;
 }
 
-// Function to update the visibility of the "Load More" button
 function updateLoadMoreVisibility() {
     if (currentPage * resourcesPerPage < totalResourceCount) {
         loadMoreDiv.classList.remove('d-none');
@@ -224,14 +340,12 @@ function updateLoadMoreVisibility() {
     }
 }
 
-// Event listener for the "Load More" button
 loadMoreButton.addEventListener('click', () => {
     currentPage++;
     const apiUrl = constructApiUrl();
-    fetchResources(apiUrl, true); // Append data when loading more
+    fetchResources(apiUrl, true);
 });
 
-// Function to handle changes in filter checkboxes
 function handleFilterChange(event) {
     const filterType = event.target.classList.contains('county-filter') ? 'counties' :
         event.target.classList.contains('population-filter') ? 'populations' :
@@ -254,7 +368,6 @@ function handleFilterChange(event) {
     }
 }
 
-// Add event listeners to the initial filter checkboxes
 document.querySelectorAll('.county-filter').forEach(checkbox => checkbox.addEventListener('change', handleFilterChange));
 document.querySelectorAll('.population-filter').forEach(checkbox => checkbox.addEventListener('change', handleFilterChange));
 document.querySelectorAll('.resource-type-filter').forEach(checkbox => {
@@ -264,33 +377,20 @@ document.querySelectorAll('.resource-type-filter').forEach(checkbox => {
     });
 });
 
-// Event listeners for search input
-searchInput.addEventListener('input', () => {
-    activeFilters.search = searchInput.value.trim();
-    applyFilters();
-});
-
 searchInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-        if (searchInput.value.trim()) {
-            addFilterChip('search', searchInput.value.trim());
-            searchInput.value = '';
-            activeFilters.search = '';
-            applyFilters();
-        }
-    }
-});
-
-searchButton.addEventListener('click', () => {
-    if (searchInput.value.trim()) {
-        addFilterChip('search', searchInput.value.trim());
-        searchInput.value = '';
-        activeFilters.search = '';
+        activeFilters.search = searchInput.value.trim();
+        addFilterChip('search', activeFilters.search); // Add chip for search term
         applyFilters();
     }
 });
 
-// Function to add a filter chip
+searchButton.addEventListener('click', () => {
+    activeFilters.search = searchInput.value.trim();
+    addFilterChip('search', activeFilters.search); // Add chip for search term
+    applyFilters();
+});
+
 function addFilterChip(filterType, filterValue) {
     const existingChip = document.querySelector(`#chip-${filterType}-${filterValue.replace(/ /g, '-')}`);
     if (!existingChip) {
@@ -308,9 +408,12 @@ function addFilterChip(filterType, filterValue) {
     }
 }
 
-// Function to remove a filter
 function removeFilter(filterType, filterValue) {
     activeFilters[filterType] = activeFilters[filterType].filter(item => item !== filterValue);
+     if (filterType === 'search') {
+        activeFilters.search = '';
+        searchInput.value = '';
+    }
 
     const chipToRemove = document.getElementById(`chip-${filterType}-${filterValue.replace(/ /g, '-')}`);
     if (chipToRemove) {
@@ -318,7 +421,7 @@ function removeFilter(filterType, filterValue) {
     }
 
     const checkbox = document.querySelector(`.${filterType.slice(0, -1)}-filter[value="${filterValue}"]`);
-    if (checkbox) {
+    if (checkbox && filterType !== 'search') {
         checkbox.checked = false;
     }
 
@@ -328,7 +431,6 @@ function removeFilter(filterType, filterValue) {
     }
 }
 
-// Function to remove a filter chip from the UI
 function removeFilterChip(filterType, filterValue) {
     const chipToRemove = document.getElementById(`chip-${filterType}-${filterValue.replace(/ /g, '-')}`);
     if (chipToRemove) {
@@ -336,7 +438,6 @@ function removeFilterChip(filterType, filterValue) {
     }
 }
 
-// Event listener for CTRL+K to focus search
 document.addEventListener('keydown', (event) => {
     if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
         event.preventDefault();
@@ -344,13 +445,10 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// Event listener for sort by change
 sortBySelect.addEventListener('change', () => {
-    applyFilters(); // Re-fetch and re-render with the new sort order
+    applyFilters();
 });
 
-// Initial fetch and category filter rendering
-// Fetch the initial set of resources with the first page and default filters
 const initialApiUrl = constructApiUrl();
 fetchResources(initialApiUrl);
 renderCategoryFilters();
