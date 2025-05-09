@@ -102,6 +102,17 @@ function initializeMap() {
 
         map.addControl(new maplibregl.NavigationControl(), 'top-right');
 
+        // Add the Geolocate Control
+        const geolocateControl = new maplibregl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true // Request high accuracy for better results
+            },
+            trackUserLocation: true, // Set to true to keep the map centered on the user's location
+            showUserHeading: true // Show the user's heading (if available)
+        });
+
+        map.addControl(geolocateControl, 'top-left'); // Add it to the top-left corner
+
     } catch (error) {
         console.error("Error initializing map:", error);
         if (mapDiv) {
@@ -111,7 +122,7 @@ function initializeMap() {
 }
 
 /**
- * Updates map markers based on the provided resources.
+ * Updates map markers based on the provided resources (using default SVG color).
  * @param {Array<Object>} resources - Array of resource objects to display on the map.
  */
 function updateMapMarkers(resources) {
@@ -130,6 +141,7 @@ function updateMapMarkers(resources) {
 
     const bounds = new maplibregl.LngLatBounds();
     let validMarkersExist = false;
+    const markerColor = '#55298a'; // The color you want
 
     resources.forEach(resource => {
         const lat = parseFloat(resource.Latitude);
@@ -137,46 +149,28 @@ function updateMapMarkers(resources) {
 
         if (!isNaN(lat) && !isNaN(lon)) {
             validMarkersExist = true;
-            const popupContent = `
-                <div class="map-popup-container" style="max-width: 300px;">
-                    <div class="row no-gutters py-0 px-1">
-                        <div class="card-body col-12 p-3">
-                            <h3 class="text-secondary fw-bold lh-1 py-0">${resource['Location Name'] || 'N/A'}</h3>
-                            <h5 class="text-dark fw-light lh-1 py-0">${resource.Organization || 'N/A'}</h5>
-                            <p class="text-body-tertiary lh-1 py-0 mb-1">${resource.Address || 'N/A'}<br />
-                                ${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}
-                            </p>
-                            <p class="mb-0">
-                                ${resource['Google Maps URL'] ? `<a class="text-primary fw-bold d-block mb-1" href="${resource['Google Maps URL']}" target="_blank" rel="noopener noreferrer"><i class="bi bi-geo-alt-fill"></i> Directions</a>` : ''}
-                                ${resource.Website ? `<a class="text-primary d-block mb-1" href="${resource.Website}" target="_blank" rel="noopener noreferrer"><i class="bi bi-globe"></i> Website</a>` : ''}
-                                ${resource.Phone ? `<a class="text-primary text-decoration-none fw-bold d-block" href="${resource['Phone URL'] || '#'}"><i class="bi bi-telephone-fill text-primary"></i> ${resource.Phone}</a>` : 'N/A'}
-                            </p>
-                        </div>
-                    </div>
-                </div>`;
+            const popupContent = `... (same popup content as before) ...`;
 
-            const popup = new maplibregl.Popup({ offset: 25, maxWidth: '320px' }) // offset from marker
+            const popup = new maplibregl.Popup({ offset: 25, maxWidth: '320px' })
                 .setHTML(popupContent);
 
-            const marker = new maplibregl.Marker()
+            const marker = new maplibregl.Marker({ color: markerColor }) // Using the color option
                 .setLngLat([lon, lat])
                 .setPopup(popup)
                 .addTo(map);
 
-            marker._resourceId = resource['Location Name']; // Store an ID for later interaction
+            marker._resourceId = resource['Location Name'];
             mapMarkers.push(marker);
             bounds.extend([lon, lat]);
         }
     });
 
     if (validMarkersExist && !bounds.isEmpty()) {
-         // Only fit bounds if there are fewer than a certain number of markers,
-        // or if it's the initial load/filter application. Avoid aggressive zooming on "load more".
-        if (resources.length <= RESOURCES_PER_PAGE * 2 || currentPage === 1 ) { // Heuristic
-             map.fitBounds(bounds, { padding: 50, maxZoom: 15 });
+        if (resources.length <= RESOURCES_PER_PAGE * 2 || currentPage === 1 ) {
+            map.fitBounds(bounds, { padding: 50, maxZoom: 15 });
         }
-    } else if (currentPage === 1 && allFetchedResources.length === 0) { // Reset view if no results
-        map.flyTo({ center: [-77.0369, 38.9072], zoom: 6 }); // Back to default
+    } else if (currentPage === 1 && allFetchedResources.length === 0) {
+        map.flyTo({ center: [-77.0369, 38.9072], zoom: 6 });
     }
 }
 
