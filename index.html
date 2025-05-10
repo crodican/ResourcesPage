@@ -6,17 +6,17 @@
     <title>Hub Resources</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora&amp;family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Elevation Bootstrap CSS -->
-    <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Elevation Bootstrap CSS -->
     <!-- Bootstrap 5.3.3 CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css">
     <!-- Custom Colors CSS -->
     <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css">
     <!-- Maplibre -->
     <link href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css" rel="stylesheet" />
-    <script src="https://www.councilsepa.org/wp-content/themes/elevation-framework/src/assets/scripts/vendor/jquery-3.7.1.min.js?ver=1.0.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
         body {
             font-family: 'Oxygen', sans-serif;
@@ -272,7 +272,7 @@
         
         #search-container {
             position: absolute;
-            top: 30px;
+            top: 120px;
             /* Changed from 10px to 30px */
             left: 10px;
             z-index: 10;
@@ -299,72 +299,85 @@
             justify-content: center;
         }
         
-        #bigleft {}
+kbd {
+    padding: 0.01rem 0.375rem;
+    font-size: 0.875em;
+    font-weight: 700;
+    background-color: # !important;
+    color: #55298a !important;
+    border-radius: 0.05rem;
+}
+kbd kbd {
+  padding: 0;
+  font-size: 1em;
+}
     </style>
 </head>
 
 <body>
-<header class="header">
-				<div class="header__section">
-				<span class="header__section--fixed-bg"></span>
-					<div class="header__container container">
-						<nav class="header__nav navbar navbar-expand-xl">
-							<div class="header__navbar">
-								<a href="https://www.councilsepa.org/" rel="home" class="header__logo navbar-brand">
-									<figure class="media"><img alt="" decoding="async" loading="lazy" src="https://www.councilsepa.org/wp-content/uploads/2024/03/logo.svg" width="248" height="124"></figure>									<figure class="media-sticky"><img alt="" decoding="async" loading="lazy" src="https://www.councilsepa.org/wp-content/uploads/2024/03/logo-sticky.svg" width="123" height="61"></figure>									<figure class="media-mobile"><img alt="" decoding="async" loading="lazy" src="https://www.councilsepa.org/wp-content/uploads/2024/03/logo-mobile.svg" width="123" height="61"></figure>									<span class="visually-hidden">The Council of Southeast PA, Inc.</span>
-								</a>
-								
-								<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#NavDropdown" aria-controls="NavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-									<span class="navbar-toggler-icon"></span>
-									<span class="visually-hidden">Menu</span>
-								</button>
-							</div>
-							<div class="header__bottom-menu">
-								<div class="collapse navbar-collapse" id="NavDropdown" style="width: inherit;">
-									<div class="wrapper-collapse">
-										<ul id="menu-main-menu" class="nav navbar-nav menu" aria-label="Menu"><li id="menu-item-124894" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown nav-item nav-item-124894"><a href="https://www.councilsepa.org/about-us/" class="nav-link  dropdown-toggle">About Us</a>
-<ul class="dropdown-menu  depth_0">
-	<li id="menu-item-124895" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124895"><a href="https://www.councilsepa.org/mission-history/" class="dropdown-item ">Mission &amp; History</a></li>
-	<li id="menu-item-124896" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124896"><a href="https://www.councilsepa.org/impact/" class="dropdown-item ">Impact</a></li>
-	<li id="menu-item-124897" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124897"><a href="https://www.councilsepa.org/our-team/" class="dropdown-item ">Our Team</a></li>
-	<li id="menu-item-124898" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124898"><a href="https://www.councilsepa.org/our-locations/" class="dropdown-item ">Our Locations</a></li>
-	<li id="menu-item-124899" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124899"><a href="https://www.councilsepa.org/careers/" class="dropdown-item ">Careers</a></li>
-</ul>
-</li>
-<li id="menu-item-124900" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-124198 current_page_item menu-item-has-children dropdown nav-item nav-item-124900"><a href="https://www.councilsepa.org/services/" class="nav-link active dropdown-toggle">Services</a>
-<ul class="dropdown-menu depth_0" style="display: none; height: 273.378px; padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
-	<li id="menu-item-124901" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124901"><a href="https://www.councilsepa.org/prevention-training-and-education/" class="dropdown-item ">Prevention, Training and Education</a></li>
-	<li id="menu-item-124902" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124902"><a href="https://www.councilsepa.org/intervention/" class="dropdown-item ">Intervention and Treatment Services</a></li>
-	<li id="menu-item-124903" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124903"><a href="https://www.councilsepa.org/pro-act-recovery-support-services/" class="dropdown-item ">PRO-ACT Recovery Support Services</a></li>
-	<li id="menu-item-124905" class="menu-item menu-item-type-taxonomy menu-item-object-tribe_events_cat nav-item nav-item-124905"><a href="https://www.councilsepa.org/events/category/training-calendar/" class="dropdown-item ">Training Calendar</a></li>
-</ul>
-</li>
-<li id="menu-item-124904" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown nav-item nav-item-124904"><a href="https://www.councilsepa.org/hubs/" class="nav-link  dropdown-toggle">Regional Recovery Hubs</a>
-<ul class="dropdown-menu depth_0" style="display: none; height: 232.97px; padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
-	<li id="menu-item-129246" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-129246"><a href="https://www.councilsepa.org/hubs/certifications/" class="dropdown-item ">Certifications</a></li>
-	<li id="menu-item-129245" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-129245"><a href="https://www.councilsepa.org/hubs/ta/" class="dropdown-item ">Training &amp; Technical Assistance</a></li>
-	<li id="menu-item-129244" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-129244"><a href="https://www.councilsepa.org/hubs/resources/" class="dropdown-item ">Resources</a></li>
-	<li id="menu-item-129249" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-129249"><a href="https://www.councilsepa.org/under-construction/" class="dropdown-item ">Families</a></li>
-</ul>
-</li>
-<li id="menu-item-124906" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown nav-item nav-item-124906"><a href="https://www.councilsepa.org/get-involved/" class="nav-link  dropdown-toggle">Get Involved</a>
-<ul class="dropdown-menu  depth_0">
-	<li id="menu-item-124907" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124907"><a href="https://www.councilsepa.org/ways-to-give/" class="dropdown-item ">Ways to Give</a></li>
-	<li id="menu-item-124908" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124908"><a href="https://www.councilsepa.org/volunteer/" class="dropdown-item ">Volunteer</a></li>
-	<li id="menu-item-124909" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124909"><a href="https://www.councilsepa.org/partner/" class="dropdown-item ">Partner</a></li>
-	<li id="menu-item-124922" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124922"><a href="https://www.councilsepa.org/events-page/" class="dropdown-item ">Events</a></li>
-</ul>
-</li>
-<li id="menu-item-124911" class="menu-item menu-item-type-custom menu-item-object-custom nav-item nav-item-124911"><a href="https://www.councilsepa.org/category/news-insights/" class="nav-link ">News &amp; Insights</a></li>
-<li id="menu-item-124910" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124910"><a href="https://www.councilsepa.org/contact-us/" class="nav-link ">Contact Us</a></li>
-</ul>
-									</div>
-								</div>
-							</div>
-						</nav>
-					</div>
-				</div>
-			</header>
+    <header class="header">
+        <div class="header__section bg-white"> <span class="header__section--fixed-bg"></span>
+            <div class="header__container container">
+                <nav class="header__nav navbar navbar-expand-xl">
+                    <div class="header__navbar">
+                        <a href="https://www.councilsepa.org/" rel="home" class="header__logo navbar-brand d-flex">
+                            <figure class="media"><img alt="" decoding="async" loading="lazy" src="https://www.councilsepa.org/wp-content/uploads/2024/03/logo-sticky.svg" width="123" height="61"></figure>
+                            <figure class="media-sticky"><img alt="" decoding="async" loading="lazy" src="https://www.councilsepa.org/wp-content/uploads/2024/03/logo-sticky.svg" width="123" height="61"></figure>
+                            <figure class="media-mobile"><img alt="" decoding="async" loading="lazy" src="https://www.councilsepa.org/wp-content/uploads/2024/03/logo-mobile.svg" width="123" height="61"></figure> <span class="visually-hidden">The Council of Southeast PA, Inc.</span> </a>
+                        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#NavDropdown" aria-controls="NavDropdown" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> <span class="visually-hidden">Menu</span> </button>
+                    </div>
+                    <div class="header__bottom-menu">
+                        <div class="collapse navbar-collapse" id="NavDropdown">
+                            <div class="wrapper-collapse">
+                                <ul id="menu-main-menu" class="nav navbar-nav menu" aria-label="Menu">
+                                    <li id="menu-item-124894" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown nav-item nav-item-124894"><a href="https://www.councilsepa.org/about-us/" class="nav-link  dropdown-toggle">About Us</a>
+                                        <button class="dropdown-toggle dropdown-btn"><span class="fas fa-chevron-down"></span></button>
+                                        <ul class="dropdown-menu  depth_0">
+                                            <li id="menu-item-124895" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124895"><a href="https://www.councilsepa.org/mission-history/" class="dropdown-item ">Mission &amp; History</a></li>
+                                            <li id="menu-item-124896" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124896"><a href="https://www.councilsepa.org/impact/" class="dropdown-item ">Impact</a></li>
+                                            <li id="menu-item-124897" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124897"><a href="https://www.councilsepa.org/our-team/" class="dropdown-item ">Our Team</a></li>
+                                            <li id="menu-item-124898" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124898"><a href="https://www.councilsepa.org/our-locations/" class="dropdown-item ">Our Locations</a></li>
+                                            <li id="menu-item-124899" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124899"><a href="https://www.councilsepa.org/careers/" class="dropdown-item ">Careers</a></li>
+                                        </ul>
+                                    </li>
+                                    <li id="menu-item-124900" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown nav-item nav-item-124900"><a href="https://www.councilsepa.org/services/" class="nav-link  dropdown-toggle">Services</a>
+                                        <button class="dropdown-toggle dropdown-btn"><span class="fas fa-chevron-down"></span></button>
+                                        <ul class="dropdown-menu  depth_0">
+                                            <li id="menu-item-124901" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124901"><a href="https://www.councilsepa.org/prevention-training-and-education/" class="dropdown-item ">Prevention, Training and Education</a></li>
+                                            <li id="menu-item-124902" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124902"><a href="https://www.councilsepa.org/intervention/" class="dropdown-item ">Intervention and Treatment Services</a></li>
+                                            <li id="menu-item-124903" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124903"><a href="https://www.councilsepa.org/pro-act-recovery-support-services/" class="dropdown-item ">PRO-ACT Recovery Support Services</a></li>
+                                            <li id="menu-item-124905" class="menu-item menu-item-type-taxonomy menu-item-object-tribe_events_cat nav-item nav-item-124905"><a href="https://www.councilsepa.org/events/category/training-calendar/" class="dropdown-item ">Training Calendar</a></li>
+                                        </ul>
+                                    </li>
+                                    <li id="menu-item-124904" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor current-menu-ancestor current-menu-parent current-page-parent current_page_parent current_page_ancestor menu-item-has-children dropdown nav-item nav-item-124904"><a href="https://www.councilsepa.org/hubs/" class="nav-link active dropdown-toggle">Regional Recovery Hubs</a>
+                                        <button class="dropdown-toggle dropdown-btn"><span class="fas fa-chevron-down"></span></button>
+                                        <ul class="dropdown-menu  depth_0">
+                                            <li id="menu-item-129246" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-129246"><a href="https://www.councilsepa.org/hubs/certifications/" class="dropdown-item ">Certifications</a></li>
+                                            <li id="menu-item-129245" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-127730 current_page_item nav-item nav-item-129245"><a href="https://www.councilsepa.org/hubs/ta/" class="dropdown-item active">Training &amp; Technical Assistance</a></li>
+                                            <li id="menu-item-129244" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-129244"><a href="https://www.councilsepa.org/hubs/resources/" class="dropdown-item ">Resources</a></li>
+                                            <li id="menu-item-129249" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-129249"><a href="https://www.councilsepa.org/under-construction/" class="dropdown-item ">Families</a></li>
+                                        </ul>
+                                    </li>
+                                    <li id="menu-item-124906" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown nav-item nav-item-124906"><a href="https://www.councilsepa.org/get-involved/" class="nav-link  dropdown-toggle">Get Involved</a>
+                                        <button class="dropdown-toggle dropdown-btn"><span class="fas fa-chevron-down"></span></button>
+                                        <ul class="dropdown-menu  depth_0">
+                                            <li id="menu-item-124907" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124907"><a href="https://www.councilsepa.org/ways-to-give/" class="dropdown-item ">Ways to Give</a></li>
+                                            <li id="menu-item-124908" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124908"><a href="https://www.councilsepa.org/volunteer/" class="dropdown-item ">Volunteer</a></li>
+                                            <li id="menu-item-124909" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124909"><a href="https://www.councilsepa.org/partner/" class="dropdown-item ">Partner</a></li>
+                                            <li id="menu-item-124922" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124922"><a href="https://www.councilsepa.org/events-page/" class="dropdown-item ">Events</a></li>
+                                        </ul>
+                                    </li>
+                                    <li id="menu-item-124911" class="menu-item menu-item-type-custom menu-item-object-custom nav-item nav-item-124911"><a href="https://www.councilsepa.org/category/news-insights/" class="nav-link ">News &amp; Insights</a></li>
+                                    <li id="menu-item-124910" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-124910"><a href="https://www.councilsepa.org/contact-us/" class="nav-link ">Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <section style="margin-top:100px">
     <div class="container-fluid mt-4">
         <div class="row">
             <div id="bigleft" class="col-12 col-lg-5 col-xl-5">
@@ -516,6 +529,7 @@
             </div>
         </div>
     </div>
+    </section>
     <footer class="footer">
         <div class="footer__container container">
             <div class="footer__top row">
@@ -581,6 +595,7 @@
             </div>
         </div>
     </footer>
+    <script defer="defer" src="https://www.councilsepa.org/wp-content/themes/elevation-framework/build/assets/script.js?ver=1.0.0" id="elevation-scripts"></script>
     <script src="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js"></script>
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
