@@ -198,38 +198,9 @@ function constructApiUrl() {
     params.append(API_PARAMS.LIMIT, RESOURCES_PER_PAGE);
 
     const sortValue = sortBySelect.value;
-    if (sortValue === 'alphabetical') { // HTML options are: distance (label: Alphabetical), alphabetical (label: Distance)
-        params.append(API_PARAMS.SORT, 'Location Name');
-    } else if (sortValue === 'distance') {
-        // For actual distance sort from API, API would need to support it with user's location.
-        // Currently, this option's label in HTML is "Distance", but value is "alphabetical"
-        // The HTML has: <option value="distance">Alphabetical</option> <option value="alphabetical">Distance</option>
-        // Assuming "Distance" option (value='alphabetical') means sort by distance if possible,
-        // or it's a placeholder. If API doesn't support server-side distance sort, this is client-side.
-        // For now, let's assume if value is 'distance', it implies an API parameter if available.
-        // The current `constructApiUrl` is set up for 'Location Name' if sortValue is 'alphabetical' (which has "Distance" as label).
-        // And if sortValue is 'distance' (which has "Alphabetical" as label), it sorts by 'Location Name' in HTML. This seems swapped.
-        // Let's fix the sort mapping based on value:
-        // HTML: <option value="name_asc">Alphabetical (A-Z)</option>
-        // HTML: <option value="distance_user">Distance (Nearest)</option> // (Requires user location)
-        // For now, I'll use your existing setup logic. If 'distance' option (label Alphabetical) is chosen, sort by name.
-        // If 'alphabetical' option (label Distance) is chosen, it's a placeholder or needs user location.
-        // The provided HTML for sort is:
-        // <option value="distance">Alphabetical</option>  -> so this should sort alphabetically
-        // <option value="alphabetical">Distance</option> -> this implies distance sort
-        if (sortValue === 'distance') { // This is the option with "Alphabetical" text
-             params.append(API_PARAMS.SORT, 'Location Name');
-        } else if (sortValue === 'alphabetical') { // This is the option with "Distance" text
-            console.warn('API sorting by distance from user not implemented. Defaulting to relevance or current sort.');
-            // If you implement user location for distance sorting:
-            // if (userLatitude && userLongitude) {
-            //    params.append('latitude', userLatitude);
-            //    params.append('longitude', userLongitude);
-            //    params.append(API_PARAMS.SORT, 'distance');
-            // }
-        }
+    if (sortValue) { // Only append sort if a value is selected
+        params.append(API_PARAMS.SORT, sortValue);
     }
-
 
     if (activeFilters[FILTER_TYPES.SEARCH]) {
         params.append(API_PARAMS.SEARCH, activeFilters[FILTER_TYPES.SEARCH]);

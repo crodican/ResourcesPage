@@ -250,7 +250,7 @@
         }
 
         .maplibregl-ctrl-attrib::after {
-          content: "©2025 PRO-ACT | ©MapLibre; ©Maptiler; ©OpenStreetMap";
+          content: "©2025 PRO-ACT | ©MapLibre | ©Maptiler | ©OpenStreetMap";
           position: absolute;
           top: 0;
           left: 0;
@@ -431,10 +431,14 @@
                     <h4 id="results-counter" class="results-count">Results 1-25 of 299</h4>
                     <div class="sort-control">
                         <h6>Sort By:</h6>
-                        <select id="sort-by" class="form-select form-select-sm">
-                            <option value="distance">Alphabetical</option>
-                            <option value="alphabetical">Distance</option>
-                        </select>
+<select id="sort-by" class="form-select form-select-sm">
+  <option value="Location Name">Alphabetical (A-Z)</option>
+  <option value="-Location Name">Alphabetical (Z-A)</option>
+  <option value="County">County (A-Z)</option>
+  <option value="-County">County (Z-A)</option>
+  <option value="Organization">Organization (A-Z)</option>
+  <option value="-Organization">Organization (Z-A)</option>
+  </select>
                     </div>
                 </div>
                 <div id="resource-list" class="d-flex flex-column px-2"></div>
