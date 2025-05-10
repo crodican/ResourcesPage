@@ -572,8 +572,8 @@ function handleMapViewLinkClickDelegated(event) {
         if (!isNaN(lat) && !isNaN(lon)) {
             map.flyTo({
                 center: [lon, lat],
-                zoom: 22, // Zoom in closer
-                speed: 1
+                zoom: 17, // Zoom in closer
+                speed: 3.5
             });
 
             // Find the marker and open its popup
