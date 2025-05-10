@@ -272,7 +272,7 @@
         
         #search-container {
             position: absolute;
-            top: 120px;
+            top: 620px;
             /* Changed from 10px to 30px */
             left: 10px;
             z-index: 10;
@@ -299,18 +299,19 @@
             justify-content: center;
         }
         
-kbd {
-    padding: 0.01rem 0.375rem;
-    font-size: 0.875em;
-    font-weight: 700;
-    background-color: # !important;
-    color: #55298a !important;
-    border-radius: 0.05rem;
-}
-kbd kbd {
-  padding: 0;
-  font-size: 1em;
-}
+        kbd {
+            padding: 0.01rem 0.375rem;
+            font-size: 0.875em;
+            font-weight: 700;
+            background-color: # !important;
+            color: #55298a !important;
+            border-radius: 0.05rem;
+        }
+        
+        kbd kbd {
+            padding: 0;
+            font-size: 1em;
+        }
     </style>
 </head>
 
@@ -353,8 +354,8 @@ kbd kbd {
                                         <button class="dropdown-toggle dropdown-btn"><span class="fas fa-chevron-down"></span></button>
                                         <ul class="dropdown-menu  depth_0">
                                             <li id="menu-item-129246" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-129246"><a href="https://www.councilsepa.org/hubs/certifications/" class="dropdown-item ">Certifications</a></li>
-                                            <li id="menu-item-129245" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-127730 current_page_item nav-item nav-item-129245"><a href="https://www.councilsepa.org/hubs/ta/" class="dropdown-item active">Training &amp; Technical Assistance</a></li>
-                                            <li id="menu-item-129244" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-129244"><a href="https://www.councilsepa.org/hubs/resources/" class="dropdown-item ">Resources</a></li>
+                                            <li id="menu-item-129245" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-127730 current_page_item nav-item nav-item-129245"><a href="https://www.councilsepa.org/hubs/ta/" class="dropdown-item">Training &amp; Technical Assistance</a></li>
+                                            <li id="menu-item-129244" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-129244"><a href="https://www.councilsepa.org/hubs/resources/" class="dropdown-item active">Resources</a></li>
                                             <li id="menu-item-129249" class="menu-item menu-item-type-post_type menu-item-object-page nav-item nav-item-129249"><a href="https://www.councilsepa.org/under-construction/" class="dropdown-item ">Families</a></li>
                                         </ul>
                                     </li>
@@ -377,128 +378,147 @@ kbd kbd {
             </div>
         </div>
     </header>
-    <section style="margin-top:100px">
-    <div class="container-fluid mt-4">
-        <div class="row">
-            <div id="bigleft" class="col-12 col-lg-5 col-xl-5">
-                <div id="map-container" class="d-flex justify-content-center align-items-center">
-                    <div id="search-container" class="mb-3">
-                        <div class="input-group rounded-3">
-                            <input type="text" id="search-input" class="form-control border-0 bg-transparent py-2 px-4" placeholder="Search...">
-                            <div class="input-group-append">
-                                <div class="bg-transparent px-2 py-1 d-flex align-items-center justify-content-center" style="height: 100%"> <span><kbd style="background-color: ghostwhite;color:black">CTRL</kbd> + <kbd style="background-color: ghostwhite;color:black;margin-right: 20px">K</kbd></span> </div>
-                            </div>
-                            <div class="input-group-append">
-                                <button class="btn bg-secondary text-white h-100 px-4 searchButton" type="button" style="border-radius: 1px 10px 10px 1px !important"> <i class="bi bi-search"></i> </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="map"></div>
+    <section class="bg-image py-5 w-100 d-flex" style="background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resources-map.png'); min-height: 500px; background-size: cover; background-position: center;">
+        <div class="container d-flex justify-content-end">
+            <div class="row justify-content-start align-items-end">
+                <div class="banner-col col-12 col-xl-8">
+                    <div class="banner-container left">
+                        <p>
+                            <a href="https://councilsepa.org/hubs/" style="text-decoration:none"></a>
+                        </p>
+                        <a href="https://councilsepa.org/hubs/" style="text-decoration:none">
+                            <h6 class="text-black">←Regional Recovery Hubs</h6> </a>
+                        <p>
+                        <h1>Resources</h1>
+                        
+                        <h5 class="text-black">Browse our interactive map of Recovery Support, Family Support, Housing, and Transportation resources across the region.</h5> </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-7 col-xl-7">
-                <div id="chips-area" class="mb-3"> </div>
-                <div class="filter-section">
-                    <div class="accordion" id="filterAccordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingFilters">
+        </div>
+    </section>
+    <section style="margin-top:100px">
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <div id="bigleft" class="col-12 col-lg-5 col-xl-5">
+                    <div id="map-container" class="d-flex justify-content-center align-items-center">
+                        <div id="search-container" class="mb-3">
+                            <div class="input-group rounded-3">
+                                <input type="text" id="search-input" class="form-control border-0 bg-transparent py-2 px-4" placeholder="Search...">
+                                <div class="input-group-append">
+                                    <div class="bg-transparent px-2 py-1 d-flex align-items-center justify-content-center" style="height: 100%"> <span><kbd style="background-color: ghostwhite;color:black">CTRL</kbd> + <kbd style="background-color: ghostwhite;color:black;margin-right: 20px">K</kbd></span> </div>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn bg-secondary text-white h-100 px-4 searchButton" type="button" style="border-radius: 1px 10px 10px 1px !important"> <i class="bi bi-search"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="map"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-7 col-xl-7">
+                    <div id="chips-area" class="mb-3"> </div>
+                    <div class="filter-section">
+                        <div class="accordion" id="filterAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFilters">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="true" aria-controls="collapseFilters">
                                     <span class="h4 text-secondary">
                                     Filters
                                     </span>
                                 </button>
                             </h2>
-                            <div id="collapseFilters" class="accordion-collapse collapse" aria-labelledby="headingFilters" data-bs-parent="#filterAccordion">
-                                <div class="accordion-body">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
-                                            <h5 class="text-secondary">Counties</h5>
-                                            <div id="county-filters">
-                                                <div class="form-check">
-                                                    <input class="form-check-input county-filter" type="checkbox" value="Philadelphia" id="county-philadelphia">
-                                                    <label class="form-check-label" for="county-philadelphia">Philadelphia</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input county-filter" type="checkbox" value="Berks" id="county-berks">
-                                                    <label class="form-check-label" for="county-berks">Berks</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input county-filter" type="checkbox" value="Bucks" id="county-bucks">
-                                                    <label class="form-check-label" for="county-bucks">Bucks</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input county-filter" type="checkbox" value="Chester" id="county-chester">
-                                                    <label class="form-check-label" for="county-chester">Chester</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input county-filter" type="checkbox" value="Delaware" id="county-delaware">
-                                                    <label class="form-check-label" for="county-delaware">Delaware</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input county-filter" type="checkbox" value="Lancaster" id="county-lancaster">
-                                                    <label class="form-check-label" for="county-lancaster">Lancaster</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input county-filter" type="checkbox" value="Montgomery" id="county-montgomery">
-                                                    <label class="form-check-label" for="county-montgomery">Montgomery</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input county-filter" type="checkbox" value="Schuylkill" id="county-schuylkill">
-                                                    <label class="form-check-label" for="county-schuylkill">Schuylkill</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
-                                            <h5 class="text-secondary">Populations Served</h5>
-                                            <div id="population-filters">
-                                                <div class="form-check">
-                                                    <input class="form-check-input population-filter" type="checkbox" value="Men" id="population-men">
-                                                    <label class="form-check-label" for="population-men">Men</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input population-filter" type="checkbox" value="Women" id="population-women">
-                                                    <label class="form-check-label" for="population-women">Women</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input population-filter" type="checkbox" value="Children" id="population-children">
-                                                    <label class="form-check-label" for="population-children">Children</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input population-filter" type="checkbox" value="Adolescents" id="population-adolescents">
-                                                    <label class="form-check-label" for="population-adolescents">Adolescents</label>
+                                <div id="collapseFilters" class="accordion-collapse collapse" aria-labelledby="headingFilters" data-bs-parent="#filterAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
+                                                <h5 class="text-secondary">Counties</h5>
+                                                <div id="county-filters">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input county-filter" type="checkbox" value="Philadelphia" id="county-philadelphia">
+                                                        <label class="form-check-label" for="county-philadelphia">Philadelphia</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input county-filter" type="checkbox" value="Berks" id="county-berks">
+                                                        <label class="form-check-label" for="county-berks">Berks</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input county-filter" type="checkbox" value="Bucks" id="county-bucks">
+                                                        <label class="form-check-label" for="county-bucks">Bucks</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input county-filter" type="checkbox" value="Chester" id="county-chester">
+                                                        <label class="form-check-label" for="county-chester">Chester</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input county-filter" type="checkbox" value="Delaware" id="county-delaware">
+                                                        <label class="form-check-label" for="county-delaware">Delaware</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input county-filter" type="checkbox" value="Lancaster" id="county-lancaster">
+                                                        <label class="form-check-label" for="county-lancaster">Lancaster</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input county-filter" type="checkbox" value="Montgomery" id="county-montgomery">
+                                                        <label class="form-check-label" for="county-montgomery">Montgomery</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input county-filter" type="checkbox" value="Schuylkill" id="county-schuylkill">
+                                                        <label class="form-check-label" for="county-schuylkill">Schuylkill</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
-                                            <h5 class="text-secondary">Resource Types</h5>
-                                            <div id="resource-type-filters">
-                                                <div class="form-check">
-                                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Recovery Support" id="resource-type-recovery-support">
-                                                    <label class="form-check-label" for="resource-type-recovery-support">Recovery Support</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Family Support" id="resource-type-family-support">
-                                                    <label class="form-check-label" for="resource-type-family-support">Family Support</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Housing" id="resource-type-housing">
-                                                    <label class="form-check-label" for="resource-type-housing">Housing</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Transportation" id="resource-type-transportation">
-                                                    <label class="form-check-label" for="resource-type-transportation">Transportation</label>
+                                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
+                                                <h5 class="text-secondary">Populations Served</h5>
+                                                <div id="population-filters">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input population-filter" type="checkbox" value="Men" id="population-men">
+                                                        <label class="form-check-label" for="population-men">Men</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input population-filter" type="checkbox" value="Women" id="population-women">
+                                                        <label class="form-check-label" for="population-women">Women</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input population-filter" type="checkbox" value="Children" id="population-children">
+                                                        <label class="form-check-label" for="population-children">Children</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input population-filter" type="checkbox" value="Adolescents" id="population-adolescents">
+                                                        <label class="form-check-label" for="population-adolescents">Adolescents</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
-                                            <h5 class="text-secondary">Categories</h5>
-                                            <div id="category-filters">
-                                                <div class="form-check">
-                                                    <input class="form-check-input category-filter" type="checkbox" value="Government" id="category-government">
-                                                    <label class="form-check-label" for="category-government">Government</label> ac </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input category-filter" type="checkbox" value="Other" id="category-other">
-                                                    <label class="form-check-label" for="category-other">Other</label>
+                                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
+                                                <h5 class="text-secondary">Resource Types</h5>
+                                                <div id="resource-type-filters">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input resource-type-filter" type="checkbox" value="Recovery Support" id="resource-type-recovery-support">
+                                                        <label class="form-check-label" for="resource-type-recovery-support">Recovery Support</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input resource-type-filter" type="checkbox" value="Family Support" id="resource-type-family-support">
+                                                        <label class="form-check-label" for="resource-type-family-support">Family Support</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input resource-type-filter" type="checkbox" value="Housing" id="resource-type-housing">
+                                                        <label class="form-check-label" for="resource-type-housing">Housing</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input resource-type-filter" type="checkbox" value="Transportation" id="resource-type-transportation">
+                                                        <label class="form-check-label" for="resource-type-transportation">Transportation</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3">
+                                                <h5 class="text-secondary">Categories</h5>
+                                                <div id="category-filters">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input category-filter" type="checkbox" value="Government" id="category-government">
+                                                        <label class="form-check-label" for="category-government">Government</label> ac </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input category-filter" type="checkbox" value="Other" id="category-other">
+                                                        <label class="form-check-label" for="category-other">Other</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -507,28 +527,27 @@ kbd kbd {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="results-header">
-                    <h4 id="results-counter" class="results-count">Results 1-25 of 299</h4>
-                    <div class="sort-control">
-                        <h6>Sort By:</h6>
-                        <select id="sort-by" class="form-select form-select-sm">
-                            <option value="Location Name">Alphabetical (A-Z)</option>
-                            <option value="-Location Name">Alphabetical (Z-A)</option>
-                            <option value="County">County (A-Z)</option>
-                            <option value="-County">County (Z-A)</option>
-                            <option value="Organization">Organization (A-Z)</option>
-                            <option value="-Organization">Organization (Z-A)</option>
-                        </select>
+                    <div class="results-header">
+                        <h4 id="results-counter" class="results-count">Results 1-25 of 299</h4>
+                        <div class="sort-control">
+                            <h6>Sort By:</h6>
+                            <select id="sort-by" class="form-select form-select-sm">
+                                <option value="Location Name">Alphabetical (A-Z)</option>
+                                <option value="-Location Name">Alphabetical (Z-A)</option>
+                                <option value="County">County (A-Z)</option>
+                                <option value="-County">County (Z-A)</option>
+                                <option value="Organization">Organization (A-Z)</option>
+                                <option value="-Organization">Organization (Z-A)</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div id="resource-list" class="d-flex flex-column px-2"></div>
-                <div id="load-more" class="">
-                    <button class="btn bg-secondary text-white rounded-0" id="load-more-button">Load More</button>
+                    <div id="resource-list" class="d-flex flex-column px-2"></div>
+                    <div id="load-more" class="">
+                        <button class="btn bg-secondary text-white rounded-0" id="load-more-button">Load More</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </section>
     <footer class="footer">
         <div class="footer__container container">
