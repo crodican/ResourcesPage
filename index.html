@@ -241,6 +241,24 @@
             cursor: pointer;
         }
 
+        .maplibregl-ctrl-attrib {
+          position: relative; /* Needed for absolute positioning of the custom text */
+        }
+
+        .maplibregl-ctrl-attrib-inner {
+          visibility: hidden; /* Hide the original text */
+        }
+
+        .maplibregl-ctrl-attrib::after {
+          content: "©2025 PRO-ACT | ©MapLibre; ©Maptiler; ©OpenStreetMap";
+          position: absolute;
+          top: 0;
+          left: 0;
+          padding: 0 5px; /* Adjust padding as needed */
+          font-size: 0.8em; /* Adjust font size as needed */
+          color: #333; /* Adjust text color as needed */
+          border-radius: 3px; /* Optional border radius */
+        }
 
 
         #search-container {
