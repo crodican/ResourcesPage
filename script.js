@@ -11,7 +11,7 @@ const resultsCounter = document.getElementById('results-counter');
 const loadMoreButton = document.getElementById('load-more-button');
 const loadMoreDiv = document.getElementById('load-more');
 const sortBySelect = document.getElementById('sort-by');
-const mapDiv = document.getElementById('map'); // Added map div
+const mapDiv = document.getElementById('map');
 
 // --- API and Configuration ---
 const API_BASE_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/';
@@ -40,9 +40,11 @@ const API_PARAMS = {
     SORT: 'sort',
     SEARCH: 'search',
     COUNTY: 'County',
-    POPULATIONS: 'Populations',
+    POPULATIONS: 'Populations', // Corresponds to 'Populations Served' in NocoDB if that's the column name
     RESOURCE_TYPE: 'Resource Type',
-    CATEGORY: 'Category'
+    CATEGORY: 'Category',
+    USER_LAT: 'userLat', // For distance sorting
+    USER_LON: 'userLon'  // For distance sorting
 };
 
 // --- State Variables ---
@@ -56,18 +58,20 @@ let activeFilters = {
 let currentPage = 1;
 let totalResourceCount = 0;
 let allFetchedResources = []; // To store all resources fetched for map updates
+let currentUserLatitude = null;
+let currentUserLongitude = null;
+let isFetchingLocation = false; // To prevent multiple geolocation requests
 
 // --- Map Variables ---
 let map;
-let mapMarkers = []; // To store maplibre marker instances
+let mapMarkers = [];
 
-// --- Utility Functions ---
-// calculateDistance and deg2rad are currently unused for API calls.
+// --- Utility Functions (Great-circle distance, kept for potential other uses, not for sorting) ---
 function deg2rad(deg) {
     return deg * (Math.PI / 180);
 }
 
-function calculateDistance(lat1, lon1, lat2, lon2) {
+function calculateGreatCircleDistance(lat1, lon1, lat2, lon2) {
     const R = 3958.8; // Radius of the Earth in miles
     const dLat = deg2rad(lat2 - lat1);
     const dLon = deg2rad(lon2 - lon1);
@@ -81,9 +85,6 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 
 // --- Map Functions ---
-/**
- * Initializes the MapLibre GL JS map.
- */
 function initializeMap() {
     if (!mapDiv) {
         console.error("Map container element not found.");
@@ -91,27 +92,46 @@ function initializeMap() {
     }
     try {
         map = new maplibregl.Map({
-            container: 'map', // container id
-            style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_API_KEY}`, // your Maptiler style
-            center: [-77.0369, 38.9072],
-            zoom: 15.5,
-            pitch: 45,
-            bearing: -17.6,
-            canvasContextAttributes: {antialias: true}
+            container: 'map',
+            style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_API_KEY}`,
+            center: [-77.0369, 38.9072], // Default center
+            zoom: 7, // Adjusted default zoom
         });
 
         map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
 
-        // Add the Geolocate Control
         const geolocateControl = new maplibregl.GeolocateControl({
             positionOptions: {
-                enableHighAccuracy: true // Request high accuracy for better results
+                enableHighAccuracy: true
             },
-            trackUserLocation: true, // Set to true to keep the map centered on the user's location
-            showUserHeading: true // Show the user's heading (if available)
+            trackUserLocation: true,
+            showUserHeading: true
+        });
+        map.addControl(geolocateControl, 'bottom-left');
+
+        // Listen to geolocate success to potentially grab user location for sorting
+        geolocateControl.on('geolocate', (e) => {
+            currentUserLatitude = e.coords.latitude;
+            currentUserLongitude = e.coords.longitude;
+            console.log('User location obtained via map control:', currentUserLatitude, currentUserLongitude);
+            // If sort by distance was pending, re-apply
+            if (sortBySelect && sortBySelect.value === 'distance' && !isFetchingLocation) {
+                 // Check if already fetching to avoid loop if 'geolocate' fires after manual request
+                console.log("User located via map, re-applying distance sort if active.");
+                applyFilters();
+            }
+        });
+         geolocateControl.on('error', (e) => {
+            console.warn('Error getting location via map control:', e.message);
+            // If distance sort is active, alert user or handle gracefully
+            if (sortBySelect && sortBySelect.value === 'distance') {
+                alert('Could not get your location for distance sorting. Please ensure location services are enabled.');
+                // Optionally, revert to a default sort or disable the distance sort option
+                // sortBySelect.value = 'default_sort_value'; // Replace with a sensible default
+                // applyFilters();
+            }
         });
 
-        map.addControl(geolocateControl, 'bottom-left'); // Add it to the top-left corner
 
     } catch (error) {
         console.error("Error initializing map:", error);
@@ -121,17 +141,12 @@ function initializeMap() {
     }
 }
 
-/**
- * Updates map markers based on the provided resources (using default SVG color).
- * @param {Array<Object>} resources - Array of resource objects to display on the map.
- */
 function updateMapMarkers(resources) {
     if (!map) {
         console.warn("Map not initialized, cannot update markers.");
         return;
     }
 
-    // Clear existing markers
     mapMarkers.forEach(marker => marker.remove());
     mapMarkers = [];
 
@@ -141,7 +156,7 @@ function updateMapMarkers(resources) {
 
     const bounds = new maplibregl.LngLatBounds();
     let validMarkersExist = false;
-    const markerColor = '#55298a'; // The color you want
+    const markerColor = '#55298a';
 
     resources.forEach(resource => {
         const lat = parseFloat(resource.Latitude);
@@ -149,12 +164,25 @@ function updateMapMarkers(resources) {
 
         if (!isNaN(lat) && !isNaN(lon)) {
             validMarkersExist = true;
-           const popupContent = `
+            // Display distance if available (e.g., from distance sort)
+            let distanceText = '';
+            if (resource.distanceInMiles !== undefined && resource.distanceInMiles !== null) {
+                 distanceText = `<p class="text-info lh-1 py-0 mb-1">Distance: ${resource.distanceInMiles.toFixed(1)} miles</p>`;
+            } else if (resource.distance !== undefined && resource.distance !== null && resource.distance !== Infinity) {
+                // Assuming 'distance' from worker is in meters if not converted
+                const distanceInKm = resource.distance / 1000;
+                const distanceInMilesVal = distanceInKm * 0.621371;
+                distanceText = `<p class="text-info lh-1 py-0 mb-1">Distance: ${distanceInMilesVal.toFixed(1)} miles</p>`;
+            }
+
+
+            const popupContent = `
                 <div class="map-popup-container" style="max-width: 300px;">
                     <div class="row no-gutters py-0 px-1">
                         <div class="card-body col-12 p-3">
                             <h3 class="text-secondary fw-bold lh-1 py-0">${resource['Location Name'] || 'N/A'}</h3>
                             <h5 class="text-dark fw-light lh-1 py-0">${resource.Organization || 'N/A'}</h5>
+                            ${distanceText}
                             <p class="text-body-tertiary lh-1 py-0 mb-1">${resource.Address || 'N/A'}<br />
                                 ${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}
                             </p>
@@ -170,12 +198,12 @@ function updateMapMarkers(resources) {
             const popup = new maplibregl.Popup({ offset: 25, maxWidth: '320px' })
                 .setHTML(popupContent);
 
-            const marker = new maplibregl.Marker({ color: markerColor }) // Using the color option
+            const marker = new maplibregl.Marker({ color: markerColor })
                 .setLngLat([lon, lat])
                 .setPopup(popup)
                 .addTo(map);
 
-            marker._resourceId = resource['Location Name'];
+            marker._resourceId = resource.ID || resource['Location Name']; // Use a unique ID if available
             mapMarkers.push(marker);
             bounds.extend([lon, lat]);
         }
@@ -183,10 +211,13 @@ function updateMapMarkers(resources) {
 
     if (validMarkersExist && !bounds.isEmpty()) {
         if (resources.length <= RESOURCES_PER_PAGE * 2 || currentPage === 1 ) {
-            map.fitBounds(bounds, { padding: 50, maxZoom: 15 });
+             map.fitBounds(bounds, { padding: 70, maxZoom: 15 }); // Increased padding
         }
     } else if (currentPage === 1 && allFetchedResources.length === 0) {
-        map.flyTo({ center: [-77.0369, 38.9072], zoom: 6 });
+        // Don't fly to default if user location is set and map is centered there by GeolocateControl
+        if (!(map.getCenter().lng === currentUserLongitude && map.getCenter().lat === currentUserLatitude)) {
+             map.flyTo({ center: [-77.0369, 38.9072], zoom: 7 });
+        }
     }
 }
 
@@ -198,9 +229,30 @@ function constructApiUrl() {
     params.append(API_PARAMS.LIMIT, RESOURCES_PER_PAGE);
 
     const sortValue = sortBySelect.value;
-    if (sortValue) { // Only append sort if a value is selected
+    if (sortValue) {
         params.append(API_PARAMS.SORT, sortValue);
+        // If sorting by distance, add user coordinates
+        if (sortValue === 'distance' && currentUserLatitude !== null && currentUserLongitude !== null) {
+            params.append(API_PARAMS.USER_LAT, currentUserLatitude);
+            params.append(API_PARAMS.USER_LON, currentUserLongitude);
+        } else if (sortValue === 'distance' && (currentUserLatitude === null || currentUserLongitude === null)) {
+            console.warn("Attempting to sort by distance, but user location is not available.");
+            // Potentially remove sort=distance if location is missing to avoid backend error or unwanted behavior
+            params.delete(API_PARAMS.SORT);
+            // Or you could add a default sort: params.append(API_PARAMS.SORT, 'default_sort_field');
+        }
     }
+    /*
+    IMPORTANT FOR ALPHABETICAL/COUNTY SORT:
+    The HTML for the sortBySelect dropdown should have <option> elements
+    where the `value` attribute exactly matches the NocoDB column name you want to sort by.
+    For example:
+    <select id="sort-by" class="form-select">
+        <option value="">Sort by...</option>
+        <option value="Location Name">Alphabetical (Name)</option> <option value="County">County</option> <option value="distance">Distance (Nearest)</option> <option value="-Location Name">Alphabetical (Name Z-A)</option> </select>
+    The backend worker passes these values directly to NocoDB.
+    */
+
 
     if (activeFilters[FILTER_TYPES.SEARCH]) {
         params.append(API_PARAMS.SEARCH, activeFilters[FILTER_TYPES.SEARCH]);
@@ -214,14 +266,16 @@ function constructApiUrl() {
 }
 
 async function fetchResources(url, shouldAppend = false) {
+    console.log("Fetching resources from URL:", url); // Log the URL
     try {
         const response = await fetch(url);
         if (!response.ok) {
-            console.error(`HTTP error! status: ${response.status}, URL: ${url}`);
+            const errorText = await response.text();
+            console.error(`HTTP error! status: ${response.status}, URL: ${url}, Response: ${errorText}`);
             resourceListDiv.innerHTML = `<div class="alert alert-danger">Failed to load resources. Server returned status ${response.status}. Please try again later.</div>`;
             updateLoadMoreVisibility(true);
             if (!shouldAppend) allFetchedResources = [];
-            updateMapMarkers(allFetchedResources); // Clear map on error
+            updateMapMarkers(allFetchedResources);
             return;
         }
         const data = await response.json();
@@ -230,27 +284,23 @@ async function fetchResources(url, shouldAppend = false) {
 
         if (!shouldAppend) {
             totalResourceCount = pageInfo.totalRows || 0;
-            allFetchedResources = newResources; // Replace all fetched resources
+            allFetchedResources = newResources;
         } else {
-            totalResourceCount = pageInfo.totalRows || totalResourceCount;
-            allFetchedResources = allFetchedResources.concat(newResources); // Append to all fetched resources
+            totalResourceCount = pageInfo.totalRows || totalResourceCount; // Use new total if available
+            allFetchedResources = allFetchedResources.concat(newResources);
         }
 
-        if (shouldAppend) {
-            renderResources(newResources, true);
-        } else {
-            renderResources(newResources, false);
-        }
+        renderResources(newResources, shouldAppend);
         updateResultsCounter();
         updateLoadMoreVisibility();
-        updateMapMarkers(allFetchedResources); // Update map with all currently displayed/fetched resources
+        updateMapMarkers(allFetchedResources);
 
     } catch (error) {
         console.error('Error fetching resources:', error);
         resourceListDiv.innerHTML = '<div class="alert alert-danger">An error occurred while fetching resources. Please check your connection and try again.</div>';
         updateLoadMoreVisibility(true);
         if (!shouldAppend) allFetchedResources = [];
-        updateMapMarkers(allFetchedResources); // Clear map on error
+        updateMapMarkers(allFetchedResources);
     }
 }
 
@@ -260,13 +310,17 @@ function renderCategoryFilters() {
     categoryFiltersDiv.innerHTML = '';
     const fragment = document.createDocumentFragment();
     const selectedResourceTypes = activeFilters[FILTER_TYPES.RESOURCE_TYPES];
-    const visibleCategories = new Set(['Government', 'Other']);
+    const visibleCategories = new Set(['Government', 'Other']); // Ensure these are always options
 
     selectedResourceTypes.forEach(type => {
         if (CATEGORY_OPTIONS[type]) {
             CATEGORY_OPTIONS[type].forEach(cat => visibleCategories.add(cat));
         }
     });
+
+    // Add any currently selected categories even if their parent resource type is deselected
+    activeFilters[FILTER_TYPES.CATEGORIES].forEach(cat => visibleCategories.add(cat));
+
 
     Array.from(visibleCategories).sort().forEach(category => {
         const id = `category-${category.toLowerCase().replace(/\s+/g, '-')}`;
@@ -292,8 +346,21 @@ function renderResources(resourcesToRender, shouldAppend = false) {
         const fragment = document.createDocumentFragment();
         resourcesToRender.forEach(resource => {
             const cardElement = document.createElement('div');
-            // Ensure a unique ID for the resource if available, otherwise use Location Name
             const resourceIdentifier = resource.ID || resource['Location Name'] || Math.random().toString(36).substring(7);
+
+            // Display distance if available from worker (e.g., after distance sort)
+            // The worker might add a 'distance' (meters) or 'distanceInMiles' field.
+            let distanceDisplay = '';
+            if (resource.distanceInMiles !== undefined && resource.distanceInMiles !== null) {
+                 distanceDisplay = `<h6 class="text-info">Distance: ${resource.distanceInMiles.toFixed(1)} miles</h6>`;
+            } else if (resource.distance !== undefined && resource.distance !== null && resource.distance !== Infinity) {
+                // Assuming 'distance' from worker is in meters if not converted
+                const distanceInKm = resource.distance / 1000;
+                const distanceInMilesVal = distanceInKm * 0.621371;
+                distanceDisplay = `<h6 class="text-info">Distance: ${distanceInMilesVal.toFixed(1)} miles</h6>`;
+            }
+
+
             cardElement.innerHTML = `
                 <div class="resourceCard shadow-lg text-bg-white br-5-5-5-5 mb-5">
                     <div class="row no-gutters p-0">
@@ -305,9 +372,10 @@ function renderResources(resourcesToRender, shouldAppend = false) {
                         <div class="card-body col-10 p-4">
                             <h3 class="text-secondary">${resource['Location Name'] || 'N/A'}</h3>
                             <h5 class="text-dark">${resource.Organization || 'N/A'}</h5>
+                            ${distanceDisplay}
                             <div class="mb-2">
                                 ${resource['Resource Type'] ? `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.RESOURCE_TYPES}" data-value="${resource['Resource Type']}">${resource['Resource Type']}</span>` : ''}
-                                ${resource.Category ? `<span class="badge badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.CATEGORIES}" data-value="${resource.Category}">${resource.Category}</span>` : ''}
+                                ${resource.Category ? `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.CATEGORIES}" data-value="${resource.Category}">${resource.Category}</span>` : ''}
                             </div>
                             <h6>Phone: ${resource.Phone || 'N/A'}</h6>
                             <p>${resource.Address || 'N/A'} <br>
@@ -315,10 +383,10 @@ function renderResources(resourcesToRender, shouldAppend = false) {
                                 ${resource['Google Maps URL'] ? `<strong><a href="${resource['Google Maps URL']}" class="text-secondary" target="_blank" rel="noopener noreferrer">Directions</a></strong>` : ''}
                             </p>
                             ${(resource['Populations Served'] && resource['Populations Served'].trim() !== '') ? `<h6>Populations Served:</h6><div>
-                                ${(resource['Populations Served'] || '').split(',').map(pop => pop.trim()).filter(pop => pop).map(pop => `<span class="badge badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.POPULATIONS}" data-value="${pop}">${pop}</span>`).join('')}
+                                ${(resource['Populations Served'] || '').split(',').map(pop => pop.trim()).filter(pop => pop).map(pop => `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.POPULATIONS}" data-value="${pop}">${pop}</span>`).join('')}
                             </div>` : ''}
                             ${resource.County ? `<h6>County:</h6><div>
-                                <span class="badge badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.COUNTIES}" data-value="${resource.County}">${resource.County}</span>
+                                <span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.COUNTIES}" data-value="${resource.County}">${resource.County}</span>
                             </div>` : ''}
                             <div class="row d-flex justify-content-end position-relative">
                                 ${resource.Image ? `<div class="col-md-auto d-flex justify-content-end align-items-end p-2" style="position:relative"><img class="cardImage" src="${resource.Image}" alt="${resource.Organization || resource['Location Name'] || 'Resource logo'}" ></div>` : ''}
@@ -355,11 +423,53 @@ function updateLoadMoreVisibility(forceHide = false) {
 function applyFilters(shouldResetPage = true) {
     if (shouldResetPage) {
         currentPage = 1;
-        allFetchedResources = []; // Clear all fetched resources when filters change for a new set
+        allFetchedResources = [];
     }
     const apiUrl = constructApiUrl();
-    fetchResources(apiUrl, false); // `false` means replace, not append
+    fetchResources(apiUrl, false);
 }
+
+function handleSortChange() {
+    const sortValue = sortBySelect.value;
+    if (sortValue === 'distance') {
+        if (currentUserLatitude !== null && currentUserLongitude !== null) {
+            // Location already known, apply filters
+            applyFilters();
+        } else if (!isFetchingLocation) {
+            // Location not known, try to get it
+            isFetchingLocation = true;
+            // Show some loading state to user
+            if (resultsCounter) resultsCounter.textContent = "Getting your location for distance sorting...";
+            if (resourceListDiv) resourceListDiv.innerHTML = '<div class="alert alert-info">Fetching your location...</div>';
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    currentUserLatitude = position.coords.latitude;
+                    currentUserLongitude = position.coords.longitude;
+                    console.log('User location obtained via navigator.geolocation:', currentUserLatitude, currentUserLongitude);
+                    isFetchingLocation = false;
+                    applyFilters(); // Now apply filters with location
+                },
+                (error) => {
+                    console.error("Error getting user location:", error.message);
+                    isFetchingLocation = false;
+                    alert("Could not get your location. Please ensure location services are enabled and try again. Sorting by distance is unavailable.");
+                    // Revert to a default sort or clear sort
+                    sortBySelect.value = ""; // Or a default sort value like "Location Name"
+                    if (resultsCounter) resultsCounter.textContent = ""; // Clear loading message
+                    applyFilters(); // Re-fetch with default/no sort
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
+        } else {
+            console.log("Already fetching location, please wait.");
+        }
+    } else {
+        // For other sort types (alphabetical, county), just apply filters
+        applyFilters();
+    }
+}
+
 
 function handleFilterChange(event) {
     const checkbox = event.target;
@@ -382,9 +492,15 @@ function handleFilterChange(event) {
             removeFilterChipFromUI(filterType, value);
         }
 
-        applyFilters(); // This will reset page to 1 and fetch
+        applyFilters();
 
         if (filterType === FILTER_TYPES.RESOURCE_TYPES) {
+            // If resource types change, re-render category filters
+            // Also, if all resource types are deselected, clear category filters
+            if (activeFilters[FILTER_TYPES.RESOURCE_TYPES].length === 0) {
+                 activeFilters[FILTER_TYPES.CATEGORIES].forEach(catVal => removeFilterChipFromUI(FILTER_TYPES.CATEGORIES, catVal));
+                 activeFilters[FILTER_TYPES.CATEGORIES] = [];
+            }
             renderCategoryFilters();
         }
     }
@@ -402,7 +518,7 @@ function addFilterChip(filterType, filterValue) {
     if (document.getElementById(chipId)) return;
 
     const chip = document.createElement('span');
-    chip.classList.add('chip', 'badge', 'bg-secondary', 'text-white', 'me-1', 'mb-1'); // Bootstrap classes
+    chip.classList.add('chip', 'badge', 'bg-secondary', 'text-white', 'me-1', 'mb-1');
     chip.id = chipId;
     chip.textContent = filterValue;
 
@@ -424,19 +540,23 @@ function removeFilter(filterType, filterValue) {
         if (searchInput) searchInput.value = '';
     } else {
         activeFilters[filterType] = activeFilters[filterType].filter(item => item !== filterValue);
-        // Construct the class name more carefully: e.g., 'county-filter', not 'counties-filter'
-        const checkboxClassName = filterType.endsWith('s') ? filterType.slice(0, -1) + '-filter' : filterType + '-filter';
-        const checkbox = document.querySelector(`input[type="checkbox"][value="${filterValue}"].${checkboxClassName}`);
-        if (checkbox) {
-            checkbox.checked = false;
+        const checkboxClassName = filterType === FILTER_TYPES.COUNTIES ? 'county-filter' :
+                                filterType === FILTER_TYPES.POPULATIONS ? 'population-filter' :
+                                filterType === FILTER_TYPES.RESOURCE_TYPES ? 'resource-type-filter' :
+                                filterType === FILTER_TYPES.CATEGORIES ? 'category-filter' : '';
+        if (checkboxClassName) {
+            const checkbox = document.querySelector(`input[type="checkbox"][value="${filterValue}"].${checkboxClassName}`);
+            if (checkbox) {
+                checkbox.checked = false;
+            }
         }
     }
 
     removeFilterChipFromUI(filterType, filterValue);
-    applyFilters(); // This will reset page to 1 and fetch
+    applyFilters();
 
-    if (filterType === FILTER_TYPES.RESOURCE_TYPES) {
-        renderCategoryFilters();
+    if (filterType === FILTER_TYPES.RESOURCE_TYPES || filterType === FILTER_TYPES.CATEGORIES) {
+        renderCategoryFilters(); // Re-render if resource type or category removed
     }
 }
 
@@ -471,16 +591,14 @@ function initializeEventListeners() {
     });
 
     if (sortBySelect) {
-        sortBySelect.addEventListener('change', () => {
-            applyFilters(); // Sort change should refetch from page 1
-        });
+        sortBySelect.addEventListener('change', handleSortChange); // Changed to new handler
     }
 
     if (loadMoreButton) {
         loadMoreButton.addEventListener('click', () => {
             currentPage++;
             const apiUrl = constructApiUrl();
-            fetchResources(apiUrl, true); // `true` means append
+            fetchResources(apiUrl, true);
         });
     }
 
@@ -491,7 +609,7 @@ function initializeEventListeners() {
 
     if (resourceListDiv) {
         resourceListDiv.addEventListener('click', handleResourceBadgeClickDelegated);
-        resourceListDiv.addEventListener('click', handleMapViewLinkClickDelegated); // New listener for map links
+        resourceListDiv.addEventListener('click', handleMapViewLinkClickDelegated);
     }
 }
 
@@ -499,7 +617,6 @@ function handleSearch() {
     if (!searchInput) return;
     const searchTerm = searchInput.value.trim();
 
-    // Remove old search chip if search term changed
     if (activeFilters[FILTER_TYPES.SEARCH] && activeFilters[FILTER_TYPES.SEARCH] !== searchTerm) {
         removeFilterChipFromUI(FILTER_TYPES.SEARCH, activeFilters[FILTER_TYPES.SEARCH]);
     }
@@ -508,9 +625,10 @@ function handleSearch() {
     if (searchTerm) {
         addFilterChip(FILTER_TYPES.SEARCH, searchTerm);
     } else {
-        removeFilterChipFromUI(FILTER_TYPES.SEARCH, activeFilters[FILTER_TYPES.SEARCH] || ''); // Remove if term is now empty
+        // Ensure chip is removed if search term is cleared
+        removeFilterChipFromUI(FILTER_TYPES.SEARCH, activeFilters[FILTER_TYPES.SEARCH] || '');
     }
-    applyFilters(); // This will reset page to 1 and fetch
+    applyFilters();
 }
 
 function handleFilterChangeDelegated(event) {
@@ -529,63 +647,62 @@ function handleResourceBadgeClickDelegated(event) {
         const filterValue = badge.dataset.value;
 
         if (filterType && filterValue && activeFilters[filterType] !== undefined) {
-            if ((Array.isArray(activeFilters[filterType]) && activeFilters[filterType].includes(filterValue)) || activeFilters[filterType] === filterValue) {
-                return; // Already active
-            }
+            // Check if the filter is already active by looking at the corresponding checkbox
+            const checkboxClassName = filterType === FILTER_TYPES.COUNTIES ? 'county-filter' :
+                                    filterType === FILTER_TYPES.POPULATIONS ? 'population-filter' :
+                                    filterType === FILTER_TYPES.RESOURCE_TYPES ? 'resource-type-filter' :
+                                    filterType === FILTER_TYPES.CATEGORIES ? 'category-filter' : '';
+            if (!checkboxClassName) return;
 
-            if (Array.isArray(activeFilters[filterType])) {
-                const checkboxClassName = filterType.endsWith('s') ? filterType.slice(0, -1) + '-filter' : filterType + '-filter';
-                const checkbox = document.querySelector(`input[type="checkbox"][value="${filterValue}"].${checkboxClassName}`);
+            const correspondingCheckbox = document.querySelector(`input[type="checkbox"][value="${filterValue}"].${checkboxClassName}`);
 
-                if (checkbox && !checkbox.checked) {
-                    checkbox.checked = true;
-                    // The 'change' event on the checkbox will trigger handleFilterChange,
-                    // which updates activeFilters, chips, and applies filters.
-                    // Manually dispatch if needed or ensure handleFilterChange is robust.
-                    const changeEvent = new Event('change', { bubbles: true });
-                    checkbox.dispatchEvent(changeEvent);
-                } else if (!checkbox) { // For tags that might not have a direct filter checkbox (though less common now)
-                    activeFilters[filterType].push(filterValue);
-                    addFilterChip(filterType, filterValue);
-                    applyFilters();
-                    if (filterType === FILTER_TYPES.RESOURCE_TYPES) {
-                        renderCategoryFilters();
-                    }
+            if (correspondingCheckbox && !correspondingCheckbox.checked) {
+                correspondingCheckbox.checked = true;
+                // Dispatch a change event to trigger the standard filter handling logic
+                const changeEvent = new Event('change', { bubbles: true });
+                correspondingCheckbox.dispatchEvent(changeEvent);
+            } else if (!correspondingCheckbox && Array.isArray(activeFilters[filterType]) && !activeFilters[filterType].includes(filterValue)) {
+                // Fallback for cases where a direct checkbox might not exist (less common now)
+                // or if the badge represents a filter that isn't tied to a visible checkbox set
+                activeFilters[filterType].push(filterValue);
+                addFilterChip(filterType, filterValue);
+                applyFilters();
+                if (filterType === FILTER_TYPES.RESOURCE_TYPES) {
+                    renderCategoryFilters();
                 }
             }
         }
     }
 }
 
-/**
- * Delegated event handler for map view links in resource cards.
- * @param {Event} event
- */
 function handleMapViewLinkClickDelegated(event) {
     const mapLink = event.target.closest('a.map-view-link');
     if (mapLink && map) {
         event.preventDefault();
         const lat = parseFloat(mapLink.dataset.latitude);
         const lon = parseFloat(mapLink.dataset.longitude);
-        const resourceId = mapLink.dataset.resourceId; // Using 'Location Name' as ID for now
+        const resourceId = mapLink.dataset.resourceId;
 
         if (!isNaN(lat) && !isNaN(lon)) {
             map.flyTo({
                 center: [lon, lat],
-                zoom: 22, // Zoom in closer
-                speed: 1
+                zoom: 17, // Zoom in closer
+                speed: 1.2
             });
 
-            // Find the marker and open its popup
             const targetMarker = mapMarkers.find(m => m._resourceId === resourceId);
             if (targetMarker) {
-                // Close any other open popups first for a cleaner experience
                 mapMarkers.forEach(m => {
                     if (m.getPopup().isOpen()) {
                         m.togglePopup();
                     }
                 });
-                targetMarker.togglePopup(); // Open the target marker's popup
+                // Timeout to allow map to fly before opening popup, can make UX smoother
+                setTimeout(() => {
+                    if (targetMarker.getPopup()) { // Check if popup exists
+                        targetMarker.togglePopup();
+                    }
+                }, 600); // Adjust timing as needed
             }
         } else {
             console.warn("Invalid coordinates for map link:", mapLink.dataset);
@@ -598,20 +715,40 @@ function handleMapViewLinkClickDelegated(event) {
 document.addEventListener('DOMContentLoaded', () => {
     if (!searchInput || !searchButton || !chipsArea || !countyFiltersDiv || !populationFiltersDiv ||
         !resourceTypeFiltersDiv || !categoryFiltersDiv || !resourceListDiv || !resultsCounter ||
-        !loadMoreButton || !loadMoreDiv || !sortBySelect || !mapDiv) { // Added mapDiv check
+        !loadMoreButton || !loadMoreDiv || !sortBySelect || !mapDiv) {
         console.error("One or more essential DOM elements are missing. Script will not run correctly.");
-        if (document.body) { // Basic fallback message
+        if (document.body) {
              const errorMsgDiv = document.createElement('div');
              errorMsgDiv.className = 'alert alert-danger m-3';
              errorMsgDiv.textContent = 'Error: Critical page elements are missing. The application may not function correctly.';
-             document.body.prepend(errorMsgDiv); // Prepend to be visible
+             document.body.prepend(errorMsgDiv);
         }
         return;
     }
 
-    initializeMap(); // Initialize map first
+    initializeMap();
     initializeEventListeners();
+    renderCategoryFilters(); // Render initial categories (e.g. "Government", "Other")
+    // Fetch initial resources without any specific sort, NocoDB default or view default will apply
     const initialApiUrl = constructApiUrl();
-    fetchResources(initialApiUrl); // This will now also update map markers
-    renderCategoryFilters();
+    fetchResources(initialApiUrl);
 });
+
+/**
+ * HTML Structure for Sort By Dropdown (example):
+ *
+ * <div class="col-md-3">
+ * <label for="sort-by" class="form-label">Sort By</label>
+ * <select id="sort-by" class="form-select">
+ * <option value="">Default</option>
+ * <option value="Location Name">Name (A-Z)</option>
+ * <option value="-Location Name">Name (Z-A)</option>
+ * <option value="County">County</option>
+ * <option value="distance">Distance (Nearest)</option>
+ * </select>
+ * </div>
+ *
+ * Ensure the `value` attributes for 'Location Name' and 'County' (and any other
+ * NocoDB field-based sorts) exactly match the column names in your NocoDB.
+ * Prefix with '-' for descending sort (e.g., "-Location Name").
+ */
