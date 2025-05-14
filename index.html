@@ -313,35 +313,47 @@
             font-size: 1em;
         }
         
-        .hero-section {
-            background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-2.png');
+/*  Extra Small  */
+        @media (width < 576px) {
+            .hero-section {
+            background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-4-scaled.png');
             height: 600px;
-            background-position: 0% 80px;
-            background-size: 1200px;
+            background-position-x: right;
+            background-position-y: bottom;
+            background-size: cover;
             background-repeat: no-repeat;
-            
-            @media (width < 991px) {
-            background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-2.png');
-            height: 500px;
-            background-position: 0% 80px;
-            background-size: 900px;
-            background-repeat: no-repeat;  
+        }
+        }
+/*  Small  */
+        @media (width > 575px) {
+            .hero-section {
+            background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-4-scaled.png');
+            height: 600px;
+            background-position-x: right;
+            background-position-y: bottom;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        }
+/*  Extra Medium and Up  */
+        @media (width > 767px) {
+            .hero-section {
+            background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-4-scaled.png');
+            height: 600px;
+            background-position-x: right;
+            background-position-y: bottom;
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #ffffff !important;
             }
-            
-            @media (width < 768px) {
-            background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-2.png');
-            height: 400px;
-            background-position: 0% 80px;
-            background-size: 800px;
-            background-repeat: no-repeat;  
-            }
-            
-            @media (width < 576px) {
-            background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-2.png');
-            height: 400px;
-            background-position: 55% 80px;
-            background-size: 700px;
-            background-repeat: no-repeat;            
+
+            .hero-section h1,
+            .hero-section h2,
+            .hero-section h3,
+            .hero-section h4,
+            .hero-section h5,
+            .hero-section h6 {
+              color: #ffffff !important;
             }
         }
     </style>
@@ -419,10 +431,10 @@
                             <a href="https://councilsepa.org/hubs/" style="text-decoration:none"></a>
                         </p>
                         <a href="https://councilsepa.org/hubs/" style="text-decoration:none">
-                            <h6 class="text-black" style="text-shadow: #c857e3 1px 0 10px;">←Regional Recovery Hubs</h6> </a>
+                            <h6 class="text-black">←Regional Recovery Hubs</h6> </a>
                         <p>
-                            <h1 class="text-black" style="text-shadow: #00543d 1px 0 10px;">Resources</h1>
-                            <h5 class="text-black" style="text-shadow: #c857e3 1px 0 10px;">Browse our interactive map of Recovery Support, Family Support, Housing, and Transportation resources across the region.</h5></div>
+                            <h1 class="text-black">Resources</h1>
+                            <h5 class="text-black">Browse our interactive map of Recovery Support, Family Support, Housing, and Transportation resources across the region.</h5></div>
                 </div>
             </div>
         </div>
