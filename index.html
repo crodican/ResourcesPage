@@ -312,6 +312,38 @@
             padding: 0;
             font-size: 1em;
         }
+        
+        .hero-section {
+            background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-2.png');
+            height: 600px;
+            background-position: 0% 80px;
+            background-size: 1200px;
+            background-repeat: no-repeat;
+            
+            @media (width < 991px) {
+            background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-2.png');
+            height: 500px;
+            background-position: 0% 80px;
+            background-size: 900px;
+            background-repeat: no-repeat;  
+            }
+            
+            @media (width < 768px) {
+            background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-2.png');
+            height: 400px;
+            background-position: 0% 80px;
+            background-size: 800px;
+            background-repeat: no-repeat;  
+            }
+            
+            @media (width < 576px) {
+            background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-2.png');
+            height: 400px;
+            background-position: 55% 80px;
+            background-size: 700px;
+            background-repeat: no-repeat;            
+            }
+        }
     </style>
 </head>
 
@@ -378,19 +410,19 @@
             </div>
         </div>
     </header>
-    <section class="bg-image py-5 w-100 d-flex" style="background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resources-map.png'); min-height: 500px; background-size: cover; background-position: center;">
+    <section class="hero-section py-5 w-100 d-flex">
         <div class="container d-flex justify-content-end">
             <div class="row justify-content-start align-items-end">
                 <div class="banner-col col-12 col-xl-8">
-                    <div class="banner-container left">
+                    <div class="banner-container">
                         <p>
                             <a href="https://councilsepa.org/hubs/" style="text-decoration:none"></a>
                         </p>
                         <a href="https://councilsepa.org/hubs/" style="text-decoration:none">
-                            <h6 class="text-black">←Regional Recovery Hubs</h6> </a>
+                            <h6 class="text-black" style="text-shadow: #c857e3 1px 0 10px;">←Regional Recovery Hubs</h6> </a>
                         <p>
-                            <h1>Resources</h1>
-                            <h5 class="text-black">Browse our interactive map of Recovery Support, Family Support, Housing, and Transportation resources across the region.</h5> </div>
+                            <h1 class="text-black" style="text-shadow: #00543d 1px 0 10px;">Resources</h1>
+                            <h5 class="text-black" style="text-shadow: #c857e3 1px 0 10px;">Browse our interactive map of Recovery Support, Family Support, Housing, and Transportation resources across the region.</h5></div>
                 </div>
             </div>
         </div>
