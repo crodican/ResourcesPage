@@ -1,453 +1,157 @@
-# Hub Resources Application
+# NocoDB API Proxy Worker
 
+A Cloudflare Worker that acts as a proxy API endpoint for a NocoDB database, offering enhanced filtering, sorting, and search capabilities.
 
+## Overview
 
-The **Hub Resources Application** is a web application that allows users to search, filter, and sort through various Recovery resources in Regions 1 and 4 efficiently. It leverages a backend API powered by **NocoDB** to provide flexible querying and dynamic filtering capabilities.
+This worker serves as a customizable API layer between your frontend application and a NocoDB database. It efficiently handles complex queries, pagination, and specific sorting requirements while ensuring the security of your NocoDB API token.
 
+## Features
 
+* ✅ **Filtering:** Filter records based on multiple criteria.
+* 🔍 **Full-text Search:** Perform searches across multiple fields.
+* 📄 **Pagination:** Implement page-based navigation of results.
+* 🧭 **Distance-Based Sorting (In Development):** Special handling for sorting records by distance.
+* 🔐 **Secure Token Management:** Keeps your NocoDB API token confidential.
+* 🌐 **CORS Support:** Enables access from browser clients.
 
----
+## Architecture
 
+Frontend ↔ Cloudflare Worker ↔ NocoDB API
 
 
-## **Overview**
+## API Parameters
 
-The Regions 1 and 4 Recovery Hubs database of resources contains resources of the following types: Recovery Support, Family Support, Housing, and Transportation, further separated into categories, across the eight counties served:  Philadelphia (Region 1), and Berks, Bucks, Chester, Delaware, Lancaster, Montgomery, and Schuylkill Counties (Region 4).
+The following parameters can be used to query the API:
 
+| Parameter     | Description                                    | Example                       |
+|---------------|------------------------------------------------|-------------------------------|
+| `page`        | Page number (1-based)                          | `?page=2`                     |
+| `limit`       | Number of records per page                     | `?limit=50`                    |
+| `sort`        | Field to sort by                               | `?sort=distance`               |
+| `fields`      | Comma-separated fields to return               | `?fields=ID,Name`              |
+| `recordId`    | Specific record ID to retrieve                | `?recordId=123`                |
+| `County`      | Filter by county (multiple allowed)          | `?County=Los Angeles`          |
+| `Populations` | Filter by population served                   | `?Populations=Seniors`        |
+| `Resource Type`| Filter by resource type                      | `?Resource Type=Healthcare`    |
+| `Category`    | Filter by category                             | `?Category=Medical`            |
+| `search`      | Full-text search term                          | `?search=hospital`             |
+| `userLat`     | User latitude for distance sort              | `?userLat=34.0522`             |
+| `userLon`     | User longitude for distance sort             | `?userLon=-118.2437`            |
 
+## Response Format
 
-The resources database has the following attributes:
-
-ID, LOCATION NAME,  ORGANIZATION, COUNTY, RESOURCE TYPE,  CATEGORY, POPULATIONS SERVED, MORE INFO,  PHONE,  ADDRESS,  CITY, STATE,  ZIP CODE, WEBSITE,  IMAGE,  LATITUDE, LONGITUDE,  PHONE URL,  FULL ADDRESS, and GOOGLE MAPS URL.  
-
-Of these, COUNTY, RESOURCE TYPE,  CATEGORY, and POPULATIONS SERVED are the filterable facets on our web app.
-
-
-
-## **Features**
-
--   Search resources by name, organization, or category.
-
--   Filter resources based on:
-
-    -   County
-
-    -   Population Served
-
-    -   Resource Type
-
-    -   Category
-
--   Sort resources by any field (e.g., County, Organization, etc.).
-
--   Paginate through the results for better navigation.
-
--   Retrieve a specific resource by its ID.
-
--   Count the total number of resources that match specific filters.
-
--   **NEW**:  Filter resources by selecting multiple options within each filter category (e.g., multiple counties).
-
-
-
----
-
-
-
-## **How to Use**
-
-
-
-### **1. Filters**
-
-You can filter resources using the following options:
-
-
-
-#### **Counties**
-
--   Filter resources by the county they belong to.  You can select multiple counties to filter by.
-
--   Example Counties:
-
-    -   Berks
-
-    -   Bucks
-
-    -   Chester
-
-    -   Delaware
-
-    -   Lancaster
-
-    -   Montgomery
-
-    -   Schuylkill
-
-    -   Philadelphia
-
-
-
-#### **Populations**
-
--   Filter resources by the population they serve.  You can select multiple populations to filter by.
-
--   Example Populations:
-
-    -   Men
-
-    -   Women
-
-    -   Children
-
-    -   Adolescents
-
-
-
-#### **Resource Types**
-
--   Filter resources by the type of service they provide. You can select multiple resource types.
-
--   Example Resource Types:
-
-    -   Recovery Support
-
-    -   Family Support
-
-    -   Housing
-
-    -   Transportation
-
-
-
-#### **Categories**
-
--   Filter resources by their category.  You can select multiple categories.
-
--   Example Categories:
-
-    -   Single County Authority
-
-    -   Center of Excellence
-
-    -   Regional Recovery Hub
-
-    -   Warm Handoff
-
-    -   Family Counseling
-
-
-
-### **2. Search**
-
-You can search for resources using keywords. The search functionality is case-insensitive and applies to:
-
--   Resource Name
-
--   Organization
-
--   Category
-
-
-
-### **3. Sorting**
-
-Sort resources by any field in ascending or descending order. For example:
-
--   Sort by County (A-Z or Z-A).
-
--   Sort by Organization Name.
-
-
-
-### **4. Pagination**
-
-Navigate through the results using pagination.
-
--   Default: 25 results per page.
-
-
-
----
-
-
-
-## **API Endpoints**
-
-
-
-### **Base URL**
-
-
-
-https://resourcesdatabaseproxy.crodican.workers.dev/
-
-
-
-
-
-### **1. List All Resources**
-
-Retrieve resources with optional filters, sorting, and pagination.
-
-
-
-#### **Query Parameters**
-
-| Parameter      | Type     | Description                                                                                   | Example                             |
-
-|----------------|----------|-----------------------------------------------------------------------------------------------|-------------------------------------|
-
-| `page`         | `number` | Specifies the page of results to display (default: 1).                                        | `page=1`                            |
-
-| `limit`        | `number` | Number of resources per page (default: 25).                                                  | `limit=25`                          |
-
-| `sort`         | `string` | Field to sort by. Use `-` prefix for descending order.                                        | `sort=County` or `sort=-County`     |
-
-| `fields`       | `string` | Comma-separated list of fields to include in the response.                                    | `fields=Location Name,Organization` |
-
-| `County`       | `string[]` | Filter by county.  **Can be a single value or a comma-separated list of values.**                                                                             | `County=Berks` or `County=Berks,Bucks`                      |
-
-| `Populations`  | `string[]` | Filter by population served. **Can be a single value or a comma-separated list of values.**                                                                  | `Populations=Men` or `Populations=Men,Women`                   |
-
-| `ResourceType` | `string[]` | Filter by resource type. **Can be a single value or a comma-separated list of values.**                                                                      | `ResourceType=Housing`  or `ResourceType=Housing,Transportation`              |
-
-| `Category`     | `string[]` | Filter by category. **Can be a single value or a comma-separated list of values.**                                                                           | `Category=Warm Handoff` or `Category=Warm Handoff,Family Counseling`             |
-
-| `search`       | `string` | Search term to look for in `Location Name`, `Organization`, or `Category` (case-insensitive). | `search=recovery`                   |
-
-
-
-#### **Example Request**
-
-
-
-GET https://resourcesdatabaseproxy.crodican.workers.dev/?page=1&limit=10&sort=County&County=Berks,Bucks&Category=Warm%20Handoff
-
-
-
-
-
-#### **Example Response**
+### Standard Response
 
 ```json
+{
+  "list": [...],
+  "pageInfo": {
+    "totalRows": 100,
+    "currentPage": 1,
+    "pageSize": 25
+  }
+}
+Distance Sort Response (In Development)
+JSON
 
 {
-
-  "page": 1,
-
-  "pageSize": 10,
-
-  "isFirstPage": true,
-
-  "isLastPage": false,
-
-  "totalRows": 50,
-
-  "data": [
-
-    {
-
-      "Location Name": "Berks County Council on Chemical Abuse",
-
-      "Organization": "Berks County Council on Chemical Abuse",
-
-      "County": "Berks",
-
-      "Website": "[https://cocaberks.org/](https://cocaberks.org/)"
-
-    },
-
-    {
-
-      "Location Name": "Bucks County Recovery Center",
-
-      "Organization": "Bucks Recovery Service",
-
-      "County": "Bucks",
-
-      "Website": "[https://example.com](https://example.com)"
-
-    },
-
-    {
-
-      "Location Name": "Another Berks County Resource",
-
-      "Organization": "Some Organization",
-
-      "County": "Berks",
-
-      "Website": "[https://example2.com](https://example2.com)"
-
-    }
-
-  ]
-
+  "list": [...],
+  "pageInfo": {...},
+  "distanceSorted": true
 }
+```
 
+## Security
 
+- API tokens are securely stored in environment variables.
+- CORS headers allow any origin (should be restricted in production).
+- Basic input validation is implemented to prevent common injection attacks.
 
-2. Retrieve a Single Resource by ID
+## Monitoring
 
-Fetch a single resource by its unique ID.
+Utilize the Cloudflare dashboard to track:
 
+- Request rates
+- Error rates
+- Response times
+- Bandwidth usage
 
+## API Usage
+Access data via your deployed Cloudflare Worker URL. The following query parameters are supported:
 
-Endpoint
+### Basic Parameters
 
-GET /?recordId={resource_id}
+- page (Optional, integer, default: 1): The page number for pagination.
+- limit (Optional, integer, default: 25): The number of records to return per page.
+- sort (Optional, string): Specifies the field(s) to sort by. Use a - prefix for descending order (e.g., sort=Name,-Date). Ensure field names match your NocoDB column names.
+- fields (Optional, string): A comma-separated list of field names to include in the response.
+- recordId (Optional, string): If provided, fetches a single record with the specified ID, ignoring other filtering and pagination parameters.
+- count (Optional, integer, value: 1): If set to 1, returns only the total count of records matching the filters, without the actual data.
+- viewId (Optional, string): The ID of a specific NocoDB view to use. Defaults to the configured view ID in the worker.
 
+### Filtering Parameters
+Filter data based on specific column values. Parameter names correspond to your NocoDB column names.
 
+- County: Filter by one or more county names. Provide multiple values by repeating the parameter (e.g., ?County=Berks&County=Bucks) or as a comma-separated string (e.g., ?County=Berks,Bucks).
+- Populations (Assuming your NocoDB column is 'Populations Served'): Filter by populations served. Supports multiple values similar to County and uses a like operator for partial matches.
+- Resource Type: Filter by one or more resource types. Supports multiple values similar to County.
+- Category: Filter by one or more categories. Supports multiple values similar to County.
+- search (Optional, string): A general search term that looks for matches in the 'Location Name', 'Organization', and 'Category' columns (configurable in the worker).
 
-Example Request
+### Distance Sorting Parameters
+Sort resources by their distance from a given latitude and longitude.
 
-GET [https://resourcesdatabaseproxy.crodican.workers.dev/?recordId=5](https://resourcesdatabaseproxy.crodican.workers.dev/?recordId=5)
+- userLat (Required for distance sort, float): The user's latitude.
+- userLon (Required for distance sort, float): The user's longitude.
+- sort (Required for distance sort, string, value: distance): Enables distance-based sorting.
 
+#### Important Note on Distance Sorting: 
 
+Due to NocoDB's sorting limitations with dynamic calculations, distance sorting is performed within the Cloudflare Worker. This involves:
 
-Example Response
+- Fetching a limited number of records (currently 1000) matching the filters.
+- Calculating the distance for each fetched record.
+- Sorting the records by distance within the worker.
+- Applying pagination to the sorted results.
+- The totalRows in the pageInfo for distance-sorted results reflects the number of records fetched for calculation (up to the limit), not the absolute total. For an accurate total count with distance filtering, a separate count query (without distance parameters) is needed.
 
-{
+## Examples
 
-  "Id": 5,
+### Basic Examples
 
-  "Location Name": "Berks County Council on Chemical Abuse",
+- Fetching the first page of resources (default limit of 25):
 
-  "Organization": "Berks County Council on Chemical Abuse",
 
-  "County": "Berks",
+[https://resourcesdatabaseproxy.crodican.workers.dev/](https://resourcesdatabaseproxy.crodican.workers.dev/)
 
-  "Resource Type": "Recovery Support",
+- Fetching page 3 with a limit of 10:
 
-  "Category": "Single County Authority",
+[https://resourcesdatabaseproxy.crodican.workers.dev/?page=3&limit=10](https://resourcesdatabaseproxy.crodican.workers.dev/?page=3&limit=10)
 
-  "Populations Served": "Women",
+- Sorting resources by name in ascending order:
 
-  "Website": "[https://cocaberks.org/](https://cocaberks.org/)"
+[https://resourcesdatabaseproxy.crodican.workers.dev/?sort=Location%20Name](https://resourcesdatabaseproxy.crodican.workers.dev/?sort=Location%20Name)
 
-}
+- Sorting resources by date in descending order and then by name in ascending order:
 
+[https://resourcesdatabaseproxy.crodican.workers.dev/?sort=-Date,Location%20Name](https://resourcesdatabaseproxy.crodican.workers.dev/?sort=-Date,Location%20Name)
 
+- Fetching only the "Location Name" and "Organization" fields:
 
-3. Count Resources
+```
+[https://resourcesdatabaseproxy.crodican.workers.dev/?fields=Location%20Name,Organization](https://resourcesdatabaseproxy.crodican.workers.dev/?fields=Location%20Name,Organization)
+```
 
-Retrieve the total number of resources that match specific filters.
+Fetching a single record with ID "rec1234567890":
 
+```
+[https://resourcesdatabaseproxy.crodican.workers.dev/?recordId=rec1234567890](https://resourcesdatabaseproxy.crodican.workers.dev/?recordId=rec1234567890)
+```
 
+- Getting the total count of all resources:
 
-Endpoint
+```
+[https://resourcesdatabaseproxy.crodican.workers.dev/?count=1](https://resourcesdatabaseproxy.crodican.workers.dev/?count=1)
+```
 
-GET /?count=1&{filters}
-
-
-
-Example Request
-
-GET [https://resourcesdatabaseproxy.crodican.workers.dev/?count=1&County=Berks,Bucks&Populations=Women](https://resourcesdatabaseproxy.crodican.workers.dev/?count=1&County=Berks,Bucks&Populations=Women)
-
-
-
-Example Response
-
-{
-
-  "count": 35
-
-}
-
-
-
-How to Test
-
-Example Test Cases
-
-Paginated Data with Sorting and Filtering
-
-
-
-[https://resourcesdatabaseproxy.crodican.workers.dev/?page=1&limit=10&sort=County&County=Berks,Bucks&Category=Warm%20Handoff](https://resourcesdatabaseproxy.crodican.workers.dev/?page=1&limit=10&sort=County&County=Berks,Bucks&Category=Warm%20Handoff)
-
-
-
-Search Resources
-
-
-
-[https://resourcesdatabaseproxy.crodican.workers.dev/?search=recovery](https://resourcesdatabaseproxy.crodican.workers.dev/?search=recovery)
-
-
-
-Retrieve a Single Resource
-
-
-
-[https://resourcesdatabaseproxy.crodican.workers.dev/?recordId=15](https://resourcesdatabaseproxy.crodican.workers.dev/?recordId=15)
-
-
-
-Count Resources
-
-
-
-[https://resourcesdatabaseproxy.crodican.workers.dev/?count=1&County=Berks,Bucks](https://resourcesdatabaseproxy.crodican.workers.dev/?count=1&County=Berks,Bucks)
-
-
-
-Developer Notes
-
-NocoDB Integration
-
-This app uses the NocoDB API to:
-
-
-
-Fetch records from the database.
-
-
-
-Apply filters dynamically.
-
-
-
-Perform searches.
-
-
-
-Sort results based on specified fields.
-
-
-
-Handle multiple filter values for County, Populations Served, Resource Type, and Category.
-
-
-
-Key Changes
-
-The API now supports filtering by multiple values for County, Populations Served, Resource Type, and Category.  The endpoint expects these filter parameters as comma-separated lists.
-
-
-
-Error handling has been improved to return more detailed error messages from the NocoDB API.
-
-
-
-Handling Case Sensitivity and Spaces
-
-Case Sensitivity:  Filters and searches are case-insensitive.
-
-
-
-Spaces:  Spaces in query parameters should be URL-encoded (e.g., Warm Handoff becomes Warm%20Handoff).
-
-
-
-Contributing
-
-We welcome contributions to improve the app. Please submit a pull request or open an issue for bug reports and feature requests.
-
-
-
-License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE

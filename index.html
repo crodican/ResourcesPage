@@ -164,7 +164,9 @@
                 position: relative;
             }
             width: 100%;
-            background-color: aqua
+            background-color: gray;
+            display: flex;
+            
         }
         /* Styling for MapLibre popups to match your desired look */
         
@@ -570,22 +572,30 @@
                             </div>
                         </div>
                     </div>
-                    <div class="results-header">
-                        <h4 id="results-counter" class="results-count">Results 1-25 of 299</h4>
-                        <div class="sort-control">
-                            <h6>Sort By:</h6>
-                            <select id="sort-by" class="form-select">
-                                <option value="">Default</option>
-                                <option value="Location Name">Name (A-Z)</option>
-                                <option value="-Location Name">Name (Z-A)</option>
-                                <option value="County">County</option>
-                                <option value="distance">Distance (Nearest)</option>
-                            </select>
+                    <div id="results-wrapper">
+                        <div class="results-header">
+                            <h4 id="results-counter" class="results-count">Results 1-25 of 299</h4>
+                            <!-- Sort Control Function Below is set to display none, until feature is implemented -->
+                            <div class="sort-control" style="display: none">
+                                <h6>Sort By:</h6>
+                                <select id="sort-by" class="form-select">
+                                    <option value="">Default</option>
+                                    <option value="Location Name">Name (A-Z)</option>
+                                    <option value="-Location Name">Name (Z-A)</option>
+                                    <option value="County">County</option>
+                                    <option value="distance">Distance (Nearest)</option>
+                                </select>
+                            </div>
+                            <!-- End of Sort Control -->
                         </div>
-                    </div>
-                    <div id="resource-list" class="d-flex flex-column px-2"></div>
-                    <div id="load-more" class="">
-                        <button class="btn bg-secondary text-white rounded-0" id="load-more-button">Load More</button>
+                        <div id="resource-list" class="d-flex flex-column px-2">
+                                <p id="initial-resource-message" style="text-align: center; padding: 20px; font-size: 1.1em; color: #555;">
+            Please enter a search term or apply a filter to display resources.
+        </p>
+                        </div>
+                        <div id="load-more" class="">
+                            <button class="btn bg-secondary text-white rounded-0" id="load-more-button">Load More</button>
+                        </div>
                     </div>
                 </div>
             </div>
