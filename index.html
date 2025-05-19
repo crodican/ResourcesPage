@@ -17,307 +17,302 @@
     <!-- Maplibre -->
     <link href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style>
-        body {
-            font-family: 'Oxygen', sans-serif;
+<style>
+    body {
+        font-family: 'Oxygen', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: 'Lora', serif;
+        font-weight: 700;
+    }
+
+    .bg-gray-subtle {
+        background-color: #f8f9fa !important;
+        /* Bootstrap's light gray */
+    }
+
+    .chip-area {
+        margin-bottom: 10px;
+    }
+
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.3em 0.7em;
+        margin: 0.2em;
+        background-color: #f5ebf3;
+        color: #000;
+        border-radius: 20px;
+        font-size: 0.875em;
+    }
+
+    .chip .bi-x-circle-fill {
+        margin-left: 0.4em;
+        cursor: pointer;
+        font-size: 0.9em;
+    }
+
+    .filter-section {
+        margin-bottom: 20px;
+    }
+
+    .resourceCard {
+        border-radius: 5px;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-sidenav {
+        max-width: 70px;
+        border-radius: 5px 0 0 5px;
+    }
+
+    .card-sidenav a {
+        background-color: #55298a;
+        color: white !important;
+        font-size: 24px;
+        /* Adjusted icon size */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 70px;
+        /* Ensure equal height */
+    }
+
+    .card-sidenav a:hover {
+        background-color: #f5ebf3;
+        color: #55298a !important;
+        overflow: hidden;
+    }
+
+    .card-sidenav a:nth-of-type(1) {
+        border-radius: 5px 0 0 0;
+    }
+
+    .card-sidenav a:nth-of-type(2) {
+        border-radius: 0;
+    }
+
+    .card-sidenav a:nth-of-type(3) {
+        border-radius: 0 0 0 5px;
+    }
+
+    .card-body h3 {
+        font-weight: 400;
+        margin-bottom: 0.2em;
+        line-height: 1.2em;
+        font-size: 24px;
+    }
+
+    .card-body h5 {
+        font-weight: 300;
+        margin-top: 0;
+        font-size: 16px;
+        color: #6c757d;
+    }
+
+    .badge {
+        margin-right: 0.5em;
+        margin-bottom: 0.3em;
+        cursor: pointer;
+    }
+
+    .cardImage {
+        max-height: 120px;
+        /* Adjusted image size */
+        max-width: 200px;
+        width: auto;
+        height: auto !important;
+    }
+
+    .results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    #load-more {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    .form-control::placeholder {
+        color: whitesmoke;
+    }
+
+    .input-group {
+        background-color: lightsteelblue
+    }
+
+    #map {
+        width: 100%; /* Ensures it fills its container horizontally */
+        background-color: gray;
+        /* No position: relative here, as per your request */
+
+        @media (width < 991px) {
+            height: 500px;
         }
-        
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'Lora', serif;
-            font-weight: 700;
+        @media (width > 991px) {
+            height: calc(100vh - 100px);
         }
-        
-        .bg-gray-subtle {
-            background-color: #f8f9fa !important;
-            /* Bootstrap's light gray */
-        }
-        
-        .chip-area {
-            margin-bottom: 10px;
-        }
-        
-        .chip {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.3em 0.7em;
-            margin: 0.2em;
-            background-color: #f5ebf3;
-            color: #000;
-            border-radius: 20px;
-            font-size: 0.875em;
-        }
-        
-        .chip .bi-x-circle-fill {
-            margin-left: 0.4em;
-            cursor: pointer;
-            font-size: 0.9em;
-        }
-        
-        .filter-section {
-            margin-bottom: 20px;
-        }
-        
-        .resourceCard {
-            border-radius: 5px;
-            margin-bottom: 1.5rem;
-        }
-        
-        .card-sidenav {
-            max-width: 70px;
-            border-radius: 5px 0 0 5px;
-        }
-        
-        .card-sidenav a {
-            background-color: #55298a;
-            color: white !important;
-            font-size: 24px;
-            /* Adjusted icon size */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 70px;
-            /* Ensure equal height */
-        }
-        
-        .card-sidenav a:hover {
-            background-color: #f5ebf3;
-            color: #55298a !important;
-            overflow: hidden;
-        }
-        
-        .card-sidenav a:nth-of-type(1) {
-            border-radius: 5px 0 0 0;
-        }
-        
-        .card-sidenav a:nth-of-type(2) {
-            border-radius: 0;
-        }
-        
-        .card-sidenav a:nth-of-type(3) {
-            border-radius: 0 0 0 5px;
-        }
-        
-        .card-body h3 {
-            font-weight: 400;
-            margin-bottom: 0.2em;
-            line-height: 1.2em;
-            font-size: 24px;
-        }
-        
-        .card-body h5 {
-            font-weight: 300;
-            margin-top: 0;
-            font-size: 16px;
-            color: #6c757d;
-        }
-        
-        .badge {
-            margin-right: 0.5em;
-            margin-bottom: 0.3em;
-            cursor: pointer;
-        }
-        
-        .cardImage {
-            max-height: 120px;
-            /* Adjusted image size */
-            max-width: 200px;
-            width: auto;
-            height: auto !important;
-        }
-        
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        
-        #load-more {
-            text-align: center;
-            margin-top: 20px;
-        }
-        
-        .accordion-button:not(.collapsed) {
-            background-color: transparent;
-            box-shadow: none;
-        }
-        
-        .form-control::placeholder {
-            color: whitesmoke;
-        }
-        
-        .input-group {
-            background-color: lightsteelblue
-        }
-        
-        #map {
-            @media (width < 991px) {
-                height: 500px;
-            }
-            @media (width > 991px) {
-                height: calc(100vh - 100px);
-                position: relative;
-            }
-            width: 100%;
-            background-color: gray;
-            display: flex;
-            
-        }
-        /* Styling for MapLibre popups to match your desired look */
-        
-        .maplibregl-popup-content {
-            padding: 0 !important;
-            /* Override default padding */
-            border-radius: 10px !important;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 320px !important;
-            /* Ensure it doesn't get too wide */
-        }
-        
-        .maplibregl-popup-close-button {
-            color: #000;
-            /* Match your theme */
-            font-size: 1.5em;
-            padding: 5px;
-            right: 5px;
-            top: 5px;
-            transform: scale(1.75);
-        }
-        /* Ensure popups don't have excessive default mapbox/maplibre margins */
-        
-        .map-popup-container {
-            font-family: 'Oxygen', sans-serif;
-            /* Ensure font consistency */
-            padding: 5px 20px;
-            border-radius: 150px;
-        }
-        
-        .map-popup-container h3 {
-            font-family: 'Lora', serif;
-            font-weight: 700;
-            /* Assuming you want titles bold like other h3 */
-            font-size: 1.1rem;
-            /* Adjust size for popup */
-            margin-bottom: 0.2em;
-            line-height: 1.2em;
-        }
-        
-        .map-popup-container h5 {
-            font-weight: 300;
-            font-size: 0.9rem;
-            /* Adjust size for popup */
-            color: #343a40;
-            /* text-dark */
-            margin-top: 0;
-            margin-bottom: 0.5em;
-            line-height: 1.2em;
-        }
-        
-        .map-popup-container p {
-            font-size: 0.85rem;
-            /* Adjust size for popup */
-            line-height: 1.4;
-            margin-bottom: 0.5em;
-        }
-        
-        .map-popup-container a {
-            font-size: 0.85rem;
-            text-decoration: none;
-            /* Ensure links look clean */
-        }
-        
-        .map-popup-container .bi {
-            margin-right: 5px;
-        }
-        
-        .maplibregl-ctrl {
-            cursor: pointer;
-        }
-        
-        .maplibregl-ctrl-compass {
-            cursor: pointer;
-        }
-        
-        .maplibregl-marker {
-            cursor: pointer;
-        }
-        
-        .maplibregl-ctrl-attrib {
-            position: relative;
-            /* Needed for absolute positioning of the custom text */
-        }
-        
-        .maplibregl-ctrl-attrib-inner {
-            visibility: hidden;
-            /* Hide the original text */
-        }
-        
-        .maplibregl-ctrl-attrib::after {
-            content: "©2025 PRO-ACT | ©MapLibre | ©Maptiler | ©OpenStreetMap";
-            position: absolute;
-            top: 0;
-            left: 0;
-            padding: 0 5px;
-            /* Adjust padding as needed */
-            font-size: 0.8em;
-            /* Adjust font size as needed */
-            color: #333;
-            /* Adjust text color as needed */
-            border-radius: 3px;
-            /* Optional border radius */
-        }
-        
-        #search-container {
-            position: absolute;
-            top: 720px;
-            /* Changed from 10px to 30px */
-            left: 10px;
-            z-index: 10;
-            width: 80%;
-            max-width: 80%;
-            /* Changed from 400px to 100% */
-            align-self: center;
-            display: flex;
-            @media (width < 991px) {
-                transform: translateX(10%);
-                /* Centers the element horizontally */
-            }
-            @media (width > 990px) {
-                max-width: 32vw;
-                transform: translateX(50px);
-                /* Centers the element horizontally */
-            }
-        }
-        
-        #map-container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        kbd {
-            padding: 0.01rem 0.375rem;
-            font-size: 0.875em;
-            font-weight: 700;
-            background-color: # !important;
-            color: #55298a !important;
-            border-radius: 0.05rem;
-        }
-        
-        kbd kbd {
-            padding: 0;
-            font-size: 1em;
-        }
-        
-/*  Extra Small  */
-        @media (width < 576px) {
-            .hero-section {
+    }
+
+    /* Styling for MapLibre popups to match your desired look */
+    .maplibregl-popup-content {
+        padding: 0 !important;
+        /* Override default padding */
+        border-radius: 10px !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-width: 320px !important;
+        /* Ensure it doesn't get too wide */
+    }
+
+    .maplibregl-popup-close-button {
+        color: #000;
+        /* Match your theme */
+        font-size: 1.5em;
+        padding: 5px;
+        right: 5px;
+        top: 5px;
+        transform: scale(1.75);
+    }
+
+    /* Ensure popups don't have excessive default mapbox/maplibre margins */
+    .map-popup-container {
+        font-family: 'Oxygen', sans-serif;
+        /* Ensure font consistency */
+        padding: 5px 20px;
+        border-radius: 150px;
+    }
+
+    .map-popup-container h3 {
+        font-family: 'Lora', serif;
+        font-weight: 700;
+        /* Assuming you want titles bold like other h3 */
+        font-size: 1.1rem;
+        /* Adjust size for popup */
+        margin-bottom: 0.2em;
+        line-height: 1.2em;
+    }
+
+    .map-popup-container h5 {
+        font-weight: 300;
+        font-size: 0.9rem;
+        /* Adjust size for popup */
+        color: #343a40;
+        /* text-dark */
+        margin-top: 0;
+        margin-bottom: 0.5em;
+        line-height: 1.2em;
+    }
+
+    .map-popup-container p {
+        font-size: 0.85rem;
+        /* Adjust size for popup */
+        line-height: 1.4;
+        margin-bottom: 0.5em;
+    }
+
+    .map-popup-container a {
+        font-size: 0.85rem;
+        text-decoration: none;
+        /* Ensure links look clean */
+    }
+
+    .map-popup-container .bi {
+        margin-right: 5px;
+    }
+
+    .maplibregl-ctrl {
+        cursor: pointer;
+    }
+
+    .maplibregl-ctrl-compass {
+        cursor: pointer;
+    }
+
+    .maplibregl-marker {
+        cursor: pointer;
+    }
+
+    .maplibregl-ctrl-attrib {
+        position: relative;
+        /* Needed for absolute positioning of the custom text */
+    }
+
+    .maplibregl-ctrl-attrib-inner {
+        visibility: hidden;
+        /* Hide the original text */
+    }
+
+    .maplibregl-ctrl-attrib::after {
+        content: "©2025 PRO-ACT | ©MapLibre | ©Maptiler | ©OpenStreetMap";
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0 5px;
+        /* Adjust padding as needed */
+        font-size: 0.8em;
+        /* Adjust font size as needed */
+        color: #333;
+        /* Adjust text color as needed */
+        border-radius: 3px;
+        /* Optional border radius */
+    }
+
+    #map-container {
+        /* This is now the positioning context for #search-container */
+        position: relative;
+        display: flex;
+        flex-direction: row; /* Ensure flex direction is as intended for horizontal alignment */
+        align-items: center;
+        justify-content: center;
+        width: 100%; /* Ensures it fills its parent col- */
+        /* Height will be implicitly defined by #map inside it */
+    }
+
+    #search-container {
+        position: absolute; /* Positioned relative to #map-container */
+        top: 2%; /* Example: 2% from the top of the map area */
+        left: 2%; /* Example: 2% from the left of the map area */
+        z-index: 10; /* Ensures it's on top of the map */
+        width: 96%; /* 96% of the map-container's (and thus map's) width */
+        max-width: 450px; /* Optional: Sets a maximum width for readability */
+        margin-bottom: 0 !important; /* Override Bootstrap's mb-3 for cleaner positioning */
+
+        /* Removed previous media query specific transforms as they are now handled by top/left/width percentages */
+    }
+
+    /* Bootstrap KBD styling */
+    kbd {
+        padding: 0.01rem 0.375rem;
+        font-size: 0.875em;
+        font-weight: 700;
+        background-color: ghostwhite !important; /* Assuming this was the intent for ghostwhite */
+        color: black !important; /* Ensure color is black on ghostwhite */
+        border-radius: 0.05rem;
+    }
+
+    kbd kbd {
+        padding: 0;
+        font-size: 1em;
+    }
+
+    /* Media queries for hero-section (unrelated to map, but kept for completeness) */
+    /* Extra Small */
+    @media (width < 576px) {
+        .hero-section {
             background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-4-scaled.png');
             height: 600px;
             background-position-x: right;
@@ -325,10 +320,10 @@
             background-size: cover;
             background-repeat: no-repeat;
         }
-        }
-/*  Small  */
-        @media (width > 575px) {
-            .hero-section {
+    }
+    /* Small */
+    @media (width > 575px) {
+        .hero-section {
             background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-4-scaled.png');
             height: 600px;
             background-position-x: right;
@@ -336,10 +331,10 @@
             background-size: cover;
             background-repeat: no-repeat;
         }
-        }
-/*  Extra Medium and Up  */
-        @media (width > 767px) {
-            .hero-section {
+    }
+    /* Extra Medium and Up */
+    @media (width > 767px) {
+        .hero-section {
             background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-4-scaled.png');
             height: 600px;
             background-position-x: right;
@@ -347,18 +342,18 @@
             background-size: cover;
             background-repeat: no-repeat;
             color: #ffffff !important;
-            }
-
-            .hero-section h1,
-            .hero-section h2,
-            .hero-section h3,
-            .hero-section h4,
-            .hero-section h5,
-            .hero-section h6 {
-              color: #ffffff !important;
-            }
         }
-    </style>
+
+        .hero-section h1,
+        .hero-section h2,
+        .hero-section h3,
+        .hero-section h4,
+        .hero-section h5,
+        .hero-section h6 {
+            color: #ffffff !important;
+        }
+    }
+</style>
 </head>
 
 <body>
@@ -436,14 +431,35 @@
                             <h6 class="text-black">←Regional Recovery Hubs</h6> </a>
                         <p>
                             <h1 class="text-black">Resources</h1>
-                            <h5 class="text-black">Browse our interactive map of Recovery Support, Family Support, Housing, and Transportation resources across the region.</h5></div>
+                            <h5 class="text-black">Find essential resources including Recovery Support, Family Support, Housing, and Transportation, plus links to additional support.</h5></div>
                 </div>
             </div>
         </div>
     </section>
     <section style="margin-top:100px">
-        <div class="container-fluid mt-4">
-            <div class="row">
+        <div class="container block__container">
+            <div class="container-fluid mt-4">
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <h5 class="text-primary">
+                        Please take advantage of our geomapping database of resources for individuals in recovery, their loved ones, and the professionals dedicated to assisting them!    
+                        </h5>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <h5 class="text-secondary">
+                        Additional Resources:
+                        </h5><br />
+                        <div class="block__buttons">
+                            <a href="https://www.councilsepa.org/impact/" class="button button--primary">Our Impact</a>
+                            <a href="https://www.canva.com/design/DAF4SQ5oNXk/98mykeb_Dtl4JwnGeFlWfw/view?utm_content=DAF4SQ5oNXk&amp;utm_campaign=designshare&amp;utm_medium=link&amp;utm_source=editor" class="button button--secondary" target="_blank" rel="noopener noreferrer">Annual Report</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container block__container">
+            <div class="container-fluid mt-4">
+                <div class="row">
                 <div id="bigleft" class="col-12 col-lg-5 col-xl-5">
                     <div id="map-container" class="d-flex justify-content-center align-items-center">
                         <div id="search-container" class="mb-3">
@@ -598,6 +614,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </section>
