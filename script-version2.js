@@ -14,9 +14,13 @@ const sortBySelect = document.getElementById('sort-by');
 const mapDiv = document.getElementById('map');
 
 // --- API and Configuration ---
-const API_BASE_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/'; // Your worker URL
+const API_BASE_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/';
 const RESOURCES_PER_PAGE = 25;
 const MAPTILER_API_KEY = '1nPjVtGASMJJCaJkeKXQ'; // Your MapTiler API Key
+// New constants for MapTiler styles
+const MAPTILER_STREETS_STYLE = `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_API_KEY}`;
+const MAPTILER_HYBRID_STYLE = `https://api.maptiler.com/maps/hybrid/style.json?key=${MAPTILER_API_KEY}`;
+
 
 const CATEGORY_OPTIONS = {
     'Recovery Support': ['Single County Authority', 'Center of Excellence', 'Regional Recovery Hub', 'Recovery Community Organization', 'Warm Handoff', 'Treatment with RSS', 'Government', 'Other'],
@@ -39,12 +43,12 @@ const API_PARAMS = {
     LIMIT: 'limit',
     SORT: 'sort',
     SEARCH: 'search',
-    COUNTY: 'County', // These should match NocoDB actual column names if used directly as query params
-    POPULATIONS: 'Populations',
-    RESOURCE_TYPE: 'ResourceType', // Assuming NocoDB might prefer this for query params if not using 'Resource Type'
+    COUNTY: 'County',
+    POPULATIONS: 'Populations', // Corresponds to 'Populations Served' in NocoDB if that's the column name
+    RESOURCE_TYPE: 'Resource Type',
     CATEGORY: 'Category',
-    USER_LAT: 'userLat',
-    USER_LON: 'userLon',
+    USER_LAT: 'userLat', // For distance sorting
+    USER_LON: 'userLon'  // For distance sorting
 };
 
 // --- State Variables ---
@@ -57,19 +61,101 @@ let activeFilters = {
 };
 let currentPage = 1;
 let totalResourceCount = 0;
-let allFetchedResources = [];
+let allFetchedResources = []; // To store all resources fetched for map updates
 let currentUserLatitude = null;
 let currentUserLongitude = null;
-let isFetchingLocation = false;
+let isFetchingLocation = false; // To prevent multiple geolocation requests
 
 // --- Map Variables ---
 let map;
 let mapMarkers = [];
 
-// --- Utility Functions ---
+// --- Utility Functions (Great-circle distance, kept for potential other uses, not for sorting) ---
 function deg2rad(deg) {
     return deg * (Math.PI / 180);
 }
+
+function calculateGreatCircleDistance(lat1, lon1, lat2, lon2) {
+    const R = 3958.8; // Radius of the Earth in miles
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in miles
+    return distance;
+}
+
+/**
+ * Custom MapLibre GL JS control for switching map styles.
+ * This control creates buttons to switch between Streets and Hybrid map views.
+ * Uses Bootstrap classes for styling.
+ */
+class MapStyleControl {
+    constructor() {
+        this._map = null;
+        this._container = null;
+        this._streetsButton = null;
+        this._hybridButton = null;
+    }
+
+    /**
+     * Called when the control is added to the map.
+     * Creates the DOM elements for the buttons and attaches event listeners.
+     * @param {maplibregl.Map} map - The map instance.
+     * @returns {HTMLElement} The container element for the control.
+     */
+    onAdd(map) {
+        this._map = map;
+        this._container = document.createElement('div');
+        // Apply Bootstrap classes for styling the control container
+        this._container.className = 'maplibregl-ctrl'; // Bootstrap classes
+
+        // Create Streets button
+        this._streetsButton = document.createElement('button');
+        // Apply Bootstrap classes for button styling - removed 'btn-sm' for larger size
+        this._streetsButton.className = 'streetsbtn'; // Bootstrap classes
+        this._streetsButton.textContent = 'Streets';
+        this._streetsButton.setAttribute('aria-label', 'Switch to Streets map style');
+        this._streetsButton.addEventListener('click', () => switchMapStyle(MAPTILER_STREETS_STYLE));
+
+        // Create Hybrid button
+        this._hybridButton = document.createElement('button');
+        // Apply Bootstrap classes for button styling - removed 'btn-sm' for larger size
+        this._hybridButton.className = 'hybridbtn'; // Bootstrap classes
+        this._hybridButton.textContent = 'Hybrid';
+        this._hybridButton.setAttribute('aria-label', 'Switch to Hybrid map style');
+        this._hybridButton.addEventListener('click', () => switchMapStyle(MAPTILER_HYBRID_STYLE));
+
+        this._container.appendChild(this._streetsButton);
+        this._container.appendChild(this._hybridButton);
+
+        return this._container;
+    }
+
+    /**
+     * Called when the control is removed from the map.
+     * Cleans up event listeners and DOM elements.
+     */
+    onRemove() {
+        if (this._streetsButton) {
+            this._streetsButton.removeEventListener('click', () => switchMapStyle(MAPTILER_STREETS_STYLE));
+        }
+        if (this._hybridButton) {
+            this._hybridButton.removeEventListener('click', () => switchMapStyle(MAPTILER_HYBRID_STYLE));
+        }
+        if (this._container && this._container.parentNode) {
+            this._container.parentNode.removeChild(this._container);
+        }
+        this._map = null;
+        this._container = null;
+        this._streetsButton = null;
+        this._hybridButton = null;
+    }
+}
+
 
 // --- Map Functions ---
 function initializeMap() {
@@ -80,36 +166,70 @@ function initializeMap() {
     try {
         map = new maplibregl.Map({
             container: 'map',
-            style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_API_KEY}`,
-            center: [-77.0369, 38.9072],
-            zoom: 7,
+            style: MAPTILER_STREETS_STYLE, // Use the streets style by default
+            center: [-77.0369, 38.9072], // Default center
+            zoom: 7, // Adjusted default zoom
+            terrainControl: true,
+            zoomControl: true,
+            fullscreenControl: "top-left",
+            geolocateControl: false,
         });
 
         map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
+
         const geolocateControl = new maplibregl.GeolocateControl({
-            positionOptions: { enableHighAccuracy: true },
+            positionOptions: {
+                enableHighAccuracy: true
+            },
             trackUserLocation: true,
             showUserHeading: true
         });
         map.addControl(geolocateControl, 'bottom-left');
 
+        // Listen to geolocate success to potentially grab user location for sorting
         geolocateControl.on('geolocate', (e) => {
             currentUserLatitude = e.coords.latitude;
             currentUserLongitude = e.coords.longitude;
             console.log('User location obtained via map control:', currentUserLatitude, currentUserLongitude);
+            // If sort by distance was pending, re-apply
             if (sortBySelect && sortBySelect.value === 'distance' && !isFetchingLocation) {
+                 // Check if already fetching to avoid loop if 'geolocate' fires after manual request
+                console.log("User located via map, re-applying distance sort if active.");
                 applyFilters();
             }
         });
-        geolocateControl.on('error', (e) => {
+         geolocateControl.on('error', (e) => {
             console.warn('Error getting location via map control:', e.message);
+            // If distance sort is active, alert user or handle gracefully
             if (sortBySelect && sortBySelect.value === 'distance') {
-                alert('Could not get your location via map control for distance sorting. Please ensure location services are enabled or try the sort again.');
+                // Using a custom message box instead of alert()
+                displayMessageBox('Could not get your location for distance sorting. Please ensure location services are enabled.');
             }
         });
+
+        // Add the custom map style control to the map
+        // This will automatically create and position the buttons
+        map.addControl(new MapStyleControl(), 'bottom-right');
+
     } catch (error) {
         console.error("Error initializing map:", error);
-        if (mapDiv) mapDiv.innerHTML = "<div class='alert alert-danger'>Could not load the map.</div>";
+        if (mapDiv) {
+            mapDiv.innerHTML = "<div class='alert alert-danger'>Could not load the map.</div>";
+        }
+    }
+}
+
+/**
+ * Switches the map's style to the provided URL.
+ * @param {string} styleUrl - The URL of the MapTiler style to apply.
+ */
+function switchMapStyle(styleUrl) {
+    if (map) {
+        map.setStyle(styleUrl);
+        // After changing style, re-add markers if any resources are loaded
+        map.on('style.load', () => {
+            updateMapMarkers(allFetchedResources);
+        });
     }
 }
 
@@ -118,86 +238,81 @@ function updateMapMarkers(resources) {
         console.warn("Map not initialized, cannot update markers.");
         return;
     }
+
     mapMarkers.forEach(marker => marker.remove());
     mapMarkers = [];
-    if (!resources || resources.length === 0) return;
+
+    if (!resources || resources.length === 0) {
+        return;
+    }
 
     const bounds = new maplibregl.LngLatBounds();
     let validMarkersExist = false;
     const markerColor = '#55298a';
 
     resources.forEach(resource => {
-        // Use the exact field names as returned by your NocoDB via the worker
         const lat = parseFloat(resource.Latitude);
         const lon = parseFloat(resource.Longitude);
-        const locationName = resource['Location Name'] || resource.LocationName || 'N/A';
-        const organization = resource.Organization || 'N/A';
-        const address = resource.Address || 'N/A';
-        const city = resource.City || 'N/A';
-        const state = resource.State || 'N/A';
-        const zipCode = resource['Zip Code'] || resource.ZipCode || 'N/A';
-        const googleMapsUrl = resource['Google Maps URL'] || resource.GoogleMapsURL;
-        const website = resource.Website;
-        const phone = resource.Phone;
-        const phoneUrl = resource['Phone URL'] || resource.PhoneURL;
-
 
         if (!isNaN(lat) && !isNaN(lon)) {
             validMarkersExist = true;
+            // Display distance if available (e.g., from distance sort)
             let distanceText = '';
-            if (resource.distanceInMiles != null && resource.distanceInMiles !== Infinity) {
-                let label = "Distance";
-                if (resource.distanceSource === 'geoapify_driving_time' || resource.distanceSource === 'geoapify_driving_time_estimated_dist' && resource.drivingTimeSeconds != null) {
-                    const timeMinutes = Math.round(resource.drivingTimeSeconds / 60);
-                    label = `Approx. ${timeMinutes} min drive`;
-                    distanceText = `<p class="text-info lh-1 py-0 mb-1">${label} (${resource.distanceInMiles.toFixed(1)} mi)</p>`;
-                } else if (resource.distanceSource === 'geoapify_driving_distance') {
-                     distanceText = `<p class="text-info lh-1 py-0 mb-1">Distance: ${resource.distanceInMiles.toFixed(1)} miles (driving)</p>`;
-                } else { // great_circle or other
-                     distanceText = `<p class="text-info lh-1 py-0 mb-1">Distance: ${resource.distanceInMiles.toFixed(1)} miles (${resource.distanceSource === 'great_circle' ? 'as crow flies' : 'estimated'})</p>`;
-                }
+            if (resource.distanceInMiles !== undefined && resource.distanceInMiles !== null) {
+                 distanceText = `<p class="text-info lh-1 py-0 mb-1">Distance: ${resource.distanceInMiles.toFixed(1)} miles</p>`;
+            } else if (resource.distance !== undefined && resource.distance !== null && resource.distance !== Infinity) {
+                // Assuming 'distance' from worker is in meters if not converted
+                const distanceInKm = resource.distance / 1000;
+                const distanceInMilesVal = distanceInKm * 0.621371;
+                distanceText = `<p class="text-info lh-1 py-0 mb-1">Distance: ${distanceInMilesVal.toFixed(1)} miles</p>`;
             }
+
 
             const popupContent = `
                 <div class="map-popup-container" style="max-width: 300px;">
                     <div class="row no-gutters py-0 px-1">
                         <div class="card-body col-12 p-3">
-                            <h3 class="text-secondary fw-bold lh-1 py-0">${locationName}</h3>
-                            <h5 class="text-dark fw-light lh-1 py-0">${organization}</h5>
+                            <h3 class="text-secondary fw-bold lh-1 py-0">${resource['Location Name'] || 'N/A'}</h3>
+                            <h5 class="text-dark fw-light lh-1 py-0">${resource.Organization || 'N/A'}</h5>
                             ${distanceText}
-                            <p class="text-body-tertiary lh-1 py-0 mb-1">${address}<br />
-                                ${city}, ${state}, ${zipCode}
+                            <p class="text-body-tertiary lh-1 py-0 mb-1">${resource.Address || 'N/A'}<br />
+                                ${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}
                             </p>
                             <p class="mb-0">
-                                ${googleMapsUrl ? `<a class="text-primary fw-bold d-block mb-1" href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer"><i class="bi bi-geo-alt-fill"></i> Directions</a>` : ''}
-                                ${website ? `<a class="text-primary d-block mb-1" href="${website}" target="_blank" rel="noopener noreferrer"><i class="bi bi-globe"></i> Website</a>` : ''}
-                                ${phone ? `<a class="text-primary text-decoration-none fw-bold d-block" href="${phoneUrl || '#'}"><i class="bi bi-telephone-fill text-primary"></i> ${phone}</a>` : 'N/A'}
+                                ${resource['Google Maps URL'] ? `<a class="text-primary fw-bold d-block mb-1" href="${resource['Google Maps URL']}" target="_blank" rel="noopener noreferrer"><i class="bi bi-geo-alt-fill"></i> Directions</a>` : ''}
+                                ${resource.Website ? `<a class="text-primary d-block mb-1" href="${resource.Website}" target="_blank" rel="noopener noreferrer"><i class="bi bi-globe"></i> Website</a>` : ''}
+                                ${resource.Phone ? `<a class="text-primary text-decoration-none fw-bold d-block" href="${resource['Phone URL'] || '#'}"><i class="bi bi-telephone-fill text-primary"></i> ${resource.Phone}</a>` : 'N/A'}
                             </p>
                         </div>
                     </div>
                 </div>`;
 
-            const popup = new maplibregl.Popup({ offset: 25, maxWidth: '320px' }).setHTML(popupContent);
+            const popup = new maplibregl.Popup({ offset: 25, maxWidth: '320px' })
+                .setHTML(popupContent);
+
             const marker = new maplibregl.Marker({ color: markerColor })
                 .setLngLat([lon, lat])
                 .setPopup(popup)
                 .addTo(map);
-            marker._resourceId = resource.ID || locationName;
+
+            marker._resourceId = resource.ID || resource['Location Name']; // Use a unique ID if available
             mapMarkers.push(marker);
             bounds.extend([lon, lat]);
         }
     });
 
     if (validMarkersExist && !bounds.isEmpty()) {
-        if (resources.length <= RESOURCES_PER_PAGE * 2 || currentPage === 1) {
-            map.fitBounds(bounds, { padding: 70, maxZoom: 15 });
+        if (resources.length <= RESOURCES_PER_PAGE * 2 || currentPage === 1 ) {
+             map.fitBounds(bounds, { padding: 70, maxZoom: 15 }); // Increased padding
         }
     } else if (currentPage === 1 && allFetchedResources.length === 0) {
+        // Don't fly to default if user location is set and map is centered there by GeolocateControl
         if (!(map.getCenter().lng === currentUserLongitude && map.getCenter().lat === currentUserLatitude)) {
-            map.flyTo({ center: [-77.0369, 38.9072], zoom: 7 });
+             map.flyTo({ center: [-77.0369, 38.9072], zoom: 7 });
         }
     }
 }
+
 
 // --- API Interaction ---
 function constructApiUrl() {
@@ -205,71 +320,57 @@ function constructApiUrl() {
     params.append(API_PARAMS.PAGE, currentPage);
     params.append(API_PARAMS.LIMIT, RESOURCES_PER_PAGE);
 
-    // IMPORTANT: Verify these field names against your NocoDB API documentation for the table.
-    // NocoDB might use the exact column name (e.g., "Location Name") or a transformed version (e.g., "LocationName").
-    // If NocoDB uses names with spaces, they need to be URL encoded correctly by URLSearchParams.
-    // Using PascalCase as a common API convention, but this needs verification.
-    const fieldsToFetch = [
-        'ID', 'Location Name', 'Organization', 'Address', 'City', 'State', 'Zip Code', // Prefer exact names if NocoDB supports them with spaces
-        'Latitude', 'Longitude', 'Phone', 'Phone URL', 'Website', 'Google Maps URL',
-        'Resource Type', 'Category', 'Populations Served', 'County', 'Description', 'Image'
-        // If NocoDB uses names like 'LocationName', 'ZipCode', use those instead:
-        // 'ID', 'LocationName', 'Organization', 'Address', 'City', 'State', 'ZipCode',
-        // 'Latitude', 'Longitude', 'Phone', 'PhoneURL', 'Website', 'GoogleMapsURL',
-        // 'ResourceType', 'Category', 'PopulationsServed', 'County', 'Description', 'Image'
-    ];
-    params.append(API_PARAMS.FIELDS, fieldsToFetch.join(','));
-
     const sortValue = sortBySelect.value;
     if (sortValue) {
-        params.append(API_PARAMS.SORT, sortValue); // Worker handles 'distance' separately. Other sorts are passed to NocoDB.
+        params.append(API_PARAMS.SORT, sortValue);
+        // If sorting by distance, add user coordinates
         if (sortValue === 'distance' && currentUserLatitude !== null && currentUserLongitude !== null) {
             params.append(API_PARAMS.USER_LAT, currentUserLatitude);
             params.append(API_PARAMS.USER_LON, currentUserLongitude);
-        } else if (sortValue === 'distance') {
-            console.warn("Attempting to sort by distance, but user location is not available. Removing distance sort.");
+        } else if (sortValue === 'distance' && (currentUserLatitude === null || currentUserLongitude === null)) {
+            console.warn("Attempting to sort by distance, but user location is not available.");
+            // Potentially remove sort=distance if location is missing to avoid backend error or unwanted behavior
             params.delete(API_PARAMS.SORT);
+            // Or you could add a default sort: params.append(API_PARAMS.SORT, 'default_sort_field');
         }
     }
+    /*
+    IMPORTANT FOR ALPHABETICAL/COUNTY SORT:
+    The HTML for the sortBySelect dropdown should have <option> elements
+    where the `value` attribute exactly matches the NocoDB column name you want to sort by.
+    For example:
+    <select id="sort-by" class="form-select">
+        <option value="">Sort by...</option>
+        <option value="Location Name">Alphabetical (Name)</option> <option value="County">County</option> <option value="distance">Distance (Nearest)</option> <option value="-Location Name">Alphabetical (Name Z-A)</option> </select>
+    The backend worker passes these values directly to NocoDB.
+    */
+
 
     if (activeFilters[FILTER_TYPES.SEARCH]) {
         params.append(API_PARAMS.SEARCH, activeFilters[FILTER_TYPES.SEARCH]);
     }
-    // For filter parameters like 'County', 'Populations Served', 'Resource Type', 'Category',
-    // the worker expects these exact names as query parameters.
-    activeFilters[FILTER_TYPES.COUNTIES].forEach(county => params.append('County', county));
-    activeFilters[FILTER_TYPES.POPULATIONS].forEach(population => params.append('Populations', population)); // 'Populations' in worker
-    activeFilters[FILTER_TYPES.RESOURCE_TYPES].forEach(type => params.append('Resource Type', type)); // 'Resource Type' in worker
-    activeFilters[FILTER_TYPES.CATEGORIES].forEach(category => params.append('Category', category));
+    activeFilters[FILTER_TYPES.COUNTIES].forEach(county => params.append(API_PARAMS.COUNTY, county));
+    activeFilters[FILTER_TYPES.POPULATIONS].forEach(population => params.append(API_PARAMS.POPULATIONS, population));
+    activeFilters[FILTER_TYPES.RESOURCE_TYPES].forEach(type => params.append(API_PARAMS.RESOURCE_TYPE, type));
+    activeFilters[FILTER_TYPES.CATEGORIES].forEach(category => params.append(API_PARAMS.CATEGORY, category));
 
     return `${API_BASE_URL}?${params.toString()}`;
 }
 
 async function fetchResources(url, shouldAppend = false) {
-    console.log("Fetching resources from URL:", url);
+    console.log("Fetching resources from URL:", url); // Log the URL
     try {
         const response = await fetch(url);
-        const data = await response.json();
-
         if (!response.ok) {
-            let errorMsg = `Failed to load resources. Server returned status ${response.status}.`;
-            if (data && data.error) {
-                errorMsg = `Error: ${data.error.message || 'Unknown server error.'} (ID: ${data.error.id || 'N/A'})`;
-                console.error(`HTTP error! status: ${response.status}, URL: ${url}, Error:`, data.error);
-            } else {
-                // If data.error is not available, try to get text for more clues
-                const errorText = await response.text(); // Re-fetch text if data wasn't useful JSON
-                console.error(`HTTP error! status: ${response.status}, URL: ${url}, Response Text: ${errorText}`);
-                errorMsg = `Failed to load resources. Server returned status ${response.status}. Response: ${errorText.substring(0,100)}`;
-
-            }
-            resourceListDiv.innerHTML = `<div class="alert alert-danger">${errorMsg} Please try again later.</div>`;
+            const errorText = await response.text();
+            console.error(`HTTP error! status: ${response.status}, URL: ${url}, Response: ${errorText}`);
+            resourceListDiv.innerHTML = `<div class="alert alert-danger">Failed to load resources. Server returned status ${response.status}. Please try again later.</div>`;
             updateLoadMoreVisibility(true);
             if (!shouldAppend) allFetchedResources = [];
             updateMapMarkers(allFetchedResources);
             return;
         }
-
+        const data = await response.json();
         const newResources = data.list || [];
         const pageInfo = data.pageInfo || {};
 
@@ -277,7 +378,7 @@ async function fetchResources(url, shouldAppend = false) {
             totalResourceCount = pageInfo.totalRows || 0;
             allFetchedResources = newResources;
         } else {
-            totalResourceCount = pageInfo.totalRows || totalResourceCount;
+            totalResourceCount = pageInfo.totalRows || totalResourceCount; // Use new total if available
             allFetchedResources = allFetchedResources.concat(newResources);
         }
 
@@ -287,8 +388,8 @@ async function fetchResources(url, shouldAppend = false) {
         updateMapMarkers(allFetchedResources);
 
     } catch (error) {
-        console.error('Error fetching or processing resources:', error);
-        resourceListDiv.innerHTML = `<div class="alert alert-danger">An error occurred: ${error.message}. Please check your connection and try again.</div>`;
+        console.error('Error fetching resources:', error);
+        resourceListDiv.innerHTML = '<div class="alert alert-danger">An error occurred while fetching resources. Please check your connection and try again.</div>';
         updateLoadMoreVisibility(true);
         if (!shouldAppend) allFetchedResources = [];
         updateMapMarkers(allFetchedResources);
@@ -301,14 +402,17 @@ function renderCategoryFilters() {
     categoryFiltersDiv.innerHTML = '';
     const fragment = document.createDocumentFragment();
     const selectedResourceTypes = activeFilters[FILTER_TYPES.RESOURCE_TYPES];
-    const visibleCategories = new Set(['Government', 'Other']);
+    const visibleCategories = new Set(['Government', 'Other']); // Ensure these are always options
 
     selectedResourceTypes.forEach(type => {
         if (CATEGORY_OPTIONS[type]) {
             CATEGORY_OPTIONS[type].forEach(cat => visibleCategories.add(cat));
         }
     });
+
+    // Add any currently selected categories even if their parent resource type is deselected
     activeFilters[FILTER_TYPES.CATEGORIES].forEach(cat => visibleCategories.add(cat));
+
 
     Array.from(visibleCategories).sort().forEach(category => {
         const id = `category-${category.toLowerCase().replace(/\s+/g, '-')}`;
@@ -334,73 +438,50 @@ function renderResources(resourcesToRender, shouldAppend = false) {
         const fragment = document.createDocumentFragment();
         resourcesToRender.forEach(resource => {
             const cardElement = document.createElement('div');
-            // Use the exact field names as returned by your NocoDB via the worker
-            const locationName = resource['Location Name'] || resource.LocationName || 'N/A';
-            const organization = resource.Organization || 'N/A';
-            const resourceType = resource['Resource Type'] || resource.ResourceType || '';
-            const category = resource.Category || '';
-            const phone = resource.Phone || 'N/A';
-            const address = resource.Address || 'N/A';
-            const city = resource.City || 'N/A';
-            const state = resource.State || 'N/A';
-            const zipCode = resource['Zip Code'] || resource.ZipCode || 'N/A';
-            const googleMapsUrl = resource['Google Maps URL'] || resource.GoogleMapsURL;
-            const populationsServed = resource['Populations Served'] || resource.PopulationsServed || '';
-            const county = resource.County || '';
-            const description = resource.Description || '';
-            const image = resource.Image || '';
-            const website = resource.Website;
-            const phoneUrl = resource['Phone URL'] || resource.PhoneURL;
-            const longitude = resource.Longitude;
-            const latitude = resource.Latitude;
+            const resourceIdentifier = resource.ID || resource['Location Name'] || Math.random().toString(36).substring(7);
 
-            const resourceIdentifier = resource.ID || locationName;
-
-
+            // Display distance if available from worker (e.g., after distance sort)
+            // The worker might add a 'distance' (meters) or 'distanceInMiles' field.
             let distanceDisplay = '';
-            if (resource.distanceInMiles != null && resource.distanceInMiles !== Infinity) {
-                let label = "Distance";
-                 if (resource.distanceSource === 'geoapify_driving_time' || resource.distanceSource === 'geoapify_driving_time_estimated_dist' && resource.drivingTimeSeconds != null) {
-                    const timeMinutes = Math.round(resource.drivingTimeSeconds / 60);
-                     label = `Approx. ${timeMinutes < 1 ? "<1" : timeMinutes} min drive`;
-                    distanceDisplay = `<h6 class="text-info">${label} (${resource.distanceInMiles.toFixed(1)} mi)</h6>`;
-                } else if (resource.distanceSource === 'geoapify_driving_distance') {
-                     distanceDisplay = `<h6 class="text-info">Distance: ${resource.distanceInMiles.toFixed(1)} miles (driving)</h6>`;
-                }else {
-                     distanceDisplay = `<h6 class="text-info">Distance: ${resource.distanceInMiles.toFixed(1)} miles (${resource.distanceSource === 'great_circle' ? 'as crow flies' : 'estimated'})</h6>`;
-                }
+            if (resource.distanceInMiles !== undefined && resource.distanceInMiles !== null) {
+                 distanceDisplay = `<p class="text-info lh-1 py-0 mb-1">Distance: ${resource.distanceInMiles.toFixed(1)} miles</p>`;
+            } else if (resource.distance !== undefined && resource.distance !== null && resource.distance !== Infinity) {
+                // Assuming 'distance' from worker is in meters if not converted
+                const distanceInKm = resource.distance / 1000;
+                const distanceInMilesVal = distanceInKm * 0.621371;
+                distanceDisplay = `<p class="text-info lh-1 py-0 mb-1">Distance: ${distanceInMilesVal.toFixed(1)} miles</p>`;
             }
+
 
             cardElement.innerHTML = `
                 <div class="resourceCard shadow-lg text-bg-white br-5-5-5-5 mb-5">
                     <div class="row no-gutters p-0">
                         <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
-                            <a href="${website || '#'}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" target="_blank" rel="noopener noreferrer" aria-label="Visit website for ${locationName}"> <i class="bi bi-globe"></i> </a>
-                            <a href="${phoneUrl || '#'}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" aria-label="Call ${locationName}"> <i class="bi bi-telephone-fill"></i> </a>
-                            <a href="#" class="map-view-link d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" data-longitude="${longitude}" data-latitude="${latitude}" data-resource-id="${resourceIdentifier}"> <i class="bi bi-geo-alt-fill"></i> </a>
+                            <a href="${resource.Website || '#'}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" target="_blank" rel="noopener noreferrer" aria-label="Visit website for ${resource['Location Name'] || 'resource'}"> <i class="bi bi-globe"></i> </a>
+                            <a href="${resource['Phone URL'] || '#'}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" aria-label="Call ${resource['Location Name'] || 'resource'}"> <i class="bi bi-telephone-fill"></i> </a>
+                            <a href="#" class="map-view-link d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" data-longitude="${resource.Longitude}" data-latitude="${resource.Latitude}" data-resource-id="${resourceIdentifier}"> <i class="bi bi-geo-alt-fill"></i> </a>
                         </div>
                         <div class="card-body col-10 p-4">
-                            <h3 class="text-secondary">${locationName}</h3>
-                            <h5 class="text-dark">${organization}</h5>
+                            <h3 class="text-secondary">${resource['Location Name'] || 'N/A'}</h3>
+                            <h5 class="text-dark fw-light lh-1 py-0">${resource.Organization || 'N/A'}</h5>
                             ${distanceDisplay}
                             <div class="mb-2">
-                                ${resourceType ? `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.RESOURCE_TYPES}" data-value="${resourceType}">${resourceType}</span>` : ''}
-                                ${category ? `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.CATEGORIES}" data-value="${category}">${category}</span>` : ''}
+                                ${resource['Resource Type'] ? `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.RESOURCE_TYPES}" data-value="${resource['Resource Type']}">${resource['Resource Type']}</span>` : ''}
+                                ${resource.Category ? `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.CATEGORIES}" data-value="${resource.Category}">${resource.Category}</span>` : ''}
                             </div>
-                            <h6>Phone: ${phone}</h6>
-                            <p>${address} <br>
-                                ${city}, ${state}, ${zipCode}<br />
-                                ${googleMapsUrl ? `<strong><a href="${googleMapsUrl}" class="text-secondary" target="_blank" rel="noopener noreferrer">Directions</a></strong>` : ''}
+                            <h6>Phone: ${resource.Phone || 'N/A'}</h6>
+                            <p>${resource.Address || 'N/A'} <br>
+                                ${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}<br />
+                                ${resource['Google Maps URL'] ? `<strong><a href="${resource['Google Maps URL']}" class="text-secondary" target="_blank" rel="noopener noreferrer">Directions</a></strong>` : ''}
                             </p>
-                            ${(populationsServed && populationsServed.trim() !== '') ? `<h6>Populations Served:</h6><div>
-                                ${(populationsServed).split(',').map(pop => pop.trim()).filter(pop => pop).map(pop => `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.POPULATIONS}" data-value="${pop}">${pop}</span>`).join('')}
+                            ${(resource['Populations Served'] && resource['Populations Served'].trim() !== '') ? `<h6>Populations Served:</h6><div>
+                                ${(resource['Populations Served'] || '').split(',').map(pop => pop.trim()).filter(pop => pop).map(pop => `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.POPULATIONS}" data-value="${pop}">${pop}</span>`).join('')}
                             </div>` : ''}
-                            ${county ? `<h6>County:</h6><div>
-                                <span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.COUNTIES}" data-value="${county}">${county}</span>
+                            ${resource.County ? `<h6>County:</h6><div>
+                                <span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.COUNTIES}" data-value="${resource.County}">${resource.County}</span>
                             </div>` : ''}
-                            ${description ? `<details><summary>Description</summary><p class="mt-2">${description}</p></details>` : ''}
                             <div class="row d-flex justify-content-end position-relative">
-                                ${image ? `<div class="col-md-auto d-flex justify-content-end align-items-end p-2" style="position:relative"><img class="cardImage" src="${image}" alt="${organization || locationName || 'Resource logo'}" ></div>` : ''}
+                                ${resource.Image ? `<div class="col-md-auto d-flex justify-content-end align-items-end p-2" style="position:relative"><img class="cardImage" src="${resource.Image}" alt="${resource.Organization || resource['Location Name'] || 'Resource logo'}" ></div>` : ''}
                             </div>
                         </div>
                     </div>
@@ -444,11 +525,14 @@ function handleSortChange() {
     const sortValue = sortBySelect.value;
     if (sortValue === 'distance') {
         if (currentUserLatitude !== null && currentUserLongitude !== null) {
+            // Location already known, apply filters
             applyFilters();
         } else if (!isFetchingLocation) {
+            // Location not known, try to get it
             isFetchingLocation = true;
+            // Show some loading state to user
             if (resultsCounter) resultsCounter.textContent = "Getting your location for distance sorting...";
-            if (resourceListDiv) resourceListDiv.innerHTML = '<div class="alert alert-info">Fetching your location... This may take a moment.</div>';
+            if (resourceListDiv) resourceListDiv.innerHTML = '<div class="alert alert-info">Fetching your location...</div>';
 
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -456,25 +540,49 @@ function handleSortChange() {
                     currentUserLongitude = position.coords.longitude;
                     console.log('User location obtained via navigator.geolocation:', currentUserLatitude, currentUserLongitude);
                     isFetchingLocation = false;
-                    applyFilters();
+                    applyFilters(); // Now apply filters with location
                 },
                 (error) => {
                     console.error("Error getting user location:", error.message);
                     isFetchingLocation = false;
-                    alert("Could not get your location. Please ensure location services are enabled and try again. Sorting by distance is unavailable.");
-                    sortBySelect.value = "";
-                    if (resultsCounter) resultsCounter.textContent = "";
-                    applyFilters();
+                    // Using a custom message box instead of alert()
+                    displayMessageBox("Could not get your location. Please ensure location services are enabled and try again. Sorting by distance is unavailable.");
+                    // Revert to a default sort or clear sort
+                    sortBySelect.value = ""; // Or a default sort value like "Location Name"
+                    if (resultsCounter) resultsCounter.textContent = ""; // Clear loading message
+                    applyFilters(); // Re-fetch with default/no sort
                 },
-                { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
             );
         } else {
             console.log("Already fetching location, please wait.");
         }
     } else {
+        // For other sort types (alphabetical, county), just apply filters
         applyFilters();
     }
 }
+
+/**
+ * Displays a custom message box instead of the browser's alert().
+ * @param {string} message - The message to display.
+ */
+function displayMessageBox(message) {
+    const messageBox = document.createElement('div');
+    messageBox.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50';
+    messageBox.innerHTML = `
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm mx-auto text-center">
+            <p class="text-lg mb-4">${message}</p>
+            <button id="message-box-ok" class="px-4 py-2 bg-indigo-600 text-white rounded-md">OK</button>
+        </div>
+    `;
+    document.body.appendChild(messageBox);
+
+    document.getElementById('message-box-ok').addEventListener('click', () => {
+        document.body.removeChild(messageBox);
+    });
+}
+
 
 function handleFilterChange(event) {
     const checkbox = event.target;
@@ -496,11 +604,15 @@ function handleFilterChange(event) {
             activeFilters[filterType] = activeFilters[filterType].filter(item => item !== value);
             removeFilterChipFromUI(filterType, value);
         }
+
         applyFilters();
+
         if (filterType === FILTER_TYPES.RESOURCE_TYPES) {
+            // If resource types change, re-render category filters
+            // Also, if all resource types are deselected, clear category filters
             if (activeFilters[FILTER_TYPES.RESOURCE_TYPES].length === 0) {
-                activeFilters[FILTER_TYPES.CATEGORIES].forEach(catVal => removeFilterChipFromUI(FILTER_TYPES.CATEGORIES, catVal));
-                activeFilters[FILTER_TYPES.CATEGORIES] = [];
+                 activeFilters[FILTER_TYPES.CATEGORIES].forEach(catVal => removeFilterChipFromUI(FILTER_TYPES.CATEGORIES, catVal));
+                 activeFilters[FILTER_TYPES.CATEGORIES] = [];
             }
             renderCategoryFilters();
         }
@@ -542,18 +654,22 @@ function removeFilter(filterType, filterValue) {
     } else {
         activeFilters[filterType] = activeFilters[filterType].filter(item => item !== filterValue);
         const checkboxClassName = filterType === FILTER_TYPES.COUNTIES ? 'county-filter' :
-            filterType === FILTER_TYPES.POPULATIONS ? 'population-filter' :
-            filterType === FILTER_TYPES.RESOURCE_TYPES ? 'resource-type-filter' :
-            filterType === FILTER_TYPES.CATEGORIES ? 'category-filter' : '';
+                                filterType === FILTER_TYPES.POPULATIONS ? 'population-filter' :
+                                filterType === FILTER_TYPES.RESOURCE_TYPES ? 'resource-type-filter' :
+                                filterType === FILTER_TYPES.CATEGORIES ? 'category-filter' : '';
         if (checkboxClassName) {
             const checkbox = document.querySelector(`input[type="checkbox"][value="${filterValue}"].${checkboxClassName}`);
-            if (checkbox) checkbox.checked = false;
+            if (checkbox) {
+                checkbox.checked = false;
+            }
         }
     }
+
     removeFilterChipFromUI(filterType, filterValue);
     applyFilters();
+
     if (filterType === FILTER_TYPES.RESOURCE_TYPES || filterType === FILTER_TYPES.CATEGORIES) {
-        renderCategoryFilters();
+        renderCategoryFilters(); // Re-render if resource type or category removed
     }
 }
 
@@ -561,12 +677,16 @@ function removeFilterChipFromUI(filterType, filterValue) {
     if (!chipsArea) return;
     const chipId = getChipId(filterType, filterValue);
     const chipToRemove = document.getElementById(chipId);
-    if (chipToRemove) chipsArea.removeChild(chipToRemove);
+    if (chipToRemove) {
+        chipsArea.removeChild(chipToRemove);
+    }
 }
 
 // --- Event Listeners Setup ---
 function initializeEventListeners() {
-    if (searchButton) searchButton.addEventListener('click', handleSearch);
+    if (searchButton) {
+        searchButton.addEventListener('click', handleSearch);
+    }
     if (searchInput) {
         searchInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
@@ -575,13 +695,18 @@ function initializeEventListeners() {
             }
         });
     }
+
     document.addEventListener('keydown', (event) => {
         if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
             event.preventDefault();
             if (searchInput) searchInput.focus();
         }
     });
-    if (sortBySelect) sortBySelect.addEventListener('change', handleSortChange);
+
+    if (sortBySelect) {
+        sortBySelect.addEventListener('change', handleSortChange); // Changed to new handler
+    }
+
     if (loadMoreButton) {
         loadMoreButton.addEventListener('click', () => {
             currentPage++;
@@ -604,20 +729,26 @@ function initializeEventListeners() {
 function handleSearch() {
     if (!searchInput) return;
     const searchTerm = searchInput.value.trim();
+
     if (activeFilters[FILTER_TYPES.SEARCH] && activeFilters[FILTER_TYPES.SEARCH] !== searchTerm) {
         removeFilterChipFromUI(FILTER_TYPES.SEARCH, activeFilters[FILTER_TYPES.SEARCH]);
     }
+
     activeFilters[FILTER_TYPES.SEARCH] = searchTerm;
     if (searchTerm) {
         addFilterChip(FILTER_TYPES.SEARCH, searchTerm);
     } else {
+        // Ensure chip is removed if search term is cleared
         removeFilterChipFromUI(FILTER_TYPES.SEARCH, activeFilters[FILTER_TYPES.SEARCH] || '');
     }
     applyFilters();
 }
 
 function handleFilterChangeDelegated(event) {
-    if (event.target.matches('input[type="checkbox"].county-filter, input[type="checkbox"].population-filter, input[type="checkbox"].resource-type-filter, input[type="checkbox"].category-filter')) {
+    if (event.target.matches('input[type="checkbox"].county-filter') ||
+        event.target.matches('input[type="checkbox"].population-filter') ||
+        event.target.matches('input[type="checkbox"].resource-type-filter') ||
+        event.target.matches('input[type="checkbox"].category-filter')) {
         handleFilterChange(event);
     }
 }
@@ -627,17 +758,31 @@ function handleResourceBadgeClickDelegated(event) {
     if (badge) {
         const filterType = badge.dataset.filter;
         const filterValue = badge.dataset.value;
+
         if (filterType && filterValue && activeFilters[filterType] !== undefined) {
+            // Check if the filter is already active by looking at the corresponding checkbox
             const checkboxClassName = filterType === FILTER_TYPES.COUNTIES ? 'county-filter' :
-                filterType === FILTER_TYPES.POPULATIONS ? 'population-filter' :
-                filterType === FILTER_TYPES.RESOURCE_TYPES ? 'resource-type-filter' :
-                filterType === FILTER_TYPES.CATEGORIES ? 'category-filter' : '';
+                                    filterType === FILTER_TYPES.POPULATIONS ? 'population-filter' :
+                                    filterType === FILTER_TYPES.RESOURCE_TYPES ? 'resource-type-filter' :
+                                    filterType === FILTER_TYPES.CATEGORIES ? 'category-filter' : '';
             if (!checkboxClassName) return;
+
             const correspondingCheckbox = document.querySelector(`input[type="checkbox"][value="${filterValue}"].${checkboxClassName}`);
+
             if (correspondingCheckbox && !correspondingCheckbox.checked) {
                 correspondingCheckbox.checked = true;
+                // Dispatch a change event to trigger the standard filter handling logic
                 const changeEvent = new Event('change', { bubbles: true });
                 correspondingCheckbox.dispatchEvent(changeEvent);
+            } else if (!correspondingCheckbox && Array.isArray(activeFilters[filterType]) && !activeFilters[filterType].includes(filterValue)) {
+                // Fallback for cases where a direct checkbox might not exist (less common now)
+                // or if the badge represents a filter that isn't tied to a visible checkbox set
+                activeFilters[filterType].push(filterValue);
+                addFilterChip(filterType, filterValue);
+                applyFilters();
+                if (filterType === FILTER_TYPES.RESOURCE_TYPES) {
+                    renderCategoryFilters();
+                }
             }
         }
     }
@@ -650,12 +795,27 @@ function handleMapViewLinkClickDelegated(event) {
         const lat = parseFloat(mapLink.dataset.latitude);
         const lon = parseFloat(mapLink.dataset.longitude);
         const resourceId = mapLink.dataset.resourceId;
+
         if (!isNaN(lat) && !isNaN(lon)) {
-            map.flyTo({ center: [lon, lat], zoom: 17, speed: 1.2 });
+            map.flyTo({
+                center: [lon, lat],
+                zoom: 17, // Zoom in closer
+                speed: 1.2
+            });
+
             const targetMarker = mapMarkers.find(m => m._resourceId === resourceId);
             if (targetMarker) {
-                mapMarkers.forEach(m => { if (m.getPopup().isOpen()) m.togglePopup(); });
-                setTimeout(() => { if (targetMarker.getPopup()) targetMarker.togglePopup(); }, 600);
+                mapMarkers.forEach(m => {
+                    if (m.getPopup().isOpen()) {
+                        m.togglePopup();
+                    }
+                });
+                // Timeout to allow map to fly before opening popup, can make UX smoother
+                setTimeout(() => {
+                    if (targetMarker.getPopup()) { // Check if popup exists
+                        targetMarker.togglePopup();
+                    }
+                }, 600); // Adjust timing as needed
             }
         } else {
             console.warn("Invalid coordinates for map link:", mapLink.dataset);
@@ -663,27 +823,45 @@ function handleMapViewLinkClickDelegated(event) {
     }
 }
 
+
 // --- Initial Load ---
 document.addEventListener('DOMContentLoaded', () => {
-    const essentialElements = [
-        searchInput, searchButton, chipsArea, countyFiltersDiv, populationFiltersDiv,
-        resourceTypeFiltersDiv, categoryFiltersDiv, resourceListDiv, resultsCounter,
-        loadMoreButton, loadMoreDiv, sortBySelect, mapDiv
-    ];
-    if (essentialElements.some(el => el === null)) {
+    if (!searchInput || !searchButton || !chipsArea || !countyFiltersDiv || !populationFiltersDiv ||
+        !resourceTypeFiltersDiv || !categoryFiltersDiv || !resourceListDiv || !resultsCounter ||
+        !loadMoreButton || !loadMoreDiv || !sortBySelect || !mapDiv) {
         console.error("One or more essential DOM elements are missing. Script will not run correctly.");
         if (document.body) {
-            const errorMsgDiv = document.createElement('div');
-            errorMsgDiv.className = 'alert alert-danger m-3';
-            errorMsgDiv.textContent = 'Error: Critical page elements are missing. The application may not function correctly.';
-            document.body.prepend(errorMsgDiv);
+             const errorMsgDiv = document.createElement('div');
+             errorMsgDiv.className = 'alert alert-danger m-3';
+             errorMsgDiv.textContent = 'Error: Critical page elements are missing. The application may not function correctly.';
+             document.body.prepend(errorMsgDiv);
         }
         return;
     }
 
     initializeMap();
     initializeEventListeners();
-    renderCategoryFilters();
+    renderCategoryFilters(); // Render initial categories (e.g. "Government", "Other")
+    // Fetch initial resources without any specific sort, NocoDB default or view default will apply
     const initialApiUrl = constructApiUrl();
     fetchResources(initialApiUrl);
 });
+
+/**
+ * HTML Structure for Sort By Dropdown (example):
+ *
+ * <div class="col-md-3">
+ * <label for="sort-by" class="form-label">Sort By</label>
+ * <select id="sort-by" class="form-select">
+ * <option value="">Default</option>
+ * <option value="Location Name">Name (A-Z)</option>
+ * <option value="-Location Name">Name (Z-A)</option>
+ * <option value="County">County</option>
+ * <option value="distance">Distance (Nearest)</option>
+ * </select>
+ * </div>
+ *
+ * Ensure the `value` attributes for 'Location Name' and 'County' (and any other
+ * NocoDB field-based sorts) exactly match the column names in your NocoDB.
+ * Prefix with '-' for descending sort (e.g., "-Location Name").
+ */
