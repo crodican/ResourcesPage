@@ -575,7 +575,8 @@ background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYA
                 <div class="row">
                 <div id="bigleft" class="col-12 col-lg-5 col-xl-5">
                     <div id="map-container" class="d-flex justify-content-center align-items-center">
-                        <div id="search-container" class="mb-3">
+
+                        <div id="search-container">
                             <div id="searchbar" class="input-group rounded-3">
                                 <input type="text" id="search-input" class="form-control border-0 bg-transparent py-2 px-4" placeholder="Search...">
                                 <div class="input-group-append">
@@ -586,7 +587,17 @@ background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYA
                                 </div>
                             </div>
                         </div>
-                        <div id="map"></div>
+<div class="maplibregl-ctrl maplibregl-ctrl-group" style="backgroun#55298a">
+    <button class="maplibregl-ctrl-zoom-in" type="button" title="Zoom in" aria-label="Zoom in" aria-disabled="false">
+        <span class="bi bi-plus" aria-hidden="true"></span></button>
+    <button class="maplibregl-ctrl-zoom-out" type="button" title="Zoom out" aria-label="Zoom out" aria-disabled="false">
+        <span class="bi bi-dash" aria-hidden="true"></span></button>
+    <button class="maplibregl-ctrl-compass" type="button" title="Reset bearing to north" aria-label="Reset bearing to north">
+        <span class="bi bi-compass" aria-hidden="true" style="transform: rotate(0deg);"></span></button>
+</div>                        <div id="map">
+                        
+                        
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-7 col-xl-7">

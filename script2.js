@@ -1,6 +1,6 @@
 // --- DOM Elements ---
-const searchInput = document.getElementById('search-input');
-const searchButton = document.querySelector('.searchButton');
+let searchInput;
+let searchButton;
 const chipsArea = document.getElementById('chips-area');
 const countyFiltersDiv = document.getElementById('county-filters');
 const populationFiltersDiv = document.getElementById('population-filters');
@@ -66,6 +66,49 @@ let isFetchingLocation = false; // To prevent multiple geolocation requests
 let map;
 let mapMarkers = [];
 
+// --- Custom Map Control for Search Bar ---
+class SearchControl {
+    onAdd(map) {
+        this._map = map;
+        // Main container for the control
+        this._container = document.createElement('div');
+        this._container.className = 'maplibregl-ctrl';
+        this._container.style.margin = '10px';
+        this._container.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        this._container.style.borderRadius = '10px';
+
+
+        // Inject the search bar HTML
+        this._container.innerHTML = `
+            <div id="searchbar" class="input-group rounded-3" style="width: 400px; max-width: 90vw;">
+                <input type="text" id="search-input" class="form-control border-0 bg-transparent py-2 px-4" placeholder="Search...">
+                <div class="input-group-append">
+                    <div class="bg-transparent px-2 py-1 d-flex align-items-center justify-content-center" style="height: 100%">
+                        <span><kbd>CTRL</kbd> + <kbd style="margin-right: 20px">K</kbd></span>
+                    </div>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn h-100 px-4 searchButton" type="button" style="border-radius: 1px 10px 10px 1px !important">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>`;
+
+        // Prevent map events from firing when interacting with the control
+        this._container.addEventListener('contextmenu', (e) => e.preventDefault());
+        this._container.addEventListener('mousedown', (e) => e.stopPropagation());
+        this._container.addEventListener('dblclick', (e) => e.stopPropagation());
+
+        return this._container;
+    }
+
+    onRemove() {
+        this._container.parentNode.removeChild(this._container);
+        this._map = undefined;
+    }
+}
+
+
 // --- Utility Functions (Great-circle distance, kept for potential other uses, not for sorting) ---
 function deg2rad(deg) {
     return deg * (Math.PI / 180);
@@ -97,6 +140,9 @@ function initializeMap() {
             center: [-77.0369, 38.9072], // Default center
             zoom: 7, // Adjusted default zoom
         });
+
+        // Add the custom search control to the top-left corner of the map
+        map.addControl(new SearchControl(), 'top-left');
 
         map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
 
@@ -713,7 +759,7 @@ function handleMapViewLinkClickDelegated(event) {
 
 // --- Initial Load ---
 document.addEventListener('DOMContentLoaded', () => {
-    if (!searchInput || !searchButton || !chipsArea || !countyFiltersDiv || !populationFiltersDiv ||
+    if (!chipsArea || !countyFiltersDiv || !populationFiltersDiv ||
         !resourceTypeFiltersDiv || !categoryFiltersDiv || !resourceListDiv || !resultsCounter ||
         !loadMoreButton || !loadMoreDiv || !sortBySelect || !mapDiv) {
         console.error("One or more essential DOM elements are missing. Script will not run correctly.");
@@ -727,6 +773,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initializeMap();
+
+    // Now that the map and its controls are initialized, we can select the search elements.
+    searchInput = document.getElementById('search-input');
+    searchButton = document.querySelector('.searchButton');
+    
+    // Check if the dynamically added elements were found
+    if (!searchInput || !searchButton) {
+        console.error("Search input or search button not found after initialization. Event listeners will not be attached.");
+        return; // Stop execution if critical controls are missing
+    }
+
     initializeEventListeners();
     renderCategoryFilters(); // Render initial categories (e.g. "Government", "Other")
     // Fetch initial resources without any specific sort, NocoDB default or view default will apply
