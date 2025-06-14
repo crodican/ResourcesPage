@@ -1,4 +1,5 @@
 // --- DOM Elements ---
+
 const searchInput = document.getElementById('search-input');
 const searchButton = document.querySelector('.searchButton');
 const chipsArea = document.getElementById('chips-area');
