@@ -1,0 +1,229 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Resources</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora&amp;family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <!-- Elevation Bootstrap CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css">
+    <!-- Custom Colors CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css">
+    <!-- animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Oxygen', sans-serif;
+        }
+        /* Custom Bootstrap Icon sizing */
+        
+        .bi-3x {
+            font-size: 3rem;
+        }
+        
+        .bi-4x {
+            font-size: 4rem;
+        }
+        
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Lora', serif;
+            font-weight: 700;
+        }
+        
+        .bg-gray-subtle {
+            background-color: #f8f9fa !important;
+            /* Bootstrap's light gray */
+        }
+    
+        .resourceCard {
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+        }
+    
+        .card-sidenav {
+            max-width: 70px;
+            border-radius: 5px 0 0 5px;
+        }
+    
+        .card-sidenav a {
+            background-color: #55298a;
+            color: white !important;
+            font-size: 24px;
+            /* Adjusted icon size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+            /* Ensure equal height */
+        }
+
+        .card-sidenav a:hover {
+            background-color: #f5ebf3;
+            color: #55298a !important;
+            overflow: hidden;
+        }
+
+        .card-sidenav a:nth-of-type(1) {
+            border-radius: 5px 0 0 0;
+        }
+
+        .card-sidenav a:nth-of-type(2) {
+            border-radius: 0;
+        }
+
+        .card-sidenav a:nth-of-type(3) {
+            border-radius: 0 0 0 5px;
+        }
+
+        .card-body h3 {
+            font-weight: 400;
+            margin-bottom: 0.2em;
+            line-height: 1.2em;
+            font-size: 24px;
+        }
+
+        .card-body h5 {
+            font-weight: 300;
+            margin-top: 0;
+            font-size: 16px;
+            color: #6c757d;
+        }
+
+        .badge {
+            margin-right: 0.5em;
+            margin-bottom: 0.3em;
+            cursor: pointer;
+        }
+
+        .cardImage {
+            max-height: 120px;
+            /* Adjusted image size */
+            max-width: 200px;
+            width: auto;
+            height: auto !important;
+        }
+    </style>
+    <style id="bstabs">
+
+        body {
+        background: #f8f9fa;
+        padding: 2rem 0;
+        }
+
+        .gradient-tabs {
+        background: linear-gradient(180deg, #55298a, white);
+        padding: 2rem;
+        border-radius: 1rem;
+        }
+
+        .gradient-tabs .nav-tabs {
+        border: none;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        }
+
+        .gradient-tabs .nav-link {
+        border: none;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.7);
+        transition: all 0.3s ease;
+        }
+
+        .gradient-tabs .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        }
+
+        .gradient-tabs .nav-link.active {
+        background: white;
+        color: #6366f1;
+        }
+
+        .gradient-tabs .tab-content {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        }
+
+        /* Content Animation */
+        .tab-pane.fade {
+        transition: all 0.2s ease-out;
+        }
+
+        .tab-pane.fade.show {
+        animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+        from {
+        opacity: 0;
+        transform: translateY(10px);
+        }
+
+        to {
+        opacity: 1;
+        transform: translateY(0);
+        }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="gradient-tabs">
+    <ul class="nav nav-tabs" id="gradientTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab3" data-bs-toggle="tab" data-bs-target="#home3" type="button" role="tab">
+                        Home
+                    </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab3" data-bs-toggle="tab" data-bs-target="#profile3" type="button" role="tab">
+                        Profile
+                    </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab3" data-bs-toggle="tab" data-bs-target="#contact3" type="button" role="tab">
+                        Contact
+                    </button>
+        </li>
+    </ul>
+    <div class="tab-content" id="gradientTabsContent">
+        <div class="tab-pane fade show active" id="home3" role="tabpanel">
+            <h4>Home Content</h4>
+            <p>This is the home tab content with gradient style.</p>
+        </div>
+        <div class="tab-pane fade" id="profile3" role="tabpanel">
+            <h4>Profile Content</h4>
+            <p>This is the profile tab content with gradient style.</p>
+        </div>
+        <div class="tab-pane fade" id="contact3" role="tabpanel">
+            <h4>Contact Content</h4>
+            <p>This is the contact tab content with gradient style.</p>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
