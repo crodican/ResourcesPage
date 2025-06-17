@@ -473,10 +473,10 @@
         #searchbar:focus-within span {
             color: transparent;
         }
-
-.results-scroll {
-  padding-bottom: 3rem;
-}
+        
+        .results-scroll {
+            padding-bottom: 3rem;
+        }
     </style>
 </head>
 
@@ -576,42 +576,32 @@
             </div>
         </div>
     </section>
-<section>
-  <div class="row g-0 flex-column flex-sm-row">
-
-    <!-- Results Column (scrolls independently) -->
-<div class="col-sm-7 col-lg-8 order-2 order-sm-1">
-  <div class="results-scroll px-4 py-3">
-        <div id="chips-area" class="mb-3"></div>
-
-        <div id="results-wrapper">
-          <div class="results-header d-flex justify-content-between align-items-center mb-3">
-            <h4 id="results-counter" class="results-count">Results 1–25 of 299</h4>
- 
-
-              
-          </div>
-
-          <div id="resource-list" class="d-flex flex-column px-2">
-            <!-- Cards go here -->
-          </div>
-
-          <div id="load-more" class="text-center my-4">
-            <button class="btn bg-secondary text-white rounded-0" id="load-more-button">Load More</button>
-          </div>
+    <section>
+        <div class="row g-0 flex-column flex-sm-row">
+            <!-- Results Column (scrolls independently) -->
+            <div class="col-sm-7 col-lg-8 order-2 order-sm-1">
+                <div class="results-scroll px-4 py-3">
+                    <div id="chips-area" class="mb-3"></div>
+                    <div id="results-wrapper">
+                        <div class="results-header d-flex justify-content-between align-items-center mb-3">
+                            <h4 id="results-counter" class="results-count">Results 1–25 of 299</h4> </div>
+                        <div id="resource-list" class="d-flex flex-column px-2">
+                            <!-- Cards go here -->
+                        </div>
+                        <div id="load-more" class="text-center my-4">
+                            <button class="btn bg-secondary text-white rounded-0" id="load-more-button">Load More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Map Column (sticky) -->
+            <div class="col-sm-5 col-lg-4 order-1 order-sm-2">
+                <div class="sticky-top" style="height: 100vh;">
+                    <div id="map" style="height: 100%; background-color: #eee;"></div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Map Column (sticky) -->
-    <div class="col-sm-5 col-lg-4 order-1 order-sm-2">
-      <div class="sticky-top" style="height: 100vh;">
-        <div id="map" style="height: 100%; background-color: #eee;"></div>
-      </div>
-    </div>
-
-  </div>
-</section>
+    </section>
     <footer class="footer">
         <div class="footer__container container">
             <div class="footer__top row">
@@ -686,14 +676,13 @@
                 </div>
                 <div class="modal-body">
                     <!-- Filter content goes here -->
-              <div class="sort-control d-none d-md-block">
-              <select id="sort-by" class="form-select" style="background-color:lightsteelblue">
-                <option value="">Sort By...</option>
-                <option value="Location Name">Name (A–Z)</option>
-              </select>
-            </div>
+                    <div class="sort-control d-none d-md-block">
+                        <select id="sort-by" class="form-select" style="background-color:lightsteelblue">
+                            <option value="">Sort By...</option>
+                            <option value="Location Name">Name (A–Z)</option>
+                        </select>
+                    </div>
                     <div class="container-fluid">
-
                         <div class="filter-section">
                             <div id="county-filters" class="card p-3 m-2">
                                 <h5 class="text-secondary">Counties</h5>
@@ -784,7 +773,6 @@
             </div>
         </div>
     </div>
-
     <script defer="defer" src="https://www.councilsepa.org/wp-content/themes/elevation-framework/build/assets/script.js?ver=1.0.0" id="elevation-scripts"></script>
     <script src="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js"></script>
     <script src="script.js"></script>
