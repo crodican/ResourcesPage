@@ -63,6 +63,27 @@ let currentUserLatitude = null;
 let currentUserLongitude = null;
 let isFetchingLocation = false; // To prevent multiple geolocation requests
 
+// --- Initialize filters from URL ---
+const url = new URL(window.location.href);
+const urlParams = url.searchParams;
+
+// Read counties from query params
+if (urlParams.has('County')) {
+    activeFilters[FILTER_TYPES.COUNTIES] = urlParams.getAll('County');
+}
+if (urlParams.has('Populations')) {
+    activeFilters[FILTER_TYPES.POPULATIONS] = urlParams.getAll('Populations');
+}
+if (urlParams.has('Resource Type')) {
+    activeFilters[FILTER_TYPES.RESOURCE_TYPES] = urlParams.getAll('Resource Type');
+}
+if (urlParams.has('Category')) {
+    activeFilters[FILTER_TYPES.CATEGORIES] = urlParams.getAll('Category');
+}
+if (urlParams.has('search')) {
+    activeFilters[FILTER_TYPES.SEARCH] = urlParams.get('search');
+}
+
 // --- Map Variables ---
 let map;
 let mapMarkers = [];
@@ -96,7 +117,8 @@ function initializeMap() {
             container: 'map',
             style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_API_KEY}`,
             center: [-77.0369, 38.9072], // Default center
-            zoom: 7, // Adjusted default zoom
+            zoom: 9, // Adjusted default zoom
+            pitch: 30,
         });
 
         map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
@@ -337,6 +359,40 @@ function renderCategoryFilters() {
     categoryFiltersDiv.appendChild(fragment);
 }
 
+function syncCheckboxesWithFilters() {
+    const checkboxGroups = {
+        [FILTER_TYPES.COUNTIES]: countyFiltersDiv,
+        [FILTER_TYPES.POPULATIONS]: populationFiltersDiv,
+        [FILTER_TYPES.RESOURCE_TYPES]: resourceTypeFiltersDiv,
+        [FILTER_TYPES.CATEGORIES]: categoryFiltersDiv
+    };
+
+    for (const filterType in checkboxGroups) {
+        const container = checkboxGroups[filterType];
+        const selectedValues = activeFilters[filterType];
+        if (!container || !selectedValues || selectedValues.length === 0) continue;
+
+        selectedValues.forEach(value => {
+            const safeSelector = `input[type="checkbox"][value="${CSS.escape(value)}"]`;
+            const checkbox = container.querySelector(safeSelector);
+            if (checkbox) checkbox.checked = true;
+        });
+    }
+}
+
+function syncChipsWithFilters() {
+    for (const filterType in activeFilters) {
+        const values = activeFilters[filterType];
+        if (Array.isArray(values)) {
+            values.forEach(value => addFilterChip(filterType, value));
+        } else if (typeof values === 'string' && values.trim() !== '') {
+            addFilterChip(filterType, values);
+        }
+    }
+}
+
+
+
 function renderResources(resourcesToRender, shouldAppend = false) {
     if (!resourceListDiv) return;
     if (!shouldAppend) {
@@ -515,18 +571,25 @@ function getChipId(filterType, filterValue) {
 
 function addFilterChip(filterType, filterValue) {
     if (!chipsArea) return;
+
+    // Special label for counties: add "County" unless it's Philadelphia
+    let displayValue = filterValue;
+    if (filterType === FILTER_TYPES.COUNTIES && filterValue !== 'Philadelphia') {
+        displayValue = `${filterValue} County`;
+    }
+
     const chipId = getChipId(filterType, filterValue);
     if (document.getElementById(chipId)) return;
 
     const chip = document.createElement('span');
     chip.classList.add('chip', 'badge', 'bg-secondary', 'text-white', 'me-1', 'mb-1');
     chip.id = chipId;
-    chip.textContent = filterValue;
+    chip.textContent = displayValue;
 
     const closeButton = document.createElement('i');
     closeButton.classList.add('bi', 'bi-x-circle-fill', 'close-chip', 'ms-2');
     closeButton.style.cursor = 'pointer';
-    closeButton.setAttribute('aria-label', `Remove ${filterValue} filter`);
+    closeButton.setAttribute('aria-label', `Remove ${displayValue} filter`);
     closeButton.addEventListener('click', () => {
         removeFilter(filterType, filterValue);
     });
@@ -534,6 +597,7 @@ function addFilterChip(filterType, filterValue) {
     chip.appendChild(closeButton);
     chipsArea.appendChild(chip);
 }
+
 
 function removeFilter(filterType, filterValue) {
     if (filterType === FILTER_TYPES.SEARCH) {
@@ -711,9 +775,19 @@ function handleMapViewLinkClickDelegated(event) {
     }
 }
 
-
 // --- Initial Load ---
 document.addEventListener('DOMContentLoaded', () => {
+    // Check URL for search parameter and pre-fill search input
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialSearchTerm = urlParams.get('search');
+
+    if (searchInput && initialSearchTerm) {
+        searchInput.value = initialSearchTerm;
+        // IMPORTANT: Also update the activeFilters state and add the chip
+        activeFilters[FILTER_TYPES.SEARCH] = initialSearchTerm; // This is the new line
+        addFilterChip(FILTER_TYPES.SEARCH, initialSearchTerm); // This is also new
+    }
+
     if (!searchInput || !searchButton || !chipsArea || !countyFiltersDiv || !populationFiltersDiv ||
         !resourceTypeFiltersDiv || !categoryFiltersDiv || !resourceListDiv || !resultsCounter ||
         !loadMoreButton || !loadMoreDiv || !sortBySelect || !mapDiv) {
@@ -730,7 +804,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeMap();
     initializeEventListeners();
     renderCategoryFilters(); // Render initial categories (e.g. "Government", "Other")
+    syncCheckboxesWithFilters(); // Checkboxes reflect URL filters
+    syncChipsWithFilters();           // ✅ Show chips for checked filters
     // Fetch initial resources without any specific sort, NocoDB default or view default will apply
-    const initialApiUrl = constructApiUrl();
+    const initialApiUrl = constructApiUrl(); // This will now include the pre-filled search term
     fetchResources(initialApiUrl);
 });
