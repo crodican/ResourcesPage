@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Family Support in Montgomery County</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora&amp;family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/bs-grid.css">
+    <!-- Elevation Bootstrap CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css">
+    <!-- Custom Colors CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css">  <style>
+    body {
+      font-family: 'Oxygen', sans-serif;
+      background-color: #f8f9fa;
+    }
+    .carousel-item {
+      padding: 2rem 0;
+    }
+    .resourceCard {
+      border-radius: 5px;
+    }
+    .card-sidenav {
+      max-width: 70px;
+      border-radius: 5px 0 0 5px;
+    }
+    .card-sidenav a {
+      background-color: #55298a;
+      color: white !important;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70px;
+    }
+    .cardImage {
+      max-height: 120px;
+      max-width: 200px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container my-5">
+  <h1 class="text-center mb-4">Family Support Resources in Montgomery County</h1>
+
+  <div id="resourceCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner" id="carousel-content">
+      <!-- Slides will be injected here -->
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#resourceCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#resourceCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const API_BASE_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/';
+  const RESOURCE_TYPE = 'Family Support';
+  const COUNTY = 'Montgomery';
+
+  async function fetchFamilySupportResources() {
+    const url = `${API_BASE_URL}?${new URLSearchParams({
+      'Resource Type': RESOURCE_TYPE,
+      'County': COUNTY
+    })}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data.list || [];
+    } catch (error) {
+      console.error("Failed to fetch resources:", error);
+      return [];
+    }
+  }
+
+  function createResourceCard(resource) {
+    const name = resource['Location Name'] || 'N/A';
+    const org = resource.Organization || '';
+    const phone = resource.Phone || 'N/A';
+    const phoneUrl = resource['Phone URL'] || '#';
+    const address = `${resource.Address || ''}, ${resource.City || ''}, ${resource.State || ''} ${resource['Zip Code'] || ''}`;
+    const website = resource.Website || '#';
+    const mapsUrl = resource['Google Maps URL'] || '#';
+    const image = resource.Image || '';
+
+    return `
+      <div class="resourceCard shadow-lg text-bg-white p-3 mx-auto" style="max-width: 960px;">
+        <div class="row no-gutters">
+          <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
+            <a href="${website}" target="_blank" rel="noopener"><i class="bi bi-globe"></i></a>
+            <a href="${phoneUrl}" rel="noopener"><i class="bi bi-telephone-fill"></i></a>
+            <a href="${mapsUrl}" target="_blank" rel="noopener"><i class="bi bi-geo-alt-fill"></i></a>
+          </div>
+          <div class="card-body col-10">
+            <h3 class="text-secondary">${name}</h3>
+            <h5 class="text-muted">${org}</h5>
+            <p>${address}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            ${resource['Populations Served'] ? `<p><strong>Populations Served:</strong> ${resource['Populations Served']}</p>` : ''}
+            ${resource.Category ? `<span class="badge bg-secondary me-1">${resource.Category}</span>` : ''}
+            ${resource['Resource Type'] ? `<span class="badge bg-secondary">${resource['Resource Type']}</span>` : ''}
+            ${image ? `<div class="mt-3"><img class="cardImage" src="${image}" alt="Logo for ${name}"></div>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  async function populateCarousel() {
+    const resources = await fetchFamilySupportResources();
+    const container = document.getElementById('carousel-content');
+
+    if (resources.length === 0) {
+      container.innerHTML = `<div class="carousel-item active text-center"><p class="text-muted">No resources found.</p></div>`;
+      return;
+    }
+
+    resources.forEach((resource, index) => {
+      const item = document.createElement('div');
+      item.className = `carousel-item${index === 0 ? ' active' : ''}`;
+      item.innerHTML = createResourceCard(resource);
+      container.appendChild(item);
+    });
+  }
+
+  populateCarousel();
+</script>
+
+</body>
+</html>
