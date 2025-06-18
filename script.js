@@ -527,6 +527,17 @@ function handleSortChange() {
     }
 }
 
+function handleFilterChangeDelegated(event) {
+  if (!event.target.matches('input[type="checkbox"]')) return;
+
+  handleFilterChange(event);
+
+  // This ensures categories update on Resource Type change
+  if (event.target.classList.contains('resource-type-filter')) {
+    renderCategoryFilters();
+  }
+}
+
 
 function handleFilterChange(event) {
     const checkbox = event.target;

@@ -15,6 +15,7 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css">
   <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
   <style>
     body {
@@ -33,10 +34,6 @@
       height: 100%;
       width: 100%;
       margin: auto;
-      min-width: 350px;
-      max-width: 350px;
-      height: 550px;
-      overflow: hidden;
     }
 
     .card-sidenav {
@@ -102,13 +99,34 @@
       }
     }
 
-    #resourceScrollContainer::-webkit-scrollbar {
-      height: 8px;
+    .carousel,
+    .carousel-inner,
+    .carousel-item {
+      height: 100%;
     }
 
-    #resourceScrollContainer::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0.2);
-      border-radius: 4px;
+    .carousel-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+      width: auto;
+      height: 64px;
+      font-size: 48px;
+      bottom: 1rem;
+      top: auto;
+      z-index: 10;
+    }
+
+    .carousel-control-prev {
+      left: 1rem;
+    }
+
+    .carousel-control-next {
+      right: 1rem;
     }
   </style>
 </head>
@@ -130,21 +148,20 @@
         </nav>
       </div>
 
-      <!-- Scrollable Content -->
-      <div class="col-12 col-md-10">
-        <div class="position-relative">
-          <!-- Scroll Buttons -->
-          <button id="scrollLeftBtn" class="btn btn-light position-absolute start-0 top-50 translate-middle-y z-1 shadow d-none d-md-inline" style="height: 64px; width: 64px;">
-            <i class="bi bi-caret-left-fill fs-2"></i>
-          </button>
-          <button id="scrollRightBtn" class="btn btn-light position-absolute end-0 top-50 translate-middle-y z-1 shadow d-none d-md-inline" style="height: 64px; width: 64px;">
-            <i class="bi bi-caret-right-fill fs-2"></i>
-          </button>
-
-          <!-- Horizontal Scroll Container -->
-          <div id="resourceScrollContainer" class="d-flex overflow-auto gap-4 py-3 px-2" style="scroll-snap-type: x mandatory;">
-            <div class="text-center py-5 w-100">Loading resources...</div>
+      <!-- Carousel Content -->
+      <div class="col-12 col-md-10 d-flex flex-column" style="height: calc(100vh - 100px);">
+        <div id="resourceCarousel" class="carousel slide animate__animated animate__fadeIn h-100 flex-grow-1" data-bs-ride="carousel">
+          <div class="carousel-inner h-100" id="carouselInner">
+            <div class="carousel-item active d-flex align-items-center justify-content-center">
+              <div class="text-center py-5">Loading resources...</div>
+            </div>
           </div>
+          <button class="carousel-control-prev bg-transparent border-0" type="button" data-bs-target="#resourceCarousel" data-bs-slide="prev">
+            <span class="bi bi-caret-left-square-fill text-black"></span>
+          </button>
+          <button class="carousel-control-next bg-transparent border-0" type="button" data-bs-target="#resourceCarousel" data-bs-slide="next">
+            <span class="bi bi-caret-right-square-fill text-black"></span>
+          </button>
         </div>
       </div>
     </div>
@@ -175,14 +192,14 @@
         .join('');
 
       return `
-        <div class="resourceCard shadow-lg text-bg-white br-5-5-5-5 mb-4">
-          <div class="row no-gutters p-0 h-100">
-            <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
-              <a href="${resource.Website || '#'}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" target="_blank"><i class="bi bi-globe"></i></a>
-              <a href="${resource['Phone URL'] || '#'}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white"><i class="bi bi-telephone-fill"></i></a>
-              <a href="${resource['Google Maps URL'] || '#'}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 text-white" target="_blank"><i class="bi bi-geo-alt-fill"></i></a>
+        <div class="resourceCard shadow-lg text-bg-white br-5-5-5-5">
+          <div class="row g-0 flex-column flex-md-row h-100">
+            <div class="card-sidenav col-md-2 col-12 d-flex flex-row flex-md-column justify-content-between align-items-center p-0">
+              <a href="${resource.Website || '#'}" target="_blank"><i class="bi bi-globe"></i></a>
+              <a href="${resource['Phone URL'] || '#'}"><i class="bi bi-telephone-fill"></i></a>
+              <a href="${resource['Google Maps URL'] || '#'}" target="_blank"><i class="bi bi-geo-alt-fill"></i></a>
             </div>
-            <div class="card-body col-10 p-4">
+            <div class="card-body col-md-10 col-12 p-4">
               <h3 class="text-secondary">${resource['Location Name'] || 'N/A'}</h3>
               <h5 class="text-dark">${resource.Organization || 'N/A'}</h5>
               <div class="mb-2">
@@ -190,17 +207,19 @@
                 <span class="badge text-black bg-pink py-2 my-1" style="background-color: #f5ebf3;">${resource.Category || 'N/A'}</span>
               </div>
               <h6>Phone: ${resource.Phone || 'N/A'}</h6>
-              <p>${resource.Address || 'N/A'}<br>${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}<br />
+              <p>${resource.Address || 'N/A'}<br>${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}<br>
                 <strong><a href="${resource['Google Maps URL'] || '#'}" class="text-secondary" target="_blank">Directions</a></strong>
               </p>
               <h6>Populations Served:</h6>
               <div>${pops}</div>
               <h6>County:</h6>
-              <div><span class="badge text-black bg-pink py-2 my-1" style="background-color: #f5ebf3;">${resource.County || 'N/A'}</span></div>
+              <div>
+                <span class="badge text-black bg-pink py-2 my-1" style="background-color: #f5ebf3;">${resource.County || 'N/A'}</span>
+              </div>
               ${resource.Image ? `
               <div class="row d-flex justify-content-end position-relative">
-                <div class="col-md-auto d-flex justify-content-end align-items-end p-2" style="position:relative">
-                  <img class="cardImage" src="${resource.Image}" alt="Logo" style="position:absolute;max-height:200px;width:auto" onerror="this.style.display='none';">
+                <div class="col-md-auto d-flex justify-content-end align-items-end p-2">
+                  <img class="cardImage" src="${resource.Image}" alt="Logo" onerror="this.style.display='none';">
                 </div>
               </div>` : ''}
             </div>
@@ -208,23 +227,22 @@
         </div>`;
     }
 
-    async function renderScrollableCards(county) {
-      const container = document.getElementById('resourceScrollContainer');
-      container.innerHTML = `<div class="text-center py-5 w-100">Loading...</div>`;
+    async function renderCarousel(county) {
+      const container = document.getElementById('carouselInner');
+      container.innerHTML = `<div class="carousel-item active d-flex align-items-center justify-content-center"><div class="text-center py-5">Loading...</div></div>`;
       const resources = await fetchResources(county);
 
       if (!resources.length) {
-        container.innerHTML = `<div class="text-center py-5 w-100">No family support resources found for ${county}.</div>`;
+        container.innerHTML = `<div class="carousel-item active d-flex align-items-center justify-content-center"><div class="text-center py-5">No family support resources found for ${county}.</div></div>`;
         return;
       }
 
       container.innerHTML = '';
-      resources.forEach(resource => {
-        const cardWrapper = document.createElement('div');
-        cardWrapper.style.flex = '0 0 auto';
-        cardWrapper.style.scrollSnapAlign = 'start';
-        cardWrapper.innerHTML = createCard(resource);
-        container.appendChild(cardWrapper);
+      resources.forEach((res, index) => {
+        const item = document.createElement('div');
+        item.className = 'carousel-item h-100 d-flex align-items-center justify-content-center' + (index === 0 ? ' active' : '');
+        item.innerHTML = createCard(res);
+        container.appendChild(item);
       });
     }
 
@@ -232,20 +250,12 @@
       if (e.target.tagName === 'BUTTON') {
         document.querySelectorAll('#countyNav .nav-link').forEach(btn => btn.classList.remove('active'));
         e.target.classList.add('active');
-        renderScrollableCards(e.target.getAttribute('data-county'));
+        renderCarousel(e.target.getAttribute('data-county'));
       }
     });
 
-    document.getElementById('scrollLeftBtn').addEventListener('click', () => {
-      document.getElementById('resourceScrollContainer').scrollBy({ left: -350, behavior: 'smooth' });
-    });
-
-    document.getElementById('scrollRightBtn').addEventListener('click', () => {
-      document.getElementById('resourceScrollContainer').scrollBy({ left: 350, behavior: 'smooth' });
-    });
-
     document.addEventListener('DOMContentLoaded', () => {
-      renderScrollableCards('Philadelphia');
+      renderCarousel('Philadelphia');
     });
   </script>
 </body>

@@ -352,6 +352,12 @@
             padding: 0;
             font-size: 1em;
         }
+        
+        .kbd {
+            @media (width < 576px) {
+                display: none;
+            }
+        }
         /* Media queries for hero-section (unrelated to map, but kept for completeness) */
         /* Extra Small */
         
@@ -556,7 +562,7 @@
             </div>
         </div>
     </header>
-<section class="hero-section py-5 w-100 d-flex">
+    <section class="hero-section py-5 w-100 d-flex">
         <div class="container d-flex justify-content-end">
             <div class="row d-flex justify-content-start align-items-end">
                 <div class="banner-col col-12 col-xl-8">
@@ -568,17 +574,17 @@
                         </a>
                         <br>
                         <br>
-                        <p>
-                            </p><h1>Resources</h1>
-                            <h5>Find essential resources including Recovery Support, Family Support, Housing, and Transportation, plus links to additional support.</h5></div>
+                        <p> </p>
+                        <h1>Resources</h1>
+                        <h5>Find essential resources including Recovery Support, Family Support, Housing, and Transportation, plus links to additional support.</h5></div>
                 </div>
                 <div id="search-container">
-                    <div id="searchbar" class="input-group rounded-3">
+                    <div id="searchbar" class="input-group rounded-3" style="flex-wrap: nowrap">
                         <div class="input-group-prepend">
-                            <button class="btn h-100 px-2" type="button" data-bs-toggle="modal" data-bs-target="#filterModal" style="border-radius: 6px 1px 1px 6px !important"><i class="bi bi-funnel-fill" style="margin-right: 7px"></i>Filter</button>
+                            <button class="btn h-100 px-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas" style="border-radius: 6px 1px 1px 6px !important"><i class="bi bi-funnel-fill" style="margin-right: 7px"></i>Filter</button>
                         </div>
                         <input type="text" id="search-input" class="form-control border-0 bg-transparent py-2 px-4" placeholder="Search...">
-                        <div class="input-group-append">
+                        <div class="input-group-append kbd">
                             <div class="bg-transparent px-2 py-1 d-flex align-items-center justify-content-center" style="height: 100%"> <span><kbd>CTRL</kbd> + <kbd style="margin-right: 20px">K</kbd></span> </div>
                         </div>
                         <div class="input-group-append">
@@ -734,7 +740,6 @@
             </div>
         </div>
     </section>
-
     <footer class="footer">
         <div class="footer__container container">
             <div class="footer__top row">
@@ -800,107 +805,104 @@
             </div>
         </div>
     </footer>
-
-    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen animate__animated animate__fadeInUp">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="filterModalLabel">Filters</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="filterOffcanvasLabel">Filters</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="row d-flex flex-row justify-content-end">
+                <div class="col-6">
+                    <select id="sort-by" class="form-select" style="background-color:lightsteelblue">
+                        <option value="">Sort By...</option>
+                        <option value="Location Name">Name (A–Z)</option>
+                    </select>
                 </div>
-                <div class="modal-body">
-                    <!-- Filter content goes here -->
-                    <div class="sort-control d-none d-md-block">
-                        <select id="sort-by" class="form-select" style="background-color:lightsteelblue">
-                            <option value="">Sort By...</option>
-                            <option value="Location Name">Name (A–Z)</option>
-                        </select>
+            </div>
+            <br />
+            <div class="container-fluid">
+                <div class="filter-section">
+                    <div id="county-filters" class="card p-3 m-2">
+                        <h5 class="text-secondary">Counties</h5>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Philadelphia" id="county-philadelphia">
+                            <label class="form-check-label" for="county-philadelphia">Philadelphia</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Berks" id="county-berks">
+                            <label class="form-check-label" for="county-berks">Berks</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Bucks" id="county-bucks">
+                            <label class="form-check-label" for="county-bucks">Bucks</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Chester" id="county-chester">
+                            <label class="form-check-label" for="county-chester">Chester</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Delaware" id="county-delaware">
+                            <label class="form-check-label" for="county-delaware">Delaware</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Lancaster" id="county-lancaster">
+                            <label class="form-check-label" for="county-lancaster">Lancaster</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Montgomery" id="county-montgomery">
+                            <label class="form-check-label" for="county-montgomery">Montgomery</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Schuylkill" id="county-schuylkill">
+                            <label class="form-check-label" for="county-schuylkill">Schuylkill</label>
+                        </div>
                     </div>
-                    <div class="container-fluid">
-                        <div class="filter-section">
-                            <div id="county-filters" class="card p-3 m-2">
-                                <h5 class="text-secondary">Counties</h5>
-                                <div class="form-check">
-                                    <input class="form-check-input county-filter" type="checkbox" value="Philadelphia" id="county-philadelphia">
-                                    <label class="form-check-label" for="county-philadelphia">Philadelphia</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input county-filter" type="checkbox" value="Berks" id="county-berks">
-                                    <label class="form-check-label" for="county-berks">Berks</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input county-filter" type="checkbox" value="Bucks" id="county-bucks">
-                                    <label class="form-check-label" for="county-bucks">Bucks</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input county-filter" type="checkbox" value="Chester" id="county-chester">
-                                    <label class="form-check-label" for="county-chester">Chester</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input county-filter" type="checkbox" value="Delaware" id="county-delaware">
-                                    <label class="form-check-label" for="county-delaware">Delaware</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input county-filter" type="checkbox" value="Lancaster" id="county-lancaster">
-                                    <label class="form-check-label" for="county-lancaster">Lancaster</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input county-filter" type="checkbox" value="Montgomery" id="county-montgomery">
-                                    <label class="form-check-label" for="county-montgomery">Montgomery</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input county-filter" type="checkbox" value="Schuylkill" id="county-schuylkill">
-                                    <label class="form-check-label" for="county-schuylkill">Schuylkill</label>
-                                </div>
-                            </div>
-                            <div id="population-filters" class="card p-3 m-2">
-                                <h5 class="text-secondary">Populations Served</h5>
-                                <div class="form-check">
-                                    <input class="form-check-input population-filter" type="checkbox" value="Men" id="population-men">
-                                    <label class="form-check-label" for="population-men">Men</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input population-filter" type="checkbox" value="Women" id="population-women">
-                                    <label class="form-check-label" for="population-women">Women</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input population-filter" type="checkbox" value="Children" id="population-children">
-                                    <label class="form-check-label" for="population-children">Children</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input population-filter" type="checkbox" value="Adolescents" id="population-adolescents">
-                                    <label class="form-check-label" for="population-adolescents">Adolescents</label>
-                                </div>
-                            </div>
-                            <div id="resource-type-filters" class="card p-3 m-2">
-                                <h5 class="text-secondary">Resource Types</h5>
-                                <div class="form-check">
-                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Recovery Support" id="resource-type-recovery-support">
-                                    <label class="form-check-label" for="resource-type-recovery-support">Recovery Support</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Family Support" id="resource-type-family-support">
-                                    <label class="form-check-label" for="resource-type-family-support">Family Support</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Housing" id="resource-type-housing">
-                                    <label class="form-check-label" for="resource-type-housing">Housing</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input resource-type-filter" type="checkbox" value="Transportation" id="resource-type-transportation">
-                                    <label class="form-check-label" for="resource-type-transportation">Transportation</label>
-                                </div>
-                            </div>
-                            <div id="category-filters" class="card p-3 m-2">
-                                <h5 class="text-secondary">Categories</h5>
-                                <div class="form-check">
-                                    <input class="form-check-input category-filter" type="checkbox" value="Government" id="category-government">
-                                    <label class="form-check-label" for="category-government">Government</label> ac </div>
-                                <div class="form-check">
-                                    <input class="form-check-input category-filter" type="checkbox" value="Other" id="category-other">
-                                    <label class="form-check-label" for="category-other">Other</label>
-                                </div>
-                            </div>
+                    <div id="population-filters" class="card p-3 m-2">
+                        <h5 class="text-secondary">Populations Served</h5>
+                        <div class="form-check">
+                            <input class="form-check-input population-filter" type="checkbox" value="Men" id="population-men">
+                            <label class="form-check-label" for="population-men">Men</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input population-filter" type="checkbox" value="Women" id="population-women">
+                            <label class="form-check-label" for="population-women">Women</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input population-filter" type="checkbox" value="Children" id="population-children">
+                            <label class="form-check-label" for="population-children">Children</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input population-filter" type="checkbox" value="Adolescents" id="population-adolescents">
+                            <label class="form-check-label" for="population-adolescents">Adolescents</label>
+                        </div>
+                    </div>
+                    <div id="resource-type-filters" class="card p-3 m-2">
+                        <h5 class="text-secondary">Resource Types</h5>
+                        <div class="form-check">
+                            <input class="form-check-input resource-type-filter" type="checkbox" value="Recovery Support" id="resource-type-recovery-support">
+                            <label class="form-check-label" for="resource-type-recovery-support">Recovery Support</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input resource-type-filter" type="checkbox" value="Family Support" id="resource-type-family-support">
+                            <label class="form-check-label" for="resource-type-family-support">Family Support</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input resource-type-filter" type="checkbox" value="Housing" id="resource-type-housing">
+                            <label class="form-check-label" for="resource-type-housing">Housing</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input resource-type-filter" type="checkbox" value="Transportation" id="resource-type-transportation">
+                            <label class="form-check-label" for="resource-type-transportation">Transportation</label>
+                        </div>
+                    </div>
+                    <div id="category-filters" class="card p-3 m-2">
+                        <h5 class="text-secondary">Categories</h5>
+                        <div class="form-check">
+                            <input class="form-check-input category-filter" type="checkbox" value="Government" id="category-government">
+                            <label class="form-check-label" for="category-government">Government</label> ac </div>
+                        <div class="form-check">
+                            <input class="form-check-input category-filter" type="checkbox" value="Other" id="category-other">
+                            <label class="form-check-label" for="category-other">Other</label>
                         </div>
                     </div>
                 </div>
@@ -936,32 +938,30 @@
             });
         });
     </script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.getElementById('search-input');
-    const searchButton = document.querySelector('.searchButton');
-
-    if (searchButton && searchInput) {
-      searchButton.addEventListener('click', function () {
-        const query = encodeURIComponent(searchInput.value.trim());
-        if (query) {
-          window.location.href = `results.html?search=${query}`;
-        } else {
-          window.location.href = `results.html`;
-        }
-      });
-
-      // Also trigger search on Enter key
-      searchInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          searchButton.click();
-        }
-      });
-    }
-  });
-</script>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.querySelector('.searchButton');
+            if (searchButton && searchInput) {
+                searchButton.addEventListener('click', function () {
+                    const query = encodeURIComponent(searchInput.value.trim());
+                    if (query) {
+                        window.location.href = `results.html?search=${query}`;
+                    }
+                    else {
+                        window.location.href = `results.html`;
+                    }
+                });
+                // Also trigger search on Enter key
+                searchInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        searchButton.click();
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
