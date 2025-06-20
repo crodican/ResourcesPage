@@ -1,0 +1,284 @@
+SCRAPE ORDER,NAME,CITY,CREDENTIAL,NUMBER,ISSUE DATE,EXP DATE,STATUS,County
+5,Michelle Simmons,norristown,CFRS,7163,11/15/2018,11/15/2026,Active,Montgomery
+8,Frank Burnside,lancaster,CFRS,7259,06/10/2019,06/10/2021,Expired,Lancaster
+11,"Samuel Albert, Jr.",reading,CFRS,7772,10/03/2019,03/11/2025,Lapsed,Berks
+20,Frederick Shue,perkasie,CFRS,8269,05/08/2020,12/12/2026,Active,Bucks
+24,"Robert Strauber, Jr.",morgantown,CFRS,8272,07/03/2018,12/12/2026,Active,Berks
+30,Richard Felty,doylestown,CFRS,8276,08/02/2019,08/02/2021,Expired,Bucks
+32,Nancy Newman,newtown square,CFRS,8476,12/22/2020,12/22/2022,Expired,Delaware
+33,Kim Porter,newtown square,CFRS,8479,02/06/2018,02/06/2026,Active,Delaware
+36,Maun Flanagan,levittown,CFRS,8498,01/05/2019,06/25/2023,Expired,Bucks
+39,Robert Bedford,trumbauersville,CFRS,4064,09/15/2020,09/15/2022,Expired,Bucks
+41,Arlington Johnson Jr.,coatesville,CFRS,12690,02/22/2021,01/09/2027,Active,Chester
+48,Marc Willig,doylestown,CFRS,8565,02/26/2020,02/26/2024,Expired,Bucks
+52,David Wright,philadelphia,CFRS,8566,03/29/2021,03/29/2027,Active,Philadelphia
+54,Amanda Burns,temple,CFRS,8596,02/17/2022,02/17/2026,Active,Berks
+60,Robert Diaz,bensalem,CFRS,8626,06/14/2019,06/14/2026,Active,Bucks
+62,Angela Reznick,wyomissing,CFRS,8821,12/07/2020,12/07/2022,Expired,Berks
+68,Michelle Kaisinger,langhorne,CFRS,8919,08/22/2018,08/22/2020,Expired,Bucks
+70,Maurice Murray,bensalem,CFRS,8922,04/25/2019,06/26/2026,Active,Bucks
+73,Kevin Craner,pottstown,CFRS,8967,05/24/2018,07/29/2026,Active,Chester
+80,Dawn Ramsey,king of prussia,CFRS,9096,02/26/2018,02/26/2026,Active,Montgomery
+87,Adam Sledd,downingtown,CFRS,9144,01/14/2019,03/20/2027,Active,Chester
+90,Michael Reese,reading,CFRS,9192,05/19/2019,05/19/2027,Active,Berks
+97,Heather Aspero,bensalem,CFRS,9328,11/13/2018,08/13/2025,Active,Bucks
+99,Mary Patricia Huhn,langhorne,CFRS,9347,02/09/2019,09/11/2025,Active,Bucks
+106,Caryn Malatesta,west chester,CFRS,9571,04/05/2018,04/05/2026,Active,Chester
+108,Mary Franzoi,malvern,CFRS,9602,04/28/2018,05/23/2026,Active,Chester
+122,Meek Rineer,willow street,CFRS,9777,08/15/2018,08/15/2026,Active,Lancaster
+127,Regina Higgins,prospect park,CFRS,9778,01/21/2025,09/09/2026,Active,Delaware
+129,David Youll,sinking spring,CFRS,8782,08/14/2018,08/14/2022,Expired,Berks
+142,Crystal Gernand,pottsville,CFRS,9818,02/01/2019,02/01/2021,Expired,Schuylkill
+144,Monica Plummar,lancaster,CFRS,9822,07/11/2023,07/11/2025,Active,Lancaster
+154,Jaime Lane,philadelphia,CFRS,10003,02/20/2025,02/20/2027,Active,Philadelphia
+160,Tara Calderbank,perkasie,CFRS,9174,07/20/2020,05/08/2027,Active,Bucks
+167,Lisa Bickelman,pottsville,CFRS,10154,06/17/2021,06/17/2027,Active,Schuylkill
+169,Amy Schmidt,doylestown,CFRS,10169,05/01/2019,05/01/2021,Expired,Bucks
+171,Michael Rodowitz,coaldale,CFRS,10181,06/18/2019,06/18/2023,Expired,Schuylkill
+176,Laura Eliason-D'Uva,willow grove,CFRS,10251,05/24/2018,05/24/2026,Active,Montgomery
+178,Miguel Santiago,croydon,CFRS,10267,01/22/2019,01/22/2021,Expired,Bucks
+191,Erin Fischer,lancaster,CFRS,10350,07/22/2020,07/22/2022,Expired,Lancaster
+208,Terry Deubler,coaldale,CFRS,10472,06/17/2019,10/27/2021,Expired,Schuylkill
+219,Alison Dunn,bristol,CFRS,10658,01/22/2019,01/18/2026,Active,Bucks
+253,Tina Connor,philadelphia,CFRS,11166,04/01/2021,04/25/2026,Active,Philadelphia
+260,Edward Martin,lititz,CFRS,11251,04/19/2019,04/19/2021,Expired,Lancaster
+266,Donald Altemus,coatesville,CFRS,11275,01/30/2023,01/30/2027,Active,Chester
+274,Stephen Smith,philadelphia,CFRS,11351,04/23/2019,05/07/2026,Active,Philadelphia
+276,Stacy Emminger,mount joy,CFRS,11412,05/16/2018,05/16/2026,Active,Lancaster
+278,Donald Lipstein,west chester,CFRS,11465,05/25/2018,05/25/2020,Expired,Chester
+287,Terri Sorrell,philadelphia,CFRS,11688,03/30/2021,06/18/2026,Active,Philadelphia
+291,Newton Mull,pottsville,CFRS,11582,01/08/2021,06/05/2026,Inactive,Schuylkill
+293,Pamela Vasquez,line lexington,CFRS,12004,03/19/2021,03/19/2023,Expired,Bucks
+295,Patricia Bailey,holland,CFRS,11701,09/25/2018,09/25/2020,Expired,Bucks
+297,Bonnie MacIntosh,langhorne,CFRS,11711,08/10/2018,08/10/2020,Expired,Bucks
+306,Daniel Bauer,bensalem,CFRS,11702,10/15/2020,10/15/2022,Expired,Bucks
+312,Aimee Clark,feasterville trevose,CFRS,11990,08/21/2020,08/21/2022,Expired,Bucks
+317,Carmen  Batista-Mejia,philadelphia,CFRS,12201,10/27/2024,10/27/2026,Active,Philadelphia
+320,Lauren Williams,phoenixville,CFRS,12366,08/17/2020,08/17/2026,Active,Chester
+339,Helen Wooten,reading,CFRS,12350,09/25/2018,09/25/2026,Active,Berks
+353,Claudia Herman,mohrsville,CFRS,12574,11/07/2019,12/11/2026,Active,Berks
+354,Lisa Dalantinow,southampton,CFRS,12476,12/19/2023,12/19/2025,Active,Bucks
+367,Judith Hirsh,blue bell,CFRS,12504,11/20/2018,11/20/2026,Active,Montgomery
+376,Colleen McEvoy,ephrata,CFRS,12723,04/15/2021,04/15/2023,Expired,Lancaster
+377,Theresa Bloom,philadelphia,CFRS,12656,01/04/2019,01/04/2021,Expired,Philadelphia
+378,Aretha Swift,abington,CFRS,12657,01/05/2019,01/05/2021,Expired,Montgomery
+383,Tami Moylan,norristown,CFRS,12675,01/08/2019,01/08/2027,Active,Montgomery
+389,Alice Ciocco,berwyn,CFRS,12828,02/08/2019,02/08/2021,Expired,Chester
+391,Dianne Hoffmann,ambler,CFRS,12846,02/10/2019,02/10/2021,Expired,Montgomery
+393,Shannon Kilner,philadelphia,CFRS,12881,02/22/2019,02/22/2023,Expired,Philadelphia
+394,Amy Kunkle,doylestown,CFRS,12953,03/02/2019,03/02/2027,Active,Bucks
+396,Carol Foschini,manheim,CFRS,12958,03/11/2019,03/11/2021,Expired,Lancaster
+398,Jacqueline Donahue,west chester,CFRS,13072,07/28/2021,07/28/2025,Active,Chester
+401,Beth Brandt,lancaster,CFRS,13021,03/17/2019,03/17/2027,Active,Lancaster
+403,Douglas Cwienk,quarryville,CFRS,13024,03/19/2019,03/19/2021,Expired,Lancaster
+406,Per Hagen,new hope,CFRS,13085,03/27/2019,03/27/2027,Active,Bucks
+429,Shannon Belton,ephrata,CFRS,13127,04/04/2019,04/04/2023,Expired,Lancaster
+440,Shane Evans,tamaqua,CFRS,13567,11/17/2020,11/17/2026,Active,Schuylkill
+441,Jean Purdy-Koral,robesonia,CFRS,13241,05/02/2019,05/02/2021,Expired,Berks
+442,Margaret Marron,hatboro,CFRS,13300,05/10/2019,05/10/2021,Expired,Montgomery
+444,Brad Peffer,ephrata,CFRS,13355,05/20/2019,05/20/2021,Expired,Lancaster
+449,Kenyetta Preston-Meredith,upper darby,CFRS,13422,05/25/2019,05/25/2021,Expired,Delaware
+451,Niesha Leadum,philadelphia,CFRS,13448,05/22/2025,05/22/2027,Active,Philadelphia
+452,Lisa Bumm,levittown,CFRS,13452,05/28/2019,05/28/2021,Expired,Bucks
+455,Debra Delp,lansdale,CFRS,13501,06/10/2019,06/10/2021,Expired,Montgomery
+456,Charles Arnold,newtown,CFRS,13502,06/10/2019,06/10/2021,Expired,Bucks
+458,Leslie Napolitano,coaldale,CFRS,13580,12/30/2020,12/30/2024,Lapsed,Schuylkill
+460,Kerri Scheitrum,tamaqua,CFRS,13585,11/17/2020,11/17/2027,Active,Schuylkill
+461,Veronica McBride,new hope,CFRS,13666,06/21/2019,06/21/2021,Expired,Bucks
+463,Kevin Borum,philadelphia,CFRS,14001,10/20/2020,10/20/2022,Expired,Philadelphia
+467,Carmine D'Uva,willow grove,CFRS,13897,07/17/2019,07/17/2021,Expired,Montgomery
+472,Sousan Robinson,glenside,CFRS,14095,07/31/2019,07/31/2021,Expired,Montgomery
+477,Carmen Medina,lancaster,CFRS,14346,08/20/2019,08/20/2021,Expired,Lancaster
+479,Lyndsey Maisey,bensalem,CFRS,14417,03/31/2021,03/31/2023,Expired,Bucks
+481,Andrea Rivera,philadelphia,CFRS,14422,01/07/2020,01/07/2022,Expired,Philadelphia
+484,Alexis Mercado,mount joy,CFRS,14463,08/27/2019,08/27/2021,Expired,Lancaster
+486,Amalthea Leland,norristown,CFRS,14546,11/03/2021,11/03/2025,Active,Montgomery
+497,Kevin Dial,philadelphia,CFRS,14753,01/25/2022,11/01/2025,Active,Philadelphia
+499,John Kronbar,philadelphia,CFRS,14756,07/29/2020,11/01/2025,Active,Philadelphia
+526,Thea Miller,pottstown,CFRS,14930,12/18/2019,12/18/2021,Expired,Chester
+528,Monica Spanninger,abington,CFRS,14954,02/17/2021,12/19/2025,Active,Montgomery
+530,Kelli Gerth,birdsboro,CFRS,14979,12/30/2019,12/30/2021,Expired,Berks
+546,Jeffrey Tucker,pottstown,CFRS,15086,12/30/2023,12/30/2025,Active,Chester
+548,Sarah Hill,tamaqua,CFRS,15010,03/23/2021,03/23/2023,Expired,Schuylkill
+570,Rasheeda Isley,philadelphia,CFRS,15514,04/20/2021,04/20/2025,Lapsed,Philadelphia
+574,Donna Baim,ambler,CFRS,15219,05/23/2020,05/23/2024,Expired,Montgomery
+599,Jacqualine Morales,malvern,CFRS,15327,07/28/2020,07/28/2022,Expired,Chester
+606,Laura Craig,philadelphia,CFRS,15469,09/15/2020,09/15/2026,Active,Philadelphia
+608,Jennifer Brinton,philadelphia,CFRS,15468,09/15/2020,09/15/2024,Lapsed,Philadelphia
+638,Rebecca Deo,philadelphia,CFRS,15611,03/12/2021,03/12/2023,Expired,Philadelphia
+641,Cindy Wanamaker,exton,CFRS,15675,11/28/2020,11/28/2026,Active,Chester
+644,Susan Kaarby,blue bell,CFRS,15683,12/04/2020,12/04/2026,Active,Montgomery
+648,Marie Datillo,glen mills,CFRS,15738,12/16/2020,12/16/2024,Lapsed,Delaware
+655,Nancy Morrison,chadds ford,CFRS,15787,12/22/2020,12/22/2026,Active,Delaware
+656,Dorothy DiGilio,essington,CFRS,15793,12/24/2020,12/24/2026,Active,Delaware
+659,Margery Craig,prospect park,CFRS,15803,01/01/2021,01/01/2023,Expired,Delaware
+660,Steven Killelea,phoenixville,CFRS,15804,01/01/2021,01/01/2023,Expired,Chester
+664,Mark Reese,tamaqua,CFRS,15811,01/05/2021,01/05/2023,Expired,Schuylkill
+667,Melissa Groden,horsham,CFRS,15812,01/06/2021,01/06/2027,Active,Montgomery
+674,Andrew Deery,phoenixville,CFRS,15815,01/08/2021,01/08/2023,Expired,Chester
+708,Samantha Osterlof,akron,CFRS,15951,01/04/2022,01/04/2024,Expired,Lancaster
+717,James Barry,philadelphia,CFRS,16313,06/06/2021,06/06/2025,Lapsed,Philadelphia
+719,Michael Brajczewski,blue bell,CFRS,16253,05/19/2021,05/19/2025,Lapsed,Montgomery
+721,Ashley Kuhar,sellersville,CFRS,16527,01/27/2022,06/25/2027,Active,Bucks
+722,Holly Harkins,quakertown,CFRS,16296,06/03/2021,06/03/2027,Active,Bucks
+731,Karleen Okoh,telford,CFRS,16674,07/14/2021,07/14/2023,Expired,Montgomery
+741,William Stegura,southampton,CFRS,17148,02/14/2022,02/14/2026,Active,Bucks
+744,Jasmine Heisey,mount joy,CFRS,17038,12/14/2021,12/14/2023,Expired,Lancaster
+746,Tristan Schnoke,ashland,CFRS,16059,11/23/2023,11/23/2025,Active,Schuylkill
+748,Kathy Quick,ashland,CFRS,16058,07/21/2023,03/12/2027,Active,Schuylkill
+767,Stefanie Lee,philadelphia,CFRS,16851,09/23/2021,09/23/2023,Expired,Philadelphia
+768,Sophia Carabba,roslyn,CFRS,16287,05/29/2021,05/29/2023,Expired,Montgomery
+769,Chauncey Stokes,philadelphia,CFRS,16683,07/20/2021,07/20/2025,Active,Philadelphia
+770,Estees Anderson,folcroft,CFRS,16682,07/20/2021,07/20/2025,Active,Delaware
+771,Amear Mitchell,philadelphia,CFRS,16676,07/15/2021,07/15/2023,Expired,Philadelphia
+772,Shaun Carbone,croydon,CFRS,16729,08/02/2021,08/02/2023,Expired,Bucks
+774,Deliverance Pennypacker,reading,CFRS,16857,09/05/2023,09/05/2025,Active,Berks
+779,Toni Gogoj,philadelphia,CFRS,16226,05/10/2021,05/10/2025,Lapsed,Philadelphia
+781,Jessica Popper,philadelphia,CFRS,16227,05/10/2021,05/10/2023,Expired,Philadelphia
+783,Brent Glazer,philadelphia,CFRS,16111,03/25/2021,03/25/2027,Active,Philadelphia
+785,Vivian Debro,philadelphia,CFRS,16225,05/10/2021,05/10/2023,Expired,Philadelphia
+786,Tanisha Palmer,philadelphia,CFRS,16229,05/10/2021,05/10/2027,Active,Philadelphia
+790,Carla Calabrese,philadelphia,CFRS,16228,05/10/2021,05/10/2025,Lapsed,Philadelphia
+793,Michael Gottschalk,bristol,CFRS,16130,03/29/2021,03/29/2023,Expired,Bucks
+798,Nicole Adams,lansdale,CFRS,16139,08/11/2021,03/31/2027,Active,Montgomery
+802,Rachel Leventhal,levittown,CFRS,16136,03/31/2021,03/31/2027,Active,Bucks
+806,Leilany Vargas,philadelphia,CFRS,16142,03/31/2021,03/31/2027,Active,Philadelphia
+807,Derrick Hale,levittown,CFRS,16140,03/31/2021,03/31/2023,Expired,Bucks
+814,Michael Doyle,philadelphia,CFRS,16153,04/05/2021,04/05/2023,Expired,Philadelphia
+825,Katherine Diaz,bensalem,CFRS,16666,07/13/2021,07/13/2027,Active,Bucks
+844,Greg Schmalhofer,lancaster,CFRS,16944,10/26/2021,10/26/2025,Active,Lancaster
+845,Andrea Rose,birdsboro,CFRS,17339,04/11/2022,04/11/2026,Active,Berks
+848,Megan Santella,brookhaven,CFRS,16853,10/26/2022,10/26/2026,Active,Delaware
+851,Melissa Alivernini-Hall,glenside,CFRS,16994,11/19/2021,11/19/2023,Expired,Montgomery
+860,Rosa DiBetta,sellersville,CFRS,17310,04/07/2022,04/07/2026,Active,Bucks
+865,Jessica Leighton,coatesville,CFRS,18373,05/16/2023,05/16/2027,Active,Chester
+866,Jennifer Watts,quakertown,CFRS,17104,01/11/2022,01/11/2026,Active,Bucks
+868,Kevin Congdon,malvern,CFRS,16312,06/06/2021,06/06/2023,Expired,Chester
+875,Patrick Montgomery,phoenixville,CFRS,17397,04/28/2022,04/28/2024,Expired,Chester
+906,Megan Swoboda,oxford,CFRS,17437,05/12/2022,05/12/2026,Active,Chester
+909,Beverly Harrington,langhorne,CFRS,16786,05/28/2024,05/28/2026,Active,Bucks
+917,Noemi Gonzalez,reading,CFRS,20668,08/10/2024,08/10/2026,Active,Berks
+924,Brooke Moats,lansdale,CFRS,17407,05/09/2023,05/09/2025,Lapsed,Montgomery
+926,Stephanie  Schultz,telford,CFRS,18048,09/28/2023,09/28/2025,Active,Montgomery
+930,Derek Hahn,new holland,CFRS,17240,03/15/2022,03/15/2024,Expired,Lancaster
+934,Yvette Kamimura-Jones,philadelphia,CFRS,16962,03/25/2025,03/25/2027,Active,Philadelphia
+937,James Krieger,glenside,CFRS,17037,12/13/2021,12/13/2023,Expired,Montgomery
+942,Crystal Sullivan,lansdale,CFRS,17088,01/04/2022,01/04/2026,Active,Montgomery
+943,Eileen Kriczky,bensalem,CFRS,17188,02/17/2022,02/17/2026,Active,Bucks
+962,Casey Shanahan,media,CFRS,18066,11/29/2022,11/29/2024,Lapsed,Delaware
+974,Makaila Davis,philadelphia,CFRS,16971,04/23/2023,11/08/2025,Active,Philadelphia
+976,Joseph Grieco,philadelphia,CFRS,17092,01/05/2022,01/05/2024,Expired,Philadelphia
+979,Ashley Lederach,pottstown,CFRS,17605,07/03/2022,07/03/2026,Active,Chester
+983,Sherman Griffin,philadelphia,CFRS,17001,12/26/2024,12/26/2026,Active,Philadelphia
+986,Andrea Moser,bechtelsville,CFRS,17771,07/26/2024,07/26/2026,Active,Berks
+989,Monica Meddaugh,north wales,CFRS,17243,03/17/2022,03/17/2026,Active,Montgomery
+992,Alexandra Sharf,horsham,CFRS,18447,03/25/2023,03/25/2027,Active,Montgomery
+995,Marc Palmer,manheim,CFRS,17487,07/01/2022,07/01/2026,Active,Lancaster
+997,Edie Ritchie,philadelphia,CFRS,21273,12/17/2024,12/17/2026,Active,Philadelphia
+1010,Emily Sexton,north wales,CFRS,21490,02/12/2025,02/12/2027,Active,Montgomery
+1018,Evelyn Singleton,philadelphia,CFRS,18809,06/29/2023,06/29/2025,Active,Philadelphia
+1022,Chynna Stebilla,kutztown,CFRS,17845,09/22/2022,09/22/2026,Active,Berks
+1029,Lydia Walker,norristown,CFRS,18557,05/01/2023,05/01/2027,Active,Montgomery
+1043,Eric Gibson,philadelphia,CFRS,17862,09/27/2022,09/27/2024,Lapsed,Philadelphia
+1050,Patrick Purdie,upper darby,CFRS,18078,12/07/2022,12/07/2026,Active,Delaware
+1062,James Bollinger,philadelphia,CFRS,17526,02/03/2023,02/03/2027,Active,Philadelphia
+1066,Nicole Polit,philadelphia,CFRS,19219,02/20/2024,02/20/2026,Active,Philadelphia
+1071,Benjamin Moore,philadelphia,CFRS,17676,07/25/2022,07/25/2026,Active,Philadelphia
+1076,Yulanda Myers,exton,CFRS,18299,02/14/2023,02/14/2027,Active,Chester
+1082,Danny Beaver,coatesville,CFRS,18485,04/17/2023,04/17/2025,Lapsed,Chester
+1094,Margaret Beavers,hatboro,CFRS,17642,07/14/2022,07/14/2024,Lapsed,Montgomery
+1095,Tajuana Destin,wyomissing,CFRS,19384,11/14/2023,11/14/2025,Active,Berks
+1100,Kathleen Strain,topton,CFRS,17896,10/05/2022,10/05/2026,Active,Berks
+1101,Christine Rizzo,broomall,CFRS,19336,11/03/2023,11/03/2025,Active,Delaware
+1109,Dawn Lybrand,phoenixville,CFRS,17823,09/12/2022,09/12/2026,Active,Chester
+1143,Alex Bloomer,bensalem,CFRS,17863,09/27/2022,09/27/2026,Active,Bucks
+1147,"Pamfilo Dacua, III",philadelphia,CFRS,19338,12/01/2023,12/01/2025,Active,Philadelphia
+1150,Loretta Mazzoni,philadelphia,CFRS,17854,09/28/2022,09/28/2024,Lapsed,Philadelphia
+1156,Shane Nieves,philadelphia,CFRS,17964,10/19/2022,10/19/2024,Lapsed,Philadelphia
+1163,Shelby Zeller,bensalem,CFRS,18323,02/16/2023,02/16/2025,Lapsed,Bucks
+1166,Patrick  Dillon,levittown,CFRS,18699,06/09/2023,06/09/2025,Lapsed,Bucks
+1169,Jennifer Craig,mertztown,CFRS,17950,06/17/2024,06/17/2026,Active,Berks
+1172,Patricia Ward,exton,CFRS,18289,02/08/2023,02/08/2027,Active,Chester
+1175,Jacqueline Gruhler,morton,CFRS,19350,11/07/2023,11/07/2025,Active,Delaware
+1179,Matthew McGahran,doylestown,CFRS,18256,01/26/2023,01/26/2025,Lapsed,Bucks
+1198,Beckey VanEtten,fleetwood,CFRS,18522,04/19/2023,04/19/2027,Active,Berks
+1206,Elizabeth  Rizzo,broomall,CFRS,19590,12/19/2023,12/19/2025,Active,Delaware
+1207,Allen Pratt,philadelphia,CFRS,18277,02/03/2023,02/03/2025,Lapsed,Philadelphia
+1211,Linda Kelly,philadelphia,CFRS,18915,04/09/2025,04/09/2027,Active,Philadelphia
+1212,Ronald Richardson,philadelphia,CFRS,18300,02/15/2023,02/15/2025,Lapsed,Philadelphia
+1225,Anne Ginder,willow street,CFRS,18419,03/14/2023,03/14/2027,Active,Lancaster
+1228,Kimberly Brown,pine grove,CFRS,18187,12/05/2023,12/05/2025,Active,Schuylkill
+1252,Allison Dracha,temple,CFRS,19300,10/25/2023,10/25/2025,Active,Berks
+1259,Robert Weatherholtz,ephrata,CFRS,18992,08/16/2023,08/06/2025,Active,Lancaster
+1263,Nacole McCutchen,philadelphia,CFRS,18339,04/01/2024,04/01/2026,Active,Philadelphia
+1265,Ronald  Averette Sr,philadelphia,CFRS,21637,03/03/2025,03/03/2027,Active,Philadelphia
+1267,Sara Doud,exton,CFRS,18442,03/21/2023,03/21/2027,Active,Chester
+1269,Carolyn Mauras,norristown,CFRS,20189,05/01/2024,05/01/2026,Active,Montgomery
+1270,Devon Wright,pottstown,CFRS,18434,03/20/2023,03/20/2027,Active,Chester
+1279,Liznamir  Corchado Martinez,philadelphia,CFRS,18595,05/10/2023,05/10/2027,Active,Philadelphia
+1282,Monda Mwaya,philadelphia,CFRS,19737,01/16/2024,01/16/2026,Active,Philadelphia
+1296,Ademola Wood,norristown,CFRS,18694,07/05/2023,07/05/2027,Active,Montgomery
+1297,David Crockett,quakertown,CFRS,18653,05/24/2023,05/24/2025,Lapsed,Bucks
+1299,Jerome Griffith,king of prussia,CFRS,18703,06/12/2023,06/12/2025,Lapsed,Montgomery
+1307,Dustin Robinson,philadelphia,CFRS,18658,02/05/2024,02/05/2026,Active,Philadelphia
+1313,Joseph Grady,west chester,CFRS,19802,02/05/2024,02/05/2026,Active,Chester
+1337,Alison Eibl,bristol,CFRS,20452,06/19/2024,06/19/2026,Active,Bucks
+1339,Leah Smith,green lane,CFRS,19621,01/05/2024,01/05/2026,Active,Montgomery
+1344,Patricia Vasinda,philadelphia,CFRS,21406,01/24/2025,01/24/2027,Active,Philadelphia
+1347,Melanie Avila,millersville,CFRS,19460,11/27/2023,11/27/2025,Active,Lancaster
+1356,Jillian DeMaio,philadelphia,CFRS,19533,12/11/2023,12/11/2025,Active,Philadelphia
+1357,Scott Kuhn,quakertown,CFRS,19534,12/12/2023,12/12/2025,Active,Bucks
+1358,Mary McGarry,north wales,CFRS,19426,11/20/2023,11/20/2025,Active,Montgomery
+1360,Randy Hawes,bensalem,CFRS,20031,04/01/2024,04/01/2026,Active,Bucks
+1361,Gina Ryan,feasterville,CFRS,19530,12/11/2023,12/11/2025,Active,Bucks
+1366,Lori Davidson,pottstown,CFRS,20066,03/31/2024,03/31/2026,Active,Chester
+1367,MaChere Chiles,philadelphia,CFRS,19966,03/04/2024,03/04/2026,Active,Philadelphia
+1368,Reanna Martin,sinking spring,CFRS,20562,07/10/2024,07/10/2026,Active,Berks
+1376,Leylanet Lopez,reading,CFRS,20149,07/20/2024,07/20/2026,Active,Berks
+1377,Brenda Lacy,schwenksville,CFRS,20610,07/23/2024,07/23/2026,Active,Montgomery
+1380,Stephanie  Butler,philadelphia,CFRS,19764,02/06/2024,02/06/2026,Active,Philadelphia
+1387,Ashley Brunstetter-McCloughy,philadelphia,CFRS,20337,09/27/2024,09/27/2026,Active,Philadelphia
+1388,Mary Swoyer-Larson,harleysville,CFRS,20068,04/01/2024,04/01/2026,Active,Montgomery
+1393,Kelly Fox,washington crossing,CFRS,20357,05/31/2024,05/31/2026,Active,Bucks
+1400,Joshua Helwig,coatesville,CFRS,20383,06/07/2024,06/07/2026,Active,Chester
+1403,Chavelle  Carter,philadelphia,CFRS,20040,03/25/2024,03/25/2026,Active,Philadelphia
+1405,Reinaldo Inchautegui,philadelphia,CFRS,20615,07/25/2024,07/25/2026,Active,Philadelphia
+1406,Lynn Schaffer Koller,millersville,CFRS,20533,07/02/2024,07/02/2026,Active,Lancaster
+1412,Kimberly Wilder,washington boro,CFRS,20372,06/04/2024,06/04/2026,Active,Lancaster
+1418,Brenda  Carpenter,berwyn,CFRS,20936,10/07/2024,10/07/2026,Active,Chester
+1421,Eileen  McAndrews,broomall,CFRS,20349,10/19/2024,10/19/2026,Active,Delaware
+1422,Karen Deal,warrington,CFRS,20429,06/14/2024,06/14/2026,Active,Bucks
+1433,Lael Ravenscroft,west chester,CFRS,20878,09/24/2024,09/24/2026,Active,Chester
+1437,Melanie  Schweser,philadelphia,CFRS,21066,11/01/2024,11/01/2026,Active,Philadelphia
+1439,Dina Shelly,bristol,CFRS,21005,10/16/2024,10/16/2026,Active,Bucks
+1441,Keefe Lehman,philadelphia,CFRS,21009,10/16/2024,10/16/2026,Active,Philadelphia
+1445,Luis Quinones,philadelphia,CFRS,21004,10/16/2024,10/16/2026,Active,Philadelphia
+1451,Carmen  Lagomasini,philadelphia,CFRS,19891,10/23/2024,10/23/2026,Active,Philadelphia
+1452,Joseph  Newton,philadelphia,CFRS,21007,10/16/2024,10/16/2026,Active,Philadelphia
+1453,Audrey  Macindoe,philadelphia,CFRS,21008,10/16/2024,10/16/2026,Active,Philadelphia
+1456,Eartha Rivers,philadelphia,CFRS,21006,10/16/2024,10/16/2026,Active,Philadelphia
+1458,Latisha Kelly,reading,CFRS,20965,10/16/2024,10/16/2026,Active,Berks
+1462,John Gilette,chester,CFRS,21320,02/14/2025,02/14/2027,Active,Delaware
+1475,Patti Rich,orwigsburg,CFRS,21089,11/08/2024,11/08/2026,Active,Schuylkill
+1485,Patricia Blazejewski,bensalem,CFRS,21407,01/25/2025,01/25/2027,Active,Bucks
+1486,John Lawlor,philadelphia,CFRS,20957,10/13/2024,10/13/2026,Active,Philadelphia
+1491,Joelle  Biango,ridley park,CFRS,21059,10/30/2024,10/30/2026,Active,Delaware
+1503,Lucia Rhoades,bensalem,CFRS,21272,12/17/2024,12/17/2026,Active,Bucks
+1504,Markecia Anderson,philadelphia,CFRS,21360,01/11/2025,01/11/2027,Active,Philadelphia
+1506,Michael Schuette,exton,CFRS,21179,11/25/2024,11/25/2026,Active,Chester
+1508,Jamie Howard,brookhaven,CFRS,21201,12/04/2024,12/04/2026,Active,Delaware
+1510,Isa Allende-Averette,philadelphia,CFRS,21636,03/03/2025,03/03/2027,Active,Philadelphia
+1514,Seth Hornbeck,norristown,CFRS,21649,03/05/2025,03/05/2027,Active,Montgomery
+1522,Lorraine Tortorice,philadelphia,CFRS,21859,04/17/2025,04/17/2027,Active,Philadelphia
+1525,Eileen Bone,lansdale,CFRS,21877,04/25/2025,04/25/2027,Active,Montgomery
+1526,Susan Crathern,oreland,CFRS,21973,05/20/2025,05/20/2027,Active,Montgomery
+1527,Sharon Bader,downingtown,CFRS,21821,04/10/2025,04/10/2027,Active,Chester
+1529,Siddeequah Felder,philadelphia,CFRS,21721,03/12/2025,03/12/2027,Active,Philadelphia
+1531,Linda Geraghty,ardmore,CFRS,21891,04/30/2025,04/30/2027,Active,Montgomery
+1533,Christina Riddle,bristol,CFRS,22121,06/09/2025,06/09/2027,Active,Bucks
+1543,Gabrielle Disomma,lancaster,CFRS,21966,05/16/2025,05/16/2027,Active,Lancaster
+1547,Megan  Zweifach,lancaster,CFRS,21970,05/16/2025,05/16/2027,Active,Lancaster
+1548,Christine Sternberger,philadelphia,CFRS,22056,06/02/2025,06/02/2027,Active,Philadelphia
+1549,Elijah Vasinda,philadelphia,CFRS,22055,06/02/2025,06/02/2027,Active,Philadelphia
+1550,Cody Gowin,phoenixville,CFRS,22131,06/12/2025,06/12/2027,Active,Chester
+1551,Julia Leyden,west chester,CFRS,22122,06/10/2025,06/10/2027,Active,Chester
