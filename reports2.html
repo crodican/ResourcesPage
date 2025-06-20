@@ -1,36 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Local CSV + DataTables</title>
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
+  <meta charset="UTF-8">
+  <title>CRS Certification Table</title>
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+  <!-- jQuery and DataTables -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+  <!-- PapaParse for CSV parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+    }
+    table.dataTable thead th {
+      background-color: #f4f4f4;
+    }
+  </style>
 </head>
 <body>
-  <h2>Local CSV DataTable</h2>
-  <table id="csvTable" class="display" style="width:100%"></table>
+
+  <h2>Certified Recovery Specialists</h2>
+
+  <table id="csvTable" class="display" style="width:100%">
+    <!-- Table will be generated here -->
+  </table>
 
   <script>
-    $(async function () {
-      const response = await fetch('data.csv');
-      const csvText = await response.text();
-      const rows = csvText.trim().split('\n').map(row => row.split(','));
+    Papa.parse('CRS.csv', {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        const data = results.data;
+        if (data.length === 0) {
+          document.getElementById('csvTable').innerHTML = '<tr><td>No data found.</td></tr>';
+          return;
+        }
 
-      const headers = rows[0];
-      const data = rows.slice(1);
+        // Create headers
+        const headers = Object.keys(data[0]);
+        let thead = '<thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead>';
 
-      let thead = '<thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead>';
-      let tbody = '<tbody>' + data.map(row =>
-        '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>'
-      ).join('') + '</tbody>';
+        // Create rows
+        let tbody = '<tbody>' + data.map(row => {
+          return '<tr>' + headers.map(h => `<td>${row[h] || ''}</td>`).join('') + '</tr>';
+        }).join('') + '</tbody>';
 
-      $('#csvTable').html(thead + tbody);
-      $('#csvTable').DataTable({
-        pageLength: 10,
-        responsive: true
-      });
+        $('#csvTable').html(thead + tbody);
+        $('#csvTable').DataTable({
+          pageLength: 10,
+          responsive: true
+        });
+      }
     });
   </script>
+
 </body>
 </html>
