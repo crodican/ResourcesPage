@@ -912,32 +912,61 @@
     <script defer="defer" src="https://www.councilsepa.org/wp-content/themes/elevation-framework/build/assets/script.js?ver=1.0.0" id="elevation-scripts"></script>
     <script src="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src='https://cdn.jotfor.ms/s/umd/latest/for-embedded-agent.js'></script>
+
+
+<!-- HubBot Code - Remove Comment When Ready to Put Him Back on the Page -->
+<!--
+<script src='https://cdn.jotfor.ms/s/umd/latest/for-embedded-agent.js'></script>
+<script>
+  window.addEventListener("DOMContentLoaded", function() {
+    window.AgentInitializer.init({
+      agentRenderURL: "https://agent.jotform.com/0195f8a877887df7b707e41f5bc557a88fed",
+      rootId: "JotformAgent-0195f8a877887df7b707e41f5bc557a88fed",
+      formID: "0195f8a877887df7b707e41f5bc557a88fed",
+      queryParams: ["skipWelcome=1", "maximizable=1"],
+      domain: "https://www.jotform.com",
+      isDraggable: false,
+      background: "linear-gradient(180deg, #ffffff 0%, #ffffff 100%)",
+      buttonBackgroundColor: "#55298a",
+      buttonIconColor: "#FFFFFF",
+      variant: false,
+      customizations: {
+        "greeting": "Yes",
+        "greetingMessage": "Hi! How can I assist you?",
+        "openByDefault": "No",
+        "pulse": "Yes",
+        "position": "right",
+        "autoOpenChatIn": "0"
+      },
+      isVoice: undefined
+    });
+  });
+</script>
+
     <script>
-        window.addEventListener("DOMContentLoaded", function () {
-            window.AgentInitializer.init({
-                agentRenderURL: "https://agent.jotform.com/0195f8a877887df7b707e41f5bc557a88fed"
-                , rootId: "JotformAgent-0195f8a877887df7b707e41f5bc557a88fed"
-                , formID: "0195f8a877887df7b707e41f5bc557a88fed"
-                , queryParams: ["skipWelcome=1", "maximizable=1"]
-                , domain: "https://www.jotform.com"
-                , isDraggable: false
-                , background: "linear-gradient(180deg, #ffffff 0%, #ffffff 100%)"
-                , buttonBackgroundColor: "#55298a"
-                , buttonIconColor: "#FFFFFF"
-                , variant: false
-                , customizations: {
-                    "greeting": "Yes"
-                    , "greetingMessage": "Hi! How can I assist you?"
-                    , "openByDefault": "No"
-                    , "pulse": "Yes"
-                    , "position": "right"
-                    , "autoOpenChatIn": "0"
+        const cardIcons = document.querySelectorAll('.card__icon');
+
+        function checkScroll() {
+            cardIcons.forEach(cardIcon => {
+                const rect = cardIcon.getBoundingClientRect();
+                const middleOfScreen = window.innerHeight / 2;
+
+                if (rect.bottom < middleOfScreen) {
+                    cardIcon.style.backgroundColor = '#20cb98';
+                    cardIcon.style.transition = 'all 0.75s ease';
+                    setTimeout(() => {
+                    }, 500);
+                } else {
+                    cardIcon.style.backgroundColor = '#55298a';
                 }
-                , isVoice: undefined
             });
-        });
+        }
+
+        window.addEventListener('scroll', checkScroll);
     </script>
+-->
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const searchInput = document.getElementById('search-input');
