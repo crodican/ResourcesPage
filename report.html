@@ -1,0 +1,2783 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Credential Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid mt-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="All Counties-tab" data-bs-toggle="tab" data-bs-target="#All_Counties" type="button" role="tab" aria-selected="true">All Counties</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="Philadelphia-tab" data-bs-toggle="tab" data-bs-target="#Philadelphia" type="button" role="tab" aria-selected="false" tabindex="-1">Philadelphia</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="All Region 4-tab" data-bs-toggle="tab" data-bs-target="#All_Region_4" type="button" role="tab" aria-selected="false" tabindex="-1">All Region 4</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="Berks-tab" data-bs-toggle="tab" data-bs-target="#Berks" type="button" role="tab" aria-selected="false" tabindex="-1">Berks</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link " id="Bucks-tab" data-bs-toggle="tab" data-bs-target="#Bucks" type="button" role="tab" aria-selected="false" tabindex="-1">Bucks</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link " id="Chester-tab" data-bs-toggle="tab" data-bs-target="#Chester" type="button" role="tab" aria-selected="false" tabindex="-1">Chester</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link " id="Delaware-tab" data-bs-toggle="tab" data-bs-target="#Delaware" type="button" role="tab" aria-selected="false" tabindex="-1">Delaware</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link " id="Lancaster-tab" data-bs-toggle="tab" data-bs-target="#Lancaster" type="button" role="tab" aria-selected="false" tabindex="-1">Lancaster</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link " id="Montgomery-tab" data-bs-toggle="tab" data-bs-target="#Montgomery" type="button" role="tab" aria-selected="false" tabindex="-1">Montgomery</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link " id="Schuylkill-tab" data-bs-toggle="tab" data-bs-target="#Schuylkill" type="button" role="tab" aria-selected="false" tabindex="-1">Schuylkill</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade active show" id="All_Counties" role="tabpanel" aria-labelledby="All Counties-tab">
+                <div class="container py-4">
+                    <div class="row text-center mb-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRS</h2>
+                                    <h1 class="display-4">444</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CFRS</h2>
+                                    <h1 class="display-4">138</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRSS</h2>
+                                    <h1 class="display-4">31</h1> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="bar_All_Counties" width="960" height="480" style="display: block; box-sizing: border-box; height: 240px; width: 480px;"></canvas>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="line_All_Counties" width="1320" height="660" style="display: block; box-sizing: border-box; height: 330px; width: 660px;"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="table_All_Counties_wrapper" class="dataTables_wrapper no-footer">
+                                <div class="dataTables_length" id="table_All_Counties_length">
+                                    <label>Show
+                                        <select name="table_All_Counties_length" aria-controls="table_All_Counties" class="">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label>
+                                </div>
+                                <div id="table_All_Counties_filter" class="dataTables_filter">
+                                    <label>Search:
+                                        <input type="search" class="" placeholder="" aria-controls="table_All_Counties">
+                                    </label>
+                                </div>
+                                <table id="table_All_Counties" class="display dataTable no-footer" style="width: 100%;" aria-describedby="table_All_Counties_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="table_All_Counties" rowspan="1" colspan="1" aria-sort="ascending" aria-label="SCRAPE ORDER: activate to sort column descending" style="width: 59px;">SCRAPE ORDER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Counties" rowspan="1" colspan="1" aria-label="NAME: activate to sort column ascending" style="width: 69px;">NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Counties" rowspan="1" colspan="1" aria-label="CITY: activate to sort column ascending" style="width: 67px;">CITY</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Counties" rowspan="1" colspan="1" aria-label="CREDENTIAL: activate to sort column ascending" style="width: 96px;">CREDENTIAL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Counties" rowspan="1" colspan="1" aria-label="NUMBER: activate to sort column ascending" style="width: 69px;">NUMBER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Counties" rowspan="1" colspan="1" aria-label="ISSUE DATE: activate to sort column ascending" style="width: 44px;">ISSUE DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Counties" rowspan="1" colspan="1" aria-label="EXP DATE: activate to sort column ascending" style="width: 66px;">EXP DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Counties" rowspan="1" colspan="1" aria-label="STATUS: activate to sort column ascending" style="width: 58px;">STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Counties" rowspan="1" colspan="1" aria-label="County: activate to sort column ascending" style="width: 71px;">County</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Counties" rowspan="1" colspan="1" aria-label="Month: activate to sort column ascending" style="width: 51px;">Month</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd">
+                                            <td class="sorting_1">16</td>
+                                            <td>Susan Kline</td>
+                                            <td>lansdale</td>
+                                            <td>CRSS</td>
+                                            <td>8060</td>
+                                            <td>2024-10-15</td>
+                                            <td>10/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">29</td>
+                                            <td>Dawn Ramsey</td>
+                                            <td>king of prussia</td>
+                                            <td>CRSS</td>
+                                            <td>9096</td>
+                                            <td>2025-02-03</td>
+                                            <td>02/03/2027</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2025-02</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">87</td>
+                                            <td>Jose Lugo</td>
+                                            <td>reading</td>
+                                            <td>CRSS</td>
+                                            <td>10791</td>
+                                            <td>2025-04-14</td>
+                                            <td>04/14/2027</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2025-04</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">111</td>
+                                            <td>Leonard Burnett</td>
+                                            <td>philadelphia</td>
+                                            <td>CRSS</td>
+                                            <td>11598</td>
+                                            <td>2024-12-19</td>
+                                            <td>12/19/2026</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2024-12</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">127</td>
+                                            <td>Regina Higgins</td>
+                                            <td>prospect park</td>
+                                            <td>CFRS</td>
+                                            <td>9778</td>
+                                            <td>2025-01-21</td>
+                                            <td>09/09/2026</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2025-01</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">141</td>
+                                            <td>John Elburn, III</td>
+                                            <td>philadelphia</td>
+                                            <td>CRSS</td>
+                                            <td>13113</td>
+                                            <td>2024-09-06</td>
+                                            <td>09/06/2026</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2024-09</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">154</td>
+                                            <td>Jaime Lane</td>
+                                            <td>philadelphia</td>
+                                            <td>CFRS</td>
+                                            <td>10003</td>
+                                            <td>2025-02-20</td>
+                                            <td>02/20/2027</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2025-02</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">157</td>
+                                            <td>Elizabeth Morrison</td>
+                                            <td>philadelphia</td>
+                                            <td>CRSS</td>
+                                            <td>15141</td>
+                                            <td>2025-01-13</td>
+                                            <td>01/13/2027</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2025-01</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">162</td>
+                                            <td>Gregory Young</td>
+                                            <td>west chester</td>
+                                            <td>CRSS</td>
+                                            <td>15305</td>
+                                            <td>2024-07-24</td>
+                                            <td>07/24/2026</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">188</td>
+                                            <td>Kenneth Harris</td>
+                                            <td>philadelphia</td>
+                                            <td>CRSS</td>
+                                            <td>16299</td>
+                                            <td>2025-01-17</td>
+                                            <td>01/17/2027</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2025-01</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_info" id="table_All_Counties_info" role="status" aria-live="polite">Showing 1 to 10 of 244 entries</div>
+                                <div class="dataTables_paginate paging_simple_numbers" id="table_All_Counties_paginate"><a class="paginate_button previous disabled" aria-controls="table_All_Counties" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="-1" id="table_All_Counties_previous">Previous</a><span><a class="paginate_button current" aria-controls="table_All_Counties" aria-role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a><a class="paginate_button " aria-controls="table_All_Counties" aria-role="link" data-dt-idx="1" tabindex="0">2</a><a class="paginate_button " aria-controls="table_All_Counties" aria-role="link" data-dt-idx="2" tabindex="0">3</a><a class="paginate_button " aria-controls="table_All_Counties" aria-role="link" data-dt-idx="3" tabindex="0">4</a><a class="paginate_button " aria-controls="table_All_Counties" aria-role="link" data-dt-idx="4" tabindex="0">5</a><span class="ellipsis">…</span><a class="paginate_button " aria-controls="table_All_Counties" aria-role="link" data-dt-idx="24" tabindex="0">25</a></span><a class="paginate_button next" aria-controls="table_All_Counties" aria-role="link" data-dt-idx="next" tabindex="0" id="table_All_Counties_next">Next</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="Philadelphia" role="tabpanel" aria-labelledby="Philadelphia-tab">
+                <div class="container py-4">
+                    <div class="row text-center mb-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRS</h2>
+                                    <h1 class="display-4">69</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CFRS</h2>
+                                    <h1 class="display-4">26</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRSS</h2>
+                                    <h1 class="display-4">11</h1> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="bar_Philadelphia" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="line_Philadelphia" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="table_Philadelphia_wrapper" class="dataTables_wrapper no-footer">
+                                <div class="dataTables_length" id="table_Philadelphia_length">
+                                    <label>Show
+                                        <select name="table_Philadelphia_length" aria-controls="table_Philadelphia" class="">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label>
+                                </div>
+                                <div id="table_Philadelphia_filter" class="dataTables_filter">
+                                    <label>Search:
+                                        <input type="search" class="" placeholder="" aria-controls="table_Philadelphia">
+                                    </label>
+                                </div>
+                                <table id="table_Philadelphia" class="display dataTable no-footer" style="width: 100%;" aria-describedby="table_Philadelphia_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="table_Philadelphia" rowspan="1" colspan="1" aria-sort="ascending" aria-label="SCRAPE ORDER: activate to sort column descending" style="width: 0px;">SCRAPE ORDER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Philadelphia" rowspan="1" colspan="1" aria-label="NAME: activate to sort column ascending" style="width: 0px;">NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Philadelphia" rowspan="1" colspan="1" aria-label="CITY: activate to sort column ascending" style="width: 0px;">CITY</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Philadelphia" rowspan="1" colspan="1" aria-label="CREDENTIAL: activate to sort column ascending" style="width: 0px;">CREDENTIAL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Philadelphia" rowspan="1" colspan="1" aria-label="NUMBER: activate to sort column ascending" style="width: 0px;">NUMBER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Philadelphia" rowspan="1" colspan="1" aria-label="ISSUE DATE: activate to sort column ascending" style="width: 0px;">ISSUE DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Philadelphia" rowspan="1" colspan="1" aria-label="EXP DATE: activate to sort column ascending" style="width: 0px;">EXP DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Philadelphia" rowspan="1" colspan="1" aria-label="STATUS: activate to sort column ascending" style="width: 0px;">STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Philadelphia" rowspan="1" colspan="1" aria-label="County: activate to sort column ascending" style="width: 0px;">County</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Philadelphia" rowspan="1" colspan="1" aria-label="Month: activate to sort column ascending" style="width: 0px;">Month</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd">
+                                            <td class="sorting_1">111</td>
+                                            <td>Leonard Burnett</td>
+                                            <td>philadelphia</td>
+                                            <td>CRSS</td>
+                                            <td>11598</td>
+                                            <td>2024-12-19</td>
+                                            <td>12/19/2026</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2024-12</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">141</td>
+                                            <td>John Elburn, III</td>
+                                            <td>philadelphia</td>
+                                            <td>CRSS</td>
+                                            <td>13113</td>
+                                            <td>2024-09-06</td>
+                                            <td>09/06/2026</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2024-09</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">154</td>
+                                            <td>Jaime Lane</td>
+                                            <td>philadelphia</td>
+                                            <td>CFRS</td>
+                                            <td>10003</td>
+                                            <td>2025-02-20</td>
+                                            <td>02/20/2027</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2025-02</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">157</td>
+                                            <td>Elizabeth Morrison</td>
+                                            <td>philadelphia</td>
+                                            <td>CRSS</td>
+                                            <td>15141</td>
+                                            <td>2025-01-13</td>
+                                            <td>01/13/2027</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2025-01</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">188</td>
+                                            <td>Kenneth Harris</td>
+                                            <td>philadelphia</td>
+                                            <td>CRSS</td>
+                                            <td>16299</td>
+                                            <td>2025-01-17</td>
+                                            <td>01/17/2027</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2025-01</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">205</td>
+                                            <td>Rosemary Velez</td>
+                                            <td>philadelphia</td>
+                                            <td>CRSS</td>
+                                            <td>17223</td>
+                                            <td>2025-01-21</td>
+                                            <td>01/21/2027</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2025-01</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">215</td>
+                                            <td>Markecia Anderson</td>
+                                            <td>philadelphia</td>
+                                            <td>CRSS</td>
+                                            <td>21360</td>
+                                            <td>2025-01-12</td>
+                                            <td>01/12/2027</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2025-01</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">317</td>
+                                            <td>Carmen Batista-Mejia</td>
+                                            <td>philadelphia</td>
+                                            <td>CFRS</td>
+                                            <td>12201</td>
+                                            <td>2024-10-27</td>
+                                            <td>10/27/2026</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">451</td>
+                                            <td>Niesha Leadum</td>
+                                            <td>philadelphia</td>
+                                            <td>CFRS</td>
+                                            <td>13448</td>
+                                            <td>2025-05-22</td>
+                                            <td>05/22/2027</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2025-05</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">935</td>
+                                            <td>Yvette Kamimura-Jones</td>
+                                            <td>philadelphia</td>
+                                            <td>CFRS</td>
+                                            <td>16962</td>
+                                            <td>2025-03-25</td>
+                                            <td>03/25/2027</td>
+                                            <td>Active</td>
+                                            <td>Philadelphia</td>
+                                            <td>2025-03</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_info" id="table_Philadelphia_info" role="status" aria-live="polite">Showing 1 to 10 of 106 entries</div>
+                                <div class="dataTables_paginate paging_simple_numbers" id="table_Philadelphia_paginate"><a class="paginate_button previous disabled" aria-controls="table_Philadelphia" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="-1" id="table_Philadelphia_previous">Previous</a><span><a class="paginate_button current" aria-controls="table_Philadelphia" aria-role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a><a class="paginate_button " aria-controls="table_Philadelphia" aria-role="link" data-dt-idx="1" tabindex="0">2</a><a class="paginate_button " aria-controls="table_Philadelphia" aria-role="link" data-dt-idx="2" tabindex="0">3</a><a class="paginate_button " aria-controls="table_Philadelphia" aria-role="link" data-dt-idx="3" tabindex="0">4</a><a class="paginate_button " aria-controls="table_Philadelphia" aria-role="link" data-dt-idx="4" tabindex="0">5</a><span class="ellipsis">…</span><a class="paginate_button " aria-controls="table_Philadelphia" aria-role="link" data-dt-idx="10" tabindex="0">11</a></span><a class="paginate_button next" aria-controls="table_Philadelphia" aria-role="link" data-dt-idx="next" tabindex="0" id="table_Philadelphia_next">Next</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="All_Region_4" role="tabpanel" aria-labelledby="All Region 4-tab">
+                <div class="container py-4">
+                    <div class="row text-center mb-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRS</h2>
+                                    <h1 class="display-4">98</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CFRS</h2>
+                                    <h1 class="display-4">31</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRSS</h2>
+                                    <h1 class="display-4">9</h1> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="bar_All_Region_4" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="line_All_Region_4" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="table_All_Region_4_wrapper" class="dataTables_wrapper no-footer">
+                                <div class="dataTables_length" id="table_All_Region_4_length">
+                                    <label>Show
+                                        <select name="table_All_Region_4_length" aria-controls="table_All_Region_4" class="">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label>
+                                </div>
+                                <div id="table_All_Region_4_filter" class="dataTables_filter">
+                                    <label>Search:
+                                        <input type="search" class="" placeholder="" aria-controls="table_All_Region_4">
+                                    </label>
+                                </div>
+                                <table id="table_All_Region_4" class="display dataTable no-footer" style="width: 100%;" aria-describedby="table_All_Region_4_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="table_All_Region_4" rowspan="1" colspan="1" aria-sort="ascending" aria-label="SCRAPE ORDER: activate to sort column descending" style="width: 0px;">SCRAPE ORDER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Region_4" rowspan="1" colspan="1" aria-label="NAME: activate to sort column ascending" style="width: 0px;">NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Region_4" rowspan="1" colspan="1" aria-label="CITY: activate to sort column ascending" style="width: 0px;">CITY</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Region_4" rowspan="1" colspan="1" aria-label="CREDENTIAL: activate to sort column ascending" style="width: 0px;">CREDENTIAL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Region_4" rowspan="1" colspan="1" aria-label="NUMBER: activate to sort column ascending" style="width: 0px;">NUMBER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Region_4" rowspan="1" colspan="1" aria-label="ISSUE DATE: activate to sort column ascending" style="width: 0px;">ISSUE DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Region_4" rowspan="1" colspan="1" aria-label="EXP DATE: activate to sort column ascending" style="width: 0px;">EXP DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Region_4" rowspan="1" colspan="1" aria-label="STATUS: activate to sort column ascending" style="width: 0px;">STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Region_4" rowspan="1" colspan="1" aria-label="County: activate to sort column ascending" style="width: 0px;">County</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_All_Region_4" rowspan="1" colspan="1" aria-label="Month: activate to sort column ascending" style="width: 0px;">Month</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd">
+                                            <td class="sorting_1">16</td>
+                                            <td>Susan Kline</td>
+                                            <td>lansdale</td>
+                                            <td>CRSS</td>
+                                            <td>8060</td>
+                                            <td>2024-10-15</td>
+                                            <td>10/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">29</td>
+                                            <td>Dawn Ramsey</td>
+                                            <td>king of prussia</td>
+                                            <td>CRSS</td>
+                                            <td>9096</td>
+                                            <td>2025-02-03</td>
+                                            <td>02/03/2027</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2025-02</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">87</td>
+                                            <td>Jose Lugo</td>
+                                            <td>reading</td>
+                                            <td>CRSS</td>
+                                            <td>10791</td>
+                                            <td>2025-04-14</td>
+                                            <td>04/14/2027</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2025-04</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">127</td>
+                                            <td>Regina Higgins</td>
+                                            <td>prospect park</td>
+                                            <td>CFRS</td>
+                                            <td>9778</td>
+                                            <td>2025-01-21</td>
+                                            <td>09/09/2026</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2025-01</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">162</td>
+                                            <td>Gregory Young</td>
+                                            <td>west chester</td>
+                                            <td>CRSS</td>
+                                            <td>15305</td>
+                                            <td>2024-07-24</td>
+                                            <td>07/24/2026</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">190</td>
+                                            <td>Katherine Diaz</td>
+                                            <td>bensalem</td>
+                                            <td>CRSS</td>
+                                            <td>16666</td>
+                                            <td>2025-05-27</td>
+                                            <td>05/27/2027</td>
+                                            <td>Active</td>
+                                            <td>Bucks</td>
+                                            <td>2025-05</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">212</td>
+                                            <td>Danielle McLaughlin</td>
+                                            <td>leesport</td>
+                                            <td>CRSS</td>
+                                            <td>21002</td>
+                                            <td>2024-10-15</td>
+                                            <td>10/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">861</td>
+                                            <td>Dawn Ramsey</td>
+                                            <td>king of prussia</td>
+                                            <td>CRS</td>
+                                            <td>9096</td>
+                                            <td>2024-07-10</td>
+                                            <td>07/10/2026</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">862</td>
+                                            <td>Dawn Ramsey</td>
+                                            <td>king of prussia</td>
+                                            <td>CRSS</td>
+                                            <td>9096</td>
+                                            <td>2025-02-03</td>
+                                            <td>02/03/2027</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2025-02</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">918</td>
+                                            <td>Noemi Gonzalez</td>
+                                            <td>reading</td>
+                                            <td>CFRS</td>
+                                            <td>20668</td>
+                                            <td>2024-08-10</td>
+                                            <td>08/10/2026</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2024-08</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_info" id="table_All_Region_4_info" role="status" aria-live="polite">Showing 1 to 10 of 138 entries</div>
+                                <div class="dataTables_paginate paging_simple_numbers" id="table_All_Region_4_paginate"><a class="paginate_button previous disabled" aria-controls="table_All_Region_4" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="-1" id="table_All_Region_4_previous">Previous</a><span><a class="paginate_button current" aria-controls="table_All_Region_4" aria-role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a><a class="paginate_button " aria-controls="table_All_Region_4" aria-role="link" data-dt-idx="1" tabindex="0">2</a><a class="paginate_button " aria-controls="table_All_Region_4" aria-role="link" data-dt-idx="2" tabindex="0">3</a><a class="paginate_button " aria-controls="table_All_Region_4" aria-role="link" data-dt-idx="3" tabindex="0">4</a><a class="paginate_button " aria-controls="table_All_Region_4" aria-role="link" data-dt-idx="4" tabindex="0">5</a><span class="ellipsis">…</span><a class="paginate_button " aria-controls="table_All_Region_4" aria-role="link" data-dt-idx="13" tabindex="0">14</a></span><a class="paginate_button next" aria-controls="table_All_Region_4" aria-role="link" data-dt-idx="next" tabindex="0" id="table_All_Region_4_next">Next</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="Berks" role="tabpanel" aria-labelledby="Berks-tab">
+                <div class="container py-4">
+                    <div class="row text-center mb-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRS</h2>
+                                    <h1 class="display-4">24</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CFRS</h2>
+                                    <h1 class="display-4">5</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRSS</h2>
+                                    <h1 class="display-4">3</h1> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="bar_Berks" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="line_Berks" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="table_Berks_wrapper" class="dataTables_wrapper no-footer">
+                                <div class="dataTables_length" id="table_Berks_length">
+                                    <label>Show
+                                        <select name="table_Berks_length" aria-controls="table_Berks" class="">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label>
+                                </div>
+                                <div id="table_Berks_filter" class="dataTables_filter">
+                                    <label>Search:
+                                        <input type="search" class="" placeholder="" aria-controls="table_Berks">
+                                    </label>
+                                </div>
+                                <table id="table_Berks" class="display dataTable no-footer" style="width: 100%;" aria-describedby="table_Berks_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="table_Berks" rowspan="1" colspan="1" aria-sort="ascending" aria-label="SCRAPE ORDER: activate to sort column descending" style="width: 0px;">SCRAPE ORDER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Berks" rowspan="1" colspan="1" aria-label="NAME: activate to sort column ascending" style="width: 0px;">NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Berks" rowspan="1" colspan="1" aria-label="CITY: activate to sort column ascending" style="width: 0px;">CITY</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Berks" rowspan="1" colspan="1" aria-label="CREDENTIAL: activate to sort column ascending" style="width: 0px;">CREDENTIAL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Berks" rowspan="1" colspan="1" aria-label="NUMBER: activate to sort column ascending" style="width: 0px;">NUMBER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Berks" rowspan="1" colspan="1" aria-label="ISSUE DATE: activate to sort column ascending" style="width: 0px;">ISSUE DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Berks" rowspan="1" colspan="1" aria-label="EXP DATE: activate to sort column ascending" style="width: 0px;">EXP DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Berks" rowspan="1" colspan="1" aria-label="STATUS: activate to sort column ascending" style="width: 0px;">STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Berks" rowspan="1" colspan="1" aria-label="County: activate to sort column ascending" style="width: 0px;">County</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Berks" rowspan="1" colspan="1" aria-label="Month: activate to sort column ascending" style="width: 0px;">Month</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd">
+                                            <td class="sorting_1">87</td>
+                                            <td>Jose Lugo</td>
+                                            <td>reading</td>
+                                            <td>CRSS</td>
+                                            <td>10791</td>
+                                            <td>2025-04-14</td>
+                                            <td>04/14/2027</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2025-04</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">212</td>
+                                            <td>Danielle McLaughlin</td>
+                                            <td>leesport</td>
+                                            <td>CRSS</td>
+                                            <td>21002</td>
+                                            <td>2024-10-15</td>
+                                            <td>10/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">918</td>
+                                            <td>Noemi Gonzalez</td>
+                                            <td>reading</td>
+                                            <td>CFRS</td>
+                                            <td>20668</td>
+                                            <td>2024-08-10</td>
+                                            <td>08/10/2026</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2024-08</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">987</td>
+                                            <td>Andrea Moser</td>
+                                            <td>bechtelsville</td>
+                                            <td>CFRS</td>
+                                            <td>17771</td>
+                                            <td>2024-07-26</td>
+                                            <td>07/26/2026</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1167</td>
+                                            <td>Nina Oplinger</td>
+                                            <td>wernersville</td>
+                                            <td>CRS</td>
+                                            <td>9659</td>
+                                            <td>2024-11-02</td>
+                                            <td>11/02/2026</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2024-11</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1371</td>
+                                            <td>Reanna Martin</td>
+                                            <td>sinking spring</td>
+                                            <td>CFRS</td>
+                                            <td>20562</td>
+                                            <td>2024-07-10</td>
+                                            <td>07/10/2026</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1380</td>
+                                            <td>Leylanet Lopez</td>
+                                            <td>reading</td>
+                                            <td>CFRS</td>
+                                            <td>20149</td>
+                                            <td>2024-07-20</td>
+                                            <td>07/20/2026</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1462</td>
+                                            <td>Latisha Kelly</td>
+                                            <td>reading</td>
+                                            <td>CFRS</td>
+                                            <td>20965</td>
+                                            <td>2024-10-16</td>
+                                            <td>10/16/2026</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">2085</td>
+                                            <td>Jose Lugo</td>
+                                            <td>reading</td>
+                                            <td>CRSS</td>
+                                            <td>10791</td>
+                                            <td>2025-04-14</td>
+                                            <td>04/14/2027</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2025-04</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">3009</td>
+                                            <td>Megan Welsh</td>
+                                            <td>mohnton</td>
+                                            <td>CRS</td>
+                                            <td>13591</td>
+                                            <td>2025-02-12</td>
+                                            <td>02/12/2027</td>
+                                            <td>Active</td>
+                                            <td>Berks</td>
+                                            <td>2025-02</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_info" id="table_Berks_info" role="status" aria-live="polite">Showing 1 to 10 of 32 entries</div>
+                                <div class="dataTables_paginate paging_simple_numbers" id="table_Berks_paginate"><a class="paginate_button previous disabled" aria-controls="table_Berks" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="-1" id="table_Berks_previous">Previous</a><span><a class="paginate_button current" aria-controls="table_Berks" aria-role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a><a class="paginate_button " aria-controls="table_Berks" aria-role="link" data-dt-idx="1" tabindex="0">2</a><a class="paginate_button " aria-controls="table_Berks" aria-role="link" data-dt-idx="2" tabindex="0">3</a><a class="paginate_button " aria-controls="table_Berks" aria-role="link" data-dt-idx="3" tabindex="0">4</a></span><a class="paginate_button next" aria-controls="table_Berks" aria-role="link" data-dt-idx="next" tabindex="0" id="table_Berks_next">Next</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade " id="Bucks" role="tabpanel" aria-labelledby="Bucks-tab">
+                <div class="container py-4">
+                    <div class="row text-center mb-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRS</h2>
+                                    <h1 class="display-4">14</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CFRS</h2>
+                                    <h1 class="display-4">4</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRSS</h2>
+                                    <h1 class="display-4">1</h1> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="bar_Bucks" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="line_Bucks" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="table_Bucks_wrapper" class="dataTables_wrapper no-footer">
+                                <div class="dataTables_length" id="table_Bucks_length">
+                                    <label>Show
+                                        <select name="table_Bucks_length" aria-controls="table_Bucks" class="">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label>
+                                </div>
+                                <div id="table_Bucks_filter" class="dataTables_filter">
+                                    <label>Search:
+                                        <input type="search" class="" placeholder="" aria-controls="table_Bucks">
+                                    </label>
+                                </div>
+                                <table id="table_Bucks" class="display dataTable no-footer" style="width: 100%;" aria-describedby="table_Bucks_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="table_Bucks" rowspan="1" colspan="1" aria-sort="ascending" aria-label="SCRAPE ORDER: activate to sort column descending" style="width: 0px;">SCRAPE ORDER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Bucks" rowspan="1" colspan="1" aria-label="NAME: activate to sort column ascending" style="width: 0px;">NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Bucks" rowspan="1" colspan="1" aria-label="CITY: activate to sort column ascending" style="width: 0px;">CITY</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Bucks" rowspan="1" colspan="1" aria-label="CREDENTIAL: activate to sort column ascending" style="width: 0px;">CREDENTIAL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Bucks" rowspan="1" colspan="1" aria-label="NUMBER: activate to sort column ascending" style="width: 0px;">NUMBER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Bucks" rowspan="1" colspan="1" aria-label="ISSUE DATE: activate to sort column ascending" style="width: 0px;">ISSUE DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Bucks" rowspan="1" colspan="1" aria-label="EXP DATE: activate to sort column ascending" style="width: 0px;">EXP DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Bucks" rowspan="1" colspan="1" aria-label="STATUS: activate to sort column ascending" style="width: 0px;">STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Bucks" rowspan="1" colspan="1" aria-label="County: activate to sort column ascending" style="width: 0px;">County</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Bucks" rowspan="1" colspan="1" aria-label="Month: activate to sort column ascending" style="width: 0px;">Month</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd">
+                                            <td class="sorting_1">190</td>
+                                            <td>Katherine Diaz</td>
+                                            <td>bensalem</td>
+                                            <td>CRSS</td>
+                                            <td>16666</td>
+                                            <td>2025-05-27</td>
+                                            <td>05/27/2027</td>
+                                            <td>Active</td>
+                                            <td>Bucks</td>
+                                            <td>2025-05</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1443</td>
+                                            <td>Dina Shelly</td>
+                                            <td>bristol</td>
+                                            <td>CFRS</td>
+                                            <td>21005</td>
+                                            <td>2024-10-16</td>
+                                            <td>10/16/2026</td>
+                                            <td>Active</td>
+                                            <td>Bucks</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1489</td>
+                                            <td>Patricia Blazejewski</td>
+                                            <td>bensalem</td>
+                                            <td>CFRS</td>
+                                            <td>21407</td>
+                                            <td>2025-01-25</td>
+                                            <td>01/25/2027</td>
+                                            <td>Active</td>
+                                            <td>Bucks</td>
+                                            <td>2025-01</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1508</td>
+                                            <td>Lucia Rhoades</td>
+                                            <td>bensalem</td>
+                                            <td>CFRS</td>
+                                            <td>21272</td>
+                                            <td>2024-12-17</td>
+                                            <td>12/17/2026</td>
+                                            <td>Active</td>
+                                            <td>Bucks</td>
+                                            <td>2024-12</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1540</td>
+                                            <td>Christina Riddle</td>
+                                            <td>bristol</td>
+                                            <td>CFRS</td>
+                                            <td>22121</td>
+                                            <td>2025-06-09</td>
+                                            <td>06/09/2027</td>
+                                            <td>Active</td>
+                                            <td>Bucks</td>
+                                            <td>2025-06</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">5808</td>
+                                            <td>Lisa Rogers</td>
+                                            <td>croydon</td>
+                                            <td>CRS</td>
+                                            <td>21866</td>
+                                            <td>2025-04-22</td>
+                                            <td>04/22/2027</td>
+                                            <td>Active</td>
+                                            <td>Bucks</td>
+                                            <td>2025-04</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">5820</td>
+                                            <td>Denise Desris</td>
+                                            <td>perkasie</td>
+                                            <td>CRS</td>
+                                            <td>21081</td>
+                                            <td>2024-11-04</td>
+                                            <td>11/04/2026</td>
+                                            <td>Active</td>
+                                            <td>Bucks</td>
+                                            <td>2024-11</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">5904</td>
+                                            <td>James Geronemo</td>
+                                            <td>morrisville</td>
+                                            <td>CRS</td>
+                                            <td>20704</td>
+                                            <td>2024-08-17</td>
+                                            <td>08/17/2026</td>
+                                            <td>Active</td>
+                                            <td>Bucks</td>
+                                            <td>2024-08</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">6052</td>
+                                            <td>Randy Goodman</td>
+                                            <td>langhorne</td>
+                                            <td>CRS</td>
+                                            <td>20589</td>
+                                            <td>2024-07-17</td>
+                                            <td>07/17/2026</td>
+                                            <td>Active</td>
+                                            <td>Bucks</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">6090</td>
+                                            <td>Taylor Chambers</td>
+                                            <td>langhorne</td>
+                                            <td>CRS</td>
+                                            <td>21286</td>
+                                            <td>2024-12-19</td>
+                                            <td>12/19/2026</td>
+                                            <td>Active</td>
+                                            <td>Bucks</td>
+                                            <td>2024-12</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_info" id="table_Bucks_info" role="status" aria-live="polite">Showing 1 to 10 of 19 entries</div>
+                                <div class="dataTables_paginate paging_simple_numbers" id="table_Bucks_paginate"><a class="paginate_button previous disabled" aria-controls="table_Bucks" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="-1" id="table_Bucks_previous">Previous</a><span><a class="paginate_button current" aria-controls="table_Bucks" aria-role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a><a class="paginate_button " aria-controls="table_Bucks" aria-role="link" data-dt-idx="1" tabindex="0">2</a></span><a class="paginate_button next" aria-controls="table_Bucks" aria-role="link" data-dt-idx="next" tabindex="0" id="table_Bucks_next">Next</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade " id="Chester" role="tabpanel" aria-labelledby="Chester-tab">
+                <div class="container py-4">
+                    <div class="row text-center mb-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRS</h2>
+                                    <h1 class="display-4">14</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CFRS</h2>
+                                    <h1 class="display-4">7</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRSS</h2>
+                                    <h1 class="display-4">2</h1> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="bar_Chester" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="line_Chester" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="table_Chester_wrapper" class="dataTables_wrapper no-footer">
+                                <div class="dataTables_length" id="table_Chester_length">
+                                    <label>Show
+                                        <select name="table_Chester_length" aria-controls="table_Chester" class="">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label>
+                                </div>
+                                <div id="table_Chester_filter" class="dataTables_filter">
+                                    <label>Search:
+                                        <input type="search" class="" placeholder="" aria-controls="table_Chester">
+                                    </label>
+                                </div>
+                                <table id="table_Chester" class="display dataTable no-footer" style="width: 100%;" aria-describedby="table_Chester_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="table_Chester" rowspan="1" colspan="1" aria-sort="ascending" aria-label="SCRAPE ORDER: activate to sort column descending" style="width: 0px;">SCRAPE ORDER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Chester" rowspan="1" colspan="1" aria-label="NAME: activate to sort column ascending" style="width: 0px;">NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Chester" rowspan="1" colspan="1" aria-label="CITY: activate to sort column ascending" style="width: 0px;">CITY</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Chester" rowspan="1" colspan="1" aria-label="CREDENTIAL: activate to sort column ascending" style="width: 0px;">CREDENTIAL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Chester" rowspan="1" colspan="1" aria-label="NUMBER: activate to sort column ascending" style="width: 0px;">NUMBER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Chester" rowspan="1" colspan="1" aria-label="ISSUE DATE: activate to sort column ascending" style="width: 0px;">ISSUE DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Chester" rowspan="1" colspan="1" aria-label="EXP DATE: activate to sort column ascending" style="width: 0px;">EXP DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Chester" rowspan="1" colspan="1" aria-label="STATUS: activate to sort column ascending" style="width: 0px;">STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Chester" rowspan="1" colspan="1" aria-label="County: activate to sort column ascending" style="width: 0px;">County</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Chester" rowspan="1" colspan="1" aria-label="Month: activate to sort column ascending" style="width: 0px;">Month</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd">
+                                            <td class="sorting_1">162</td>
+                                            <td>Gregory Young</td>
+                                            <td>west chester</td>
+                                            <td>CRSS</td>
+                                            <td>15305</td>
+                                            <td>2024-07-24</td>
+                                            <td>07/24/2026</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1422</td>
+                                            <td>Brenda Carpenter</td>
+                                            <td>berwyn</td>
+                                            <td>CFRS</td>
+                                            <td>20936</td>
+                                            <td>2024-10-07</td>
+                                            <td>10/07/2026</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1437</td>
+                                            <td>Lael Ravenscroft</td>
+                                            <td>west chester</td>
+                                            <td>CFRS</td>
+                                            <td>20878</td>
+                                            <td>2024-09-24</td>
+                                            <td>09/24/2026</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2024-09</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1511</td>
+                                            <td>Michael Schuette</td>
+                                            <td>exton</td>
+                                            <td>CFRS</td>
+                                            <td>21179</td>
+                                            <td>2024-11-25</td>
+                                            <td>11/25/2026</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2024-11</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1531</td>
+                                            <td>Gail Campbell</td>
+                                            <td>berwyn</td>
+                                            <td>CFRS</td>
+                                            <td>22146</td>
+                                            <td>2025-06-20</td>
+                                            <td>06/20/2027</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2025-06</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1534</td>
+                                            <td>Sharon Bader</td>
+                                            <td>downingtown</td>
+                                            <td>CFRS</td>
+                                            <td>21821</td>
+                                            <td>2025-04-10</td>
+                                            <td>04/10/2027</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2025-04</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1559</td>
+                                            <td>Cody Gowin</td>
+                                            <td>phoenixville</td>
+                                            <td>CFRS</td>
+                                            <td>22131</td>
+                                            <td>2025-06-12</td>
+                                            <td>06/12/2027</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2025-06</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1560</td>
+                                            <td>Julia Leyden</td>
+                                            <td>west chester</td>
+                                            <td>CFRS</td>
+                                            <td>22122</td>
+                                            <td>2025-06-10</td>
+                                            <td>06/10/2027</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2025-06</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">3767</td>
+                                            <td>Gregory Young</td>
+                                            <td>west chester</td>
+                                            <td>CRSS</td>
+                                            <td>15305</td>
+                                            <td>2024-07-24</td>
+                                            <td>07/24/2026</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">5478</td>
+                                            <td>Alan Fenstermaker</td>
+                                            <td>phoenixville</td>
+                                            <td>CRS</td>
+                                            <td>20685</td>
+                                            <td>2024-08-15</td>
+                                            <td>08/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Chester</td>
+                                            <td>2024-08</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_info" id="table_Chester_info" role="status" aria-live="polite">Showing 1 to 10 of 23 entries</div>
+                                <div class="dataTables_paginate paging_simple_numbers" id="table_Chester_paginate"><a class="paginate_button previous disabled" aria-controls="table_Chester" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="-1" id="table_Chester_previous">Previous</a><span><a class="paginate_button current" aria-controls="table_Chester" aria-role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a><a class="paginate_button " aria-controls="table_Chester" aria-role="link" data-dt-idx="1" tabindex="0">2</a><a class="paginate_button " aria-controls="table_Chester" aria-role="link" data-dt-idx="2" tabindex="0">3</a></span><a class="paginate_button next" aria-controls="table_Chester" aria-role="link" data-dt-idx="next" tabindex="0" id="table_Chester_next">Next</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade " id="Delaware" role="tabpanel" aria-labelledby="Delaware-tab">
+                <div class="container py-4">
+                    <div class="row text-center mb-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRS</h2>
+                                    <h1 class="display-4">18</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CFRS</h2>
+                                    <h1 class="display-4">5</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRSS</h2>
+                                    <h1 class="display-4">0</h1> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="bar_Delaware" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="line_Delaware" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="table_Delaware_wrapper" class="dataTables_wrapper no-footer">
+                                <div class="dataTables_length" id="table_Delaware_length">
+                                    <label>Show
+                                        <select name="table_Delaware_length" aria-controls="table_Delaware" class="">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label>
+                                </div>
+                                <div id="table_Delaware_filter" class="dataTables_filter">
+                                    <label>Search:
+                                        <input type="search" class="" placeholder="" aria-controls="table_Delaware">
+                                    </label>
+                                </div>
+                                <table id="table_Delaware" class="display dataTable no-footer" style="width: 100%;" aria-describedby="table_Delaware_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="table_Delaware" rowspan="1" colspan="1" aria-sort="ascending" aria-label="SCRAPE ORDER: activate to sort column descending" style="width: 0px;">SCRAPE ORDER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Delaware" rowspan="1" colspan="1" aria-label="NAME: activate to sort column ascending" style="width: 0px;">NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Delaware" rowspan="1" colspan="1" aria-label="CITY: activate to sort column ascending" style="width: 0px;">CITY</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Delaware" rowspan="1" colspan="1" aria-label="CREDENTIAL: activate to sort column ascending" style="width: 0px;">CREDENTIAL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Delaware" rowspan="1" colspan="1" aria-label="NUMBER: activate to sort column ascending" style="width: 0px;">NUMBER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Delaware" rowspan="1" colspan="1" aria-label="ISSUE DATE: activate to sort column ascending" style="width: 0px;">ISSUE DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Delaware" rowspan="1" colspan="1" aria-label="EXP DATE: activate to sort column ascending" style="width: 0px;">EXP DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Delaware" rowspan="1" colspan="1" aria-label="STATUS: activate to sort column ascending" style="width: 0px;">STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Delaware" rowspan="1" colspan="1" aria-label="County: activate to sort column ascending" style="width: 0px;">County</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Delaware" rowspan="1" colspan="1" aria-label="Month: activate to sort column ascending" style="width: 0px;">Month</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd">
+                                            <td class="sorting_1">127</td>
+                                            <td>Regina Higgins</td>
+                                            <td>prospect park</td>
+                                            <td>CFRS</td>
+                                            <td>9778</td>
+                                            <td>2025-01-21</td>
+                                            <td>09/09/2026</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2025-01</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1425</td>
+                                            <td>Eileen McAndrews</td>
+                                            <td>broomall</td>
+                                            <td>CFRS</td>
+                                            <td>20349</td>
+                                            <td>2024-10-19</td>
+                                            <td>10/19/2026</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1466</td>
+                                            <td>John Gilette</td>
+                                            <td>chester</td>
+                                            <td>CFRS</td>
+                                            <td>21320</td>
+                                            <td>2025-02-14</td>
+                                            <td>02/14/2027</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2025-02</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1496</td>
+                                            <td>Joelle Biango</td>
+                                            <td>ridley park</td>
+                                            <td>CFRS</td>
+                                            <td>21059</td>
+                                            <td>2024-10-30</td>
+                                            <td>10/30/2026</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1513</td>
+                                            <td>Jamie Howard</td>
+                                            <td>brookhaven</td>
+                                            <td>CFRS</td>
+                                            <td>21201</td>
+                                            <td>2024-12-04</td>
+                                            <td>12/04/2026</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2024-12</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">4947</td>
+                                            <td>Margaret Murphy</td>
+                                            <td>lansdowne</td>
+                                            <td>CRS</td>
+                                            <td>17298</td>
+                                            <td>2024-10-15</td>
+                                            <td>10/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">5099</td>
+                                            <td>Jason Cerrato</td>
+                                            <td>brookhaven</td>
+                                            <td>CRS</td>
+                                            <td>20996</td>
+                                            <td>2024-10-15</td>
+                                            <td>10/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">5482</td>
+                                            <td>Megan Bannon</td>
+                                            <td>marcus hook</td>
+                                            <td>CRS</td>
+                                            <td>21441</td>
+                                            <td>2025-01-28</td>
+                                            <td>01/28/2027</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2025-01</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">5501</td>
+                                            <td>Doreen Dowling</td>
+                                            <td>morton</td>
+                                            <td>CRS</td>
+                                            <td>20997</td>
+                                            <td>2024-10-15</td>
+                                            <td>10/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">5914</td>
+                                            <td>Robert Robinson</td>
+                                            <td>lansdowne</td>
+                                            <td>CRS</td>
+                                            <td>22204</td>
+                                            <td>2025-06-23</td>
+                                            <td>06/23/2027</td>
+                                            <td>Active</td>
+                                            <td>Delaware</td>
+                                            <td>2025-06</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_info" id="table_Delaware_info" role="status" aria-live="polite">Showing 1 to 10 of 23 entries</div>
+                                <div class="dataTables_paginate paging_simple_numbers" id="table_Delaware_paginate"><a class="paginate_button previous disabled" aria-controls="table_Delaware" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="-1" id="table_Delaware_previous">Previous</a><span><a class="paginate_button current" aria-controls="table_Delaware" aria-role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a><a class="paginate_button " aria-controls="table_Delaware" aria-role="link" data-dt-idx="1" tabindex="0">2</a><a class="paginate_button " aria-controls="table_Delaware" aria-role="link" data-dt-idx="2" tabindex="0">3</a></span><a class="paginate_button next" aria-controls="table_Delaware" aria-role="link" data-dt-idx="next" tabindex="0" id="table_Delaware_next">Next</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade " id="Lancaster" role="tabpanel" aria-labelledby="Lancaster-tab">
+                <div class="container py-4">
+                    <div class="row text-center mb-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRS</h2>
+                                    <h1 class="display-4">14</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CFRS</h2>
+                                    <h1 class="display-4">3</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRSS</h2>
+                                    <h1 class="display-4">0</h1> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="bar_Lancaster" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="line_Lancaster" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="table_Lancaster_wrapper" class="dataTables_wrapper no-footer">
+                                <div class="dataTables_length" id="table_Lancaster_length">
+                                    <label>Show
+                                        <select name="table_Lancaster_length" aria-controls="table_Lancaster" class="">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label>
+                                </div>
+                                <div id="table_Lancaster_filter" class="dataTables_filter">
+                                    <label>Search:
+                                        <input type="search" class="" placeholder="" aria-controls="table_Lancaster">
+                                    </label>
+                                </div>
+                                <table id="table_Lancaster" class="display dataTable no-footer" style="width: 100%;" aria-describedby="table_Lancaster_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="table_Lancaster" rowspan="1" colspan="1" aria-sort="ascending" aria-label="SCRAPE ORDER: activate to sort column descending" style="width: 0px;">SCRAPE ORDER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Lancaster" rowspan="1" colspan="1" aria-label="NAME: activate to sort column ascending" style="width: 0px;">NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Lancaster" rowspan="1" colspan="1" aria-label="CITY: activate to sort column ascending" style="width: 0px;">CITY</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Lancaster" rowspan="1" colspan="1" aria-label="CREDENTIAL: activate to sort column ascending" style="width: 0px;">CREDENTIAL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Lancaster" rowspan="1" colspan="1" aria-label="NUMBER: activate to sort column ascending" style="width: 0px;">NUMBER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Lancaster" rowspan="1" colspan="1" aria-label="ISSUE DATE: activate to sort column ascending" style="width: 0px;">ISSUE DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Lancaster" rowspan="1" colspan="1" aria-label="EXP DATE: activate to sort column ascending" style="width: 0px;">EXP DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Lancaster" rowspan="1" colspan="1" aria-label="STATUS: activate to sort column ascending" style="width: 0px;">STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Lancaster" rowspan="1" colspan="1" aria-label="County: activate to sort column ascending" style="width: 0px;">County</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Lancaster" rowspan="1" colspan="1" aria-label="Month: activate to sort column ascending" style="width: 0px;">Month</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1410</td>
+                                            <td>Lynn Schaffer Koller</td>
+                                            <td>millersville</td>
+                                            <td>CFRS</td>
+                                            <td>20533</td>
+                                            <td>2024-07-02</td>
+                                            <td>07/02/2026</td>
+                                            <td>Active</td>
+                                            <td>Lancaster</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1552</td>
+                                            <td>Gabrielle Disomma</td>
+                                            <td>lancaster</td>
+                                            <td>CFRS</td>
+                                            <td>21966</td>
+                                            <td>2025-05-16</td>
+                                            <td>05/16/2027</td>
+                                            <td>Active</td>
+                                            <td>Lancaster</td>
+                                            <td>2025-05</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1556</td>
+                                            <td>Megan Zweifach</td>
+                                            <td>lancaster</td>
+                                            <td>CFRS</td>
+                                            <td>21970</td>
+                                            <td>2025-05-16</td>
+                                            <td>05/16/2027</td>
+                                            <td>Active</td>
+                                            <td>Lancaster</td>
+                                            <td>2025-05</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">4464</td>
+                                            <td>Dana Hess</td>
+                                            <td>lititz</td>
+                                            <td>CRS</td>
+                                            <td>21014</td>
+                                            <td>2024-10-16</td>
+                                            <td>10/16/2026</td>
+                                            <td>Active</td>
+                                            <td>Lancaster</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">5618</td>
+                                            <td>Sarah Aila</td>
+                                            <td>ephrata</td>
+                                            <td>CRS</td>
+                                            <td>19156</td>
+                                            <td>2024-09-27</td>
+                                            <td>09/27/2026</td>
+                                            <td>Active</td>
+                                            <td>Lancaster</td>
+                                            <td>2024-09</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">5976</td>
+                                            <td>Lynn Schaffer Koller</td>
+                                            <td>millersville</td>
+                                            <td>CRS</td>
+                                            <td>20533</td>
+                                            <td>2024-07-05</td>
+                                            <td>07/05/2026</td>
+                                            <td>Active</td>
+                                            <td>Lancaster</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">5992</td>
+                                            <td>Kimberly Wilder</td>
+                                            <td>washington boro</td>
+                                            <td>CRS</td>
+                                            <td>20372</td>
+                                            <td>2024-08-15</td>
+                                            <td>08/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Lancaster</td>
+                                            <td>2024-08</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">6000</td>
+                                            <td>Gerald Simmons</td>
+                                            <td>lancaster</td>
+                                            <td>CRS</td>
+                                            <td>20698</td>
+                                            <td>2024-08-15</td>
+                                            <td>08/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Lancaster</td>
+                                            <td>2024-08</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">6046</td>
+                                            <td>Christopher Erthal</td>
+                                            <td>lancaster</td>
+                                            <td>CRS</td>
+                                            <td>20701</td>
+                                            <td>2024-08-15</td>
+                                            <td>08/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Lancaster</td>
+                                            <td>2024-08</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">6072</td>
+                                            <td>Amber Costarella</td>
+                                            <td>millersville</td>
+                                            <td>CRS</td>
+                                            <td>21572</td>
+                                            <td>2025-02-19</td>
+                                            <td>02/19/2027</td>
+                                            <td>Active</td>
+                                            <td>Lancaster</td>
+                                            <td>2025-02</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_info" id="table_Lancaster_info" role="status" aria-live="polite">Showing 1 to 10 of 17 entries</div>
+                                <div class="dataTables_paginate paging_simple_numbers" id="table_Lancaster_paginate"><a class="paginate_button previous disabled" aria-controls="table_Lancaster" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="-1" id="table_Lancaster_previous">Previous</a><span><a class="paginate_button current" aria-controls="table_Lancaster" aria-role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a><a class="paginate_button " aria-controls="table_Lancaster" aria-role="link" data-dt-idx="1" tabindex="0">2</a></span><a class="paginate_button next" aria-controls="table_Lancaster" aria-role="link" data-dt-idx="next" tabindex="0" id="table_Lancaster_next">Next</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade " id="Montgomery" role="tabpanel" aria-labelledby="Montgomery-tab">
+                <div class="container py-4">
+                    <div class="row text-center mb-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRS</h2>
+                                    <h1 class="display-4">11</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CFRS</h2>
+                                    <h1 class="display-4">6</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRSS</h2>
+                                    <h1 class="display-4">3</h1> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="bar_Montgomery" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="line_Montgomery" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="table_Montgomery_wrapper" class="dataTables_wrapper no-footer">
+                                <div class="dataTables_length" id="table_Montgomery_length">
+                                    <label>Show
+                                        <select name="table_Montgomery_length" aria-controls="table_Montgomery" class="">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label>
+                                </div>
+                                <div id="table_Montgomery_filter" class="dataTables_filter">
+                                    <label>Search:
+                                        <input type="search" class="" placeholder="" aria-controls="table_Montgomery">
+                                    </label>
+                                </div>
+                                <table id="table_Montgomery" class="display dataTable no-footer" style="width: 100%;" aria-describedby="table_Montgomery_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="table_Montgomery" rowspan="1" colspan="1" aria-sort="ascending" aria-label="SCRAPE ORDER: activate to sort column descending" style="width: 0px;">SCRAPE ORDER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Montgomery" rowspan="1" colspan="1" aria-label="NAME: activate to sort column ascending" style="width: 0px;">NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Montgomery" rowspan="1" colspan="1" aria-label="CITY: activate to sort column ascending" style="width: 0px;">CITY</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Montgomery" rowspan="1" colspan="1" aria-label="CREDENTIAL: activate to sort column ascending" style="width: 0px;">CREDENTIAL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Montgomery" rowspan="1" colspan="1" aria-label="NUMBER: activate to sort column ascending" style="width: 0px;">NUMBER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Montgomery" rowspan="1" colspan="1" aria-label="ISSUE DATE: activate to sort column ascending" style="width: 0px;">ISSUE DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Montgomery" rowspan="1" colspan="1" aria-label="EXP DATE: activate to sort column ascending" style="width: 0px;">EXP DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Montgomery" rowspan="1" colspan="1" aria-label="STATUS: activate to sort column ascending" style="width: 0px;">STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Montgomery" rowspan="1" colspan="1" aria-label="County: activate to sort column ascending" style="width: 0px;">County</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Montgomery" rowspan="1" colspan="1" aria-label="Month: activate to sort column ascending" style="width: 0px;">Month</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd">
+                                            <td class="sorting_1">16</td>
+                                            <td>Susan Kline</td>
+                                            <td>lansdale</td>
+                                            <td>CRSS</td>
+                                            <td>8060</td>
+                                            <td>2024-10-15</td>
+                                            <td>10/15/2026</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2024-10</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">29</td>
+                                            <td>Dawn Ramsey</td>
+                                            <td>king of prussia</td>
+                                            <td>CRSS</td>
+                                            <td>9096</td>
+                                            <td>2025-02-03</td>
+                                            <td>02/03/2027</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2025-02</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">861</td>
+                                            <td>Dawn Ramsey</td>
+                                            <td>king of prussia</td>
+                                            <td>CRS</td>
+                                            <td>9096</td>
+                                            <td>2024-07-10</td>
+                                            <td>07/10/2026</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">862</td>
+                                            <td>Dawn Ramsey</td>
+                                            <td>king of prussia</td>
+                                            <td>CRSS</td>
+                                            <td>9096</td>
+                                            <td>2025-02-03</td>
+                                            <td>02/03/2027</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2025-02</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1011</td>
+                                            <td>Emily Sexton</td>
+                                            <td>north wales</td>
+                                            <td>CFRS</td>
+                                            <td>21490</td>
+                                            <td>2025-02-12</td>
+                                            <td>02/12/2027</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2025-02</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1381</td>
+                                            <td>Brenda Lacy</td>
+                                            <td>schwenksville</td>
+                                            <td>CFRS</td>
+                                            <td>20610</td>
+                                            <td>2024-07-23</td>
+                                            <td>07/23/2026</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1519</td>
+                                            <td>Seth Hornbeck</td>
+                                            <td>norristown</td>
+                                            <td>CFRS</td>
+                                            <td>21649</td>
+                                            <td>2025-03-05</td>
+                                            <td>03/05/2027</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2025-03</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1532</td>
+                                            <td>Eileen Bone</td>
+                                            <td>lansdale</td>
+                                            <td>CFRS</td>
+                                            <td>21877</td>
+                                            <td>2025-04-25</td>
+                                            <td>04/25/2027</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2025-04</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1533</td>
+                                            <td>Susan Crathern</td>
+                                            <td>oreland</td>
+                                            <td>CFRS</td>
+                                            <td>21973</td>
+                                            <td>2025-05-20</td>
+                                            <td>05/20/2027</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2025-05</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1538</td>
+                                            <td>Linda Geraghty</td>
+                                            <td>ardmore</td>
+                                            <td>CFRS</td>
+                                            <td>21891</td>
+                                            <td>2025-04-30</td>
+                                            <td>04/30/2027</td>
+                                            <td>Active</td>
+                                            <td>Montgomery</td>
+                                            <td>2025-04</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_info" id="table_Montgomery_info" role="status" aria-live="polite">Showing 1 to 10 of 20 entries</div>
+                                <div class="dataTables_paginate paging_simple_numbers" id="table_Montgomery_paginate"><a class="paginate_button previous disabled" aria-controls="table_Montgomery" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="-1" id="table_Montgomery_previous">Previous</a><span><a class="paginate_button current" aria-controls="table_Montgomery" aria-role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a><a class="paginate_button " aria-controls="table_Montgomery" aria-role="link" data-dt-idx="1" tabindex="0">2</a></span><a class="paginate_button next" aria-controls="table_Montgomery" aria-role="link" data-dt-idx="next" tabindex="0" id="table_Montgomery_next">Next</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade " id="Schuylkill" role="tabpanel" aria-labelledby="Schuylkill-tab">
+                <div class="container py-4">
+                    <div class="row text-center mb-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRS</h2>
+                                    <h1 class="display-4">3</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CFRS</h2>
+                                    <h1 class="display-4">1</h1> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fw-bold">CRSS</h2>
+                                    <h1 class="display-4">0</h1> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="bar_Schuylkill" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <canvas id="line_Schuylkill" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="table_Schuylkill_wrapper" class="dataTables_wrapper no-footer">
+                                <div class="dataTables_length" id="table_Schuylkill_length">
+                                    <label>Show
+                                        <select name="table_Schuylkill_length" aria-controls="table_Schuylkill" class="">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label>
+                                </div>
+                                <div id="table_Schuylkill_filter" class="dataTables_filter">
+                                    <label>Search:
+                                        <input type="search" class="" placeholder="" aria-controls="table_Schuylkill">
+                                    </label>
+                                </div>
+                                <table id="table_Schuylkill" class="display dataTable no-footer" style="width: 100%;" aria-describedby="table_Schuylkill_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="table_Schuylkill" rowspan="1" colspan="1" aria-sort="ascending" aria-label="SCRAPE ORDER: activate to sort column descending" style="width: 0px;">SCRAPE ORDER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Schuylkill" rowspan="1" colspan="1" aria-label="NAME: activate to sort column ascending" style="width: 0px;">NAME</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Schuylkill" rowspan="1" colspan="1" aria-label="CITY: activate to sort column ascending" style="width: 0px;">CITY</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Schuylkill" rowspan="1" colspan="1" aria-label="CREDENTIAL: activate to sort column ascending" style="width: 0px;">CREDENTIAL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Schuylkill" rowspan="1" colspan="1" aria-label="NUMBER: activate to sort column ascending" style="width: 0px;">NUMBER</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Schuylkill" rowspan="1" colspan="1" aria-label="ISSUE DATE: activate to sort column ascending" style="width: 0px;">ISSUE DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Schuylkill" rowspan="1" colspan="1" aria-label="EXP DATE: activate to sort column ascending" style="width: 0px;">EXP DATE</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Schuylkill" rowspan="1" colspan="1" aria-label="STATUS: activate to sort column ascending" style="width: 0px;">STATUS</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Schuylkill" rowspan="1" colspan="1" aria-label="County: activate to sort column ascending" style="width: 0px;">County</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_Schuylkill" rowspan="1" colspan="1" aria-label="Month: activate to sort column ascending" style="width: 0px;">Month</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd">
+                                            <td class="sorting_1">1479</td>
+                                            <td>Patti Rich</td>
+                                            <td>orwigsburg</td>
+                                            <td>CFRS</td>
+                                            <td>21089</td>
+                                            <td>2024-11-08</td>
+                                            <td>11/08/2026</td>
+                                            <td>Active</td>
+                                            <td>Schuylkill</td>
+                                            <td>2024-11</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">1868</td>
+                                            <td>Angela Pleva</td>
+                                            <td>pottsville</td>
+                                            <td>CRS</td>
+                                            <td>10511</td>
+                                            <td>2025-05-15</td>
+                                            <td>05/15/2027</td>
+                                            <td>Active</td>
+                                            <td>Schuylkill</td>
+                                            <td>2025-05</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td class="sorting_1">5674</td>
+                                            <td>George Barlow</td>
+                                            <td>shenandoah</td>
+                                            <td>CRS</td>
+                                            <td>20545</td>
+                                            <td>2024-07-03</td>
+                                            <td>07/03/2026</td>
+                                            <td>Active</td>
+                                            <td>Schuylkill</td>
+                                            <td>2024-07</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td class="sorting_1">6140</td>
+                                            <td>Eva-Marie Jones</td>
+                                            <td>mahanoy city</td>
+                                            <td>CRS</td>
+                                            <td>21256</td>
+                                            <td>2024-12-12</td>
+                                            <td>12/12/2026</td>
+                                            <td>Active</td>
+                                            <td>Schuylkill</td>
+                                            <td>2024-12</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_info" id="table_Schuylkill_info" role="status" aria-live="polite">Showing 1 to 4 of 4 entries</div>
+                                <div class="dataTables_paginate paging_simple_numbers" id="table_Schuylkill_paginate"><a class="paginate_button previous disabled" aria-controls="table_Schuylkill" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="-1" id="table_Schuylkill_previous">Previous</a><span><a class="paginate_button current" aria-controls="table_Schuylkill" aria-role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a></span><a class="paginate_button next disabled" aria-controls="table_Schuylkill" aria-disabled="true" aria-role="link" data-dt-idx="next" tabindex="-1" id="table_Schuylkill_next">Next</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            new Chart(document.getElementById('bar_All_Counties'), {
+                type: 'bar'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [4, 14, 16, 23, 14, 13, 7, 18, 11, 5, 8, 34]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [6, 1, 2, 13, 3, 4, 4, 3, 5, 5, 4, 7]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [2, 0, 2, 2, 0, 2, 7, 2, 0, 2, 1, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('line_All_Counties'), {
+                type: 'line'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [4, 14, 16, 23, 14, 13, 7, 18, 11, 5, 8, 34]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [6, 1, 2, 13, 3, 4, 4, 3, 5, 5, 4, 7]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [2, 0, 2, 2, 0, 2, 7, 2, 0, 2, 1, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('bar_Philadelphia'), {
+                type: 'bar'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [0, 3, 9, 9, 7, 3, 2, 7, 6, 2, 3, 18]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [1, 0, 1, 8, 1, 2, 2, 1, 4, 2, 1, 3]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 2, 0, 0, 2, 7, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('line_Philadelphia'), {
+                type: 'line'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [0, 3, 9, 9, 7, 3, 2, 7, 6, 2, 3, 18]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [1, 0, 1, 8, 1, 2, 2, 1, 4, 2, 1, 3]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 2, 0, 0, 2, 7, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('bar_All_Region_4'), {
+                type: 'bar'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [4, 11, 7, 14, 7, 10, 5, 11, 5, 3, 5, 16]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [5, 1, 1, 5, 2, 2, 2, 2, 1, 3, 3, 4]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [2, 0, 0, 2, 0, 0, 0, 2, 0, 2, 1, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('line_All_Region_4'), {
+                type: 'line'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [4, 11, 7, 14, 7, 10, 5, 11, 5, 3, 5, 16]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [5, 1, 1, 5, 2, 2, 2, 2, 1, 3, 3, 4]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [2, 0, 0, 2, 0, 0, 0, 2, 0, 2, 1, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('bar_Berks'), {
+                type: 'bar'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [0, 1, 2, 3, 2, 0, 3, 4, 2, 2, 0, 5]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [3, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('line_Berks'), {
+                type: 'line'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [0, 1, 2, 3, 2, 0, 3, 4, 2, 2, 0, 5]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [3, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('bar_Bucks'), {
+                type: 'bar'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [1, 1, 1, 1, 1, 3, 0, 0, 1, 1, 0, 4]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('line_Bucks'), {
+                type: 'line'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [1, 1, 1, 1, 1, 3, 0, 0, 1, 1, 0, 4]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('bar_Chester'), {
+                type: 'bar'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [0, 3, 0, 1, 2, 2, 1, 2, 1, 0, 2, 0]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 3]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('line_Chester'), {
+                type: 'line'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [0, 3, 0, 1, 2, 2, 1, 2, 1, 0, 2, 0]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 3]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('bar_Delaware'), {
+                type: 'bar'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [0, 0, 2, 6, 1, 3, 1, 2, 0, 0, 1, 2]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [0, 0, 0, 2, 0, 1, 1, 1, 0, 0, 0, 0]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('line_Delaware'), {
+                type: 'line'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [0, 0, 2, 6, 1, 3, 1, 2, 0, 0, 1, 2]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [0, 0, 0, 2, 0, 1, 1, 1, 0, 0, 0, 0]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('bar_Lancaster'), {
+                type: 'bar'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [1, 4, 2, 1, 0, 0, 0, 2, 0, 0, 0, 4]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('line_Lancaster'), {
+                type: 'line'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [1, 4, 2, 1, 0, 0, 0, 2, 0, 0, 0, 4]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('bar_Montgomery'), {
+                type: 'bar'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [1, 2, 0, 2, 1, 1, 0, 1, 1, 0, 1, 1]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [1, 0, 0, 0, 0, 0, 0, 1, 1, 2, 1, 0]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('line_Montgomery'), {
+                type: 'line'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [1, 2, 0, 2, 1, 1, 0, 1, 1, 0, 1, 1]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [1, 0, 0, 0, 0, 0, 0, 1, 1, 2, 1, 0]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('bar_Schuylkill'), {
+                type: 'bar'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            new Chart(document.getElementById('line_Schuylkill'), {
+                type: 'line'
+                , data: {
+                    labels: ['2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12', '2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06']
+                    , datasets: [
+                        {
+                            label: 'CRS'
+                            , data: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0]
+                            , backgroundColor: '#f04e55'
+                            , borderColor: '#f04e55'
+                            , fill: false
+            }, {
+                            label: 'CFRS'
+                            , data: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#099fd4'
+                            , borderColor: '#099fd4'
+                            , fill: false
+            }, {
+                            label: 'CRSS'
+                            , data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                            , backgroundColor: '#892c9a'
+                            , borderColor: '#892c9a'
+                            , fill: false
+            }
+                , ]
+                }
+                , options: {
+                    responsive: true
+                    , plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                    , scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            $(document).ready(function () {
+                $('#table_All_Counties').DataTable();
+            });
+            $(document).ready(function () {
+                $('#table_Philadelphia').DataTable();
+            });
+            $(document).ready(function () {
+                $('#table_All_Region_4').DataTable();
+            });
+            $(document).ready(function () {
+                $('#table_Berks').DataTable();
+            });
+            $(document).ready(function () {
+                $('#table_Bucks').DataTable();
+            });
+            $(document).ready(function () {
+                $('#table_Chester').DataTable();
+            });
+            $(document).ready(function () {
+                $('#table_Delaware').DataTable();
+            });
+            $(document).ready(function () {
+                $('#table_Lancaster').DataTable();
+            });
+            $(document).ready(function () {
+                $('#table_Montgomery').DataTable();
+            });
+            $(document).ready(function () {
+                $('#table_Schuylkill').DataTable();
+            });
+        </script>
+    </div>
+</body>
+
+</html>

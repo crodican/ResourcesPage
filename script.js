@@ -13,6 +13,8 @@ const loadMoreButton = document.getElementById('load-more-button');
 const loadMoreDiv = document.getElementById('load-more');
 const sortBySelect = document.getElementById('sort-by');
 const mapDiv = document.getElementById('map');
+const resultsSection = document.getElementById('results');
+const loaderContainer = document.getElementById('loader-container'); // Loader animation container
 
 // --- API and Configuration ---
 const API_BASE_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/';
@@ -648,13 +650,13 @@ function removeFilterChipFromUI(filterType, filterValue) {
 // --- Event Listeners Setup ---
 function initializeEventListeners() {
     if (searchButton) {
-        searchButton.addEventListener('click', handleSearch);
+        searchButton.addEventListener('click', handleSearchWithLoader);
     }
     if (searchInput) {
         searchInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
                 event.preventDefault();
-                handleSearch();
+                handleSearchWithLoader();
             }
         });
     }
@@ -687,6 +689,23 @@ function initializeEventListeners() {
         resourceListDiv.addEventListener('click', handleResourceBadgeClickDelegated);
         resourceListDiv.addEventListener('click', handleMapViewLinkClickDelegated);
     }
+}
+
+// Show loader, then show results section after 4 seconds and trigger search.
+function handleSearchWithLoader() {
+    if (!searchInput) return;
+
+    // Show loader, hide results
+    if (loaderContainer) loaderContainer.style.display = "flex";
+    if (resultsSection) resultsSection.style.display = "none";
+
+    // After 4 seconds, hide loader and show results
+    setTimeout(() => {
+        if (loaderContainer) loaderContainer.style.display = "none";
+        if (resultsSection) resultsSection.style.display = "block";
+        // Now trigger the actual search/filtering logic
+        handleSearch();
+    }, 4000);
 }
 
 function handleSearch() {
@@ -788,6 +807,10 @@ function handleMapViewLinkClickDelegated(event) {
 
 // --- Initial Load ---
 document.addEventListener('DOMContentLoaded', () => {
+    // Hide results and loader on load
+    if (resultsSection) resultsSection.style.display = "none";
+    if (loaderContainer) loaderContainer.style.display = "none";
+
     // Check URL for search parameter and pre-fill search input
     const urlParams = new URLSearchParams(window.location.search);
     const initialSearchTerm = urlParams.get('search');
@@ -817,7 +840,5 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCategoryFilters(); // Render initial categories (e.g. "Government", "Other")
     syncCheckboxesWithFilters(); // Checkboxes reflect URL filters
     syncChipsWithFilters();           // ✅ Show chips for checked filters
-    // Fetch initial resources without any specific sort, NocoDB default or view default will apply
-    const initialApiUrl = constructApiUrl(); // This will now include the pre-filled search term
-    fetchResources(initialApiUrl);
+    // Do NOT fetch initial resources or show results section until user searches!
 });
