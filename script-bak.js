@@ -842,38 +842,3 @@ document.addEventListener('DOMContentLoaded', () => {
     syncChipsWithFilters();           // ✅ Show chips for checked filters
     // Do NOT fetch initial resources or show results section until user searches!
 });
-// Handle county card clicks to filter results
-document.querySelectorAll('.county-card').forEach(card => {
-    card.addEventListener('click', (e) => {
-        e.preventDefault();
-        const county = card.getAttribute('data-county');
-        if (!county) return;
-
-        activeFilters[FILTER_TYPES.COUNTIES] = [county];
-        activeFilters[FILTER_TYPES.SEARCH] = '';
-        activeFilters[FILTER_TYPES.POPULATIONS] = [];
-        activeFilters[FILTER_TYPES.RESOURCE_TYPES] = [];
-        activeFilters[FILTER_TYPES.CATEGORIES] = [];
-
-        if (chipsArea) chipsArea.innerHTML = '';
-        renderCategoryFilters();
-        syncCheckboxesWithFilters();
-        syncChipsWithFilters();
-
-        loaderContainer?.style.setProperty('display', 'flex');
-
-        const countySearchSection = document.getElementById('countySearch');
-        if (countySearchSection) countySearchSection.classList.remove('show'); // Bootstrap collapse
-
-        applyFilters(true);
-
-        const checkInterval = setInterval(() => {
-            if (resourceListDiv && resourceListDiv.querySelector('.resourceCard')) {
-                loaderContainer.style.display = 'none';
-                resultsSection.style.display = 'block';
-                clearInterval(checkInterval);
-                resultsSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        }, 200);
-    });
-});
