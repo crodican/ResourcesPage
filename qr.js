@@ -71,7 +71,7 @@
                     image: currentImage, // Use the converted PNG logo
                     dotsOptions: {
                         color: "#FFFFFF",
-                        type: "extra-rounded"
+                        type: "classy-rounded"
                     },
                     backgroundOptions: {
                         color: "#55298a",
