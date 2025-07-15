@@ -525,6 +525,7 @@
                 box-shadow: 0 2.5em 0 0
             }
         }
+        
         #county-cards .card {
             overflow: hidden;
             /* Ensures the zoomed background image doesn't overflow the card */
@@ -742,14 +743,13 @@
         <div class="container">
             <div class="row mb-5">
                 <div class="col-md-8">
-                    <h2>Search by Resource Type</h2>
-                </div>
-                <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-sm text-nowrap" href="results.html">
+                    <h2>Search by Resource Type</h2> </div>
+                <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-sm text-nowrap" href="#">
                See all Resource Types<i class="bi bi-chevron-double-right ms-2"></i></a></div>
             </div>
             <div class="row mb-5 g-4">
                 <div class="col-md-6 col-lg-3">
-                    <a href="results.html?Resource%20Type=Recovery%20Support" class="card h-100 border-0 shadow text-decoration-none text-dark rounded-4">
+                    <a href="#?Resource%20Type=Recovery%20Support" class="card h-100 border-0 shadow text-decoration-none text-dark rounded-4">
                         <div class="card-body text-center"> <img src="assets/resourcetype-recovery.png" style="width:50%">
                             <h3 class="card-title text-secondary" style="font-weight: 700">Recovery Support</h3>
                             <p class="card-text text-muted">Centers of Excellence, Recovery Community Centers, Warm Handoff, etc.</p>
@@ -757,7 +757,7 @@
                     </a>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <a href="results.html?Resource%20Type=Family%20Support" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
+                    <a href="#?Resource%20Type=Family%20Support" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
                         <div class="card-body text-center"> <img src="assets/resourcetype-family.png" style="width:50%">
                             <h3 class="card-title">Family Support</h3>
                             <p class="card-text text-muted">Counseling, Education, Peer Support, Family Resources, etc.</p>
@@ -765,7 +765,7 @@
                     </a>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <a href="results.html?Resource%20Type=Housing" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
+                    <a href="#?Resource%20Type=Housing" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
                         <div class="card-body text-center"> <img src="assets/resourcetype-housing.png" style="width:50%">
                             <h3 class="card-title">Housing</h3>
                             <p class="card-text text-muted">Halfway Houses, Recovery Houses, Housing Assistance, etc.</p>
@@ -773,7 +773,7 @@
                     </a>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <a href="results.html?Resource%20Type=Transportation" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
+                    <a href="#?Resource%20Type=Transportation" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
                         <div class="card-body text-center"> <img src="assets/resourcetype-transportation.png" style="width:50%">
                             <h3 class="card-title">Transportation</h3>
                             <p class="card-text text-muted">Medical Assistance, Ride Sharing, Low Cost Public Transport, etc.</p>
@@ -784,50 +784,114 @@
         </div>
     </section>
     <section id="additional-resources" class="py-5" style="display: none">
-        <div class="container">
-            <div class="row mb-5">
-                <div class="col-md-8">
-                    <h2 style="line-height: 1">Additional<br /> Resources</h2>
+        <div class="row mb-5">
+            <div class="col-md-8">
+                <h2>Search by Resource Type</h2> </div>
+            <div class="col-md-4 d-md-flex align-items-center justify-content-end"> <a class="text-muted text-sm text-nowrap" href="#">
+               See all Resource Types<i class="bi bi-chevron-double-right ms-2"></i>
+                    </a> </div>
+        </div>
+        <div class="row">
+            <!-- Tab buttons -->
+            <div class="col-md-3 mb-3">
+                <div class="nav flex-column nav-pills me-3" id="county-tabs" role="tablist" aria-orientation="vertical">
+                    <button class="nav-link active text-start text-nowrap" id="tab-philadelphia-tab" data-bs-toggle="pill" data-bs-target="#tab-philadelphia" type="button" role="tab"> <i class="bi bi-geo-alt me-2"></i>Philadelphia </button>
+                    <button class="nav-link text-start text-nowrap" id="tab-berks-tab" data-bs-toggle="pill" data-bs-target="#tab-berks" type="button" role="tab"> <i class="bi bi-geo-alt me-2"></i>Berks </button>
+                    <button class="nav-link text-start text-nowrap" id="tab-bucks-tab" data-bs-toggle="pill" data-bs-target="#tab-bucks" type="button" role="tab"> <i class="bi bi-geo-alt me-2"></i>Bucks </button>
+                    <button class="nav-link text-start text-nowrap" id="tab-chester-tab" data-bs-toggle="pill" data-bs-target="#tab-chester" type="button" role="tab"> <i class="bi bi-geo-alt me-2"></i>Chester </button>
+                    <button class="nav-link text-start text-nowrap" id="tab-delaware-tab" data-bs-toggle="pill" data-bs-target="#tab-delaware" type="button" role="tab"> <i class="bi bi-geo-alt me-2"></i>Delaware </button>
+                    <button class="nav-link text-start text-nowrap" id="tab-lancaster-tab" data-bs-toggle="pill" data-bs-target="#tab-lancaster" type="button" role="tab"> <i class="bi bi-geo-alt me-2"></i>Lancaster </button>
+                    <button class="nav-link text-start text-nowrap" id="tab-montgomery-tab" data-bs-toggle="pill" data-bs-target="#tab-montgomery" type="button" role="tab"> <i class="bi bi-geo-alt me-2"></i>Montgomery </button>
+                    <button class="nav-link text-start text-nowrap" id="tab-schuylkill-tab" data-bs-toggle="pill" data-bs-target="#tab-schuylkill" type="button" role="tab"> <i class="bi bi-geo-alt me-2"></i>Schuylkill </button>
                 </div>
-                <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-sm text-nowrap" href="#additional-resource-types">
-               Additional Resource Types<i class="bi bi-chevron-double-down ms-2"></i></a></div>
             </div>
-            <div id="additional-resource-types" class="row mb-5 g-4">
-                <div class="col-md-6 col-lg-3">
-                    <a href="https://treatmentatlas.org/assessment-details?state=pennsylvania" class="card h-100 border-0 shadow text-decoration-none text-dark rounded-4">
-                        <div class="card-body text-center"> <img src="assets/resourcetype-recovery.png" style="width:50%">
-                            <h3 class="card-title text-secondary" style="font-weight: 700">Treatment Atlas</h3>
-                            <p class="card-text text-muted">dfssdfsdf.</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="results.html?Resource%20Type=Family%20Support" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
-                        <div class="card-body text-center"> <img src="assets/resourcetype-family.png" style="width:50%">
-                            <h3 class="card-title">Family Support</h3>
-                            <p class="card-text text-muted">Counseling, Education, Peer Support, Family Resources, etc.</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="results.html?Resource%20Type=Housing" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
-                        <div class="card-body text-center"> <img src="assets/resourcetype-housing.png" style="width:50%">
-                            <h3 class="card-title">Housing</h3>
-                            <p class="card-text text-muted">Halfway Houses, Recovery Houses, Housing Assistance, etc.</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="results.html?Resource%20Type=Transportation" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
-                        <div class="card-body text-center"> <img src="assets/resourcetype-transportation.png" style="width:50%">
-                            <h3 class="card-title">Transportation</h3>
-                            <p class="card-text text-muted">Medical Assistance, Ride Sharing, Low Cost Public Transport, etc.</p>
-                        </div>
-                    </a>
+            <!-- Tab content -->
+            <div class="col-md-9">
+                <div class="tab-content" id="county-tabs-content">
+                    <div class="tab-pane fade show active" id="tab-philadelphia" role="tabpanel">
+                        <h4>Philadelphia</h4>
+                        <p>Content for Philadelphia goes here.</p>
+                    </div>
+                    <div class="tab-pane fade" id="tab-berks" role="tabpanel">
+                        <h4>Berks</h4>
+                        <p>Content for Berks goes here.</p>
+                    </div>
+                    <div class="tab-pane fade" id="tab-bucks" role="tabpanel">
+                        <h4>Bucks</h4>
+                        <p>Content for Bucks goes here.</p>
+                    </div>
+                    <div class="tab-pane fade" id="tab-chester" role="tabpanel">
+                        <h4>Chester</h4>
+                        <p>Content for Chester goes here.</p>
+                    </div>
+                    <div class="tab-pane fade" id="tab-delaware" role="tabpanel">
+                        <h4>Delaware</h4>
+                        <p>Content for Delaware goes here.</p>
+                    </div>
+                    <div class="tab-pane fade" id="tab-lancaster" role="tabpanel">
+                        <h4>Lancaster</h4>
+                        <p>Content for Lancaster goes here.</p>
+                    </div>
+                    <div class="tab-pane fade" id="tab-montgomery" role="tabpanel">
+                        <h4>Montgomery</h4>
+                        <p>Content for Montgomery goes here.</p>
+                    </div>
+                    <div class="tab-pane fade" id="tab-schuylkill" role="tabpanel">
+                        <h4>Schuylkill</h4>
+                        <p>Content for Schuylkill goes here.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>    
+        <div class="col px-4">
+            <ul>
+                <li><a href="https://www.compass.dhs.pa.gov/home/#/">Apply to Medical Assistance Online</a></li>
+                <li><a href="https://www.hhs.gov/" target="_blank" title="Health &amp; Human Services " rel="noopener" aria-label="Health &amp; Human Services Opens in new window">Health &amp; Human Services</a></li>
+                <li><a href="https://www.montgomerycountypa.gov/3480/Drug-and-Alcohol-Support" target="_self">Montgomery County's LGBTQ+&nbsp;Drug &amp; Alcohol Support Page</a></li>
+                <li><a href="http://www.magellanofpa.com/" target="_blank" title="Magellan of PA" aria-label="Magellan of PA&nbsp; Opens in new window" rel="noopener">Magellan of PA&nbsp;</a></li>
+                <li><a href="https://www.montcopa.org/2289/Overdose-Prevention" title="Montgomery County Health Department Overdose Prevention">Montgomery County Office of Public Health Overdose Prevention</a></li>
+                <li><a href="https://clearinghouse.fmcsa.dot.gov/" target="_self">National Clearing House for Drug and Alcohol</a></li>
+                <li><a href="http://www.inhalants.org/" target="_blank" title="National Inhalation Prevention" aria-label="National Inhalation Prevention Opens in new window" rel="noopener">National Inhalation Prevention</a></li>
+                <li><a href="http://www.drugabuse.gov/" target="_blank" title="NationalInstitute on Drug Abuse" aria-label="National Institute on Drug Abuse Opens in new window" rel="noopener">National Institute on Drug Abuse</a></li>
+                <li><a href="http://sais.health.pa.gov/commonpoc/Content/PublicWeb/DAFind.aspx" target="_blank" title="Pennsylvania's Licensed Drug &amp; Alcohol Facilities by County" aria-label="Pennsylvania's Licensed Drug &amp; Alcohol Facilities by County Opens in new window" rel="noopener">Pennsylvania's Licensed Drug &amp; Alcohol Facilities by County</a></li>
+                <li><a href="http://www.samhsa.gov/" target="_blank" title="Substance Abuse &amp; Mental Health" rel="noopener" aria-label="Substance Abuse and Mental Health Services Administration Opens in new window">Substance Abuse and Mental Health Services Administration</a></li>
+            </ul>
+        </div>
+        <div id="additional-resource-types" class="row mb-5 g-4">
+            <div class="col-md-6 col-lg-3">
+                <a href="https://treatmentatlas.org/assessment-details?state=pennsylvania" class="card h-100 border-0 shadow text-decoration-none text-dark rounded-4">
+                    <div class="card-body text-center"> <img src="assets/resourcetype-recovery.png" style="width:50%">
+                        <h3 class="card-title text-secondary" style="font-weight: 700">Treatment Atlas</h3>
+                        <p class="card-text text-muted">dfssdfsdf.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="results.html?Resource%20Type=Family%20Support" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
+                    <div class="card-body text-center"> <img src="assets/resourcetype-family.png" style="width:50%">
+                        <h3 class="card-title">Family Support</h3>
+                        <p class="card-text text-muted">Counseling, Education, Peer Support, Family Resources, etc.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="results.html?Resource%20Type=Housing" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
+                    <div class="card-body text-center"> <img src="assets/resourcetype-housing.png" style="width:50%">
+                        <h3 class="card-title">Housing</h3>
+                        <p class="card-text text-muted">Halfway Houses, Recovery Houses, Housing Assistance, etc.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="results.html?Resource%20Type=Transportation" class="card h-100 text-decoration-none text-dark border-0 shadow rounded-4">
+                    <div class="card-body text-center"> <img src="assets/resourcetype-transportation.png" style="width:50%">
+                        <h3 class="card-title">Transportation</h3>
+                        <p class="card-text text-muted">Medical Assistance, Ride Sharing, Low Cost Public Transport, etc.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
     <footer class="footer">
         <div class="footer__container container">
             <div class="footer__top row">
