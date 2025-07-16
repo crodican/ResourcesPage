@@ -877,3 +877,44 @@ document.querySelectorAll('.county-card').forEach(card => {
         }, 200);
     });
 });
+// Handle resource type card clicks to filter results
+document.querySelectorAll('.resource-type-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+        e.preventDefault();
+        const resourceType = card.getAttribute('data-resource-type');
+        if (!resourceType) return;
+
+        // Reset all other filters
+        activeFilters[FILTER_TYPES.RESOURCE_TYPES] = [resourceType];
+        activeFilters[FILTER_TYPES.COUNTIES] = [];
+        activeFilters[FILTER_TYPES.SEARCH] = '';
+        activeFilters[FILTER_TYPES.POPULATIONS] = [];
+        activeFilters[FILTER_TYPES.CATEGORIES] = [];
+
+        // Update the filter UI (chips, checkboxes)
+        if (chipsArea) chipsArea.innerHTML = '';
+        renderCategoryFilters();
+        syncCheckboxesWithFilters();
+        syncChipsWithFilters();
+
+        // Show loader and hide the initial search content
+        loaderContainer?.style.setProperty('display', 'flex');
+        document.getElementById('countySearch')?.style.setProperty('display', 'none');
+        document.getElementById('resource-types')?.style.setProperty('display', 'none');
+
+        // Apply the filter and fetch results
+        applyFilters(true);
+
+        // Wait for results to load, then show the results section
+        const checkInterval = setInterval(() => {
+            // Check if results are loaded or if a "no results" message is shown
+            const resultsLoaded = resourceListDiv && (resourceListDiv.querySelector('.resourceCard') || resourceListDiv.querySelector('.alert-info'));
+            if (resultsLoaded) {
+                loaderContainer.style.display = 'none';
+                resultsSection.style.display = 'block';
+                clearInterval(checkInterval);
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 200);
+    });
+});
