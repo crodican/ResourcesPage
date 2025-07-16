@@ -807,19 +807,14 @@ function handleMapViewLinkClickDelegated(event) {
 
 // --- Initial Load ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Hide results and loader on load
-    if (resultsSection) resultsSection.style.display = "none";
-    if (loaderContainer) loaderContainer.style.display = "none";
+    // ---- Existing Setup (No Changes Here) ----
+    const urlParams = new URLSearchParams(window.location.search);
 
     // Check URL for search parameter and pre-fill search input
-    const urlParams = new URLSearchParams(window.location.search);
     const initialSearchTerm = urlParams.get('search');
-
     if (searchInput && initialSearchTerm) {
         searchInput.value = initialSearchTerm;
-        // IMPORTANT: Also update the activeFilters state and add the chip
-        activeFilters[FILTER_TYPES.SEARCH] = initialSearchTerm; // This is the new line
-        addFilterChip(FILTER_TYPES.SEARCH, initialSearchTerm); // This is also new
+        activeFilters[FILTER_TYPES.SEARCH] = initialSearchTerm;
     }
 
     if (!searchInput || !searchButton || !chipsArea || !countyFiltersDiv || !populationFiltersDiv ||
@@ -837,10 +832,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initializeMap();
     initializeEventListeners();
-    renderCategoryFilters(); // Render initial categories (e.g. "Government", "Other")
-    syncCheckboxesWithFilters(); // Checkboxes reflect URL filters
-    syncChipsWithFilters();           // ✅ Show chips for checked filters
-    // Do NOT fetch initial resources or show results section until user searches!
+    renderCategoryFilters();
+    syncCheckboxesWithFilters();
+    syncChipsWithFilters();
+
+    // ---- NEW LOGIC STARTS HERE ----
+
+    // Check if any filter parameters exist in the URL
+    if (urlParams.size > 0) {
+        // Hide the default landing page sections
+        document.getElementById('countySearch')?.style.setProperty('display', 'none');
+        document.getElementById('resource-types')?.style.setProperty('display', 'none');
+
+        // Show the loader while we fetch results
+        if (loaderContainer) loaderContainer.style.display = "flex";
+        if (resultsSection) resultsSection.style.display = "none";
+
+        // Apply the filters that were loaded from the URL
+        applyFilters(true);
+
+        // Wait for the results to load, then display them
+        const checkInterval = setInterval(() => {
+            const resultsLoaded = resourceListDiv && (resourceListDiv.querySelector('.resourceCard') || resourceListDiv.querySelector('.alert-info'));
+            if (resultsLoaded) {
+                if (loaderContainer) loaderContainer.style.display = 'none';
+                if (resultsSection) resultsSection.style.display = 'block';
+                clearInterval(checkInterval);
+            }
+        }, 200);
+
+    } else {
+        // Original behavior: If no URL filters, hide results and loader
+        if (resultsSection) resultsSection.style.display = "none";
+        if (loaderContainer) loaderContainer.style.display = "none";
+    }
 });
 // Handle county card clicks to filter results
 document.querySelectorAll('.county-card').forEach(card => {
