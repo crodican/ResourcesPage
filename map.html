@@ -43,59 +43,61 @@
       color: #666;
       cursor: pointer;
     }
-    .legend-circle {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 0.5rem;
-    }
+.legend-circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
   </style>
 </head>
 <body>
 
   <h1 class="mb-4">Click a County</h1>
 
+  <!-- Popup Info Panel -->
   <div id="popup">
     <button id="popup-close">&times;</button>
     <div id="popup-content"></div>
   </div>
 
+  <!-- Map Container -->
   <div id="map-container"></div>
-  <div class="mt-4" id="region-legend">
-    <h5>Recovery Hub Regions</h5>
-    <div class="d-flex flex-wrap gap-3 mt-2">
-      <div class="d-flex align-items-center">
-        <span class="legend-circle" style="background-color: #55298a;"></span> Region 1
-      </div>
-      <div class="d-flex align-items-center">
-        <span class="legend-circle" style="background-color: #414bb2;"></span> Region 2
-      </div>
-      <div class="d-flex align-items-center">
-        <span class="legend-circle" style="background-color: #625cff;"></span> Region 3
-      </div>
-      <div class="d-flex align-items-center">
-        <span class="legend-circle" style="background-color: #00c68f;"></span> Region 4
-      </div>
-      <div class="d-flex align-items-center">
-        <span class="legend-circle" style="background-color: #414bb2;"></span> Region 5
-      </div>
-      <div class="d-flex align-items-center">
-        <span class="legend-circle" style="background-color: #f37033;"></span> Region 6
-      </div>
-      <div class="d-flex align-items-center">
-        <span class="legend-circle" style="background-color: #c6cedc;"></span> Region 7
-      </div>
-      <div class="d-flex align-items-center">
-        <span class="legend-circle" style="background-color: #12cdd4;"></span> Region 8
-      </div>
-      <div class="d-flex align-items-center">
-        <span class="legend-circle" style="background-color: #9298de;"></span> Region 9
-      </div>
+<div class="mt-4" id="region-legend">
+  <h5>Recovery Hub Regions</h5>
+  <div class="d-flex flex-wrap gap-3 mt-2">
+    <div class="d-flex align-items-center">
+      <span class="legend-circle" style="background-color: #55298a;"></span> Region 1
+    </div>
+    <div class="d-flex align-items-center">
+      <span class="legend-circle" style="background-color: #414bb2;"></span> Region 2
+    </div>
+    <div class="d-flex align-items-center">
+      <span class="legend-circle" style="background-color: #625cff;"></span> Region 3
+    </div>
+    <div class="d-flex align-items-center">
+      <span class="legend-circle" style="background-color: #00c68f;"></span> Region 4
+    </div>
+    <div class="d-flex align-items-center">
+      <span class="legend-circle" style="background-color: #414bb2;"></span> Region 5
+    </div>
+    <div class="d-flex align-items-center">
+      <span class="legend-circle" style="background-color: #f37033;"></span> Region 6
+    </div>
+    <div class="d-flex align-items-center">
+      <span class="legend-circle" style="background-color: #c6cedc;"></span> Region 7
+    </div>
+    <div class="d-flex align-items-center">
+      <span class="legend-circle" style="background-color: #12cdd4;"></span> Region 8
+    </div>
+    <div class="d-flex align-items-center">
+      <span class="legend-circle" style="background-color: #9298de;"></span> Region 9
     </div>
   </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/gh/snd-lib/snd-lib@v1.2.3/dist/browser/snd.js?kit=01"></script>
+  <!-- JS -->
   <script>
     const regionLookup = {
       "Philadelphia":       { region: 1, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
@@ -116,33 +118,12 @@
 
     const regionDetails = {
       R4: { region: 4, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
-      R5: { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricat.org/Recovery-Hub" },
+      R5: { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
       R6: { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
       R7: { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
       R8: { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
       R9: { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" }
     };
-
-    const popup = document.getElementById('popup');
-    const popupContent = document.getElementById('popup-content');
-    const closeBtn = document.getElementById('popup-close');
-
-    // --- snd-lib Integration ---
-    let snd; // Declare snd globally or in a scope accessible by your functions
-
-    // Initialize snd-lib after the DOM is ready and the script is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      snd = new Snd();
-      snd.load(Snd.KITS.SND01) // Load the default kit (which includes transition_up/down)
-         .then(() => {
-           console.log("snd-lib kit loaded successfully!");
-         })
-         .catch(error => {
-           console.error("Error loading snd-lib kit:", error);
-         });
-    });
-    // --- End snd-lib Integration ---
-
 
     fetch('map.svg')
       .then(res => res.text())
@@ -158,78 +139,58 @@
         });
       });
 
-    closeBtn.addEventListener('click', () => {
-      popup.style.display = 'none';
-      if (snd) { // Check if snd is initialized before trying to play
-        snd.play(Snd.SOUNDS.TRANSITION_DOWN);
-      }
-    });
+    const popup = document.getElementById('popup');
+    const popupContent = document.getElementById('popup-content');
+    const closeBtn = document.getElementById('popup-close');
 
-    function showPopup(rawCounty, x, y) {
-      // Normalize county name
-      const county = rawCounty
-        .replace(/county/i, '')
-        .trim()
-        .toLowerCase()
-        .replace(/\b\w/g, l => l.toUpperCase());
+    closeBtn.addEventListener('click', () => popup.style.display = 'none');
 
-      let data = regionLookup[county];
-      if (typeof data === 'string' && regionDetails[data]) {
-        data = regionDetails[data];
-      }
+function showPopup(rawCounty, x, y) {
+  // Normalize county name
+  const county = rawCounty
+    .replace(/county/i, '')
+    .trim()
+    .toLowerCase()
+    .replace(/\b\w/g, l => l.toUpperCase());
 
-      let content = `<h5 class="text-uppercase">${county}</h5>`;
-      if (data) {
-        content += `
-          <p><strong>Region:</strong> ${data.region}</p>
-          <p><strong>Organization:</strong> ${data.org}</p>
-          <p><a href="${data.url}" target="_blank">${data.url}</a></p>
-        `;
-      } else {
-        content += `<p><em>No region data available.</em></p>`;
-      }
+  let data = regionLookup[county];
+  if (typeof data === 'string' && regionDetails[data]) {
+    data = regionDetails[data];
+  }
 
-      popupContent.innerHTML = content;
+  let content = `<h5 class="text-uppercase">${county}</h5>`;
+  if (data) {
+    content += `
+      <p><strong>Region:</strong> ${data.region}</p>
+      <p><strong>Organization:</strong> ${data.org}</p>
+      <p><a href="${data.url}" target="_blank">${data.url}</a></p>
+    `;
+  } else {
+    content += `<p><em>No region data available.</em></p>`;
+  }
 
-      // Get viewport dimensions
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+  popupContent.innerHTML = content;
 
-      // Adjust popup direction based on click position
-      const isRight = x > vw / 2;
-      const isBottom = y > vh / 2;
+  // Get viewport dimensions
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
 
-      const offsetX = isRight ? -popup.offsetWidth - 10 : 10;
-      const offsetY = isBottom ? -popup.offsetHeight - 10 : 10;
+  // Adjust popup direction based on click position
+  const isRight = x > vw / 2;
+  const isBottom = y > vh / 2;
 
-      popup.style.left = `${x + offsetX}px`;
-      popup.style.top = `${y + offsetY}px`;
+  const offsetX = isRight ? -popup.offsetWidth - 10 : 10;
+  const offsetY = isBottom ? -popup.offsetHeight - 10 : 10;
 
-      // Check if the popup is currently hidden before showing and playing sound
-      if (popup.style.display === 'none') {
-        popup.style.display = 'block';
-        if (snd) { // Check if snd is initialized
-          snd.play(Snd.SOUNDS.TRANSITION_UP);
-        }
-      } else {
-        // If popup is already open and a new county is clicked, you might not want
-        // to play the sound again, or you might play a different sound.
-        // For now, it will only play on first open.
-      }
-    }
+  popup.style.left = `${x + offsetX}px`;
+  popup.style.top = `${y + offsetY}px`;
+  popup.style.display = 'block';
+}
+
 
     document.addEventListener('click', (e) => {
-      const isPopupVisible = popup.style.display !== 'none';
-      const clickedInsidePopup = popup.contains(e.target);
-      const clickedOnPath = e.target.closest('path');
-
-      // If the popup is visible, and the click is NOT inside the popup
-      // AND NOT on a map path (which would open a new popup), then close it.
-      if (isPopupVisible && !clickedInsidePopup && !clickedOnPath) {
+      if (!popup.contains(e.target) && !e.target.closest('path')) {
         popup.style.display = 'none';
-        if (snd) { // Check if snd is initialized
-          snd.play(Snd.SOUNDS.TRANSITION_DOWN);
-        }
       }
     });
   </script>
