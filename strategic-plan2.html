@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Regional Recovery Hubs Strategic Plan Mindmap</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #mindmap {
+      width: 100vw;
+      height: 100vh;
+    }
+    .markmap-toolbar {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <!-- Toolbar container -->
+  <div class="markmap-toolbar"></div>
+  <!-- Mindmap SVG -->
+  <svg id="mindmap"></svg>
+
+  <!-- Markdown source -->
+  <script type="text/markdown" id="mindmap-data">
+# Regional Recovery Hubs 1 & 4 - Strategic Plan Outline
+
+## Proirity 1: Expansion of the CRS Workforce
+
+### Why?
+
+#### CRS are really in demand right now.
+
+#### There are a lot of open positions throughout the region.
+
+#### Right now there are peers who are currently working in positions without the proper training.
+
+#### There are Reported waitlists for Recovery Specialist classes across region.
+
+### Goal
+
+#### Increase the number of certified individuals by 6/30/2025.
+
+### Objectives
+
+#### To ensure that at least 100 candidates participate in the Recovery Specialist Training across the Region by 6/30/25.
+
+#### Guarantee a minimum of 10 Recovery Specialist Trainings are delivered across the Region by 6/30/2025.
+
+#### Identify trained individuals and assist them through the certification process.
+
+#### Develop and offer a series of additional trainings that meet the requirements for CRSS Credential.
+
+## Priority 2: Expansion of CFRS / FAMILY Resources
+
+### Why?
+
+#### Focus Groups, Surveys, and Needs Assessment results showed a lack of family support, resources, and trained individuals across the region.
+
+#### Families expressed a need for more educational opportunities to learn about their loved one’s addiction.
+
+#### Provider surveys indicated very few facilities offer ongoing family support programming.
+
+### Goal
+
+#### Increase the number of family resources by 6/30/2025.
+
+### Objectives
+
+#### Increase the number of family groups and individual support across the Region by 6/30/2025.
+
+#### Increase the number of Certified Family Recovery Specialists by 6/30/2025.
+
+## Priority 3: Stigma Reducation and Education
+
+### Why?
+
+#### Focus Groups and community organizations as well as addiction professionals felt strongly that while efforts are being made in hospitals, police departments, and various other public serving entities there is still vital need for education to change how persons with Substance Use Disorder are addressed and treated.
+
+#### MAT is still very much misunderstood; continuing to cause barriers for those who embrace this as their recovery pathway.
+
+### Goal
+
+#### Reduce impact of stigma through education and training by 6/30/2025.
+
+### Objectives
+
+#### Develop Intro to Recovery Support Services Training and deliver a minimum of 7 orientations to various providers and students across the region.
+
+#### Utilize “Our Stories Have Power” training and deliver 3 trainings within the region.
+
+## Priority 4: Recovery Community Centers
+
+### Why?
+
+#### RCCs are limited in number across the Region and struggle with sustainability. These centers generally only serve the local community due to barriers such as transportation and travel time. This indicates a need for possible satellite sites and/or mobile engagement.
+
+#### People in recovery need a safe space to build a support network and have access to resources
+
+### Goal
+
+#### Support the implementation and/or growth of Recovery Community Centers by 6/30/2025.
+
+### Objectives
+
+#### Assess the RCC’s need for individual and group recovery support services.
+
+#### Support the identified areas within the region that are currently without RCC’s.
+
+## Priority 5: Housing and Transportation
+
+### Why?
+
+#### Through meeting with multiple organizations and having focus groups across the Region, there is an excessive amount of people who are unhoused which makes it more difficult for them to access recovery resources and support.
+
+### Goal
+
+#### Enhance housing and transportation resources across the region by 6/30/2025.
+
+### Objectives
+
+#### Provide support to existing Recovery Houses.
+
+#### Identify strategies and resources to overcome the transportation barriers within the region.
+  </script>
+
+  <!-- JS Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.17.0/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.17.0/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-toolbar@0.17.0/dist/index.min.js"></script>
+
+  <!-- Initialization -->
+  <script>
+    const { Transformer } = window.markmap;
+    const transformer = new Transformer();
+
+    const markdown = document.getElementById('mindmap-data').textContent;
+    const { root } = transformer.transform(markdown);
+
+    const mm = markmap.Markmap.create("#mindmap", {
+      autoFit: true,
+      spacingVertical: 100,
+      spacingHorizontal: 120,
+      nodeMinHeight: 30,
+      duration: 500,
+      style: (node) => `font-size: ${20 - node.depth * 2}px;`,
+      maxWidth: 150
+    }, root);
+
+    const { Toolbar } = window.markmapToolbar;
+    const toolbar = Toolbar.create(mm);
+    document.querySelector('.markmap-toolbar').appendChild(toolbar);
+  </script>
+</body>
+</html>
