@@ -20,14 +20,11 @@
     }
     #popup {
       position: absolute;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-      box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
-      padding: 1rem;
-      min-width: 250px;
+      min-width: 280px;
+      max-width: 350px;
       z-index: 1000;
       display: none;
+      /* Remove background/border/padding so Bootstrap card handles it */
     }
     #popup-close {
       position: absolute;
@@ -39,6 +36,7 @@
       line-height: 1;
       color: #666;
       cursor: pointer;
+      z-index: 2;
     }
     .legend-circle {
       width: 16px;
@@ -48,7 +46,7 @@
       margin-right: 0.5rem;
     }
     .organization-logo {
-      max-width: 150px; /* Adjust as needed */
+      max-width: 150px;
       height: auto;
       display: block;
       margin-left: auto;
@@ -62,7 +60,6 @@
 
   <!-- Popup Info Panel -->
   <div id="popup">
-    <button id="popup-close">&times;</button>
     <div id="popup-content"></div>
   </div>
 
@@ -221,6 +218,11 @@
   const popupContent = document.getElementById('popup-content');
   const closeBtn = document.getElementById('popup-close');
 
+  // Remove old close button from popup-content if present
+  function renderPopupCard(contentHtml) {
+    popupContent.innerHTML = contentHtml;
+  }
+
   closeBtn.addEventListener('click', () => popup.style.display = 'none');
 
   function showPopup(rawCounty, x, y) {
@@ -236,7 +238,7 @@
       data = regionDetails[data];
     }
 
-    let content = '';
+    let cardHtml = '';
     if (data) {
       const countyDisplayName = (county === "Philadelphia") ? "Philadelphia" : `${county} County`;
 
@@ -253,34 +255,50 @@
         9: "/assets/resource-logos/northbound.png"
       };
 
-      const organizationLogo = logoPaths[data.region] || ''; // Get logo path, default to empty string if not found
-
-      // Ensure badge color matches region color
+      const organizationLogo = logoPaths[data.region] || '';
       const badgeColor = regionColors[data.region] || '#0d6efd';
 
-      content = `
-        <span class="badge rounded-pill mb-2" style="background-color: ${badgeColor}; color: white;">Region ${data.region}</span>
-        <h5 class="card-title text-capitalize">${countyDisplayName}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">${data.org}</h6>
-        <a href="${data.url}" target="_blank" class="card-link">Website</a>
+      cardHtml = `
+      <div class="card shadow-sm position-relative">
+        <button id="popup-close" class="btn btn-sm btn-light position-absolute" style="top:0.25rem;right:0.5rem;z-index:2;">&times;</button>
+        <div class="card-body pb-0">
+          <span class="badge rounded-pill mb-2" style="background-color: ${badgeColor}; color: white;">Region ${data.region}</span>
+          <h5 class="card-title text-capitalize">${countyDisplayName}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">${data.org}</h6>
+          <a href="${data.url}" target="_blank" class="card-link">Website</a>
+        </div>
         ${
           organizationLogo
-            ? `<div class="card-img-bottom bg-secondary-subtle p-2"><img src="${organizationLogo}" alt="${data.org} Logo" class="organization-logo"></div>`
+            ? `<div class="card-img-bottom bg-secondary-subtle p-2">
+                  <img src="${organizationLogo}" alt="${data.org} Logo" class="organization-logo">
+               </div>`
             : ''
         }
+      </div>
       `;
     } else {
-      content = `<h5 class="card-title text-capitalize">${county} County</h5><p><em>No region data available.</em></p>`;
+      cardHtml = `
+      <div class="card shadow-sm position-relative">
+        <button id="popup-close" class="btn btn-sm btn-light position-absolute" style="top:0.25rem;right:0.5rem;z-index:2;">&times;</button>
+        <div class="card-body">
+          <h5 class="card-title text-capitalize">${county} County</h5>
+          <p><em>No region data available.</em></p>
+        </div>
+      </div>
+      `;
     }
 
-    popupContent.innerHTML = content;
+    renderPopupCard(cardHtml);
+
+    // Replace close button event (since it's re-rendered)
+    const dynamicCloseBtn = popupContent.querySelector('#popup-close');
+    if (dynamicCloseBtn) dynamicCloseBtn.onclick = () => popup.style.display = 'none';
 
     // Get viewport dimensions
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
     // Adjust popup direction based on click position
-    // Get computed width and height of the popup after content is loaded
     const popupWidth = popup.offsetWidth;
     const popupHeight = popup.offsetHeight;
 
