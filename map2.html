@@ -169,12 +169,15 @@
         paths.forEach(path => {
           const county = path.getAttribute('data-name') || path.getAttribute('id') || 'Unknown';
           path.addEventListener('click', (e) => {
+            // Prevent the general document click from playing sound immediately if this specific action triggers a sound
+            e.stopPropagation(); // Stop the event from bubbling up to the document listener
             showPopup(county, e.pageX, e.pageY);
           });
         });
       });
 
-    closeBtn.addEventListener('click', () => {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Stop the event from bubbling up
       popup.style.display = 'none';
       if (snd) { // Check if snd is initialized before trying to play
         snd.play(Snd.SOUNDS.TRANSITION_DOWN);
@@ -254,23 +257,32 @@
       } else {
         // If popup is already open and a new county is clicked, you might not want
         // to play the sound again, or you might play a different sound.
-        // For now, it will only play on first open.
+        // We'll let the document-wide click handle it.
       }
     }
 
+    // New: General click sound for the entire document
     document.addEventListener('click', (e) => {
-      const isPopupVisible = popup.style.display !== 'none';
-      const clickedInsidePopup = popup.contains(e.target);
-      const clickedOnPath = e.target.closest('path'); // Check if the clicked element or its ancestor is a path
+        const isPopupVisible = popup.style.display !== 'none';
+        const clickedInsidePopup = popup.contains(e.target);
+        const clickedOnPath = e.target.closest('path'); // Check if the clicked element or its ancestor is a path
 
-      // If the popup is visible, and the click is NOT inside the popup
-      // AND NOT on a map path (which would open a new popup), then close it.
-      if (isPopupVisible && !clickedInsidePopup && !clickedOnPath) {
-        popup.style.display = 'none';
-        if (snd) { // Check if snd is initialized
-          snd.play(Snd.SOUNDS.TRANSITION_DOWN);
+        // Play a generic click sound for anything not specifically handled by other listeners
+        // Only play if snd is initialized and it's not a click that triggered a specific sound
+        // (like opening/closing popup or county click which stop propagation).
+        if (snd && !e.defaultPrevented) { // e.defaultPrevented would be true if stopPropagation was called earlier
+             snd.play(Snd.SOUNDS.CLICK); // Assuming 'CLICK' sound exists in your kit. If not, use another like 'TRANSITION_UP' or 'TRANSITION_DOWN'
         }
-      }
+
+        // Existing logic for closing the popup
+        // If the popup is visible, and the click is NOT inside the popup
+        // AND NOT on a map path (which would open a new popup), then close it.
+        if (isPopupVisible && !clickedInsidePopup && !clickedOnPath) {
+            popup.style.display = 'none';
+            if (snd) { // Check if snd is initialized
+                snd.play(Snd.SOUNDS.TRANSITION_DOWN);
+            }
+        }
     });
   </script>
 

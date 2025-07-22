@@ -50,6 +50,13 @@
   display: inline-block;
   margin-right: 0.5rem;
 }
+    .organization-logo {
+      max-width: 150px; /* Adjust as needed */
+      height: auto;
+      display: block;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -99,101 +106,123 @@
 
   <!-- JS -->
   <script>
-    const regionLookup = {
-      "Philadelphia":       { region: 1, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
-      "Allegheny":          { region: 2, org: "Unity Recovery", url: "https://unityrecovery.org/portfolios/recovery-hub" },
-      "Erie":               { region: 3, org: "Erie County Office of Drug and Alcohol", url: "https://eriecountypa.gov/departments/human-services/drug-and-alcohol-abuse/" },
-      "Berks": "R4", "Bucks": "R4", "Chester": "R4", "Delaware": "R4", "Lancaster": "R4", "Montgomery": "R4", "Schuylkill": "R4",
-      "Adams": "R5", "Bedford": "R5", "Blair": "R5", "Cumberland": "R5", "Dauphin": "R5", "Franklin": "R5", "Fulton": "R5",
-      "Huntingdon": "R5", "Juniata": "R5", "Lebanon": "R5", "Mifflin": "R5", "Perry": "R5", "York": "R5",
-      "Armstrong": "R6", "Beaver": "R6", "Butler": "R6", "Cambria": "R6", "Fayette": "R6", "Greene": "R6",
-      "Indiana": "R6", "Somerset": "R6", "Westmoreland": "R6", "Washington": "R6",
-      "Cameron": "R7", "Clarion": "R7", "Clearfield": "R7", "Crawford": "R7", "Elk": "R7", "Forest": "R7",
-      "Jefferson": "R7", "Lawrence": "R7", "Mckean": "R7", "Mercer": "R7", "Venango": "R7", "Warren": "R7",
-      "Bradford": "R8", "Centre": "R8", "Clinton": "R8", "Columbia": "R8", "Lycoming": "R8", "Montour": "R8",
-      "Northumberland": "R8", "Potter": "R8", "Snyder": "R8", "Sullivan": "R8", "Tioga": "R8", "Union": "R8",
-      "Carbon": "R9", "Lackawanna": "R9", "Lehigh": "R9", "Luzerne": "R9", "Monroe": "R9", "Northampton": "R9",
-      "Pike": "R9", "Susquehanna": "R9", "Wayne": "R9", "Wyoming": "R9"
-    };
+  const regionLookup = {
+    "Philadelphia": { region: 1, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
+    "Allegheny": { region: 2, org: "Unity Recovery", url: "https://unityrecovery.org/portfolios/recovery-hub" },
+    "Erie": { region: 3, org: "Erie County Office of Drug and Alcohol", url: "https://eriecountypa.gov/departments/human-services/drug-and-alcohol-abuse/" },
+    "Berks": "R4", "Bucks": "R4", "Chester": "R4", "Delaware": "R4", "Lancaster": "R4", "Montgomery": "R4", "Schuylkill": "R4",
+    "Adams": "R5", "Bedford": "R5", "Blair": "R5", "Cumberland": "R5", "Dauphin": "R5", "Franklin": "R5", "Fulton": "R5",
+    "Huntingdon": "R5", "Juniata": "R5", "Lebanon": "R5", "Mifflin": "R5", "Perry": "R5", "York": "R5",
+    "Armstrong": "R6", "Beaver": "R6", "Butler": "R6", "Cambria": "R6", "Fayette": "R6", "Greene": "R6",
+    "Indiana": "R6", "Somerset": "R6", "Westmoreland": "R6", "Washington": "R6",
+    "Cameron": "R7", "Clarion": "R7", "Clearfield": "R7", "Crawford": "R7", "Elk": "R7", "Forest": "R7",
+    "Jefferson": "R7", "Lawrence": "R7", "Mckean": "R7", "Mercer": "R7", "Venango": "R7", "Warren": "R7",
+    "Bradford": "R8", "Centre": "R8", "Clinton": "R8", "Columbia": "R8", "Lycoming": "R8", "Montour": "R8",
+    "Northumberland": "R8", "Potter": "R8", "Snyder": "R8", "Sullivan": "R8", "Tioga": "R8", "Union": "R8",
+    "Carbon": "R9", "Lackawanna": "R9", "Lehigh": "R9", "Luzerne": "R9", "Monroe": "R9", "Northampton": "R9",
+    "Pike": "R9", "Susquehanna": "R9", "Wayne": "R9", "Wyoming": "R9"
+  };
 
-    const regionDetails = {
-      R4: { region: 4, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
-      R5: { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
-      R6: { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
-      R7: { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
-      R8: { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
-      R9: { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" }
-    };
+  const regionDetails = {
+    R4: { region: 4, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
+    R5: { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    R6: { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    R7: { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    R8: { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    R9: { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" }
+  };
 
-    fetch('map.svg')
-      .then(res => res.text())
-      .then(svg => {
-        document.getElementById('map-container').innerHTML = svg;
+  fetch('map.svg')
+    .then(res => res.text())
+    .then(svg => {
+      document.getElementById('map-container').innerHTML = svg;
 
-        const paths = document.querySelectorAll('#map-container svg path');
-        paths.forEach(path => {
-          const county = path.getAttribute('data-name') || path.getAttribute('id') || 'Unknown';
-          path.addEventListener('click', (e) => {
-            showPopup(county, e.pageX, e.pageY);
-          });
+      const paths = document.querySelectorAll('#map-container svg path');
+      paths.forEach(path => {
+        const county = path.getAttribute('data-name') || path.getAttribute('id') || 'Unknown';
+        path.addEventListener('click', (e) => {
+          showPopup(county, e.pageX, e.pageY);
         });
       });
-
-    const popup = document.getElementById('popup');
-    const popupContent = document.getElementById('popup-content');
-    const closeBtn = document.getElementById('popup-close');
-
-    closeBtn.addEventListener('click', () => popup.style.display = 'none');
-
-function showPopup(rawCounty, x, y) {
-  // Normalize county name
-  const county = rawCounty
-    .replace(/county/i, '')
-    .trim()
-    .toLowerCase()
-    .replace(/\b\w/g, l => l.toUpperCase());
-
-  let data = regionLookup[county];
-  if (typeof data === 'string' && regionDetails[data]) {
-    data = regionDetails[data];
-  }
-
-  let content = `<h5 class="text-uppercase">${county}</h5>`;
-  if (data) {
-    content += `
-      <p><strong>Region:</strong> ${data.region}</p>
-      <p><strong>Organization:</strong> ${data.org}</p>
-      <p><a href="${data.url}" target="_blank">${data.url}</a></p>
-    `;
-  } else {
-    content += `<p><em>No region data available.</em></p>`;
-  }
-
-  popupContent.innerHTML = content;
-
-  // Get viewport dimensions
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-
-  // Adjust popup direction based on click position
-  const isRight = x > vw / 2;
-  const isBottom = y > vh / 2;
-
-  const offsetX = isRight ? -popup.offsetWidth - 10 : 10;
-  const offsetY = isBottom ? -popup.offsetHeight - 10 : 10;
-
-  popup.style.left = `${x + offsetX}px`;
-  popup.style.top = `${y + offsetY}px`;
-  popup.style.display = 'block';
-}
-
-
-    document.addEventListener('click', (e) => {
-      if (!popup.contains(e.target) && !e.target.closest('path')) {
-        popup.style.display = 'none';
-      }
     });
-  </script>
+
+  const popup = document.getElementById('popup');
+  const popupContent = document.getElementById('popup-content');
+  const closeBtn = document.getElementById('popup-close');
+
+  closeBtn.addEventListener('click', () => popup.style.display = 'none');
+
+  function showPopup(rawCounty, x, y) {
+    // Normalize county name
+    const county = rawCounty
+      .replace(/county/i, '')
+      .trim()
+      .toLowerCase()
+      .replace(/\b\w/g, l => l.toUpperCase());
+
+    let data = regionLookup[county];
+    if (typeof data === 'string' && regionDetails[data]) {
+      data = regionDetails[data];
+    }
+
+    let content = '';
+    if (data) {
+      const countyDisplayName = (county === "Philadelphia") ? "Philadelphia" : `${county} County`;
+
+      // Define logo paths based on region
+      const logoPaths = {
+        1: "/assets/resource-logos/councilsepa.svg",
+        2: "/assets/resource-logos/unity.svg",
+        3: "/assets/resource-logos/erie.png",
+        4: "/assets/resource-logos/councilsepa.svg",
+        5: "/assets/resource-logos/pmhca.svg",
+        6: "/assets/resource-logos/aicdac.png",
+        7: "/assets/resource-logos/aicdac.png",
+        8: "/assets/resource-logos/westbranch.svg",
+        9: "/assets/resource-logos/northbound.png"
+      };
+
+      const organizationLogo = logoPaths[data.region] || ''; // Get logo path, default to empty string if not found
+
+      content = `
+        <span class="badge rounded-pill bg-primary mb-2">Region ${data.region}</span>
+        <h5 class="card-title text-capitalize">${countyDisplayName}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">${data.org}</h6>
+        ${organizationLogo ? `<img src="${organizationLogo}" alt="${data.org} Logo" class="organization-logo">` : ''}
+        <a href="${data.url}" target="_blank" class="card-link">Website</a>
+      `;
+    } else {
+      content = `<h5 class="card-title text-capitalize">${county} County</h5><p><em>No region data available.</em></p>`;
+    }
+
+    popupContent.innerHTML = content;
+
+    // Get viewport dimensions
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    // Adjust popup direction based on click position
+    // Get computed width and height of the popup after content is loaded
+    const popupWidth = popup.offsetWidth;
+    const popupHeight = popup.offsetHeight;
+
+    const isRight = x > vw / 2;
+    const isBottom = y > vh / 2;
+
+    const offsetX = isRight ? -popupWidth - 10 : 10;
+    const offsetY = isBottom ? -popupHeight - 10 : 10;
+
+    popup.style.left = `${x + offsetX}px`;
+    popup.style.top = `${y + offsetY}px`;
+    popup.style.display = 'block';
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!popup.contains(e.target) && !e.target.closest('path')) {
+      popup.style.display = 'none';
+    }
+  });
+</script>
 
 </body>
 </html>
