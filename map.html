@@ -165,21 +165,21 @@ function showPopup(rawCounty, x, y) {
   if (data) {
     const countyDisplayName = (county === "Philadelphia") ? "Philadelphia" : `${county} County`;
     const logoPaths = {
-      1: "/assets/resource-logos/councilsepa.svg",
-      2: "/assets/resource-logos/unity.svg",
-      3: "/assets/resource-logos/erie.png",
-      4: "/assets/resource-logos/councilsepa.svg",
-      5: "/assets/resource-logos/pmhca.svg",
-      6: "/assets/resource-logos/aicdac.png",
-      7: "/assets/resource-logos/aicdac.png",
-      8: "/assets/resource-logos/westbranch.svg",
-      9: "/assets/resource-logos/northbound.png"
+      1: "https://resourcespage.pages.dev/assets/resource-logos/councilsepa.svg",
+      2: "https://resourcespage.pages.dev/assets/resource-logos/unity.svg",
+      3: "https://resourcespage.pages.dev/assets/resource-logos/erie.png",
+      4: "https://resourcespage.pages.dev/assets/resource-logos/councilsepa.svg",
+      5: "https://resourcespage.pages.dev/assets/resource-logos/pmhca.svg",
+      6: "https://resourcespage.pages.dev/assets/resource-logos/aicdac.png",
+      7: "https://resourcespage.pages.dev/assets/resource-logos/aicdac.png",
+      8: "https://resourcespage.pages.dev/assets/resource-logos/westbranch.svg",
+      9: "https://resourcespage.pages.dev/assets/resource-logos/northbound.png"
     };
     const organizationLogo = logoPaths[data.region] || '';
     const badgeColor = regionColors[data.region] || '#0d6efd';
 
     cardHtml = `
-      <div class="card shadow-sm position-relative">
+      <div class="card shadow-sm position-relative" style="width:220px">
         <button id="popup-close" class="btn btn-sm btn-light position-absolute" style="top:0.25rem;right:0.5rem;z-index:2;">&times;</button>
         <div class="card-body pb-0">
           <span class="badge rounded-pill mb-2" style="background-color: ${badgeColor}; color: white;">Region ${data.region}</span>
@@ -189,8 +189,8 @@ function showPopup(rawCounty, x, y) {
         </div>
         ${
           organizationLogo
-            ? `<div class="card-img-bottom bg-secondary-subtle p-2">
-                <img src="${organizationLogo}" alt="${data.org} Logo" class="organization-logo">
+            ? `<div class="card-img-bottom p-2">
+                <img src="${organizationLogo}" alt="${data.org} Logo" class="organization-logo" style="width:100%">
                </div>`
             : ''
         }
