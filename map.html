@@ -149,36 +149,36 @@
     popupContent.innerHTML = contentHtml;
   }
 
-  function showPopup(rawCounty, x, y) {
-    const county = rawCounty
-      .replace(/county/i, '')
-      .trim()
-      .toLowerCase()
-      .replace(/\b\w/g, l => l.toUpperCase());
+function showPopup(rawCounty, x, y) {
+  const county = rawCounty
+    .replace(/county/i, '')
+    .trim()
+    .toLowerCase()
+    .replace(/\b\w/g, l => l.toUpperCase());
 
-    let data = regionLookup[county];
-    if (typeof data === 'string' && regionDetails[data]) {
-      data = regionDetails[data];
-    }
+  let data = regionLookup[county];
+  if (typeof data === 'string' && regionDetails[data]) {
+    data = regionDetails[data];
+  }
 
-    let cardHtml = '';
-    if (data) {
-      const countyDisplayName = (county === "Philadelphia") ? "Philadelphia" : `${county} County`;
-      const logoPaths = {
-        1: "https://resourcespage.pages.dev/assets/resource-logos/councilsepa.svg",
-        2: "https://resourcespage.pages.dev/assets/resource-logos/unity.svg",
-        3: "https://resourcespage.pages.dev/assets/resource-logos/erie.png",
-        4: "https://resourcespage.pages.dev/assets/resource-logos/councilsepa.svg",
-        5: "https://resourcespage.pages.dev/assets/resource-logos/pmhca.svg",
-        6: "https://resourcespage.pages.dev/assets/resource-logos/aicdac.png",
-        7: "https://resourcespage.pages.dev/assets/resource-logos/aicdac.png",
-        8: "https://resourcespage.pages.dev/assets/resource-logos/westbranch.svg",
-        9: "https://resourcespage.pages.dev/assets/resource-logos/northbound.png"
-      };
-      const organizationLogo = logoPaths[data.region] || '';
-      const badgeColor = regionColors[data.region] || '#0d6efd';
+  let cardHtml = '';
+  if (data) {
+    const countyDisplayName = (county === "Philadelphia") ? "Philadelphia" : `${county} County`;
+    const logoPaths = {
+      1: "/assets/resource-logos/councilsepa.svg",
+      2: "/assets/resource-logos/unity.svg",
+      3: "/assets/resource-logos/erie.png",
+      4: "/assets/resource-logos/councilsepa.svg",
+      5: "/assets/resource-logos/pmhca.svg",
+      6: "/assets/resource-logos/aicdac.png",
+      7: "/assets/resource-logos/aicdac.png",
+      8: "/assets/resource-logos/westbranch.svg",
+      9: "/assets/resource-logos/northbound.png"
+    };
+    const organizationLogo = logoPaths[data.region] || '';
+    const badgeColor = regionColors[data.region] || '#0d6efd';
 
-      cardHtml = `
+    cardHtml = `
       <div class="card shadow-sm position-relative">
         <button id="popup-close" class="btn btn-sm btn-light position-absolute" style="top:0.25rem;right:0.5rem;z-index:2;">&times;</button>
         <div class="card-body pb-0">
@@ -190,14 +190,14 @@
         ${
           organizationLogo
             ? `<div class="card-img-bottom bg-secondary-subtle p-2">
-                  <img src="${organizationLogo}" alt="${data.org} Logo" class="organization-logo" style="position: absolute; min-width: 280px; max-width: 350px; z-index: 1000; display: none">
+                <img src="${organizationLogo}" alt="${data.org} Logo" class="organization-logo">
                </div>`
             : ''
         }
       </div>
-      `;
-    } else {
-      cardHtml = `
+    `;
+  } else {
+    cardHtml = `
       <div class="card shadow-sm position-relative">
         <button id="popup-close" class="btn btn-sm btn-light position-absolute" style="top:0.25rem;right:0.5rem;z-index:2;">&times;</button>
         <div class="card-body">
@@ -205,30 +205,50 @@
           <p><em>No region data available.</em></p>
         </div>
       </div>
-      `;
-    }
-
-    renderPopupCard(cardHtml);
-
-    const dynamicCloseBtn = popupContent.querySelector('#popup-close');
-    if (dynamicCloseBtn) dynamicCloseBtn.onclick = () => popup.style.display = 'none';
-
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-
-    const popupWidth = popup.offsetWidth;
-    const popupHeight = popup.offsetHeight;
-
-    const isRight = x > vw / 2;
-    const isBottom = y > vh / 2;
-
-    const offsetX = isRight ? -popupWidth - 10 : 10;
-    const offsetY = isBottom ? -popupHeight - 10 : 10;
-
-    popup.style.left = `${x + offsetX}px`;
-    popup.style.top = `${y + offsetY}px`;
-    popup.style.display = 'block';
+    `;
   }
+
+  renderPopupCard(cardHtml);
+
+  const dynamicCloseBtn = popupContent.querySelector('#popup-close');
+  if (dynamicCloseBtn) dynamicCloseBtn.onclick = () => popup.style.display = 'none';
+
+  popup.style.display = 'block'; // must show to measure size
+
+  const popupRect = popup.getBoundingClientRect();
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  const padding = 10;
+  let left = x + padding;
+  let top = y + padding;
+
+  // horizontal position: left or right
+  if (x > vw / 2) {
+    left = x - popupRect.width - padding;
+  }
+  if (left + popupRect.width > vw) {
+    left = vw - popupRect.width - padding;
+  }
+  if (left < padding) {
+    left = padding;
+  }
+
+  // vertical position: above or below
+  if (y > vh / 2) {
+    top = y - popupRect.height - padding;
+  }
+  if (top + popupRect.height > vh) {
+    top = vh - popupRect.height - padding;
+  }
+  if (top < padding) {
+    top = padding;
+  }
+
+  popup.style.left = `${left}px`;
+  popup.style.top = `${top}px`;
+}
+
 
   document.addEventListener('click', (e) => {
     const popupEl = document.getElementById('popup');
