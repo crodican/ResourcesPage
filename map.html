@@ -9,14 +9,27 @@
   <style>
     body {
       padding: 2rem;
-      background-color: #f8f9fa;
+
+    }
+    .map-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    #map-svg {
+      flex: 1 1 0;
     }
     svg {
       width: 100%;
-      max-width: 900px;
       height: auto;
       border: 1px solid #ccc;
       background: white;
+      display: block;
     }
     #popup {
       position: absolute;
@@ -24,26 +37,6 @@
       max-width: 350px;
       z-index: 1000;
       display: none;
-      /* Remove background/border/padding so Bootstrap card handles it */
-    }
-    #popup-close {
-      position: absolute;
-      top: 0.25rem;
-      right: 0.5rem;
-      border: none;
-      background: transparent;
-      font-size: 1.2rem;
-      line-height: 1;
-      color: #666;
-      cursor: pointer;
-      z-index: 2;
-    }
-    .legend-circle {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 0.5rem;
     }
     .organization-logo {
       max-width: 150px;
@@ -52,24 +45,25 @@
       margin-left: auto;
       margin-right: auto;
     }
+    @media (max-width: 991px) {
+      .map-container {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      #map-svg {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body id="main-body">
-
-  <h1 class="mb-4">Click a County</h1>
-
-  <!-- Popup Info Panel -->
-  <div id="popup">
-    <div id="popup-content"></div>
+  <div class="map-container" id="main-map-container">
+    <div id="map-svg"></div>
+    <div id="popup"><div id="popup-content"></div></div>
   </div>
-
-  <!-- Map Container -->
-  <div id="map-container"></div>
-  <div class="mt-4" id="region-legend"></div>
 
   <script>
   // ---- UNIFIED SCHEME VARIABLE ----
-  // Set this to your desired scheme ("scheme-1", "scheme-2", etc.)
   const activeScheme = "scheme-1";
   // ---------------------------------
 
@@ -132,9 +126,7 @@
     }
   };
 
-  // Use unified scheme everywhere
   const regionColors = colorSchemes[activeScheme];
-  // region names for legend
   const regionNames = {
     1: "Philadelphia",
     2: "Pittsburgh",
@@ -147,19 +139,7 @@
     9: "Northeast"
   };
 
-  // Set scheme class on body so CSS applies to map regions
   document.getElementById('main-body').classList.add(activeScheme);
-
-  // Populate legend dynamically to ensure consistency
-  const legendDiv = document.getElementById('region-legend');
-  legendDiv.innerHTML = `<h5>Recovery Hub Regions</h5>
-    <div class="d-flex flex-wrap gap-3 mt-2">
-      ${Object.entries(regionColors).map(([region, color]) =>
-        `<div class="d-flex align-items-center">
-          <span class="legend-circle" style="background-color: ${color};"></span> Region ${region} (${regionNames[region]})
-        </div>`
-      ).join('\n')}
-    </div>`;
 
   const regionLookup = {
     "Philadelphia": { region: 1, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
@@ -190,17 +170,14 @@
   fetch('map.svg')
     .then(res => res.text())
     .then(svg => {
-      // Set the scheme class on the SVG for region coloring
-      const container = document.getElementById('map-container');
+      const container = document.getElementById('map-svg');
       container.innerHTML = svg;
       const svgEl = container.querySelector('svg');
       if (svgEl) svgEl.classList.add(activeScheme);
 
-      // Assign region class to each county path for coloring
       const paths = container.querySelectorAll('svg path');
       paths.forEach(path => {
         const county = path.getAttribute('data-name') || path.getAttribute('id') || 'Unknown';
-        // Find region for county
         let data = regionLookup[county];
         if (typeof data === 'string' && regionDetails[data]) {
           data = regionDetails[data];
@@ -216,17 +193,12 @@
 
   const popup = document.getElementById('popup');
   const popupContent = document.getElementById('popup-content');
-  const closeBtn = document.getElementById('popup-close');
 
-  // Remove old close button from popup-content if present
   function renderPopupCard(contentHtml) {
     popupContent.innerHTML = contentHtml;
   }
 
-  closeBtn.addEventListener('click', () => popup.style.display = 'none');
-
   function showPopup(rawCounty, x, y) {
-    // Normalize county name
     const county = rawCounty
       .replace(/county/i, '')
       .trim()
@@ -241,8 +213,6 @@
     let cardHtml = '';
     if (data) {
       const countyDisplayName = (county === "Philadelphia") ? "Philadelphia" : `${county} County`;
-
-      // Define logo paths based on region
       const logoPaths = {
         1: "/assets/resource-logos/councilsepa.svg",
         2: "/assets/resource-logos/unity.svg",
@@ -254,7 +224,6 @@
         8: "/assets/resource-logos/westbranch.svg",
         9: "/assets/resource-logos/northbound.png"
       };
-
       const organizationLogo = logoPaths[data.region] || '';
       const badgeColor = regionColors[data.region] || '#0d6efd';
 
@@ -290,15 +259,12 @@
 
     renderPopupCard(cardHtml);
 
-    // Replace close button event (since it's re-rendered)
     const dynamicCloseBtn = popupContent.querySelector('#popup-close');
     if (dynamicCloseBtn) dynamicCloseBtn.onclick = () => popup.style.display = 'none';
 
-    // Get viewport dimensions
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    // Adjust popup direction based on click position
     const popupWidth = popup.offsetWidth;
     const popupHeight = popup.offsetHeight;
 
@@ -314,8 +280,9 @@
   }
 
   document.addEventListener('click', (e) => {
-    if (!popup.contains(e.target) && !e.target.closest('path')) {
-      popup.style.display = 'none';
+    const popupEl = document.getElementById('popup');
+    if (!popupEl.contains(e.target) && !e.target.closest('path')) {
+      popupEl.style.display = 'none';
     }
   });
   </script>
