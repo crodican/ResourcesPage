@@ -51,20 +51,13 @@
       max-width: 150px; /* Adjust as needed */
       height: auto;
       display: block;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
 <body id="main-body">
-<div class="card" style="width: 18rem;">
-  <img src="/assets/resource-logos/acg.svg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
+
   <h1 class="mb-4">Click a County</h1>
 
   <!-- Popup Info Panel -->
@@ -80,7 +73,7 @@
   <script>
   // ---- UNIFIED SCHEME VARIABLE ----
   // Set this to your desired scheme ("scheme-1", "scheme-2", etc.)
-  const activeScheme = "scheme-2";
+  const activeScheme = "scheme-1";
   // ---------------------------------
 
   // Color schemes from CSS
@@ -100,7 +93,7 @@
       1: "#55298a",
       2: "#A0522D",
       3: "#20B2AA",
-      4: "#34bc6f",
+      4: "#6B8E23",
       5: "#6495ED",
       6: "#FF7F50",
       7: "#8A2BE2",
@@ -269,8 +262,12 @@
         <span class="badge rounded-pill mb-2" style="background-color: ${badgeColor}; color: white;">Region ${data.region}</span>
         <h5 class="card-title text-capitalize">${countyDisplayName}</h5>
         <h6 class="card-subtitle mb-2 text-muted">${data.org}</h6>
-        ${organizationLogo ? `<img src="${organizationLogo}" alt="${data.org} Logo" class="organization-logo">` : ''}
         <a href="${data.url}" target="_blank" class="card-link">Website</a>
+        ${
+          organizationLogo
+            ? `<div class="card-img-bottom bg-secondary-subtle p-2"><img src="${organizationLogo}" alt="${data.org} Logo" class="organization-logo"></div>`
+            : ''
+        }
       `;
     } else {
       content = `<h5 class="card-title text-capitalize">${county} County</h5><p><em>No region data available.</em></p>`;
