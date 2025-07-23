@@ -433,10 +433,15 @@ function renderResources(resourcesToRender, shouldAppend = false) {
                             <h3 class="text-secondary">${resource['Location Name'] || 'N/A'}</h3>
                             <h5 class="text-dark">${resource.Organization || 'N/A'}</h5>
                             ${distanceDisplay}
-                            <div class="mb-2">
-                                ${resource['Resource Type'] ? `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.RESOURCE_TYPES}" data-value="${resource['Resource Type']}">${resource['Resource Type']}</span>` : ''}
-                                ${resource.Category ? `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.CATEGORIES}" data-value="${resource.Category}">${resource.Category}</span>` : ''}
-                            </div>
+                        <div class="mb-2">
+                          ${resource['Resource Type'] ? `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.RESOURCE_TYPES}" data-value="${resource['Resource Type']}">${resource['Resource Type']}</span>` : ''}
+                          ${resource.Category
+                            ? resource.Category.split(',').map(cat =>
+                                `<span class="badge bg-pink text-black py-2 my-1" data-filter="${FILTER_TYPES.CATEGORIES}" data-value="${cat.trim()}">${cat.trim()}</span>`
+                              ).join('')
+                            : ''
+                          }
+                        </div>
                             <h6>Phone: ${resource.Phone || 'N/A'}</h6>
                             <p>${resource.Address || 'N/A'} <br>
                                 ${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}<br />

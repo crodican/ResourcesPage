@@ -38,19 +38,19 @@ You can filter the results using various parameters corresponding to the availab
 
 ### API Parameters
 
-The following parameters can be used to query the API:
+The following parameters can be used to query the API: (Spaces must be represented as '%20')
 
 | Parameter       | Description                                    | Example                     |
 | :-------------- | :--------------------------------------------- | :-------------------------- |
 | `page`          | Page number (1-based)                          | `?page=2`                   |
 | `limit`         | Number of records per page                     | `?limit=50`                 |
-| `sort`          | Field to sort by                               | `?sort=distance`            |
+| `sort`          | Field to sort by                               | `?sort=County`            |
 | `fields`        | Comma-separated fields to return               | `?fields=ID,Name`           |
 | `recordId`      | Specific record ID to retrieve                 | `?recordId=123`             |
-| `County`        | Filter by county (multiple allowed)            | `?County=Los Angeles`       |
-| `Populations`   | Filter by population served                    | `?Populations=Seniors`      |
-| `Resource Type` | Filter by resource type                        | `?Resource Type=Healthcare` |
-| `Category`      | Filter by category                             | `?Category=Medical`         |
+| `County`        | Filter by county (multiple allowed)            | `?County=Berks`       |
+| `Populations`   | Filter by population served                    | `?Populations=Adolescents`      |
+| `Resource Type` | Filter by resource type                        | `?Resource Type=Recovery%20Support` |
+| `Category`      | Filter by category                             | `?Category=Center%20of%20Excellence`         |
 | `search`        | Full-text search term                          | `?search=hospital`          |
 | `userLat`       | User latitude for distance sort                | `?userLat=34.0522`          |
 | `userLon`       | User longitude for distance sort               | `?userLon=-118.2437`        |
