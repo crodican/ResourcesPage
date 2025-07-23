@@ -15,6 +15,7 @@ const sortBySelect = document.getElementById('sort-by');
 const mapDiv = document.getElementById('map');
 const resultsSection = document.getElementById('results');
 const loaderContainer = document.getElementById('loader-container'); // Loader animation container
+const filterButton = document.getElementById('filterButton');
 
 // --- API and Configuration ---
 const API_BASE_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/';
@@ -650,6 +651,9 @@ function removeFilterChipFromUI(filterType, filterValue) {
 // --- Event Listeners Setup ---
 // --- Event Listeners Setup ---
 function initializeEventListeners() {
+    if (filterButton) {
+        filterButton.addEventListener('click', handleFilterWithLoader);
+    }
     if (searchButton) {
         searchButton.addEventListener('click', handleSearchWithLoader);
     }
@@ -732,6 +736,16 @@ function handleSearch() {
         removeFilterChipFromUI(FILTER_TYPES.SEARCH, activeFilters[FILTER_TYPES.SEARCH] || '');
     }
     applyFilters();
+}
+
+function handleFilterWithLoader() {
+    if (loaderContainer) loaderContainer.style.display = "flex";
+    if (resultsSection) resultsSection.style.display = "none";
+    setTimeout(() => {
+        if (loaderContainer) loaderContainer.style.display = "none";
+        if (resultsSection) resultsSection.style.display = "block";
+        applyFilters(true); // or whatever triggers your filter logic
+    }, 4000);
 }
 
 function handleFilterChangeDelegated(event) {
