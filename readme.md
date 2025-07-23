@@ -1,10 +1,12 @@
-# NocoDB API Proxy Worker
+# Resource Database API
 
-A Cloudflare Worker that acts as a proxy API endpoint for a NocoDB database, offering enhanced filtering, sorting, and search capabilities.
+This document describes how to interact with the Resource Database API hosted on Cloudflare Workers.
 
-## Overview
+**API Endpoint:** `https://resourcesdatabaseproxy.crodican.workers.dev/`
 
-This worker serves as a customizable API layer between your frontend application and a NocoDB database. It efficiently handles complex queries, pagination, and specific sorting requirements while ensuring the security of your NocoDB API token.
+This API allows you to retrieve and filter resource information, with support for pagination, enhanced filtering, sorting, and search capabilities.
+
+This endpoint can serve as a customizable API layer between your frontend application and a NocoDB database. It efficiently handles complex queries, pagination, and specific sorting requirements while ensuring the security of your NocoDB API token.
 
 ## Features
 
@@ -15,106 +17,88 @@ This worker serves as a customizable API layer between your frontend application
 * 🔐 **Secure Token Management:** Keeps your NocoDB API token confidential.
 * 🌐 **CORS Support:** Enables access from browser clients.
 
-## Architecture
+## Usage
 
-Frontend ↔ Cloudflare Worker ↔ NocoDB API
+All requests should be made to the base API endpoint. Parameters are passed as URL query strings.
 
+### Limiting Total Rows / Pagination
 
-## API Parameters
+The API uses `page` and `limit` parameters for pagination.
+
+* **`limit`**: Controls the number of rows (records) to display per page.
+    * **To show `x` number of rows per page:** Use the `limit` query parameter.
+    * Example: `https://resourcesdatabaseproxy.crodican.workers.dev/?limit=10` (shows 10 rows per page)
+* **`page`**: Specifies which page of results to retrieve.
+    * **To view a specific page:** Use the `page` query parameter in conjunction with `limit`.
+    * Example: `https://resourcesdatabaseproxy.crodican.workers.dev/?limit=5&page=2` (shows 5 rows, from the second page of results)
+
+### Filtering by Facets and Taxonomies
+
+You can filter the results using various parameters corresponding to the available facets and taxonomies. For filters that allow multiple selections (e.g., `County`), you can repeat the parameter in the URL.
+
+### API Parameters
 
 The following parameters can be used to query the API:
 
-| Parameter     | Description                                    | Example                       |
-|---------------|------------------------------------------------|-------------------------------|
-| `page`        | Page number (1-based)                          | `?page=2`                     |
-| `limit`       | Number of records per page                     | `?limit=50`                    |
-| `sort`        | Field to sort by                               | `?sort=distance`               |
-| `fields`      | Comma-separated fields to return               | `?fields=ID,Name`              |
-| `recordId`    | Specific record ID to retrieve                | `?recordId=123`                |
-| `County`      | Filter by county (multiple allowed)          | `?County=Los Angeles`          |
-| `Populations` | Filter by population served                   | `?Populations=Seniors`        |
-| `Resource Type`| Filter by resource type                      | `?Resource Type=Healthcare`    |
-| `Category`    | Filter by category                             | `?Category=Medical`            |
-| `search`      | Full-text search term                          | `?search=hospital`             |
-| `userLat`     | User latitude for distance sort              | `?userLat=34.0522`             |
-| `userLon`     | User longitude for distance sort             | `?userLon=-118.2437`            |
+| Parameter       | Description                                    | Example                     |
+| :-------------- | :--------------------------------------------- | :-------------------------- |
+| `page`          | Page number (1-based)                          | `?page=2`                   |
+| `limit`         | Number of records per page                     | `?limit=50`                 |
+| `sort`          | Field to sort by                               | `?sort=distance`            |
+| `fields`        | Comma-separated fields to return               | `?fields=ID,Name`           |
+| `recordId`      | Specific record ID to retrieve                 | `?recordId=123`             |
+| `County`        | Filter by county (multiple allowed)            | `?County=Los Angeles`       |
+| `Populations`   | Filter by population served                    | `?Populations=Seniors`      |
+| `Resource Type` | Filter by resource type                        | `?Resource Type=Healthcare` |
+| `Category`      | Filter by category                             | `?Category=Medical`         |
+| `search`        | Full-text search term                          | `?search=hospital`          |
+| `userLat`       | User latitude for distance sort                | `?userLat=34.0522`          |
+| `userLon`       | User longitude for distance sort               | `?userLon=-118.2437`        |
 
-## Response Format
+#### Filter Options:
 
-### Standard Response
+* **`County`**: Filters resources by one or more counties.
+    * **Options:** Philadelphia, Berks, Bucks, Chester, Delaware, Lancaster, Montgomery, Schuylkill
+    * Example: `https://resourcesdatabaseproxy.crodican.workers.dev/?County=Philadelphia`
+    * Example (multiple counties): `https://resourcesdatabaseproxy.crodican.workers.dev/?County=Philadelphia&County=Delaware`
 
-```json
-{
-  "list": [...],
-  "pageInfo": {
-    "totalRows": 100,
-    "currentPage": 1,
-    "pageSize": 25
-  }
-}
-Distance Sort Response (In Development)
-JSON
+* **`Populations`** (`Populations Served` in the backend): Filters resources by populations served.
+    * **Options:** Men, Women, Children, Adolescents
+    * Example: `https://resourcesdatabaseproxy.crodican.workers.dev/?Populations=Men`
+    * Example (multiple populations): `https://resourcesdatabaseproxy.crodican.workers.dev/?Populations=Men&Populations=Children`
 
-{
-  "list": [...],
-  "pageInfo": {...},
-  "distanceSorted": true
-}
-```
+* **`Resource Type`**: Filters resources by their type.
+    * **Options:** Recovery Support, Family Support, Housing, Transportation
+    * Example: `https://resourcesdatabaseproxy.crodican.workers.dev/?Resource%20Type=Housing` (Note: Spaces in parameter names must be URL-encoded as `%20`)
+    * Example (multiple resource types): `https://resourcesdatabaseproxy.crodican.workers.dev/?Resource%20Type=Housing&Resource%20Type=Transportation`
 
-## Security
+* **`Category`**: Filters resources by their category.
+    * **Options:** Affordable Public Transportation, Carpool Service, Center of Excellence, Family Assistance Program, Family Counseling, Family Education Program, Family Peer Support, Family Resources, Halfway House, Housing Assistance, Medical Assistance Transportation, Recovery Community Organization, Recovery House, Recovery Transportation Services, Regional Recovery Hub, Single County Authority, Vehicle Purchase Assistance, Warm Handoff, Government, Other.
+    * Example: `https://resourcesdatabaseproxy.crodican.workers.dev/?Category=Halfway%20House`
+    * Example (multiple categories): `https://resourcesdatabaseproxy.crodican.workers.dev/?Category=Halfway%20House&Category=Recovery%20House`
 
-- API tokens are securely stored in environment variables.
-- CORS headers allow any origin (should be restricted in production).
-- Basic input validation is implemented to prevent common injection attacks.
+* **`search`**: Performs a full-text search across several fields (Location Name, Organization, County, Resource Type, Category, Populations Served, City, Full Address).
+    * Example: `https://resourcesdatabaseproxy.crodican.workers.dev/?search=recovery`
 
-## Monitoring
+### Combining Filters
 
-Utilize the Cloudflare dashboard to track:
+You can combine any of the above filter parameters to narrow down your search results.
 
-- Request rates
-- Error rates
-- Response times
-- Bandwidth usage
+* Example: Get the first 5 "Housing" resources for "Philadelphia" county that serve "Men".
+    `https://resourcesdatabaseproxy.crodican.workers.dev/?limit=5&Resource%20Type=Housing&County=Philadelphia&Populations=Men`
 
-## API Usage
-Access data via your deployed Cloudflare Worker URL. The following query parameters are supported:
+### Sorting
 
-### Basic Parameters
+* **`sort`**: Sorts the results.
+    * Example: `https://resourcesdatabaseproxy.crodican.workers.dev/?sort=Location%20Name` (sorts by Location Name)
+    * The worker code also indicates experimental support for `sort=distance` if `userLat` and `userLon` are provided, though this appears to be under development in the provided code snippet.
 
-- page (Optional, integer, default: 1): The page number for pagination.
-- limit (Optional, integer, default: 25): The number of records to return per page.
-- sort (Optional, string): Specifies the field(s) to sort by. Use a - prefix for descending order (e.g., sort=Name,-Date). Ensure field names match your NocoDB column names.
-- fields (Optional, string): A comma-separated list of field names to include in the response.
-- recordId (Optional, string): If provided, fetches a single record with the specified ID, ignoring other filtering and pagination parameters.
-- count (Optional, integer, value: 1): If set to 1, returns only the total count of records matching the filters, without the actual data.
-- viewId (Optional, string): The ID of a specific NocoDB view to use. Defaults to the configured view ID in the worker.
+### Fetching a Single Record
 
-### Filtering Parameters
-Filter data based on specific column values. Parameter names correspond to your NocoDB column names.
-
-- County: Filter by one or more county names. Provide multiple values by repeating the parameter (e.g., ?County=Berks&County=Bucks) or as a comma-separated string (e.g., ?County=Berks,Bucks).
-- Populations (Assuming your NocoDB column is 'Populations Served'): Filter by populations served. Supports multiple values similar to County and uses a like operator for partial matches.
-- Resource Type: Filter by one or more resource types. Supports multiple values similar to County.
-- Category: Filter by one or more categories. Supports multiple values similar to County.
-- search (Optional, string): A general search term that looks for matches in the 'Location Name', 'Organization', and 'Category' columns (configurable in the worker).
-
-### Distance Sorting Parameters
-Sort resources by their distance from a given latitude and longitude.
-
-- userLat (Required for distance sort, float): The user's latitude.
-- userLon (Required for distance sort, float): The user's longitude.
-- sort (Required for distance sort, string, value: distance): Enables distance-based sorting.
-
-#### Important Note on Distance Sorting: 
-
-Due to NocoDB's sorting limitations with dynamic calculations, distance sorting is performed within the Cloudflare Worker. This involves:
-
-- Fetching a limited number of records (currently 1000) matching the filters.
-- Calculating the distance for each fetched record.
-- Sorting the records by distance within the worker.
-- Applying pagination to the sorted results.
-- The totalRows in the pageInfo for distance-sorted results reflects the number of records fetched for calculation (up to the limit), not the absolute total. For an accurate total count with distance filtering, a separate count query (without distance parameters) is needed.
+* **`recordId`**: Retrieves a single record by its unique ID.
+    * Example: `https://resourcesdatabaseproxy.crodican.workers.dev/?recordId=someUniqueId123`
+* **`fields`**: When fetching a single record or a list, you can specify which fields to return, separated by commas.
+    * Example: `https://resourcesdatabaseproxy.crodican.workers.dev/?recordId=someUniqueId123&fields=Location%20Name,Full%20Address`
 
 ## Examples
 
@@ -122,36 +106,28 @@ Due to NocoDB's sorting limitations with dynamic calculations, distance sorting 
 
 - Fetching the first page of resources (default limit of 25):
 
-
-[https://resourcesdatabaseproxy.crodican.workers.dev/](https://resourcesdatabaseproxy.crodican.workers.dev/)
+`https://resourcesdatabaseproxy.crodican.workers.dev/`
 
 - Fetching page 3 with a limit of 10:
 
-[https://resourcesdatabaseproxy.crodican.workers.dev/?page=3&limit=10](https://resourcesdatabaseproxy.crodican.workers.dev/?page=3&limit=10)
+`https://resourcesdatabaseproxy.crodican.workers.dev/?page=3&limit=10`
 
 - Sorting resources by name in ascending order:
 
-[https://resourcesdatabaseproxy.crodican.workers.dev/?sort=Location%20Name](https://resourcesdatabaseproxy.crodican.workers.dev/?sort=Location%20Name)
+`https://resourcesdatabaseproxy.crodican.workers.dev/?sort=Location%20Name`
 
 - Sorting resources by date in descending order and then by name in ascending order:
 
-[https://resourcesdatabaseproxy.crodican.workers.dev/?sort=-Date,Location%20Name](https://resourcesdatabaseproxy.crodican.workers.dev/?sort=-Date,Location%20Name)
+`https://resourcesdatabaseproxy.crodican.workers.dev/?sort=-Date,Location%20Name`
 
 - Fetching only the "Location Name" and "Organization" fields:
 
-```
-[https://resourcesdatabaseproxy.crodican.workers.dev/?fields=Location%20Name,Organization](https://resourcesdatabaseproxy.crodican.workers.dev/?fields=Location%20Name,Organization)
-```
+`https://resourcesdatabaseproxy.crodican.workers.dev/?fields=Location%20Name,Organization`
 
 Fetching a single record with ID "rec1234567890":
 
-```
-[https://resourcesdatabaseproxy.crodican.workers.dev/?recordId=rec1234567890](https://resourcesdatabaseproxy.crodican.workers.dev/?recordId=rec1234567890)
-```
+`https://resourcesdatabaseproxy.crodican.workers.dev/?recordId=rec1234567890`
 
 - Getting the total count of all resources:
 
-```
-[https://resourcesdatabaseproxy.crodican.workers.dev/?count=1](https://resourcesdatabaseproxy.crodican.workers.dev/?count=1)
-```
-
+`https://resourcesdatabaseproxy.crodican.workers.dev/?count=1`
