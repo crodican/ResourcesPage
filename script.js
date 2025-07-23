@@ -648,6 +648,7 @@ function removeFilterChipFromUI(filterType, filterValue) {
 }
 
 // --- Event Listeners Setup ---
+// --- Event Listeners Setup ---
 function initializeEventListeners() {
     if (searchButton) {
         searchButton.addEventListener('click', handleSearchWithLoader);
@@ -669,7 +670,7 @@ function initializeEventListeners() {
     });
 
     if (sortBySelect) {
-        sortBySelect.addEventListener('change', handleSortChange); // Changed to new handler
+        sortBySelect.addEventListener('change', handleSortChange);
     }
 
     if (loadMoreButton) {
@@ -688,6 +689,13 @@ function initializeEventListeners() {
     if (resourceListDiv) {
         resourceListDiv.addEventListener('click', handleResourceBadgeClickDelegated);
         resourceListDiv.addEventListener('click', handleMapViewLinkClickDelegated);
+    }
+
+    // ADD THIS NEW BLOCK FOR OFFCANVAS
+    if (filterOffcanvas) {
+        filterOffcanvas.addEventListener('show.bs.offcanvas', () => {
+            showResultsSectionIfHidden();
+        });
     }
 }
 

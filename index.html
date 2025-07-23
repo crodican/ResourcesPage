@@ -548,6 +548,7 @@
             filter: brightness(1.25);
             color: white;
         }
+
     </style>
 </head>
 
@@ -960,6 +961,7 @@
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="filterModalLabel">Filters</h5>
             <button class="btn h-100 px-2" type="button" data-bs-toggle="modal" data-bs-target="#filterModal" style="border-radius: 6px 1px 1px 6px !important"><i class="bi bi-funnel-fill" style="margin-right: 7px"></i>Filter</button>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <!-- Filter content goes here -->
@@ -1134,20 +1136,41 @@
         window.addEventListener('scroll', checkScroll);
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-        const filterOffcanvas = document.getElementById('filterOffcanvas');
-        if (filterOffcanvas) {
-        filterOffcanvas.addEventListener('hidden.bs.offcanvas', () => {
-          const backdrops = document.querySelectorAll('.offcanvas-backdrop');
-          backdrops.forEach(bd => bd.remove());
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterOffcanvas = document.getElementById('filterOffcanvas');
 
-          // Also reset body state in case it's stuck
-          document.body.classList.remove('offcanvas-backdrop', 'modal-open');
-          document.body.style.overflow = '';
-        });
+      if (!filterOffcanvas) return;
+
+      const cleanupBackdrop = () => {
+        document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
+        document.body.classList.remove('offcanvas-backdrop', 'modal-open');
+        document.body.style.overflow = '';
+      };
+
+      // CLEANUP on close
+      filterOffcanvas.addEventListener('hidden.bs.offcanvas', cleanupBackdrop);
+
+      // SAFETY: cleanup before show, to avoid broken state
+      filterOffcanvas.addEventListener('show.bs.offcanvas', cleanupBackdrop);
+
+      // SAFETY: auto-close if backdrop disappears but offcanvas is stuck open
+      const observer = new MutationObserver(() => {
+        const backdrop = document.querySelector('.offcanvas-backdrop.show');
+        const isVisible = filterOffcanvas.classList.contains('show');
+
+        if (!backdrop && isVisible) {
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(filterOffcanvas);
+          if (offcanvasInstance) {
+            offcanvasInstance.hide();
+          }
         }
-        });
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+    });
     </script>
+
+
 </body>
 
 </html>
