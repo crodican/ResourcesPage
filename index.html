@@ -620,7 +620,7 @@
                 <div class="banner-col col-12">
                     <div class="banner-container">
                         <p>
-                            <a href="index.html" style="text-decoration:none"></a>
+                            <a href="https://councilsepa.org/hubs" style="text-decoration:none"></a>
                         </p> <a class="h6 text-white" href="index.html" style="text-decoration:none">
                             ←Back
                         </a>
@@ -1132,6 +1132,21 @@
             });
         }
         window.addEventListener('scroll', checkScroll);
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const filterOffcanvas = document.getElementById('filterOffcanvas');
+        if (filterOffcanvas) {
+        filterOffcanvas.addEventListener('hidden.bs.offcanvas', () => {
+          const backdrops = document.querySelectorAll('.offcanvas-backdrop');
+          backdrops.forEach(bd => bd.remove());
+
+          // Also reset body state in case it's stuck
+          document.body.classList.remove('offcanvas-backdrop', 'modal-open');
+          document.body.style.overflow = '';
+        });
+        }
+        });
     </script>
 </body>
 
