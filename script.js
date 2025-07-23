@@ -24,7 +24,7 @@ const MAPTILER_API_KEY = '1nPjVtGASMJJCaJkeKXQ'; // Your MapTiler API Key
 const CATEGORY_OPTIONS = {
     'Recovery Support': ['Single County Authority', 'Center of Excellence', 'Regional Recovery Hub', 'Recovery Community Organization', 'Warm Handoff', 'Government', 'Other'],
     'Family Support': ['Family Counseling', 'Family Peer Support', 'Family Assistance Program', 'Family Education Program', 'Family Resources', 'Government', 'Other'],
-    'Housing': ['Recovery House', 'Halfway House', 'Housing Assistance', 'Government', 'Other'],
+    'Housing': ['Recovery House', 'Halfway House', 'Housing Assistance', 'Government', 'DDAP LIcensed', 'Other'],
     'Transportation': ['Affordable Public Transportation', 'Carpool Service', 'Medical Assistance Transportation', 'Recovery Transportation Services', 'Vehicle Purchase Assistance', 'Government', 'Other']
 };
 
