@@ -1,64 +1,780 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Resources Table</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources Table - The Council of Southeast PA</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora&family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    
+    <style>
+        body {
+            font-family: 'Oxygen', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            font-weight: 700;
+            color: #55298a;
+        }
+        
+        .header-section {
+            background: linear-gradient(135deg, #55298a 0%, #20cb98 100%);
+            color: white;
+            padding: 2rem 0;
+        }
+        
+        .header-section h1 {
+            color: white;
+        }
+        
+        .search-controls {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin: -1rem 0 2rem 0;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .table thead th {
+            background-color: #55298a;
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 1rem 0.75rem;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+        
+        .table thead th:hover {
+            background-color: #6d3ba0;
+        }
+        
+        .table thead th.sortable::after {
+            content: " ↕";
+            opacity: 0.5;
+            float: right;
+        }
+        
+        .table thead th.sort-asc::after {
+            content: " ↑";
+            opacity: 1;
+        }
+        
+        .table thead th.sort-desc::after {
+            content: " ↓";
+            opacity: 1;
+        }
+        
+        .table tbody tr {
+            transition: background-color 0.2s;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .badge {
+            margin: 0.125rem;
+            font-size: 0.75em;
+        }
+        
+        .badge-resource-type {
+            background-color: #55298a;
+            color: white;
+        }
+        
+        .badge-category {
+            background-color: #20cb98;
+            color: white;
+        }
+        
+        .badge-population {
+            background-color: #ffc107;
+            color: #000;
+        }
+        
+        .btn-primary {
+            background-color: #55298a;
+            border-color: #55298a;
+        }
+        
+        .btn-primary:hover {
+            background-color: #6d3ba0;
+            border-color: #6d3ba0;
+        }
+        
+        .form-control:focus {
+            border-color: #55298a;
+            box-shadow: 0 0 0 0.2rem rgba(85, 41, 138, 0.25);
+        }
+        
+        .form-select:focus {
+            border-color: #55298a;
+            box-shadow: 0 0 0 0.2rem rgba(85, 41, 138, 0.25);
+        }
+        
+        .loading-spinner {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+        }
+        
+        .spinner-border {
+            color: #55298a;
+        }
+        
+        .results-info {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-bottom: 1rem;
+        }
+        
+        .pagination {
+            --bs-pagination-active-bg: #55298a;
+            --bs-pagination-active-border-color: #55298a;
+        }
+        
+        .btn-link {
+            color: #55298a;
+            text-decoration: none;
+        }
+        
+        .btn-link:hover {
+            color: #6d3ba0;
+        }
+        
+        .filter-chip {
+            background-color: #e9ecef;
+            color: #495057;
+            border-radius: 20px;
+            padding: 0.25rem 0.75rem;
+            margin: 0.125rem;
+            font-size: 0.875em;
+            display: inline-block;
+        }
+        
+        .filter-chip .btn-close {
+            font-size: 0.75em;
+            margin-left: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .table-responsive {
+                font-size: 0.875rem;
+            }
+            
+            .search-controls {
+                margin: -0.5rem 0 1rem 0;
+                padding: 1rem;
+            }
+        }
+    </style>
 </head>
-<body class="p-4">
+<body>
+    <!-- Header Section -->
+    <section class="header-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1><i class="bi bi-table me-2"></i>Resources Table</h1>
+                    <p class="lead mb-0">Search and browse recovery support resources in a table format</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <div class="container">
-    <h2 class="mb-4">Resources Table</h2>
-    <div id="table-container" class="table-responsive"></div>
-  </div>
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <!-- Search Controls -->
+        <div class="search-controls">
+            <div class="row g-3 align-items-end">
+                <!-- Search Input -->
+                <div class="col-md-4">
+                    <label for="search-input" class="form-label">Search Resources</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="search-input" placeholder="Search by name, organization, location...">
+                        <button class="btn btn-primary" type="button" id="search-btn">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- County Filter -->
+                <div class="col-md-2">
+                    <label for="county-filter" class="form-label">County</label>
+                    <select class="form-select" id="county-filter">
+                        <option value="">All Counties</option>
+                        <option value="Philadelphia">Philadelphia</option>
+                        <option value="Berks">Berks</option>
+                        <option value="Bucks">Bucks</option>
+                        <option value="Chester">Chester</option>
+                        <option value="Delaware">Delaware</option>
+                        <option value="Lancaster">Lancaster</option>
+                        <option value="Montgomery">Montgomery</option>
+                        <option value="Schuylkill">Schuylkill</option>
+                    </select>
+                </div>
+                
+                <!-- Resource Type Filter -->
+                <div class="col-md-2">
+                    <label for="resource-type-filter" class="form-label">Resource Type</label>
+                    <select class="form-select" id="resource-type-filter">
+                        <option value="">All Types</option>
+                        <option value="Recovery Support">Recovery Support</option>
+                        <option value="Family Support">Family Support</option>
+                        <option value="Housing">Housing</option>
+                        <option value="Transportation">Transportation</option>
+                    </select>
+                </div>
+                
+                <!-- Records Per Page -->
+                <div class="col-md-2">
+                    <label for="per-page-select" class="form-label">Show</label>
+                    <select class="form-select" id="per-page-select">
+                        <option value="25">25 per page</option>
+                        <option value="50">50 per page</option>
+                        <option value="100">100 per page</option>
+                        <option value="200">200 per page</option>
+                    </select>
+                </div>
+                
+                <!-- Clear Filters -->
+                <div class="col-md-2">
+                    <button class="btn btn-outline-secondary w-100" id="clear-filters-btn">
+                        <i class="bi bi-x-circle me-1"></i>Clear Filters
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Active Filters Display -->
+            <div id="active-filters" class="mt-3" style="display: none;">
+                <small class="text-muted">Active filters:</small>
+                <div id="filter-chips" class="mt-1"></div>
+            </div>
+        </div>
 
-  <script>
-    const dataUrl = "https://resourcesdatabaseproxy.crodican.workers.dev/?limit=999999";
+        <!-- Results Info and Export -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="results-info" id="results-info">
+                Loading...
+            </div>
+            <div>
+                <button class="btn btn-outline-primary btn-sm" id="export-btn" disabled>
+                    <i class="bi bi-download me-1"></i>Export CSV
+                </button>
+            </div>
+        </div>
 
-    fetch(dataUrl)
-      .then(response => {
-        if (!response.ok) throw new Error('Failed to fetch data');
-        return response.json();
-      })
-      .then(data => {
-        const rows = data.list;
+        <!-- Loading Spinner -->
+        <div class="loading-spinner" id="loading-spinner">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
 
-        if (!Array.isArray(rows) || rows.length === 0) {
-          document.getElementById("table-container").innerHTML = "<p>No data available.</p>";
-          return;
+        <!-- Table Container -->
+        <div class="table-container" id="table-container" style="display: none;">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0" id="resources-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-column="Location Name">Location Name</th>
+                            <th class="sortable" data-column="Organization">Organization</th>
+                            <th class="sortable" data-column="Resource Type">Resource Type</th>
+                            <th data-column="Category">Category</th>
+                            <th class="sortable" data-column="County">County</th>
+                            <th data-column="Address">Address</th>
+                            <th data-column="Phone">Phone</th>
+                            <th data-column="Populations Served">Populations</th>
+                            <th data-column="Actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Table rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Resources pagination" class="mt-4">
+            <ul class="pagination justify-content-center" id="pagination">
+                <!-- Pagination buttons will be inserted here -->
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Configuration
+        const API_BASE_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/';
+        
+        // State variables
+        let currentPage = 1;
+        let totalRows = 0;
+        let recordsPerPage = 25;
+        let currentSort = '';
+        let sortDirection = 'asc';
+        let allData = [];
+        
+        // Active filters
+        let activeFilters = {
+            search: '',
+            county: '',
+            resourceType: '',
+            populations: [],
+            categories: []
+        };
+
+        // DOM elements
+        const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
+        const countyFilter = document.getElementById('county-filter');
+        const resourceTypeFilter = document.getElementById('resource-type-filter');
+        const perPageSelect = document.getElementById('per-page-select');
+        const clearFiltersBtn = document.getElementById('clear-filters-btn');
+        const resultsInfo = document.getElementById('results-info');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const tableContainer = document.getElementById('table-container');
+        const tableBody = document.getElementById('table-body');
+        const pagination = document.getElementById('pagination');
+        const exportBtn = document.getElementById('export-btn');
+        const activeFiltersDiv = document.getElementById('active-filters');
+        const filterChipsDiv = document.getElementById('filter-chips');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEventListeners();
+            loadData();
+        });
+
+        function initializeEventListeners() {
+            // Search functionality
+            searchBtn.addEventListener('click', handleSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+
+            // Filter changes
+            countyFilter.addEventListener('change', handleFilterChange);
+            resourceTypeFilter.addEventListener('change', handleFilterChange);
+            perPageSelect.addEventListener('change', handlePerPageChange);
+            clearFiltersBtn.addEventListener('click', clearAllFilters);
+
+            // Table sorting
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.addEventListener('click', function() {
+                    handleSort(this.dataset.column);
+                });
+            });
+
+            // Export functionality
+            exportBtn.addEventListener('click', exportToCSV);
         }
 
-        const table = document.createElement("table");
-        table.className = "table table-striped table-bordered table-sm";
+        function showLoading() {
+            loadingSpinner.style.display = 'flex';
+            tableContainer.style.display = 'none';
+            exportBtn.disabled = true;
+        }
 
-        // Header
-        const thead = table.createTHead();
-        const headerRow = thead.insertRow();
-        const columns = Object.keys(rows[0]);
-        columns.forEach(key => {
-          const th = document.createElement("th");
-          th.textContent = key;
-          headerRow.appendChild(th);
-        });
+        function hideLoading() {
+            loadingSpinner.style.display = 'none';
+            tableContainer.style.display = 'block';
+        }
 
-        // Body
-        const tbody = table.createTBody();
-        rows.forEach(row => {
-          const tr = tbody.insertRow();
-          columns.forEach(col => {
-            const td = tr.insertCell();
-            const value = row[col];
-            td.textContent = value === null ? "" : (typeof value === "object" ? JSON.stringify(value) : value);
-          });
-        });
+        function handleSearch() {
+            activeFilters.search = searchInput.value.trim();
+            currentPage = 1;
+            loadData();
+        }
 
-        document.getElementById("table-container").appendChild(table);
-      })
-      .catch(error => {
-        document.getElementById("table-container").innerHTML =
-          `<p class="text-danger">Error loading data: ${error.message}</p>`;
-      });
-  </script>
+        function handleFilterChange() {
+            activeFilters.county = countyFilter.value;
+            activeFilters.resourceType = resourceTypeFilter.value;
+            currentPage = 1;
+            updateFilterChips();
+            loadData();
+        }
 
+        function handlePerPageChange() {
+            recordsPerPage = parseInt(perPageSelect.value);
+            currentPage = 1;
+            loadData();
+        }
+
+        function handleSort(column) {
+            if (currentSort === column) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort = column;
+                sortDirection = 'asc';
+            }
+            
+            // Update sort indicators
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            const sortedTh = document.querySelector(`th[data-column="${column}"]`);
+            sortedTh.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+            
+            currentPage = 1;
+            loadData();
+        }
+
+        function clearAllFilters() {
+            activeFilters = {
+                search: '',
+                county: '',
+                resourceType: '',
+                populations: [],
+                categories: []
+            };
+            
+            searchInput.value = '';
+            countyFilter.value = '';
+            resourceTypeFilter.value = '';
+            
+            currentPage = 1;
+            currentSort = '';
+            sortDirection = 'asc';
+            
+            // Clear sort indicators
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            updateFilterChips();
+            loadData();
+        }
+
+        function updateFilterChips() {
+            const chips = [];
+            
+            if (activeFilters.search) {
+                chips.push({ type: 'search', value: activeFilters.search, label: `Search: "${activeFilters.search}"` });
+            }
+            if (activeFilters.county) {
+                chips.push({ type: 'county', value: activeFilters.county, label: `County: ${activeFilters.county}` });
+            }
+            if (activeFilters.resourceType) {
+                chips.push({ type: 'resourceType', value: activeFilters.resourceType, label: `Type: ${activeFilters.resourceType}` });
+            }
+            
+            if (chips.length > 0) {
+                activeFiltersDiv.style.display = 'block';
+                filterChipsDiv.innerHTML = chips.map(chip => 
+                    `<span class="filter-chip">
+                        ${chip.label}
+                        <button type="button" class="btn-close" onclick="removeFilter('${chip.type}', '${chip.value}')" aria-label="Remove filter"></button>
+                    </span>`
+                ).join('');
+            } else {
+                activeFiltersDiv.style.display = 'none';
+            }
+        }
+
+        function removeFilter(type, value) {
+            switch(type) {
+                case 'search':
+                    activeFilters.search = '';
+                    searchInput.value = '';
+                    break;
+                case 'county':
+                    activeFilters.county = '';
+                    countyFilter.value = '';
+                    break;
+                case 'resourceType':
+                    activeFilters.resourceType = '';
+                    resourceTypeFilter.value = '';
+                    break;
+            }
+            
+            currentPage = 1;
+            updateFilterChips();
+            loadData();
+        }
+
+        async function loadData() {
+            showLoading();
+            
+            try {
+                const url = buildApiUrl();
+                console.log('Fetching data from:', url);
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Received data:', data);
+                
+                allData = data.list || [];
+                totalRows = data.pageInfo?.totalRows || allData.length;
+                
+                renderTable(allData);
+                renderPagination();
+                updateResultsInfo();
+                exportBtn.disabled = allData.length === 0;
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="text-center text-danger">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            Error loading data: ${error.message}
+                        </td>
+                    </tr>
+                `;
+                resultsInfo.textContent = 'Error loading data';
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function buildApiUrl() {
+            const params = new URLSearchParams();
+            
+            params.append('page', currentPage);
+            params.append('limit', recordsPerPage);
+            
+            if (currentSort) {
+                const sortParam = sortDirection === 'desc' ? `-${currentSort}` : currentSort;
+                params.append('sort', sortParam);
+            }
+            
+            if (activeFilters.search) {
+                params.append('search', activeFilters.search);
+            }
+            
+            if (activeFilters.county) {
+                params.append('County', activeFilters.county);
+            }
+            
+            if (activeFilters.resourceType) {
+                params.append('Resource Type', activeFilters.resourceType);
+            }
+            
+            return `${API_BASE_URL}?${params.toString()}`;
+        }
+
+        function renderTable(data) {
+            if (!data || data.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="text-center text-muted py-4">
+                            <i class="bi bi-inbox me-2"></i>
+                            No resources found with the current filters.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tableBody.innerHTML = data.map(resource => `
+                <tr>
+                    <td>
+                        <strong>${escapeHtml(resource['Location Name'] || 'N/A')}</strong>
+                    </td>
+                    <td>${escapeHtml(resource.Organization || 'N/A')}</td>
+                    <td>
+                        ${resource['Resource Type'] ? 
+                            `<span class="badge badge-resource-type">${escapeHtml(resource['Resource Type'])}</span>` : 
+                            'N/A'
+                        }
+                    </td>
+                    <td>
+                        ${resource.Category ? 
+                            resource.Category.split(',').map(cat => 
+                                `<span class="badge badge-category">${escapeHtml(cat.trim())}</span>`
+                            ).join(' ') : 
+                            'N/A'
+                        }
+                    </td>
+                    <td>${escapeHtml(resource.County || 'N/A')}</td>
+                    <td>
+                        <small>
+                            ${escapeHtml(resource.Address || 'N/A')}<br>
+                            ${escapeHtml(resource.City || '')}, ${escapeHtml(resource.State || '')} ${escapeHtml(resource['Zip Code'] || '')}
+                        </small>
+                    </td>
+                    <td>
+                        ${resource.Phone ? 
+                            `<a href="tel:${resource.Phone}" class="btn-link">
+                                <i class="bi bi-telephone me-1"></i>${escapeHtml(resource.Phone)}
+                            </a>` : 
+                            'N/A'
+                        }
+                    </td>
+                    <td>
+                        ${resource['Populations Served'] ? 
+                            resource['Populations Served'].split(',').map(pop => 
+                                `<span class="badge badge-population">${escapeHtml(pop.trim())}</span>`
+                            ).join(' ') : 
+                            'N/A'
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group">
+                            ${resource.Website ? 
+                                `<a href="${escapeHtml(resource.Website)}" target="_blank" class="btn btn-outline-primary btn-sm" title="Visit Website">
+                                    <i class="bi bi-globe"></i>
+                                </a>` : ''
+                            }
+                            ${resource['Google Maps URL'] ? 
+                                `<a href="${escapeHtml(resource['Google Maps URL'])}" target="_blank" class="btn btn-outline-success btn-sm" title="Get Directions">
+                                    <i class="bi bi-geo-alt"></i>
+                                </a>` : ''
+                            }
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(totalRows / recordsPerPage);
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `
+                <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage - 1})" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            `;
+            
+            // Page numbers
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, currentPage + 2);
+            
+            if (startPage > 1) {
+                paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="changePage(1)">1</a></li>`;
+                if (startPage > 2) {
+                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+                    </li>
+                `;
+            }
+            
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+                paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="changePage(${totalPages})">${totalPages}</a></li>`;
+            }
+            
+            // Next button
+            paginationHTML += `
+                <li class="page-item ${currentPage >= totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage + 1})" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            `;
+            
+            pagination.innerHTML = paginationHTML;
+        }
+
+        function changePage(page) {
+            if (page < 1 || page > Math.ceil(totalRows / recordsPerPage)) return;
+            currentPage = page;
+            loadData();
+        }
+
+        function updateResultsInfo() {
+            const start = (currentPage - 1) * recordsPerPage + 1;
+            const end = Math.min(currentPage * recordsPerPage, totalRows);
+            
+            if (totalRows === 0) {
+                resultsInfo.textContent = 'No resources found';
+            } else {
+                resultsInfo.textContent = `Showing ${start}-${end} of ${totalRows} resources`;
+            }
+        }
+
+        function exportToCSV() {
+            if (allData.length === 0) return;
+            
+            const headers = [
+                'Location Name', 'Organization', 'Resource Type', 'Category', 
+                'County', 'Address', 'City', 'State', 'Zip Code', 
+                'Phone', 'Website', 'Populations Served'
+            ];
+            
+            const csvContent = [
+                headers.join(','),
+                ...allData.map(resource => {
+                    return headers.map(header => {
+                        const value = resource[header] || '';
+                        // Escape quotes and wrap in quotes if contains comma or quote
+                        return `"${String(value).replace(/"/g, '""')}"`;
+                    }).join(',');
+                })
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', `resources_export_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return String(text || '').replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+    </script>
 </body>
 </html>
