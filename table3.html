@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NocoDB Data Grid</title>
+    <title>Resource Directory</title>
     
     <!-- Bootstrap 5.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -19,18 +19,38 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #f0f2f5;
         }
 
         .table-responsive {
-            max-height: 70vh;
+            max-height: 75vh;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            overflow: auto; /* Needed for resizing to work with sticky headers */
+        }
+
+        .table {
+            margin-bottom: 0;
+            table-layout: fixed; /* Crucial for column resizing */
+            width: 100%;
+        }
+
+        .table td, .table th {
+            vertical-align: middle;
+            overflow: hidden; /* Prevent content from spilling out */
+            text-overflow: ellipsis; /* Add ... for overflowed content */
+        }
+
+        .table tr {
+            height: 60px; /* Increased height for better spacing */
         }
 
         th {
-            background-color: #f8f9fa; /* Light background for sticky headers */
+            background-color: #f8f9fa;
             position: sticky;
             top: 0;
             z-index: 2;
+            white-space: nowrap;
         }
 
         th[data-sort] {
@@ -43,16 +63,15 @@
         }
 
         .sort-icon {
-            font-size: 0.9em;
+            font-size: 1.1em;
             margin-left: 5px;
             color: #6c757d;
         }
         
         .active-sort .sort-icon {
-            color: #000;
+            color: #0d6efd;
         }
 
-        /* Keep dropdown open for checkbox interaction */
         .dropdown-menu.show {
             display: block;
         }
@@ -79,11 +98,15 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 0.8);
             z-index: 10;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .card {
+            border: none;
         }
 
         .card-header {
@@ -91,87 +114,129 @@
             border-bottom: 1px solid #dee2e6;
         }
         
-        .modal-body ul {
-            list-style-type: none;
-            padding-left: 0;
+        .chip {
+            display: inline-block;
+            padding: 0.35em 0.65em;
+            font-size: 0.85em;
+            font-weight: 500;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 50rem;
+            color: #fff;
         }
-        .modal-body li {
-            padding: 5px 0;
-            border-bottom: 1px solid #eee;
+
+        .chip-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
         }
-        .modal-body li:last-child {
-            border-bottom: none;
+
+        .location-image {
+            width: 30px;
+            height: 30px;
+            max-height: 30px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #fff;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
         }
-        .modal-body strong {
-            color: #343a40;
+
+        .phone-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
+
+        /* Column Resizer Styles */
+        th {
+            position: relative;
+        }
+
+        .resizer {
+            position: absolute;
+            top: 0;
+            right: -2px;
+            width: 5px;
+            cursor: col-resize;
+            user-select: none;
+            height: 100%;
+            z-index: 3; /* Above header content */
+        }
+
+        .resizer:hover, .resizing {
+            border-right: 2px solid #0d6efd;
+        }
+
     </style>
 </head>
 <body>
 
     <div class="container-fluid my-4">
-        <div class="card shadow-sm">
+        <div class="card shadow-sm rounded-3">
             <div class="card-header py-3">
                 <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-                    <h4 class="mb-0">Resource Directory</h4>
+                    <h4 class="mb-0 d-flex align-items-center gap-2"><i class="bi bi-compass"></i> Resource Directory</h4>
                     <div class="flex-grow-1" style="max-width: 400px;">
-                        <input type="search" id="searchInput" class="form-control" placeholder="Search all fields...">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <input type="search" id="searchInput" class="form-control" placeholder="Search all fields...">
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card-body position-relative">
+            <div class="card-body position-relative p-4">
                 <div id="loading" class="loading-overlay d-none">
-                    <div class="spinner-border text-primary" role="status">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-hover table-striped">
+                    <table class="table table-hover">
                         <thead class="table-light">
                             <tr>
-                                <th data-sort="Location Name">Location Name <i class="sort-icon bi"></i></th>
-                                <th data-sort="Organization">Organization <i class="sort-icon bi"></i></th>
-                                <th>
+                                <th data-sort="Location Name" style="width: 250px;">Location Name <i class="sort-icon bi"></i></th>
+                                <th data-sort="Organization" style="width: 200px;">Organization <i class="sort-icon bi"></i></th>
+                                <th style="width: 150px;">
                                     <div class="dropdown">
                                         <a class="dropdown-toggle text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                            County
+                                            <i class="bi bi-geo-alt"></i> County
                                         </a>
-                                        <ul class="dropdown-menu filter-dropdown-menu" id="countyFilter">
-                                            <!-- Filter options will be injected here -->
-                                        </ul>
+                                        <ul class="dropdown-menu filter-dropdown-menu" id="countyFilter"></ul>
                                     </div>
                                 </th>
-                                <th>
+                                <th style="width: 180px;">
                                     <div class="dropdown">
                                         <a class="dropdown-toggle text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                            Resource Type
+                                            <i class="bi bi-gear"></i> Resource Type
                                         </a>
-                                        <ul class="dropdown-menu filter-dropdown-menu" id="resourceTypeFilter">
-                                            <!-- Filter options will be injected here -->
-                                        </ul>
+                                        <ul class="dropdown-menu filter-dropdown-menu" id="resourceTypeFilter"></ul>
                                     </div>
                                 </th>
-                                <th>
+                                <th style="width: 200px;">
                                      <div class="dropdown">
                                         <a class="dropdown-toggle text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                            Category
+                                            <i class="bi bi-tags"></i> Categories
                                         </a>
-                                        <ul class="dropdown-menu filter-dropdown-menu" id="categoryFilter">
-                                            <!-- Filter options will be injected here -->
-                                        </ul>
+                                        <ul class="dropdown-menu filter-dropdown-menu" id="categoryFilter"></ul>
                                     </div>
                                 </th>
-                                <th>
+                                <th style="width: 220px;">
                                      <div class="dropdown">
                                         <a class="dropdown-toggle text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                            Populations Served
+                                            <i class="bi bi-people"></i> Populations Served
                                         </a>
-                                        <ul class="dropdown-menu filter-dropdown-menu" id="populationsServedFilter">
-                                            <!-- Filter options will be injected here -->
-                                        </ul>
+                                        <ul class="dropdown-menu filter-dropdown-menu" id="populationsServedFilter"></ul>
                                     </div>
                                 </th>
-                                <th>Actions</th>
+                                <th data-sort="Phone" style="width: 150px;">Phone <i class="sort-icon bi"></i></th>
+                                <th data-sort="Website" style="width: 200px;">Website <i class="sort-icon bi"></i></th>
+                                <th data-sort="Full Address" style="width: 250px;">Address <i class="sort-icon bi"></i></th>
+                                <th data-sort="City" style="width: 150px;">City <i class="sort-icon bi"></i></th>
+                                <th data-sort="State" style="width: 100px;">State <i class="sort-icon bi"></i></th>
+                                <th data-sort="Zip Code" style="width: 120px;">Zip Code <i class="sort-icon bi"></i></th>
                             </tr>
                         </thead>
                         <tbody id="tableBody">
@@ -180,11 +245,12 @@
                     </table>
                 </div>
                  <div id="noResults" class="text-center p-5 d-none">
-                    <h5>No Results Found</h5>
+                    <i class="bi bi-exclamation-circle-fill fs-1 text-warning"></i>
+                    <h5 class="mt-3">No Results Found</h5>
                     <p class="text-muted">Try adjusting your search or filters.</p>
                 </div>
             </div>
-            <div class="card-footer d-flex justify-content-between align-items-center">
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center">
                 <div id="paginationInfo" class="text-muted"></div>
                 <nav id="paginationControls">
                     <!-- Pagination buttons will be injected here -->
@@ -193,25 +259,6 @@
         </div>
     </div>
 
-    <!-- Details Modal -->
-    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="detailsModalLabel">Record Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" id="detailsModalBody">
-            <!-- Details will be loaded here -->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
     <!-- Bootstrap 5.3 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
@@ -219,27 +266,31 @@
         document.addEventListener('DOMContentLoaded', function() {
             
             // --- CONFIGURATION ---
-            // IMPORTANT: REPLACE THIS WITH YOUR CLOUDFLARE WORKER URL
             const WORKER_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/'; 
+
+            const staticFilters = {
+                County: ['Philadelphia', 'Berks', 'Bucks', 'Chester', 'Delaware', 'Lancaster', 'Montgomery', 'Schuylkill'],
+                'Resource Type': ['Recovery Support', 'Family Support', 'Housing', 'Transportation'],
+                'Populations Served': ['Men', 'Women', 'Children', 'Adolescents', 'Unknown'],
+                Category: { // Dynamic based on Resource Type
+                    'Recovery Support': ['Single County Authority', 'Center of Excellence', 'Regional Recovery Hub', 'Recovery Community Organization', 'Warm Handoff', 'Government', 'Other'],
+                    'Family Support': ['Family Counseling', 'Family Peer Support', 'Family Assistance Program', 'Family Education Program', 'Family Resources', 'Government', 'Other'],
+                    'Housing': ['Recovery House', 'Halfway House', 'Housing Assistance', 'Government', 'DDAP LIcensed', 'Other'],
+                    'Transportation': ['Affordable Public Transportation', 'Carpool Service', 'Medical Assistance Transportation', 'Recovery Transportation Services', 'Vehicle Purchase Assistance', 'Government', 'Other']
+                }
+            };
+            
+            const chipColors = ['bg-primary', 'bg-secondary', 'bg-success', 'bg-info', 'bg-warning text-dark', 'bg-danger', 'bg-dark', 'bg-primary-subtle text-primary-emphasis', 'bg-success-subtle text-success-emphasis', 'bg-danger-subtle text-danger-emphasis', 'bg-info-subtle text-info-emphasis'];
 
             // --- STATE MANAGEMENT ---
             let state = {
                 searchTerm: '',
-                filters: {
-                    'County': [],
-                    'Resource Type': [],
-                    'Category': [],
-                    'Populations Served': []
-                },
-                sort: {
-                    column: 'Location Name',
-                    direction: 'asc'
-                },
+                filters: { 'County': [], 'Resource Type': [], 'Category': [], 'Populations Served': [] },
+                sort: { column: 'Location Name', direction: 'asc' },
                 currentPage: 1,
                 pageSize: 25,
             };
             let debounceTimer;
-            let detailsModal;
 
             // --- DOM ELEMENTS ---
             const tableBody = document.getElementById('tableBody');
@@ -257,48 +308,57 @@
                 noResultsMessage.classList.add('d-none');
                 
                 const url = new URL(WORKER_URL);
-                
-                // Add search term
-                if (state.searchTerm) {
-                    url.searchParams.set('search', state.searchTerm);
-                }
+                if (state.searchTerm) url.searchParams.set('search', state.searchTerm);
 
-                // Add filters
                 for (const [key, values] of Object.entries(state.filters)) {
                     if (values.length > 0) {
-                        // The worker script uses 'Populations' as the query param for 'Populations Served'
                         const paramKey = key === 'Populations Served' ? 'Populations' : key;
                         values.forEach(value => url.searchParams.append(paramKey, value));
                     }
                 }
 
-                // Add sorting (NocoDB uses a '-' prefix for descending sort)
                 const sortParam = state.direction === 'desc' ? `-${state.sort.column}` : state.sort.column;
                 url.searchParams.set('sort', sortParam);
-
-                // Add pagination
                 url.searchParams.set('page', state.currentPage);
                 url.searchParams.set('limit', state.pageSize);
 
                 try {
                     const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error(`Network response was not ok: ${response.statusText}`);
-                    }
+                    if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
                     const data = await response.json();
                     renderTable(data.list || []);
                     renderPagination(data.pageInfo || {});
                 } catch (error) {
                     console.error('Fetch error:', error);
-                    tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Failed to load data. Check console for details.</td></tr>`;
+                    tableBody.innerHTML = `<tr><td colspan="12" class="text-center text-danger">Failed to load data. Check console for details.</td></tr>`;
                 } finally {
                     loadingIndicator.classList.add('d-none');
                 }
             }
 
             /**
+             * Generates a consistent color class for a chip based on its text
+             */
+            function getChipColor(text) {
+                let hash = 0;
+                for (let i = 0; i < text.length; i++) hash = text.charCodeAt(i) + ((hash << 5) - hash);
+                return chipColors[Math.abs(hash % chipColors.length)];
+            }
+
+            /**
+             * Creates a string of HTML for colored chips from a comma-separated string
+             */
+            function createChipList(text) {
+                if (!text || typeof text !== 'string') return '';
+                return text.split(',')
+                    .map(item => item.trim())
+                    .filter(item => item)
+                    .map(item => `<span class="chip ${getChipColor(item)}">${item}</span>`)
+                    .join('');
+            }
+
+            /**
              * Renders the data rows in the table
-             * @param {Array} records - The list of records from the API
              */
             function renderTable(records) {
                 tableBody.innerHTML = '';
@@ -309,18 +369,36 @@
 
                 records.forEach(record => {
                     const tr = document.createElement('tr');
+                    // Correctly access the image URL from the database record
+                    const imageUrl = (record.Image && Array.isArray(record.Image) && record.Image[0] && record.Image[0].url) 
+                        ? record.Image[0].url 
+                        : `https://placehold.co/40x40/EBF4FF/769FCD?text=${(record['Location Name'] || 'L')[0]}`;
+                    
+                    const website = record.Website;
+                    let websiteLink = '';
+                    if (website) {
+                        const href = website.startsWith('http') ? website : `https://${website}`;
+                        websiteLink = `<a href="${href}" target="_blank" rel="noopener noreferrer">${website}</a>`;
+                    }
+
                     tr.innerHTML = `
-                        <td>${record['Location Name'] || ''}</td>
-                        <td>${record['Organization'] || ''}</td>
-                        <td>${record['County'] || ''}</td>
-                        <td>${record['Resource Type'] || ''}</td>
-                        <td>${record['Category'] || ''}</td>
-                        <td>${record['Populations Served'] || ''}</td>
                         <td>
-                            <button class="btn btn-sm btn-outline-primary view-details-btn" data-id="${record.Id}">
-                                View Details
-                            </button>
+                            <div class="d-flex align-items-center">
+                                <img src="${imageUrl}" class="location-image" alt="Location" onerror="this.onerror=null;this.src='https://placehold.co/40x40/EBF4FF/769FCD?text=L';">
+                                <span>${record['Location Name'] || ''}</span>
+                            </div>
                         </td>
+                        <td>${record['Organization'] || ''}</td>
+                        <td><div class="chip-container">${createChipList(record['County'])}</div></td>
+                        <td><div class="chip-container">${createChipList(record['Resource Type'])}</div></td>
+                        <td><div class="chip-container">${createChipList(record['Category'])}</div></td>
+                        <td><div class="chip-container">${createChipList(record['Populations Served'])}</div></td>
+                        <td>${record.Phone ? `<a href="tel:${record.Phone}" class="btn btn-sm btn-outline-secondary phone-btn"><i class="bi bi-telephone"></i> ${record.Phone}</a>` : ''}</td>
+                        <td>${websiteLink}</td>
+                        <td>${record['Full Address'] || ''}</td>
+                        <td>${record['City'] || ''}</td>
+                        <td>${record['State'] || ''}</td>
+                        <td>${record['Zip Code'] || ''}</td>
                     `;
                     tableBody.appendChild(tr);
                 });
@@ -328,90 +406,74 @@
 
             /**
              * Renders pagination controls and info
-             * @param {Object} pageInfo - The pagination info from the API
              */
             function renderPagination(pageInfo) {
                 const { totalRows, page, pageSize, isFirstPage, isLastPage } = pageInfo;
-                
                 if (!totalRows) {
                     paginationInfo.textContent = '';
                     paginationControls.innerHTML = '';
                     return;
                 }
-
                 const start = (page - 1) * pageSize + 1;
                 const end = Math.min(page * pageSize, totalRows);
                 paginationInfo.textContent = `Showing ${start} to ${end} of ${totalRows} results`;
-
                 paginationControls.innerHTML = `
-                    <button class="btn btn-outline-secondary" ${isFirstPage ? 'disabled' : ''} data-page="${page - 1}">Previous</button>
-                    <button class="btn btn-outline-secondary ms-2" ${isLastPage ? 'disabled' : ''} data-page="${page + 1}">Next</button>
+                    <button class="btn btn-outline-primary" ${isFirstPage ? 'disabled' : ''} data-page="${page - 1}"><i class="bi bi-arrow-left"></i> Previous</button>
+                    <button class="btn btn-outline-primary ms-2" ${isLastPage ? 'disabled' : ''} data-page="${page + 1}">Next <i class="bi bi-arrow-right"></i></button>
                 `;
-            }
-            
-            /**
-             * Fetches all unique values for filterable columns to populate dropdowns
-             */
-            async function populateFilters() {
-                const url = new URL(WORKER_URL);
-                url.searchParams.set('limit', 2000); // Fetch a large number of records
-                url.searchParams.set('fields', 'County,Resource Type,Category,Populations Served');
-
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error('Failed to fetch filter data');
-                    const data = await response.json();
-
-                    const uniqueValues = {
-                        'County': new Set(),
-                        'Resource Type': new Set(),
-                        'Category': new Set(),
-                        'Populations Served': new Set()
-                    };
-
-                    (data.list || []).forEach(item => {
-                        if (item.County) uniqueValues.County.add(item.County.trim());
-                        if (item['Resource Type']) uniqueValues['Resource Type'].add(item['Resource Type'].trim());
-                        
-                        // Handle potentially comma-separated values
-                        if (item.Category) item.Category.split(',').forEach(c => c.trim() && uniqueValues.Category.add(c.trim()));
-                        if (item['Populations Served']) item['Populations Served'].split(',').forEach(p => p.trim() && uniqueValues['Populations Served'].add(p.trim()));
-                    });
-
-                    renderFilterOptions('countyFilter', Array.from(uniqueValues.County).sort(), 'County');
-                    renderFilterOptions('resourceTypeFilter', Array.from(uniqueValues['Resource Type']).sort(), 'Resource Type');
-                    renderFilterOptions('categoryFilter', Array.from(uniqueValues.Category).sort(), 'Category');
-                    renderFilterOptions('populationsServedFilter', Array.from(uniqueValues['Populations Served']).sort(), 'Populations Served');
-
-                } catch (error) {
-                    console.error("Could not populate filters:", error);
-                }
             }
 
             /**
              * Renders the checkbox options inside a filter dropdown
-             * @param {string} elementId - The ID of the ul element for the dropdown
-             * @param {Array<string>} options - The unique values for the filter
-             * @param {string} filterKey - The key for the filter in the state object
              */
             function renderFilterOptions(elementId, options, filterKey) {
                 const container = document.getElementById(elementId);
-                container.innerHTML = ''; // Clear previous options
+                container.innerHTML = ''; 
+                if (options.length === 0) {
+                    container.innerHTML = '<li><span class="dropdown-item-text text-muted">Select a Resource Type first</span></li>';
+                    return;
+                }
                 options.forEach(option => {
                     const li = document.createElement('li');
                     li.classList.add('filter-item');
+                    const optionId = `filter-${filterKey}-${option.replace(/[^a-zA-Z0-9]/g, '')}`;
                     li.innerHTML = `
                         <div class="form-check">
-                            <input class="form-check-input filter-checkbox" type="checkbox" value="${option}" id="filter-${filterKey}-${option.replace(/\s/g, '')}" data-filter-key="${filterKey}">
-                            <label class="form-check-label" for="filter-${filterKey}-${option.replace(/\s/g, '')}">
-                                ${option}
-                            </label>
+                            <input class="form-check-input filter-checkbox" type="checkbox" value="${option}" id="${optionId}" data-filter-key="${filterKey}">
+                            <label class="form-check-label" for="${optionId}">${option}</label>
                         </div>
                     `;
                     container.appendChild(li);
                 });
             }
-            
+
+            /**
+             * Updates the Category filter options based on selected Resource Types
+             */
+            function updateCategoryFilter() {
+                const selectedResourceTypes = state.filters['Resource Type'];
+                let availableCategories = new Set();
+
+                if (selectedResourceTypes.length > 0) {
+                    selectedResourceTypes.forEach(type => {
+                        (staticFilters.Category[type] || []).forEach(cat => availableCategories.add(cat));
+                    });
+                } else {
+                    Object.values(staticFilters.Category).forEach(cats => cats.forEach(cat => availableCategories.add(cat)));
+                }
+                
+                const currentCategoryFilters = state.filters.Category;
+                state.filters.Category = currentCategoryFilters.filter(cat => availableCategories.has(cat));
+
+                renderFilterOptions('categoryFilter', Array.from(availableCategories).sort(), 'Category');
+                
+                document.querySelectorAll('#categoryFilter .filter-checkbox').forEach(checkbox => {
+                    if (state.filters.Category.includes(checkbox.value)) {
+                        checkbox.checked = true;
+                    }
+                });
+            }
+
             /**
              * Updates the sort icons in the table headers
              */
@@ -419,63 +481,70 @@
                 document.querySelectorAll('th[data-sort]').forEach(th => {
                     const icon = th.querySelector('.sort-icon');
                     th.classList.remove('active-sort');
-                    icon.classList.remove('bi-sort-up', 'bi-sort-down');
+                    icon.classList.remove('bi-sort-alpha-down', 'bi-sort-alpha-up', 'bi-sort-numeric-down', 'bi-sort-numeric-up');
 
                     if (th.dataset.sort === state.sort.column) {
                         th.classList.add('active-sort');
-                        icon.classList.add(state.direction === 'asc' ? 'bi-sort-up' : 'bi-sort-down');
+                        const sortType = ['Zip Code'].includes(state.sort.column) ? 'numeric' : 'alpha';
+                        icon.classList.add(state.direction === 'asc' ? `bi-sort-${sortType}-up` : `bi-sort-${sortType}-down`);
                     }
                 });
             }
-            
+
             /**
-             * Fetches a single record by ID and displays it in the modal.
-             * @param {string} recordId - The ID of the record to fetch.
+             * Makes table columns resizable.
              */
-            async function showDetails(recordId) {
-                const modalBody = document.getElementById('detailsModalBody');
-                modalBody.innerHTML = '<div class="d-flex justify-content-center p-5"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
-                detailsModal.show();
+            function makeColsResizable() {
+                const table = document.querySelector('.table');
+                const headers = Array.from(table.querySelectorAll('th'));
 
-                const url = new URL(WORKER_URL);
-                url.searchParams.set('recordId', recordId);
-
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error('Failed to fetch record details');
-                    const record = await response.json();
+                headers.forEach(th => {
+                    const resizer = document.createElement('div');
+                    resizer.className = 'resizer';
+                    th.appendChild(resizer);
                     
-                    let content = '<ul>';
-                    for(const [key, value] of Object.entries(record)) {
-                        if (value && typeof value !== 'object') {
-                            content += `<li><strong>${key}:</strong> ${value}</li>`;
-                        }
-                    }
-                    content += '</ul>';
-                    modalBody.innerHTML = content;
+                    resizer.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        const startX = e.pageX;
+                        const startWidth = th.offsetWidth;
+                        
+                        resizer.classList.add('resizing');
 
-                } catch (error) {
-                    console.error("Could not fetch details:", error);
-                    modalBody.innerHTML = '<p class="text-danger">Could not load record details.</p>';
-                }
+                        const onMouseMove = (moveEvent) => {
+                            const newWidth = startWidth + (moveEvent.pageX - startX);
+                            if (newWidth > 50) { // Minimum width
+                                th.style.width = `${newWidth}px`;
+                            }
+                        };
+
+                        const onMouseUp = () => {
+                            resizer.classList.remove('resizing');
+                            document.removeEventListener('mousemove', onMouseMove);
+                            document.removeEventListener('mouseup', onMouseUp);
+                        };
+
+                        document.addEventListener('mousemove', onMouseMove);
+                        document.addEventListener('mouseup', onMouseUp);
+                    });
+                });
             }
 
 
             // --- EVENT LISTENERS ---
-
-            // Search input
             searchInput.addEventListener('input', (e) => {
                 clearTimeout(debounceTimer);
                 debounceTimer = setTimeout(() => {
                     state.searchTerm = e.target.value;
                     state.currentPage = 1;
                     fetchData();
-                }, 300); // Debounce to avoid too many API calls
+                }, 300);
             });
 
-            // Sorting
             document.querySelectorAll('th[data-sort]').forEach(th => {
-                th.addEventListener('click', () => {
+                th.addEventListener('click', (e) => {
+                    // Prevent sorting when clicking the resizer
+                    if (e.target.classList.contains('resizer')) return;
+
                     const column = th.dataset.sort;
                     if (state.sort.column === column) {
                         state.sort.direction = state.sort.direction === 'asc' ? 'desc' : 'asc';
@@ -489,15 +558,14 @@
                 });
             });
 
-            // Pagination
             paginationControls.addEventListener('click', (e) => {
-                if (e.target.tagName === 'BUTTON' && e.target.dataset.page) {
-                    state.currentPage = parseInt(e.target.dataset.page);
+                const button = e.target.closest('button');
+                if (button && button.dataset.page) {
+                    state.currentPage = parseInt(button.dataset.page);
                     fetchData();
                 }
             });
             
-            // Filtering
             document.addEventListener('change', (e) => {
                 if (e.target.classList.contains('filter-checkbox')) {
                     const key = e.target.dataset.filterKey;
@@ -507,29 +575,28 @@
                     } else {
                         state.filters[key] = state.filters[key].filter(v => v !== value);
                     }
+                    
+                    if (key === 'Resource Type') {
+                        updateCategoryFilter();
+                    }
+
                     state.currentPage = 1;
                     fetchData();
-                }
-            });
-
-            // View Details button
-            tableBody.addEventListener('click', (e) => {
-                const button = e.target.closest('.view-details-btn');
-                if (button) {
-                    const recordId = button.dataset.id;
-                    showDetails(recordId);
                 }
             });
 
             // --- INITIALIZATION ---
             function init() {
                 if (!WORKER_URL || WORKER_URL.includes('your-cloudflare-domain')) {
-                     tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-danger fw-bold p-4">Configuration needed: Please update the WORKER_URL in the script.</td></tr>`;
+                     tableBody.innerHTML = `<tr><td colspan="12" class="text-center text-danger fw-bold p-4">Configuration needed: Please update the WORKER_URL in the script.</td></tr>`;
                      return;
                 }
-                detailsModal = new bootstrap.Modal(document.getElementById('detailsModal'));
+                renderFilterOptions('countyFilter', staticFilters.County, 'County');
+                renderFilterOptions('resourceTypeFilter', staticFilters['Resource Type'], 'Resource Type');
+                renderFilterOptions('populationsServedFilter', staticFilters['Populations Served'], 'Populations Served');
+                updateCategoryFilter();
                 updateSortIcons();
-                populateFilters();
+                makeColsResizable(); // Activate the resizer functionality
                 fetchData();
             }
 
