@@ -22,11 +22,12 @@ const API_BASE_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/';
 const RESOURCES_PER_PAGE = 25;
 const MAPTILER_API_KEY = '1nPjVtGASMJJCaJkeKXQ'; // Your MapTiler API Key
 
-const CATEGORY_OPTIONS = {
-    'Recovery Support': ['Single County Authority', 'Center of Excellence', 'Regional Recovery Hub', 'Recovery Community Organization', 'Warm Handoff', 'Government', 'Other'],
-    'Family Support': ['Family Counseling', 'Family Peer Support', 'Family Assistance Program', 'Family Education Program', 'Family Resources', 'Government', 'Other'],
-    'Housing': ['Recovery House', 'Halfway House', 'Housing Assistance', 'Government', 'DDAP LIcensed', 'Other'],
-    'Transportation': ['Affordable Public Transportation', 'Carpool Service', 'Medical Assistance Transportation', 'Recovery Transportation Services', 'Vehicle Purchase Assistance', 'Government', 'Other']
+// --- Filter Options (loaded from API) ---
+let FILTER_OPTIONS = {
+    'County': [],
+    'Resource Type': [],
+    'Populations Served': [],
+    'Category': {}
 };
 
 // --- Constants for Filter Types and API Params ---
@@ -44,7 +45,7 @@ const API_PARAMS = {
     SORT: 'sort',
     SEARCH: 'search',
     COUNTY: 'County',
-    POPULATIONS: 'Populations', // Corresponds to 'Populations Served' in NocoDB if that's the column name
+    POPULATIONS: 'Populations', // Corresponds to 'Populations Served' in NocoDB
     RESOURCE_TYPE: 'Resource Type',
     CATEGORY: 'Category',
     USER_LAT: 'userLat', // For distance sorting
@@ -70,7 +71,7 @@ let isFetchingLocation = false; // To prevent multiple geolocation requests
 const url = new URL(window.location.href);
 const urlParams = url.searchParams;
 
-// Read counties from query params
+// Read filters from query params
 if (urlParams.has('County')) {
     activeFilters[FILTER_TYPES.COUNTIES] = urlParams.getAll('County');
 }
@@ -90,6 +91,86 @@ if (urlParams.has('search')) {
 // --- Map Variables ---
 let map;
 let mapMarkers = [];
+
+// --- API Client ---
+class APIClient {
+    static async request(endpoint, params = {}) {
+        try {
+            const url = new URL(endpoint, API_BASE_URL);
+            Object.keys(params).forEach(key => {
+                if (Array.isArray(params[key])) {
+                    params[key].forEach(value => url.searchParams.append(key, value));
+                } else if (params[key] !== null && params[key] !== undefined && params[key] !== '') {
+                    url.searchParams.append(key, params[key]);
+                }
+            });
+
+            console.log('API Request:', url.toString());
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`);
+            }
+            
+            const data = await response.json();
+            
+            // Handle both old format (direct data) and new format (with success flag)
+            if (data.success !== undefined) {
+                if (!data.success) {
+                    throw new Error(data.error?.message || 'API request failed');
+                }
+                return data.data;
+            } else {
+                // Fallback for old format
+                return data;
+            }
+        } catch (error) {
+            console.error('API Error:', error);
+            throw error;
+        }
+    }
+
+    static async getFilters() {
+        return this.request('filters');
+    }
+
+    static async getMapMarkers(filters = {}) {
+        return this.request('map-markers', filters);
+    }
+
+    static async getData(params = {}) {
+        return this.request('', params);
+    }
+}
+
+// --- Load Filter Options ---
+async function loadFilterOptions() {
+    try {
+        const filterData = await APIClient.getFilters();
+        FILTER_OPTIONS = {
+            'County': filterData.County || [],
+            'Resource Type': filterData['Resource Type'] || [],
+            'Populations Served': filterData['Populations Served'] || [],
+            'Category': filterData.Category || {}
+        };
+        console.log('Loaded filter options:', FILTER_OPTIONS);
+    } catch (error) {
+        console.error('Failed to load filter options:', error);
+        // Fallback to static options if API fails
+        FILTER_OPTIONS = {
+            'County': ['Philadelphia', 'Berks', 'Bucks', 'Chester', 'Delaware', 'Lancaster', 'Montgomery', 'Schuylkill'],
+            'Resource Type': ['Recovery Support', 'Family Support', 'Housing', 'Transportation'],
+            'Populations Served': ['Men', 'Women', 'Children', 'Adolescents', 'Unknown'],
+            'Category': {
+                'Recovery Support': ['Single County Authority', 'Center of Excellence', 'Regional Recovery Hub', 'Recovery Community Organization', 'Warm Handoff', 'Government', 'Other'],
+                'Family Support': ['Family Counseling', 'Family Peer Support', 'Family Assistance Program', 'Family Education Program', 'Family Resources', 'Government', 'Other'],
+                'Housing': ['Recovery House', 'Halfway House', 'Housing Assistance', 'Government', 'DDAP Licensed', 'Other'],
+                'Transportation': ['Affordable Public Transportation', 'Carpool Service', 'Medical Assistance Transportation', 'Recovery Transportation Services', 'Vehicle Purchase Assistance', 'Government', 'Other']
+            }
+        };
+    }
+}
 
 // --- Utility Functions (Great-circle distance, kept for potential other uses, not for sorting) ---
 function deg2rad(deg) {
@@ -142,22 +223,18 @@ function initializeMap() {
             console.log('User location obtained via map control:', currentUserLatitude, currentUserLongitude);
             // If sort by distance was pending, re-apply
             if (sortBySelect && sortBySelect.value === 'distance' && !isFetchingLocation) {
-                 // Check if already fetching to avoid loop if 'geolocate' fires after manual request
                 console.log("User located via map, re-applying distance sort if active.");
                 applyFilters();
             }
         });
-         geolocateControl.on('error', (e) => {
+        
+        geolocateControl.on('error', (e) => {
             console.warn('Error getting location via map control:', e.message);
             // If distance sort is active, alert user or handle gracefully
             if (sortBySelect && sortBySelect.value === 'distance') {
                 alert('Could not get your location for distance sorting. Please ensure location services are enabled.');
-                // Optionally, revert to a default sort or disable the distance sort option
-                // sortBySelect.value = 'default_sort_value'; // Replace with a sensible default
-                // applyFilters();
             }
         });
-
 
     } catch (error) {
         console.error("Error initializing map:", error);
@@ -167,12 +244,103 @@ function initializeMap() {
     }
 }
 
-function updateMapMarkers(resources) {
+async function updateMapMarkers(resources) {
     if (!map) {
         console.warn("Map not initialized, cannot update markers.");
         return;
     }
 
+    // Clear existing markers
+    mapMarkers.forEach(marker => marker.remove());
+    mapMarkers = [];
+
+    if (!resources || resources.length === 0) {
+        return;
+    }
+
+    try {
+        // Use the new map-markers endpoint for optimized data
+        const filters = buildMapFilters();
+        const mapData = await APIClient.getMapMarkers(filters);
+        
+        if (!mapData || mapData.length === 0) {
+            return;
+        }
+
+        const bounds = new maplibregl.LngLatBounds();
+        let validMarkersExist = false;
+        const markerColor = '#55298a';
+
+        mapData.forEach(location => {
+            if (location.lat && location.lng) {
+                validMarkersExist = true;
+                
+                // Find corresponding resource data for distance info
+                const resourceData = resources.find(r => 
+                    r.ID === location.id || r['Location Name'] === location.name
+                );
+                
+                let distanceText = '';
+                if (resourceData && resourceData.distanceInMiles !== undefined && resourceData.distanceInMiles !== null) {
+                    distanceText = `<p class="text-info lh-1 py-0 mb-1">Distance: ${resourceData.distanceInMiles.toFixed(1)} miles</p>`;
+                } else if (resourceData && resourceData.distance !== undefined && resourceData.distance !== null && resourceData.distance !== Infinity) {
+                    const distanceInKm = resourceData.distance / 1000;
+                    const distanceInMilesVal = distanceInKm * 0.621371;
+                    distanceText = `<p class="text-info lh-1 py-0 mb-1">Distance: ${distanceInMilesVal.toFixed(1)} miles</p>`;
+                }
+
+                const popupContent = `
+                    <div class="map-popup-container" style="max-width: 300px;">
+                        <div class="row no-gutters py-0 px-1">
+                            <div class="card-body col-12 p-3">
+                                <h3 class="text-secondary fw-bold lh-1 py-0">${location.name}</h3>
+                                <h5 class="text-dark fw-light lh-1 py-0">${location.organization}</h5>
+                                ${distanceText}
+                                <p class="text-body-tertiary lh-1 py-0 mb-1">${location.address}<br />
+                                    ${location.city}, ${location.state}, ${location.zipCode}
+                                </p>
+                                <p class="mb-0">
+                                    ${location.googleMapsUrl ? `<a class="text-primary fw-bold d-block mb-1" href="${location.googleMapsUrl}" target="_blank" rel="noopener noreferrer"><i class="bi bi-geo-alt-fill"></i> Directions</a>` : ''}
+                                    ${location.website ? `<a class="text-primary d-block mb-1" href="${location.website}" target="_blank" rel="noopener noreferrer"><i class="bi bi-globe"></i> Website</a>` : ''}
+                                    ${location.phone ? `<a class="text-primary text-decoration-none fw-bold d-block" href="tel:${location.phone}"><i class="bi bi-telephone-fill text-primary"></i> ${location.phone}</a>` : 'N/A'}
+                                </p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                const popup = new maplibregl.Popup({ offset: 25, maxWidth: '320px' })
+                    .setHTML(popupContent);
+
+                const marker = new maplibregl.Marker({ color: markerColor })
+                    .setLngLat([location.lng, location.lat])
+                    .setPopup(popup)
+                    .addTo(map);
+
+                marker._resourceId = location.id;
+                mapMarkers.push(marker);
+                bounds.extend([location.lng, location.lat]);
+            }
+        });
+
+        if (validMarkersExist && !bounds.isEmpty()) {
+            if (resources.length <= RESOURCES_PER_PAGE * 2 || currentPage === 1) {
+                map.fitBounds(bounds, { padding: 70, maxZoom: 15 });
+            }
+        } else if (currentPage === 1 && allFetchedResources.length === 0) {
+            // Don't fly to default if user location is set and map is centered there by GeolocateControl
+            if (!(map.getCenter().lng === currentUserLongitude && map.getCenter().lat === currentUserLatitude)) {
+                map.flyTo({ center: [-77.0369, 38.9072], zoom: 7 });
+            }
+        }
+    } catch (error) {
+        console.error('Error updating map markers:', error);
+        // Fallback to using the resources data directly
+        updateMapMarkersFromResources(resources);
+    }
+}
+
+function updateMapMarkersFromResources(resources) {
+    // Fallback method using resource data directly
     mapMarkers.forEach(marker => marker.remove());
     mapMarkers = [];
 
@@ -190,17 +358,14 @@ function updateMapMarkers(resources) {
 
         if (!isNaN(lat) && !isNaN(lon)) {
             validMarkersExist = true;
-            // Display distance if available (e.g., from distance sort)
             let distanceText = '';
             if (resource.distanceInMiles !== undefined && resource.distanceInMiles !== null) {
-                 distanceText = `<p class="text-info lh-1 py-0 mb-1">Distance: ${resource.distanceInMiles.toFixed(1)} miles</p>`;
+                distanceText = `<p class="text-info lh-1 py-0 mb-1">Distance: ${resource.distanceInMiles.toFixed(1)} miles</p>`;
             } else if (resource.distance !== undefined && resource.distance !== null && resource.distance !== Infinity) {
-                // Assuming 'distance' from worker is in meters if not converted
                 const distanceInKm = resource.distance / 1000;
                 const distanceInMilesVal = distanceInKm * 0.621371;
                 distanceText = `<p class="text-info lh-1 py-0 mb-1">Distance: ${distanceInMilesVal.toFixed(1)} miles</p>`;
             }
-
 
             const popupContent = `
                 <div class="map-popup-container" style="max-width: 300px;">
@@ -229,82 +394,86 @@ function updateMapMarkers(resources) {
                 .setPopup(popup)
                 .addTo(map);
 
-            marker._resourceId = resource.ID || resource['Location Name']; // Use a unique ID if available
+            marker._resourceId = resource.ID || resource['Location Name'];
             mapMarkers.push(marker);
             bounds.extend([lon, lat]);
         }
     });
 
     if (validMarkersExist && !bounds.isEmpty()) {
-        if (resources.length <= RESOURCES_PER_PAGE * 2 || currentPage === 1 ) {
-             map.fitBounds(bounds, { padding: 70, maxZoom: 15 }); // Increased padding
-        }
-    } else if (currentPage === 1 && allFetchedResources.length === 0) {
-        // Don't fly to default if user location is set and map is centered there by GeolocateControl
-        if (!(map.getCenter().lng === currentUserLongitude && map.getCenter().lat === currentUserLatitude)) {
-             map.flyTo({ center: [-77.0369, 38.9072], zoom: 7 });
+        if (resources.length <= RESOURCES_PER_PAGE * 2 || currentPage === 1) {
+            map.fitBounds(bounds, { padding: 70, maxZoom: 15 });
         }
     }
 }
 
+function buildMapFilters() {
+    const filters = {};
+    
+    if (activeFilters[FILTER_TYPES.SEARCH]) {
+        filters.search = activeFilters[FILTER_TYPES.SEARCH];
+    }
+    if (activeFilters[FILTER_TYPES.COUNTIES].length > 0) {
+        filters.County = activeFilters[FILTER_TYPES.COUNTIES];
+    }
+    if (activeFilters[FILTER_TYPES.POPULATIONS].length > 0) {
+        filters.Populations = activeFilters[FILTER_TYPES.POPULATIONS];
+    }
+    if (activeFilters[FILTER_TYPES.RESOURCE_TYPES].length > 0) {
+        filters['Resource Type'] = activeFilters[FILTER_TYPES.RESOURCE_TYPES];
+    }
+    if (activeFilters[FILTER_TYPES.CATEGORIES].length > 0) {
+        filters.Category = activeFilters[FILTER_TYPES.CATEGORIES];
+    }
+    
+    return filters;
+}
 
 // --- API Interaction ---
 function constructApiUrl() {
-    const params = new URLSearchParams();
-    params.append(API_PARAMS.PAGE, currentPage);
-    params.append(API_PARAMS.LIMIT, RESOURCES_PER_PAGE);
+    const params = {
+        [API_PARAMS.PAGE]: currentPage,
+        [API_PARAMS.LIMIT]: RESOURCES_PER_PAGE
+    };
 
     const sortValue = sortBySelect.value;
     if (sortValue) {
-        params.append(API_PARAMS.SORT, sortValue);
+        params[API_PARAMS.SORT] = sortValue;
         // If sorting by distance, add user coordinates
         if (sortValue === 'distance' && currentUserLatitude !== null && currentUserLongitude !== null) {
-            params.append(API_PARAMS.USER_LAT, currentUserLatitude);
-            params.append(API_PARAMS.USER_LON, currentUserLongitude);
+            params[API_PARAMS.USER_LAT] = currentUserLatitude;
+            params[API_PARAMS.USER_LON] = currentUserLongitude;
         } else if (sortValue === 'distance' && (currentUserLatitude === null || currentUserLongitude === null)) {
             console.warn("Attempting to sort by distance, but user location is not available.");
-            // Potentially remove sort=distance if location is missing to avoid backend error or unwanted behavior
-            params.delete(API_PARAMS.SORT);
-            // Or you could add a default sort: params.append(API_PARAMS.SORT, 'default_sort_field');
+            delete params[API_PARAMS.SORT];
         }
     }
-    /*
-    IMPORTANT FOR ALPHABETICAL/COUNTY SORT:
-    The HTML for the sortBySelect dropdown should have <option> elements
-    where the `value` attribute exactly matches the NocoDB column name you want to sort by.
-    For example:
-    <select id="sort-by" class="form-select">
-        <option value="">Sort by...</option>
-        <option value="Location Name">Alphabetical (Name)</option> <option value="County">County</option> <option value="distance">Distance (Nearest)</option> <option value="-Location Name">Alphabetical (Name Z-A)</option> </select>
-    The backend worker passes these values directly to NocoDB.
-    */
-
 
     if (activeFilters[FILTER_TYPES.SEARCH]) {
-        params.append(API_PARAMS.SEARCH, activeFilters[FILTER_TYPES.SEARCH]);
+        params[API_PARAMS.SEARCH] = activeFilters[FILTER_TYPES.SEARCH];
     }
-    activeFilters[FILTER_TYPES.COUNTIES].forEach(county => params.append(API_PARAMS.COUNTY, county));
-    activeFilters[FILTER_TYPES.POPULATIONS].forEach(population => params.append(API_PARAMS.POPULATIONS, population));
-    activeFilters[FILTER_TYPES.RESOURCE_TYPES].forEach(type => params.append(API_PARAMS.RESOURCE_TYPE, type));
-    activeFilters[FILTER_TYPES.CATEGORIES].forEach(category => params.append(API_PARAMS.CATEGORY, category));
+    if (activeFilters[FILTER_TYPES.COUNTIES].length > 0) {
+        params[API_PARAMS.COUNTY] = activeFilters[FILTER_TYPES.COUNTIES];
+    }
+    if (activeFilters[FILTER_TYPES.POPULATIONS].length > 0) {
+        params[API_PARAMS.POPULATIONS] = activeFilters[FILTER_TYPES.POPULATIONS];
+    }
+    if (activeFilters[FILTER_TYPES.RESOURCE_TYPES].length > 0) {
+        params[API_PARAMS.RESOURCE_TYPE] = activeFilters[FILTER_TYPES.RESOURCE_TYPES];
+    }
+    if (activeFilters[FILTER_TYPES.CATEGORIES].length > 0) {
+        params[API_PARAMS.CATEGORY] = activeFilters[FILTER_TYPES.CATEGORIES];
+    }
 
-    return `${API_BASE_URL}?${params.toString()}`;
+    return params;
 }
 
-async function fetchResources(url, shouldAppend = false) {
-    console.log("Fetching resources from URL:", url); // Log the URL
+async function fetchResources(shouldAppend = false) {
+    console.log("Fetching resources"); // Log the request
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`HTTP error! status: ${response.status}, URL: ${url}, Response: ${errorText}`);
-            resourceListDiv.innerHTML = `<div class="alert alert-danger">Failed to load resources. Server returned status ${response.status}. Please try again later.</div>`;
-            updateLoadMoreVisibility(true);
-            if (!shouldAppend) allFetchedResources = [];
-            updateMapMarkers(allFetchedResources);
-            return;
-        }
-        const data = await response.json();
+        const params = constructApiUrl();
+        const data = await APIClient.getData(params);
+        
         const newResources = data.list || [];
         const pageInfo = data.pageInfo || {};
 
@@ -312,7 +481,7 @@ async function fetchResources(url, shouldAppend = false) {
             totalResourceCount = pageInfo.totalRows || 0;
             allFetchedResources = newResources;
         } else {
-            totalResourceCount = pageInfo.totalRows || totalResourceCount; // Use new total if available
+            totalResourceCount = pageInfo.totalRows || totalResourceCount;
             allFetchedResources = allFetchedResources.concat(newResources);
         }
 
@@ -339,14 +508,13 @@ function renderCategoryFilters() {
     const visibleCategories = new Set(['Government', 'Other']); // Ensure these are always options
 
     selectedResourceTypes.forEach(type => {
-        if (CATEGORY_OPTIONS[type]) {
-            CATEGORY_OPTIONS[type].forEach(cat => visibleCategories.add(cat));
+        if (FILTER_OPTIONS.Category[type]) {
+            FILTER_OPTIONS.Category[type].forEach(cat => visibleCategories.add(cat));
         }
     });
 
     // Add any currently selected categories even if their parent resource type is deselected
     activeFilters[FILTER_TYPES.CATEGORIES].forEach(cat => visibleCategories.add(cat));
-
 
     Array.from(visibleCategories).sort().forEach(category => {
         const id = `category-${category.toLowerCase().replace(/\s+/g, '-')}`;
@@ -394,8 +562,6 @@ function syncChipsWithFilters() {
     }
 }
 
-
-
 function renderResources(resourcesToRender, shouldAppend = false) {
     if (!resourceListDiv) return;
     if (!shouldAppend) {
@@ -409,17 +575,14 @@ function renderResources(resourcesToRender, shouldAppend = false) {
             const resourceIdentifier = resource.ID || resource['Location Name'] || Math.random().toString(36).substring(7);
 
             // Display distance if available from worker (e.g., after distance sort)
-            // The worker might add a 'distance' (meters) or 'distanceInMiles' field.
             let distanceDisplay = '';
             if (resource.distanceInMiles !== undefined && resource.distanceInMiles !== null) {
-                 distanceDisplay = `<h6 class="text-info">Distance: ${resource.distanceInMiles.toFixed(1)} miles</h6>`;
+                distanceDisplay = `<h6 class="text-info">Distance: ${resource.distanceInMiles.toFixed(1)} miles</h6>`;
             } else if (resource.distance !== undefined && resource.distance !== null && resource.distance !== Infinity) {
-                // Assuming 'distance' from worker is in meters if not converted
                 const distanceInKm = resource.distance / 1000;
                 const distanceInMilesVal = distanceInKm * 0.621371;
                 distanceDisplay = `<h6 class="text-info">Distance: ${distanceInMilesVal.toFixed(1)} miles</h6>`;
             }
-
 
             cardElement.innerHTML = `
                 <div class="resourceCard shadow-lg text-bg-white br-5-5-5-5 mb-5">
@@ -490,8 +653,7 @@ function applyFilters(shouldResetPage = true) {
         currentPage = 1;
         allFetchedResources = [];
     }
-    const apiUrl = constructApiUrl();
-    fetchResources(apiUrl, false);
+    fetchResources(false);
 }
 
 function handleSortChange() {
@@ -536,16 +698,15 @@ function handleSortChange() {
 }
 
 function handleFilterChangeDelegated(event) {
-  if (!event.target.matches('input[type="checkbox"]')) return;
+    if (!event.target.matches('input[type="checkbox"]')) return;
 
-  handleFilterChange(event);
+    handleFilterChange(event);
 
-  // This ensures categories update on Resource Type change
-  if (event.target.classList.contains('resource-type-filter')) {
-    renderCategoryFilters();
-  }
+    // This ensures categories update on Resource Type change
+    if (event.target.classList.contains('resource-type-filter')) {
+        renderCategoryFilters();
+    }
 }
-
 
 function handleFilterChange(event) {
     const checkbox = event.target;
@@ -574,8 +735,8 @@ function handleFilterChange(event) {
             // If resource types change, re-render category filters
             // Also, if all resource types are deselected, clear category filters
             if (activeFilters[FILTER_TYPES.RESOURCE_TYPES].length === 0) {
-                 activeFilters[FILTER_TYPES.CATEGORIES].forEach(catVal => removeFilterChipFromUI(FILTER_TYPES.CATEGORIES, catVal));
-                 activeFilters[FILTER_TYPES.CATEGORIES] = [];
+                activeFilters[FILTER_TYPES.CATEGORIES].forEach(catVal => removeFilterChipFromUI(FILTER_TYPES.CATEGORIES, catVal));
+                activeFilters[FILTER_TYPES.CATEGORIES] = [];
             }
             renderCategoryFilters();
         }
@@ -617,7 +778,6 @@ function addFilterChip(filterType, filterValue) {
     chipsArea.appendChild(chip);
 }
 
-
 function removeFilter(filterType, filterValue) {
     if (filterType === FILTER_TYPES.SEARCH) {
         activeFilters[FILTER_TYPES.SEARCH] = '';
@@ -654,7 +814,6 @@ function removeFilterChipFromUI(filterType, filterValue) {
 }
 
 // --- Event Listeners Setup ---
-// --- Event Listeners Setup ---
 function initializeEventListeners() {
     if (filterButton) {
         filterButton.addEventListener('click', handleFilterWithLoader);
@@ -685,8 +844,7 @@ function initializeEventListeners() {
     if (loadMoreButton) {
         loadMoreButton.addEventListener('click', () => {
             currentPage++;
-            const apiUrl = constructApiUrl();
-            fetchResources(apiUrl, true);
+            fetchResources(true);
         });
     }
 
@@ -700,7 +858,8 @@ function initializeEventListeners() {
         resourceListDiv.addEventListener('click', handleMapViewLinkClickDelegated);
     }
 
-    // ADD THIS NEW BLOCK FOR OFFCANVAS
+    // Offcanvas handling
+    const filterOffcanvas = document.getElementById('filterOffcanvas');
     if (filterOffcanvas) {
         filterOffcanvas.addEventListener('show.bs.offcanvas', () => {
             showResultsSectionIfHidden();
@@ -749,17 +908,8 @@ function handleFilterWithLoader() {
     setTimeout(() => {
         if (loaderContainer) loaderContainer.style.display = "none";
         if (resultsSection) resultsSection.style.display = "block";
-        applyFilters(true); // or whatever triggers your filter logic
+        applyFilters(true);
     }, 4000);
-}
-
-function handleFilterChangeDelegated(event) {
-    if (event.target.matches('input[type="checkbox"].county-filter') ||
-        event.target.matches('input[type="checkbox"].population-filter') ||
-        event.target.matches('input[type="checkbox"].resource-type-filter') ||
-        event.target.matches('input[type="checkbox"].category-filter')) {
-        handleFilterChange(event);
-    }
 }
 
 function handleResourceBadgeClickDelegated(event) {
@@ -784,8 +934,7 @@ function handleResourceBadgeClickDelegated(event) {
                 const changeEvent = new Event('change', { bubbles: true });
                 correspondingCheckbox.dispatchEvent(changeEvent);
             } else if (!correspondingCheckbox && Array.isArray(activeFilters[filterType]) && !activeFilters[filterType].includes(filterValue)) {
-                // Fallback for cases where a direct checkbox might not exist (less common now)
-                // or if the badge represents a filter that isn't tied to a visible checkbox set
+                // Fallback for cases where a direct checkbox might not exist
                 activeFilters[filterType].push(filterValue);
                 addFilterChip(filterType, filterValue);
                 applyFilters();
@@ -819,12 +968,12 @@ function handleMapViewLinkClickDelegated(event) {
                         m.togglePopup();
                     }
                 });
-                // Timeout to allow map to fly before opening popup, can make UX smoother
+                // Timeout to allow map to fly before opening popup
                 setTimeout(() => {
-                    if (targetMarker.getPopup()) { // Check if popup exists
+                    if (targetMarker.getPopup()) {
                         targetMarker.togglePopup();
                     }
-                }, 600); // Adjust timing as needed
+                }, 600);
             }
         } else {
             console.warn("Invalid coordinates for map link:", mapLink.dataset);
@@ -832,38 +981,46 @@ function handleMapViewLinkClickDelegated(event) {
     }
 }
 
-// --- Initial Load ---
-document.addEventListener('DOMContentLoaded', () => {
-    // ---- Existing Setup (No Changes Here) ----
-    const urlParams = new URLSearchParams(window.location.search);
+function showResultsSectionIfHidden() {
+    if (resultsSection && resultsSection.style.display === 'none') {
+        resultsSection.style.display = 'block';
+    }
+}
 
-    // Check URL for search parameter and pre-fill search input
+// --- Initial Load ---
+document.addEventListener('DOMContentLoaded', async () => {
+    // Check for essential DOM elements
+    if (!searchInput || !searchButton || !chipsArea || !countyFiltersDiv || !populationFiltersDiv ||
+        !resourceTypeFiltersDiv || !categoryFiltersDiv || !resourceListDiv || !resultsCounter ||
+        !loadMoreButton || !loadMoreDiv || !sortBySelect || !mapDiv) {
+        console.error("One or more essential DOM elements are missing. Script will not run correctly.");
+        if (document.body) {
+            const errorMsgDiv = document.createElement('div');
+            errorMsgDiv.className = 'alert alert-danger m-3';
+            errorMsgDiv.textContent = 'Error: Critical page elements are missing. The application may not function correctly.';
+            document.body.prepend(errorMsgDiv);
+        }
+        return;
+    }
+
+    // Load filter options from API
+    await loadFilterOptions();
+
+    // Initialize components
+    initializeMap();
+    initializeEventListeners();
+    renderCategoryFilters();
+    
+    // Check URL for initial search parameter
+    const urlParams = new URLSearchParams(window.location.search);
     const initialSearchTerm = urlParams.get('search');
     if (searchInput && initialSearchTerm) {
         searchInput.value = initialSearchTerm;
         activeFilters[FILTER_TYPES.SEARCH] = initialSearchTerm;
     }
 
-    if (!searchInput || !searchButton || !chipsArea || !countyFiltersDiv || !populationFiltersDiv ||
-        !resourceTypeFiltersDiv || !categoryFiltersDiv || !resourceListDiv || !resultsCounter ||
-        !loadMoreButton || !loadMoreDiv || !sortBySelect || !mapDiv) {
-        console.error("One or more essential DOM elements are missing. Script will not run correctly.");
-        if (document.body) {
-             const errorMsgDiv = document.createElement('div');
-             errorMsgDiv.className = 'alert alert-danger m-3';
-             errorMsgDiv.textContent = 'Error: Critical page elements are missing. The application may not function correctly.';
-             document.body.prepend(errorMsgDiv);
-        }
-        return;
-    }
-
-    initializeMap();
-    initializeEventListeners();
-    renderCategoryFilters();
     syncCheckboxesWithFilters();
     syncChipsWithFilters();
-
-    // ---- NEW LOGIC STARTS HERE ----
 
     // Check if any filter parameters exist in the URL
     if (urlParams.size > 0) {
@@ -894,6 +1051,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loaderContainer) loaderContainer.style.display = "none";
     }
 });
+
 // Handle county card clicks to filter results
 document.querySelectorAll('.county-card').forEach(card => {
     card.addEventListener('click', (e) => {
@@ -915,7 +1073,7 @@ document.querySelectorAll('.county-card').forEach(card => {
         loaderContainer?.style.setProperty('display', 'flex');
 
         const countySearchSection = document.getElementById('countySearch');
-        if (countySearchSection) countySearchSection.classList.remove('show'); // Bootstrap collapse
+        if (countySearchSection) countySearchSection.classList.remove('show');
 
         applyFilters(true);
 
@@ -929,6 +1087,7 @@ document.querySelectorAll('.county-card').forEach(card => {
         }, 200);
     });
 });
+
 // Handle resource type card clicks to filter results
 document.querySelectorAll('.resource-type-card').forEach(card => {
     card.addEventListener('click', (e) => {
@@ -959,7 +1118,6 @@ document.querySelectorAll('.resource-type-card').forEach(card => {
 
         // Wait for results to load, then show the results section
         const checkInterval = setInterval(() => {
-            // Check if results are loaded or if a "no results" message is shown
             const resultsLoaded = resourceListDiv && (resourceListDiv.querySelector('.resourceCard') || resourceListDiv.querySelector('.alert-info'));
             if (resultsLoaded) {
                 loaderContainer.style.display = 'none';

@@ -93,6 +93,23 @@
             opacity: 1;
         }
         
+        .resize-handle {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+            cursor: col-resize;
+            z-index: 20;
+            background: transparent;
+            border-right: 2px solid transparent;
+        }
+        
+        .resize-handle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-right: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
         .table tbody tr {
             transition: background-color 0.2s;
             height: 30px;
@@ -183,11 +200,11 @@
             font-size: 0.7em;
             padding: 0.2em 0.4em;
         }
-      
-      .badge-county {
-        background-color: #de3545;
-        color: white;
-      }
+        
+        .badge-county {
+            background-color: #dc3545;
+            color: white;
+        }
         
         .badge-resource-type {
             background-color: #55298a;
@@ -481,126 +498,753 @@
     
     <script>
         // Configuration
-        const API_BASE_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/';
-        const MAPTILER_API_KEY = '1nPjVtGASMJJCaJkeKXQ';
-        
-        // Map variables
-        let map;
-        let mapMarkers = [];
-        
-        // Filter options
-        const FILTER_OPTIONS = {
-            'Resource Type': ['Recovery Support', 'Family Support', 'Housing', 'Transportation'],
-            'Populations Served': ['Men', 'Women', 'Children', 'Adolescents', 'Unknown'],
-            'County': ['Philadelphia', 'Berks', 'Bucks', 'Chester', 'Delaware', 'Lancaster', 'Montgomery', 'Schuylkill'],
-            'Category': {
-                'Recovery Support': ['Single County Authority', 'Center of Excellence', 'Regional Recovery Hub', 'Recovery Community Organization', 'Warm Handoff', 'Government', 'Other'],
-                'Family Support': ['Family Counseling', 'Family Peer Support', 'Family Assistance Program', 'Family Education Program', 'Family Resources', 'Government', 'Other'],
-                'Housing': ['Recovery House', 'Halfway House', 'Housing Assistance', 'Government', 'DDAP Licensed', 'Other'],
-                'Transportation': ['Affordable Public Transportation', 'Carpool Service', 'Medical Assistance Transportation', 'Recovery Transportation Services', 'Vehicle Purchase Assistance', 'Government', 'Other']
+        const CONFIG = {
+            API_BASE_URL: 'https://resourcesdatabaseproxy.crodican.workers.dev/',
+            MAPTILER_API_KEY: '1nPjVtGASMJJCaJkeKXQ',
+            DEFAULT_PAGE_SIZE: 25,
+            DEBOUNCE_DELAY: 300
+        };
+
+        // Application State
+        const AppState = {
+            // Data
+            currentData: [],
+            totalRows: 0,
+            filterOptions: {},
+            
+            // UI State
+            currentPage: 1,
+            recordsPerPage: CONFIG.DEFAULT_PAGE_SIZE,
+            currentSort: '',
+            sortDirection: 'asc',
+            isLoading: false,
+            
+            // Filters
+            activeFilters: {
+                search: '',
+                County: [],
+                'Resource Type': [],
+                'Populations Served': [],
+                Category: []
+            },
+
+            // Map
+            map: null,
+            mapMarkers: []
+        };
+
+        // API Client
+        class APIClient {
+            static async request(endpoint, params = {}) {
+                try {
+                    const url = new URL(endpoint, CONFIG.API_BASE_URL);
+                    Object.keys(params).forEach(key => {
+                        if (Array.isArray(params[key])) {
+                            params[key].forEach(value => url.searchParams.append(key, value));
+                        } else if (params[key] !== null && params[key] !== undefined && params[key] !== '') {
+                            url.searchParams.append(key, params[key]);
+                        }
+                    });
+
+                    console.log('API Request:', url.toString());
+                    const response = await fetch(url);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.error?.message || 'API request failed');
+                    }
+                    
+                    return data.data;
+                } catch (error) {
+                    console.error('API Error:', error);
+                    throw error;
+                }
+            }
+
+            static async getFilters() {
+                return this.request('filters');
+            }
+
+            static async getMapMarkers(filters = {}) {
+                return this.request('map-markers', filters);
+            }
+
+            static async getData(params = {}) {
+                return this.request('', params);
+            }
+        }
+
+        // DOM Elements Cache
+        const DOM = {
+            init() {
+                this.searchInput = document.getElementById('search-input');
+                this.searchBtn = document.getElementById('search-btn');
+                this.perPageSelect = document.getElementById('per-page-select');
+                this.clearFiltersBtn = document.getElementById('clear-filters-btn');
+                
+                this.loadingSpinner = document.getElementById('loading-spinner');
+                this.tableContainer = document.getElementById('table-container');
+                this.tableBody = document.getElementById('table-body');
+                this.resultsInfo = document.getElementById('results-info');
+                this.pagination = document.getElementById('pagination');
+                this.exportBtn = document.getElementById('export-btn');
+                
+                this.activeFiltersDiv = document.getElementById('active-filters');
+                this.filterChipsDiv = document.getElementById('filter-chips');
+                
+                this.mapContainer = document.getElementById('map');
             }
         };
-        
-        // State variables
-        let currentPage = 1;
-        let totalRows = 0;
-        let recordsPerPage = 25;
-        let currentSort = '';
-        let sortDirection = 'asc';
-        let allData = [];
-        
-        // Active filters
-        let activeFilters = {
-            search: '',
-            County: [],
-            'Resource Type': [],
-            'Populations Served': [],
-            Category: []
+
+        // Utility Functions
+        const Utils = {
+            debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            },
+
+            escapeHtml(text) {
+                const map = {
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;',
+                    '"': '&quot;', "'": '&#039;'
+                };
+                return String(text || '').replace(/[&<>"']/g, m => map[m]);
+            },
+
+            formatPhoneUrl(phone) {
+                return phone ? `tel:${phone.replace(/[^\d+]/g, '')}` : null;
+            },
+
+            showLoading() {
+                AppState.isLoading = true;
+                DOM.loadingSpinner.style.display = 'flex';
+                DOM.tableContainer.style.display = 'none';
+                DOM.exportBtn.disabled = true;
+            },
+
+            hideLoading() {
+                AppState.isLoading = false;
+                DOM.loadingSpinner.style.display = 'none';
+                DOM.tableContainer.style.display = 'block';
+            }
         };
 
-        // DOM elements
-        const searchInput = document.getElementById('search-input');
-        const searchBtn = document.getElementById('search-btn');
-        const perPageSelect = document.getElementById('per-page-select');
-        const clearFiltersBtn = document.getElementById('clear-filters-btn');
-        const resultsInfo = document.getElementById('results-info');
-        const loadingSpinner = document.getElementById('loading-spinner');
-        const tableContainer = document.getElementById('table-container');
-        const tableBody = document.getElementById('table-body');
-        const pagination = document.getElementById('pagination');
-        const exportBtn = document.getElementById('export-btn');
-        const activeFiltersDiv = document.getElementById('active-filters');
-        const filterChipsDiv = document.getElementById('filter-chips');
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeEventListeners();
-            initializeFilters();
-            initializeMap();
-            initializeResizableColumns();
-            loadData();
-        });
-
-        function initializeEventListeners() {
-            // Search functionality
-            searchBtn.addEventListener('click', handleSearch);
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    handleSearch();
+        // Filter Management
+        const FilterManager = {
+            async loadFilterOptions() {
+                try {
+                    AppState.filterOptions = await APIClient.getFilters();
+                    this.initializeDropdowns();
+                } catch (error) {
+                    console.error('Failed to load filter options:', error);
+                    this.initializeDropdowns();
                 }
-            });
+            },
 
-            // Filter changes
-            perPageSelect.addEventListener('change', handlePerPageChange);
-            clearFiltersBtn.addEventListener('click', clearAllFilters);
+            initializeDropdowns() {
+                const filterTypes = ['County', 'Resource Type', 'Populations Served'];
+                
+                filterTypes.forEach(filterType => {
+                    const options = AppState.filterOptions[filterType] || [];
+                    this.createFilterDropdown(filterType, options);
+                });
+                
+                this.initializeCategoryDropdown();
+                this.setupEventListeners();
+            },
 
-            // Table sorting
-            document.querySelectorAll('th.sortable').forEach(th => {
-                th.addEventListener('click', function(e) {
-                    if (!e.target.closest('.filter-dropdown') && !e.target.closest('.resize-handle')) {
-                        handleSort(this.dataset.column);
+            createFilterDropdown(filterType, options) {
+                const dropdownId = this.getDropdownId(filterType);
+                const dropdown = document.getElementById(dropdownId);
+                
+                if (!dropdown || !options.length) return;
+                
+                dropdown.innerHTML = options.map(option => {
+                    const safeId = `${filterType}-${option}`.replace(/[^a-zA-Z0-9-_]/g, '-');
+                    return `
+                        <div class="filter-option">
+                            <input type="checkbox" id="${safeId}" value="${option}">
+                            <label for="${safeId}">${option}</label>
+                        </div>
+                    `;
+                }).join('');
+
+                dropdown.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.addEventListener('change', (e) => {
+                        this.handleFilterChange(filterType, e.target.value, e.target.checked);
+                    });
+                });
+            },
+
+            initializeCategoryDropdown() {
+                const categories = AppState.filterOptions.Category || {};
+                const allCategories = new Set();
+                Object.values(categories).forEach(cats => 
+                    cats.forEach(cat => allCategories.add(cat))
+                );
+                
+                this.createFilterDropdown('Category', Array.from(allCategories).sort());
+            },
+
+            updateCategoryDropdown() {
+                const selectedResourceTypes = AppState.activeFilters['Resource Type'];
+                const categories = AppState.filterOptions.Category || {};
+                
+                if (selectedResourceTypes.length === 0) {
+                    this.initializeCategoryDropdown();
+                    return;
+                }
+                
+                const availableCategories = new Set();
+                selectedResourceTypes.forEach(resourceType => {
+                    if (categories[resourceType]) {
+                        categories[resourceType].forEach(cat => availableCategories.add(cat));
                     }
                 });
-            });
-
-            // Export functionality
-            exportBtn.addEventListener('click', exportToCSV);
-
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.filter-header')) {
-                    closeAllDropdowns();
-                }
-            });
-        }
-
-        function initializeMap() {
-            map = new maplibregl.Map({
-                container: 'map',
-                style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_API_KEY}`,
-                center: [-75.1652, 39.9526], // Philadelphia center
-                zoom: 9
-            });
-
-            map.addControl(new maplibregl.NavigationControl(), 'top-right');
-        }
-
-        function initializeResizableColumns() {
-            const table = document.getElementById('resources-table');
-            const headers = table.querySelectorAll('thead th');
-            
-            headers.forEach((header) => {
-                // Create resize handle
-                const resizeHandle = document.createElement('div');
-                resizeHandle.className = 'resize-handle';
-                resizeHandle.title = 'Drag to resize column';
-                header.appendChild(resizeHandle);
                 
+                this.createFilterDropdown('Category', Array.from(availableCategories).sort());
+                
+                AppState.activeFilters.Category = AppState.activeFilters.Category
+                    .filter(cat => availableCategories.has(cat));
+            },
+
+            handleFilterChange(filterType, value, checked) {
+                if (checked) {
+                    if (!AppState.activeFilters[filterType].includes(value)) {
+                        AppState.activeFilters[filterType].push(value);
+                    }
+                } else {
+                    AppState.activeFilters[filterType] = AppState.activeFilters[filterType]
+                        .filter(v => v !== value);
+                }
+                
+                if (filterType === 'Resource Type') {
+                    this.updateCategoryDropdown();
+                }
+                
+                this.updateUI();
+                AppState.currentPage = 1;
+                DataManager.loadData();
+            },
+
+            setupEventListeners() {
+                document.querySelectorAll('.filter-header').forEach(header => {
+                    header.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const column = header.dataset.column;
+                        if (this.isFilterColumn(column) && !e.target.closest('.resize-handle')) {
+                            this.toggleDropdown(column);
+                        }
+                    });
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.filter-header')) {
+                        this.closeAllDropdowns();
+                    }
+                });
+            },
+
+            isFilterColumn(column) {
+                return ['County', 'Resource Type', 'Category', 'Populations Served'].includes(column);
+            },
+
+            toggleDropdown(filterType) {
+                const dropdownId = this.getDropdownId(filterType);
+                const dropdown = document.getElementById(dropdownId);
+                
+                if (!dropdown) return;
+                
+                this.closeAllDropdowns();
+                dropdown.classList.toggle('show');
+            },
+
+            closeAllDropdowns() {
+                document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                });
+            },
+
+            getDropdownId(filterType) {
+                const mapping = {
+                    'County': 'county-filter-dropdown',
+                    'Resource Type': 'resource-type-filter-dropdown',
+                    'Category': 'category-filter-dropdown',
+                    'Populations Served': 'populations-filter-dropdown'
+                };
+                return mapping[filterType];
+            },
+
+            clearAll() {
+                AppState.activeFilters = {
+                    search: '',
+                    County: [],
+                    'Resource Type': [],
+                    'Populations Served': [],
+                    Category: []
+                };
+                
+                DOM.searchInput.value = '';
+                
+                document.querySelectorAll('.filter-dropdown input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                this.updateCategoryDropdown();
+                this.updateUI();
+            },
+
+            updateUI() {
+                this.updateIndicators();
+                this.updateFilterChips();
+            },
+
+            updateIndicators() {
+                ['County', 'Resource Type', 'Category', 'Populations Served'].forEach(filterType => {
+                    const indicatorId = this.getDropdownId(filterType).replace('-dropdown', '-indicator');
+                    const indicator = document.getElementById(indicatorId);
+                    
+                    if (indicator) {
+                        if (AppState.activeFilters[filterType]?.length > 0) {
+                            indicator.classList.add('active');
+                        } else {
+                            indicator.classList.remove('active');
+                        }
+                    }
+                });
+            },
+
+            updateFilterChips() {
+                const chips = [];
+                
+                if (AppState.activeFilters.search) {
+                    chips.push({ 
+                        type: 'search', 
+                        value: AppState.activeFilters.search, 
+                        label: `Search: "${AppState.activeFilters.search}"` 
+                    });
+                }
+                
+                ['County', 'Resource Type', 'Category', 'Populations Served'].forEach(filterType => {
+                    if (AppState.activeFilters[filterType]?.length > 0) {
+                        AppState.activeFilters[filterType].forEach(value => {
+                            chips.push({ 
+                                type: filterType, 
+                                value: value, 
+                                label: `${filterType}: ${value}` 
+                            });
+                        });
+                    }
+                });
+                
+                if (chips.length > 0) {
+                    DOM.activeFiltersDiv.style.display = 'block';
+                    DOM.filterChipsDiv.innerHTML = chips.map(chip => 
+                        `<span class="filter-chip">
+                            ${chip.label}
+                            <button type="button" class="btn-close" onclick="FilterManager.removeFilter('${chip.type}', '${chip.value}')" aria-label="Remove filter"></button>
+                        </span>`
+                    ).join('');
+                } else {
+                    DOM.activeFiltersDiv.style.display = 'none';
+                }
+            },
+
+            removeFilter(type, value) {
+                if (type === 'search') {
+                    AppState.activeFilters.search = '';
+                    DOM.searchInput.value = '';
+                } else if (AppState.activeFilters[type]) {
+                    AppState.activeFilters[type] = AppState.activeFilters[type].filter(v => v !== value);
+                    
+                    const safeId = `${type}-${value}`.replace(/[^a-zA-Z0-9-_]/g, '-');
+                    const checkbox = document.getElementById(safeId);
+                    if (checkbox) {
+                        checkbox.checked = false;
+                    }
+                }
+                
+                if (type === 'Resource Type') {
+                    this.updateCategoryDropdown();
+                }
+                
+                AppState.currentPage = 1;
+                this.updateUI();
+                DataManager.loadData();
+            }
+        };
+
+        // Data Management
+        const DataManager = {
+            async loadData() {
+                Utils.showLoading();
+                
+                try {
+                    const params = this.buildRequestParams();
+                    const data = await APIClient.getData(params);
+                    
+                    AppState.currentData = data.list || [];
+                    AppState.totalRows = data.pageInfo?.totalRows || 0;
+                    
+                    TableRenderer.render(AppState.currentData);
+                    PaginationManager.render();
+                    this.updateResultsInfo();
+                    MapManager.updateMarkers();
+                    
+                    DOM.exportBtn.disabled = AppState.currentData.length === 0;
+                    
+                } catch (error) {
+                    console.error('Error loading data:', error);
+                    this.showError(error.message);
+                } finally {
+                    Utils.hideLoading();
+                }
+            },
+
+            buildRequestParams() {
+                const params = {
+                    page: AppState.currentPage,
+                    limit: AppState.recordsPerPage
+                };
+                
+                if (AppState.currentSort) {
+                    const sortParam = AppState.sortDirection === 'desc' ? 
+                        `-${AppState.currentSort}` : AppState.currentSort;
+                    params.sort = sortParam;
+                }
+                
+                if (AppState.activeFilters.search) {
+                    params.search = AppState.activeFilters.search;
+                }
+                
+                // Add array filters
+                ['County', 'Resource Type', 'Category'].forEach(filterType => {
+                    if (AppState.activeFilters[filterType]?.length > 0) {
+                        params[filterType] = AppState.activeFilters[filterType];
+                    }
+                });
+                
+                // Special handling for Populations Served
+                if (AppState.activeFilters['Populations Served']?.length > 0) {
+                    params.Populations = AppState.activeFilters['Populations Served'];
+                }
+                
+                return params;
+            },
+
+            updateResultsInfo() {
+                const start = (AppState.currentPage - 1) * AppState.recordsPerPage + 1;
+                const end = Math.min(AppState.currentPage * AppState.recordsPerPage, AppState.totalRows);
+                
+                if (AppState.totalRows === 0) {
+                    DOM.resultsInfo.textContent = 'No resources found';
+                } else {
+                    DOM.resultsInfo.textContent = `Showing ${start}-${end} of ${AppState.totalRows} resources`;
+                }
+            },
+
+            showError(message) {
+                DOM.tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="12" class="text-center text-danger py-4">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            Error: ${Utils.escapeHtml(message)}
+                        </td>
+                    </tr>
+                `;
+                DOM.resultsInfo.textContent = 'Error loading data';
+            }
+        };
+
+        // Table Rendering
+        const TableRenderer = {
+            render(data) {
+                if (!data || data.length === 0) {
+                    DOM.tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="12" class="text-center text-muted py-4">
+                                <i class="bi bi-inbox me-2"></i>
+                                No resources found with the current filters.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                DOM.tableBody.innerHTML = data.map(resource => this.renderRow(resource)).join('');
+            },
+
+            renderRow(resource) {
+                return `
+                    <tr>
+                        <td>
+                            <div class="location-name-cell">
+                                ${resource.Image ? 
+                                    `<img src="${Utils.escapeHtml(resource.Image)}" alt="Location" class="location-image" onerror="this.style.display='none'">` : 
+                                    ''
+                                }
+                                <strong>${Utils.escapeHtml(resource['Location Name'] || 'N/A')}</strong>
+                            </div>
+                        </td>
+                        <td>${Utils.escapeHtml(resource.Organization || 'N/A')}</td>
+                        <td>
+                            ${resource.County ? 
+                                `<span class="badge badge-county">${Utils.escapeHtml(resource.County)}</span>` : 
+                                'N/A'
+                            }
+                        </td>
+                        <td>
+                            ${resource['Resource Type'] ? 
+                                `<span class="badge badge-resource-type">${Utils.escapeHtml(resource['Resource Type'])}</span>` : 
+                                'N/A'
+                            }
+                        </td>
+                        <td>
+                            ${resource.Category ? 
+                                resource.Category.split(',').map(cat => 
+                                    `<span class="badge badge-category">${Utils.escapeHtml(cat.trim())}</span>`
+                                ).join(' ') : 
+                                'N/A'
+                            }
+                        </td>
+                        <td>
+                            ${resource['Populations Served'] ? 
+                                resource['Populations Served'].split(',').map(pop => 
+                                    `<span class="badge badge-population">${Utils.escapeHtml(pop.trim())}</span>`
+                                ).join(' ') : 
+                                'N/A'
+                            }
+                        </td>
+                        <td>
+                            ${resource.Phone ? 
+                                `<a href="${Utils.formatPhoneUrl(resource.Phone)}" class="btn-link">
+                                    <i class="bi bi-telephone me-1"></i>${Utils.escapeHtml(resource.Phone)}
+                                </a>` : 
+                                'N/A'
+                            }
+                        </td>
+                        <td>
+                            ${resource.Website ? 
+                                `<a href="${Utils.escapeHtml(resource.Website)}" target="_blank" class="btn-link" title="Visit Website">
+                                    <i class="bi bi-globe"></i>
+                                </a>` : 
+                                'N/A'
+                            }
+                        </td>
+                        <td>${Utils.escapeHtml(resource.Address || 'N/A')}</td>
+                        <td>${Utils.escapeHtml(resource.City || 'N/A')}</td>
+                        <td>${Utils.escapeHtml(resource.State || 'N/A')}</td>
+                        <td>${Utils.escapeHtml(resource['Zip Code'] || 'N/A')}</td>
+                    </tr>
+                `;
+            }
+        };
+
+        // Pagination Management
+        const PaginationManager = {
+            render() {
+                const totalPages = Math.ceil(AppState.totalRows / AppState.recordsPerPage);
+                
+                if (totalPages <= 1) {
+                    DOM.pagination.innerHTML = '';
+                    return;
+                }
+
+                const startPage = Math.max(1, AppState.currentPage - 2);
+                const endPage = Math.min(totalPages, AppState.currentPage + 2);
+
+                let html = this.createPageButton('prev', AppState.currentPage - 1, AppState.currentPage <= 1);
+                
+                if (startPage > 1) {
+                    html += this.createPageButton('page', 1);
+                    if (startPage > 2) {
+                        html += '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                    }
+                }
+                
+                for (let i = startPage; i <= endPage; i++) {
+                    html += this.createPageButton('page', i, false, i === AppState.currentPage);
+                }
+                
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        html += '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                    }
+                    html += this.createPageButton('page', totalPages);
+                }
+                
+                html += this.createPageButton('next', AppState.currentPage + 1, AppState.currentPage >= totalPages);
+                
+                DOM.pagination.innerHTML = html;
+            },
+
+            createPageButton(type, page, disabled = false, active = false) {
+                const disabledClass = disabled ? 'disabled' : '';
+                const activeClass = active ? 'active' : '';
+                
+                if (type === 'prev') {
+                    return `
+                        <li class="page-item ${disabledClass}">
+                            <a class="page-link" href="#" onclick="PaginationManager.changePage(${page})" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    `;
+                } else if (type === 'next') {
+                    return `
+                        <li class="page-item ${disabledClass}">
+                            <a class="page-link" href="#" onclick="PaginationManager.changePage(${page})" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    `;
+                } else {
+                    return `
+                        <li class="page-item ${activeClass}">
+                            <a class="page-link" href="#" onclick="PaginationManager.changePage(${page})">${page}</a>
+                        </li>
+                    `;
+                }
+            },
+
+            changePage(page) {
+                const totalPages = Math.ceil(AppState.totalRows / AppState.recordsPerPage);
+                if (page < 1 || page > totalPages) return;
+                
+                AppState.currentPage = page;
+                DataManager.loadData();
+            }
+        };
+
+        // Map Management
+        const MapManager = {
+            initialize() {
+                AppState.map = new maplibregl.Map({
+                    container: 'map',
+                    style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${CONFIG.MAPTILER_API_KEY}`,
+                    center: [-75.1652, 39.9526], // Philadelphia center
+                    zoom: 9
+                });
+
+                AppState.map.addControl(new maplibregl.NavigationControl(), 'top-right');
+            },
+
+            async updateMarkers() {
+                try {
+                    // Clear existing markers
+                    AppState.mapMarkers.forEach(marker => marker.remove());
+                    AppState.mapMarkers = [];
+                    
+                    // Get map data using the same filters as the table
+                    const filters = { ...AppState.activeFilters };
+                    if (filters['Populations Served']) {
+                        filters.Populations = filters['Populations Served'];
+                        delete filters['Populations Served'];
+                    }
+                    
+                    const markerData = await APIClient.getMapMarkers(filters);
+                    
+                    if (!markerData || markerData.length === 0) {
+                        this.centerOnPhiladelphia();
+                        return;
+                    }
+                    
+                    const bounds = new maplibregl.LngLatBounds();
+                    
+                    markerData.forEach(location => {
+                        const popup = this.createPopup(location);
+                        
+                        const marker = new maplibregl.Marker({ color: '#55298a' })
+                            .setLngLat([location.lng, location.lat])
+                            .setPopup(popup)
+                            .addTo(AppState.map);
+                        
+                        AppState.mapMarkers.push(marker);
+                        bounds.extend([location.lng, location.lat]);
+                    });
+                    
+                    // Fit map to markers
+                    if (AppState.mapMarkers.length === 1) {
+                        AppState.map.flyTo({
+                            center: AppState.mapMarkers[0].getLngLat(),
+                            zoom: 12
+                        });
+                    } else {
+                        AppState.map.fitBounds(bounds, {
+                            padding: 50,
+                            maxZoom: 15
+                        });
+                    }
+                    
+                } catch (error) {
+                    console.error('Error updating map markers:', error);
+                    this.centerOnPhiladelphia();
+                }
+            },
+
+            createPopup(location) {
+                const popupContent = `
+                    <div class="map-popup-container" style="max-width: 300px;">
+                        <div class="row no-gutters py-0 px-1">
+                            <div class="card-body col-12 p-3">
+                                <h3 class="text-secondary fw-bold lh-1 py-0">${location.name}</h3>
+                                <h5 class="text-dark fw-light lh-1 py-0">${location.organization}</h5>
+                                <p class="text-body-tertiary lh-1 py-0 mb-1">${location.address}<br />
+                                    ${location.city}, ${location.state}, ${location.zipCode}
+                                </p>
+                                <p class="mb-0">
+                                    ${location.googleMapsUrl ? `<a class="text-primary fw-bold d-block mb-1" href="${location.googleMapsUrl}" target="_blank" rel="noopener noreferrer"><i class="bi bi-geo-alt-fill"></i> Directions</a>` : ''}
+                                    ${location.website ? `<a class="text-primary d-block mb-1" href="${location.website}" target="_blank" rel="noopener noreferrer"><i class="bi bi-globe"></i> Website</a>` : ''}
+                                    ${location.phone ? `<a class="text-primary text-decoration-none fw-bold d-block" href="tel:${location.phone}"><i class="bi bi-telephone-fill text-primary"></i> ${location.phone}</a>` : 'N/A'}
+                                </p>
+                            </div>
+                        </div>
+                    </div>`;
+                
+                return new maplibregl.Popup({ offset: 25, maxWidth: '320px' })
+                    .setHTML(popupContent);
+            },
+
+            centerOnPhiladelphia() {
+                AppState.map.flyTo({
+                    center: [-75.1652, 39.9526],
+                    zoom: 9
+                });
+            }
+        };
+
+        // Column Resizing
+        const ColumnResizer = {
+            initialize() {
+                const headers = document.querySelectorAll('thead th');
+                
+                headers.forEach((header) => {
+                    const resizeHandle = document.createElement('div');
+                    resizeHandle.className = 'resize-handle';
+                    resizeHandle.title = 'Drag to resize column';
+                    header.appendChild(resizeHandle);
+                    
+                    this.setupResizeHandlers(header, resizeHandle);
+                });
+            },
+
+            setupResizeHandlers(header, resizeHandle) {
                 let isResizing = false;
                 let startX = 0;
                 let startWidth = 0;
                 
-                // Mouse down on resize handle
                 resizeHandle.addEventListener('mousedown', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -609,16 +1253,13 @@
                     startX = e.clientX;
                     startWidth = header.offsetWidth;
                     
-                    // Add visual feedback
                     document.body.style.cursor = 'col-resize';
                     document.body.style.userSelect = 'none';
                     header.style.borderRight = '2px solid #20cb98';
                     
-                    // Prevent text selection during resize
-                    document.addEventListener('selectstart', preventSelection);
+                    document.addEventListener('selectstart', this.preventSelection);
                 });
                 
-                // Global mouse move handler
                 document.addEventListener('mousemove', (e) => {
                     if (!isResizing) return;
                     
@@ -626,698 +1267,184 @@
                     const diff = e.clientX - startX;
                     const newWidth = Math.max(80, startWidth + diff);
                     
-                    // Set both width and min-width to maintain column size
                     header.style.width = newWidth + 'px';
                     header.style.minWidth = newWidth + 'px';
                     header.style.maxWidth = newWidth + 'px';
                 });
                 
-                // Global mouse up handler
                 document.addEventListener('mouseup', () => {
                     if (isResizing) {
                         isResizing = false;
                         
-                        // Remove visual feedback
                         document.body.style.cursor = '';
                         document.body.style.userSelect = '';
                         header.style.borderRight = '1px solid rgba(255, 255, 255, 0.2)';
                         
-                        // Re-enable text selection
-                        document.removeEventListener('selectstart', preventSelection);
+                        document.removeEventListener('selectstart', this.preventSelection);
                     }
                 });
                 
-                // Prevent text selection during resize
-                function preventSelection(e) {
-                    e.preventDefault();
-                    return false;
-                }
-                
-                // Prevent clicks on resize handle from triggering sort/filter
                 resizeHandle.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
                 });
-                
-                // Visual feedback on hover
-                resizeHandle.addEventListener('mouseenter', () => {
-                    if (!isResizing) {
-                        resizeHandle.style.background = 'rgba(255, 255, 255, 0.2)';
-                        resizeHandle.style.borderRight = '2px solid rgba(255, 255, 255, 0.5)';
-                    }
-                });
-                
-                resizeHandle.addEventListener('mouseleave', () => {
-                    if (!isResizing) {
-                        resizeHandle.style.background = 'transparent';
-                        resizeHandle.style.borderRight = '2px solid transparent';
-                    }
-                });
-            });
-        }
+            },
 
-        function initializeFilters() {
-            // Initialize static filters
-            initializeFilterDropdown('County', FILTER_OPTIONS.County);
-            initializeFilterDropdown('Resource Type', FILTER_OPTIONS['Resource Type']);
-            initializeFilterDropdown('Populations Served', FILTER_OPTIONS['Populations Served']);
-            
-            // Initialize dynamic category filter
-            initializeCategoryFilter();
-            
-            // Add click handlers for filter headers
-            document.querySelectorAll('.filter-header').forEach(header => {
-                header.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const column = this.dataset.column;
-                    if (column && ['County', 'Resource Type', 'Category', 'Populations Served'].includes(column) && !e.target.closest('.resize-handle')) {
-                        toggleFilterDropdown(column);
-                    }
-                });
-            });
-        }
-
-        function initializeFilterDropdown(filterType, options) {
-            const dropdownId = getDropdownId(filterType);
-            const dropdown = document.getElementById(dropdownId);
-            
-            if (!dropdown) return;
-            
-            dropdown.innerHTML = options.map(option => {
-                const safeId = `${filterType}-${option}`.replace(/[^a-zA-Z0-9-_]/g, '-');
-                return `
-                    <div class="filter-option">
-                        <input type="checkbox" id="${safeId}" value="${option}" onchange="handleFilterCheckbox('${filterType}', '${option}', this.checked)">
-                        <label for="${safeId}">${option}</label>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function initializeCategoryFilter() {
-            const dropdown = document.getElementById('category-filter-dropdown');
-            if (!dropdown) return;
-            
-            // Start with all categories
-            const allCategories = new Set();
-            Object.values(FILTER_OPTIONS.Category).forEach(cats => {
-                cats.forEach(cat => allCategories.add(cat));
-            });
-            
-            dropdown.innerHTML = Array.from(allCategories).sort().map(option => {
-                const safeId = `Category-${option}`.replace(/[^a-zA-Z0-9-_]/g, '-');
-                return `
-                    <div class="filter-option">
-                        <input type="checkbox" id="${safeId}" value="${option}" onchange="handleFilterCheckbox('Category', '${option}', this.checked)">
-                        <label for="${safeId}">${option}</label>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function updateCategoryFilter() {
-            const selectedResourceTypes = activeFilters['Resource Type'];
-            const dropdown = document.getElementById('category-filter-dropdown');
-            
-            if (!dropdown || selectedResourceTypes.length === 0) {
-                // Show all categories if no resource type is selected
-                initializeCategoryFilter();
-                return;
+            preventSelection(e) {
+                e.preventDefault();
+                return false;
             }
-            
-            // Get categories for selected resource types
-            const availableCategories = new Set();
-            selectedResourceTypes.forEach(resourceType => {
-                if (FILTER_OPTIONS.Category[resourceType]) {
-                    FILTER_OPTIONS.Category[resourceType].forEach(cat => {
-                        availableCategories.add(cat);
+        };
+
+        // Sorting
+        const SortManager = {
+            initialize() {
+                document.querySelectorAll('th.sortable').forEach(th => {
+                    th.addEventListener('click', (e) => {
+                        if (!e.target.closest('.filter-dropdown') && !e.target.closest('.resize-handle')) {
+                            this.handleSort(th.dataset.column);
+                        }
                     });
+                });
+            },
+
+            handleSort(column) {
+                if (AppState.currentSort === column) {
+                    AppState.sortDirection = AppState.sortDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    AppState.currentSort = column;
+                    AppState.sortDirection = 'asc';
                 }
-            });
-            
-            // Update dropdown with available categories
-            dropdown.innerHTML = Array.from(availableCategories).sort().map(option => {
-                const isChecked = activeFilters.Category.includes(option) ? 'checked' : '';
-                const safeId = `Category-${option}`.replace(/[^a-zA-Z0-9-_]/g, '-');
-                return `
-                    <div class="filter-option">
-                        <input type="checkbox" id="${safeId}" value="${option}" ${isChecked} onchange="handleFilterCheckbox('Category', '${option}', this.checked)">
-                        <label for="${safeId}">${option}</label>
-                    </div>
-                `;
-            }).join('');
-            
-            // Remove categories that are no longer available
-            activeFilters.Category = activeFilters.Category.filter(cat => availableCategories.has(cat));
-        }
-
-        function getDropdownId(filterType) {
-            const mapping = {
-                'County': 'county-filter-dropdown',
-                'Resource Type': 'resource-type-filter-dropdown',
-                'Category': 'category-filter-dropdown',
-                'Populations Served': 'populations-filter-dropdown'
-            };
-            return mapping[filterType];
-        }
-
-        function toggleFilterDropdown(filterType) {
-            const dropdownId = getDropdownId(filterType);
-            const dropdown = document.getElementById(dropdownId);
-            
-            if (!dropdown) return;
-            
-            // Close other dropdowns
-            document.querySelectorAll('.filter-dropdown').forEach(d => {
-                if (d.id !== dropdownId) {
-                    d.classList.remove('show');
-                }
-            });
-            
-            // Toggle current dropdown
-            dropdown.classList.toggle('show');
-        }
-
-        function closeAllDropdowns() {
-            document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
-                dropdown.classList.remove('show');
-            });
-        }
-
-        function handleFilterCheckbox(filterType, value, checked) {
-            if (checked) {
-                if (!activeFilters[filterType].includes(value)) {
-                    activeFilters[filterType].push(value);
-                }
-            } else {
-                activeFilters[filterType] = activeFilters[filterType].filter(v => v !== value);
-            }
-            
-            // Update category filter if resource type changed
-            if (filterType === 'Resource Type') {
-                updateCategoryFilter();
-            }
-            
-            updateFilterIndicators();
-            updateFilterChips();
-            currentPage = 1;
-            loadData();
-        }
-
-        function updateFilterIndicators() {
-            ['County', 'Resource Type', 'Category', 'Populations Served'].forEach(filterType => {
-                const indicatorId = getDropdownId(filterType).replace('-dropdown', '-indicator');
-                const indicator = document.getElementById(indicatorId);
                 
-                if (indicator) {
-                    if (activeFilters[filterType] && activeFilters[filterType].length > 0) {
-                        indicator.classList.add('active');
-                    } else {
-                        indicator.classList.remove('active');
-                    }
-                }
-            });
-        }
+                this.updateSortIndicators();
+                AppState.currentPage = 1;
+                DataManager.loadData();
+            },
 
-        function showLoading() {
-            loadingSpinner.style.display = 'flex';
-            tableContainer.style.display = 'none';
-            exportBtn.disabled = true;
-        }
-
-        function hideLoading() {
-            loadingSpinner.style.display = 'none';
-            tableContainer.style.display = 'block';
-        }
-
-        function handleSearch() {
-            activeFilters.search = searchInput.value.trim();
-            currentPage = 1;
-            updateFilterChips();
-            loadData();
-        }
-
-        function handlePerPageChange() {
-            recordsPerPage = parseInt(perPageSelect.value);
-            currentPage = 1;
-            loadData();
-        }
-
-        function handleSort(column) {
-            if (currentSort === column) {
-                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-            } else {
-                currentSort = column;
-                sortDirection = 'asc';
-            }
-            
-            // Update sort indicators
-            document.querySelectorAll('th.sortable').forEach(th => {
-                th.classList.remove('sort-asc', 'sort-desc');
-            });
-            
-            const sortedTh = document.querySelector(`th[data-column="${column}"]`);
-            if (sortedTh) {
-                sortedTh.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
-            }
-            
-            currentPage = 1;
-            loadData();
-        }
-
-        function clearAllFilters() {
-            activeFilters = {
-                search: '',
-                County: [],
-                'Resource Type': [],
-                'Populations Served': [],
-                Category: []
-            };
-            
-            searchInput.value = '';
-            
-            currentPage = 1;
-            currentSort = '';
-            sortDirection = 'asc';
-            
-            // Clear sort indicators
-            document.querySelectorAll('th.sortable').forEach(th => {
-                th.classList.remove('sort-asc', 'sort-desc');
-            });
-            
-            // Uncheck all filter checkboxes
-            document.querySelectorAll('.filter-dropdown input[type="checkbox"]').forEach(checkbox => {
-                checkbox.checked = false;
-            });
-            
-            updateFilterIndicators();
-            updateFilterChips();
-            updateCategoryFilter();
-            loadData();
-        }
-
-        function updateFilterChips() {
-            const chips = [];
-            
-            if (activeFilters.search) {
-                chips.push({ type: 'search', value: activeFilters.search, label: `Search: "${activeFilters.search}"` });
-            }
-            
-            ['County', 'Resource Type', 'Category', 'Populations Served'].forEach(filterType => {
-                if (activeFilters[filterType] && activeFilters[filterType].length > 0) {
-                    activeFilters[filterType].forEach(value => {
-                        chips.push({ 
-                            type: filterType, 
-                            value: value, 
-                            label: `${filterType}: ${value}` 
-                        });
-                    });
-                }
-            });
-            
-            if (chips.length > 0) {
-                activeFiltersDiv.style.display = 'block';
-                filterChipsDiv.innerHTML = chips.map(chip => 
-                    `<span class="filter-chip">
-                        ${chip.label}
-                        <button type="button" class="btn-close" onclick="removeFilter('${chip.type}', '${chip.value}')" aria-label="Remove filter"></button>
-                    </span>`
-                ).join('');
-            } else {
-                activeFiltersDiv.style.display = 'none';
-            }
-        }
-
-        function removeFilter(type, value) {
-            if (type === 'search') {
-                activeFilters.search = '';
-                searchInput.value = '';
-            } else if (activeFilters[type]) {
-                activeFilters[type] = activeFilters[type].filter(v => v !== value);
+            updateSortIndicators() {
+                document.querySelectorAll('th.sortable').forEach(th => {
+                    th.classList.remove('sort-asc', 'sort-desc');
+                });
                 
-                // Uncheck the corresponding checkbox
-                const checkbox = document.getElementById(`${type}-${value}`);
-                if (checkbox) {
-                    checkbox.checked = false;
+                const sortedTh = document.querySelector(`th[data-column="${AppState.currentSort}"]`);
+                if (sortedTh) {
+                    sortedTh.classList.add(AppState.sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
                 }
-            }
-            
-            if (type === 'Resource Type') {
-                updateCategoryFilter();
-            }
-            
-            currentPage = 1;
-            updateFilterIndicators();
-            updateFilterChips();
-            loadData();
-        }
+            },
 
-        async function loadData() {
-            showLoading();
-            
+            clearSort() {
+                AppState.currentSort = '';
+                AppState.sortDirection = 'asc';
+                document.querySelectorAll('th.sortable').forEach(th => {
+                    th.classList.remove('sort-asc', 'sort-desc');
+                });
+            }
+        };
+
+        // Export functionality
+        const ExportManager = {
+            exportToCSV() {
+                if (AppState.currentData.length === 0) return;
+                
+                const headers = [
+                    'Location Name', 'Organization', 'County', 'Resource Type', 'Category', 
+                    'Populations Served', 'Phone', 'Website', 'Address', 'City', 'State', 'Zip Code'
+                ];
+                
+                const csvContent = [
+                    headers.join(','),
+                    ...AppState.currentData.map(resource => {
+                        return headers.map(header => {
+                            const value = resource[header] || '';
+                            return `"${String(value).replace(/"/g, '""')}"`;
+                        }).join(',');
+                    })
+                ].join('\n');
+                
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                
+                link.setAttribute('href', url);
+                link.setAttribute('download', `resources_export_${new Date().toISOString().split('T')[0]}.csv`);
+                link.style.visibility = 'hidden';
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        };
+
+        // Event Handlers
+        const EventHandlers = {
+            initialize() {
+                // Search
+                DOM.searchBtn.addEventListener('click', this.handleSearch);
+                DOM.searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.handleSearch();
+                });
+                
+                // Debounced search on input
+                DOM.searchInput.addEventListener('input', 
+                    Utils.debounce(() => this.handleSearch(), CONFIG.DEBOUNCE_DELAY)
+                );
+                
+                // Other controls
+                DOM.perPageSelect.addEventListener('change', this.handlePerPageChange);
+                DOM.clearFiltersBtn.addEventListener('click', this.handleClearFilters);
+                DOM.exportBtn.addEventListener('click', () => ExportManager.exportToCSV());
+            },
+
+            handleSearch() {
+                AppState.activeFilters.search = DOM.searchInput.value.trim();
+                AppState.currentPage = 1;
+                FilterManager.updateFilterChips();
+                DataManager.loadData();
+            },
+
+            handlePerPageChange() {
+                AppState.recordsPerPage = parseInt(DOM.perPageSelect.value);
+                AppState.currentPage = 1;
+                DataManager.loadData();
+            },
+
+            handleClearFilters() {
+                FilterManager.clearAll();
+                SortManager.clearSort();
+                AppState.currentPage = 1;
+                DataManager.loadData();
+            }
+        };
+
+        // Application Initialization
+        async function initializeApp() {
             try {
-                const url = buildApiUrl();
-                console.log('Fetching data from:', url);
+                // Initialize DOM cache
+                DOM.init();
                 
-                const response = await fetch(url);
+                // Initialize components
+                MapManager.initialize();
+                ColumnResizer.initialize();
+                SortManager.initialize();
+                EventHandlers.initialize();
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('Received data:', data);
-                
-                allData = data.list || [];
-                totalRows = data.pageInfo?.totalRows || allData.length;
-                
-                renderTable(allData);
-                renderPagination();
-                updateResultsInfo();
-                updateMap(allData);
-                exportBtn.disabled = allData.length === 0;
+                // Load filter options and data
+                await FilterManager.loadFilterOptions();
+                await DataManager.loadData();
                 
             } catch (error) {
-                console.error('Error loading data:', error);
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="12" class="text-center text-danger">
-                            <i class="bi bi-exclamation-triangle me-2"></i>
-                            Error loading data: ${error.message}
-                        </td>
-                    </tr>
-                `;
-                resultsInfo.textContent = 'Error loading data';
-            } finally {
-                hideLoading();
+                console.error('Failed to initialize application:', error);
+                Utils.hideLoading();
+                DataManager.showError('Failed to initialize application');
             }
         }
 
-        function buildApiUrl() {
-            const params = new URLSearchParams();
-            
-            params.append('page', currentPage);
-            params.append('limit', recordsPerPage);
-            
-            if (currentSort) {
-                const sortParam = sortDirection === 'desc' ? `-${currentSort}` : currentSort;
-                params.append('sort', sortParam);
-            }
-            
-            if (activeFilters.search) {
-                params.append('search', activeFilters.search);
-            }
-            
-            // Add array filters
-            ['County', 'Resource Type', 'Populations Served', 'Category'].forEach(filterType => {
-                if (activeFilters[filterType] && activeFilters[filterType].length > 0) {
-                    activeFilters[filterType].forEach(value => {
-                        if (filterType === 'Populations Served') {
-                            params.append('Populations', value);
-                        } else {
-                            params.append(filterType, value);
-                        }
-                    });
-                }
-            });
-            
-            return `${API_BASE_URL}?${params.toString()}`;
-        }
+        // Start the application
+        document.addEventListener('DOMContentLoaded', initializeApp);
 
-        function renderTable(data) {
-            if (!data || data.length === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="12" class="text-center text-muted py-4">
-                            <i class="bi bi-inbox me-2"></i>
-                            No resources found with the current filters.
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            tableBody.innerHTML = data.map(resource => `
-                <tr>
-                    <td>
-                        <div class="location-name-cell">
-                            ${resource.Image ? 
-                                `<img src="${escapeHtml(resource.Image)}" alt="Location" class="location-image" onerror="this.style.display='none'">` : 
-                                ''
-                            }
-                            <strong>${escapeHtml(resource['Location Name'] || 'N/A')}</strong>
-                        </div>
-                    </td>
-                    <td>${escapeHtml(resource.Organization || 'N/A')}</td>
-                    <td>
-                        ${resource.County ? 
-                            `<span class="badge badge-county">${escapeHtml(resource.County)}</span>` : 
-                            'N/A'
-                        }
-                    </td>
-                    <td>
-                        ${resource['Resource Type'] ? 
-                            `<span class="badge badge-resource-type">${escapeHtml(resource['Resource Type'])}</span>` : 
-                            'N/A'
-                        }
-                    </td>
-                    <td>
-                        ${resource.Category ? 
-                            resource.Category.split(',').map(cat => 
-                                `<span class="badge badge-category">${escapeHtml(cat.trim())}</span>`
-                            ).join(' ') : 
-                            'N/A'
-                        }
-                    </td>
-                    <td>
-                        ${resource['Populations Served'] ? 
-                            resource['Populations Served'].split(',').map(pop => 
-                                `<span class="badge badge-population">${escapeHtml(pop.trim())}</span>`
-                            ).join(' ') : 
-                            'N/A'
-                        }
-                    </td>
-                    <td>
-                        ${resource.Phone ? 
-                            `<a href="tel:${resource.Phone}" class="btn-link">
-                                <i class="bi bi-telephone me-1"></i>${escapeHtml(resource.Phone)}
-                            </a>` : 
-                            'N/A'
-                        }
-                    </td>
-                    <td>
-                        ${resource.Website ? 
-                            `<a href="${escapeHtml(resource.Website)}" target="_blank" class="btn-link" title="Visit Website">
-                                <i class="bi bi-globe"></i>
-                            </a>` : 
-                            'N/A'
-                        }
-                    </td>
-                    <td>${escapeHtml(resource.Address || 'N/A')}</td>
-                    <td>${escapeHtml(resource.City || 'N/A')}</td>
-                    <td>${escapeHtml(resource.State || 'N/A')}</td>
-                    <td>${escapeHtml(resource['Zip Code'] || 'N/A')}</td>
-                </tr>
-            `).join('');
-        }
-
-        function renderPagination() {
-            const totalPages = Math.ceil(totalRows / recordsPerPage);
-            
-            if (totalPages <= 1) {
-                pagination.innerHTML = '';
-                return;
-            }
-
-            let paginationHTML = '';
-            
-            // Previous button
-            paginationHTML += `
-                <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
-                    <a class="page-link" href="#" onclick="changePage(${currentPage - 1})" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-            `;
-            
-            // Page numbers
-            const startPage = Math.max(1, currentPage - 2);
-            const endPage = Math.min(totalPages, currentPage + 2);
-            
-            if (startPage > 1) {
-                paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="changePage(1)">1</a></li>`;
-                if (startPage > 2) {
-                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
-                }
-            }
-            
-            for (let i = startPage; i <= endPage; i++) {
-                paginationHTML += `
-                    <li class="page-item ${i === currentPage ? 'active' : ''}">
-                        <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
-                    </li>
-                `;
-            }
-            
-            if (endPage < totalPages) {
-                if (endPage < totalPages - 1) {
-                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
-                }
-                paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="changePage(${totalPages})">${totalPages}</a></li>`;
-            }
-            
-            // Next button
-            paginationHTML += `
-                <li class="page-item ${currentPage >= totalPages ? 'disabled' : ''}">
-                    <a class="page-link" href="#" onclick="changePage(${currentPage + 1})" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            `;
-            
-            pagination.innerHTML = paginationHTML;
-        }
-
-        function changePage(page) {
-            if (page < 1 || page > Math.ceil(totalRows / recordsPerPage)) return;
-            currentPage = page;
-            loadData();
-        }
-
-        function updateResultsInfo() {
-            const start = (currentPage - 1) * recordsPerPage + 1;
-            const end = Math.min(currentPage * recordsPerPage, totalRows);
-            
-            if (totalRows === 0) {
-                resultsInfo.textContent = 'No resources found';
-            } else {
-                resultsInfo.textContent = `Showing ${start}-${end} of ${totalRows} resources`;
-            }
-        }
-
-        function exportToCSV() {
-            if (allData.length === 0) return;
-            
-            const headers = [
-                'Location Name', 'Organization', 'County', 'Resource Type', 'Category', 
-                'Populations Served', 'Phone', 'Website', 'Address', 'City', 'State', 'Zip Code'
-            ];
-            
-            const csvContent = [
-                headers.join(','),
-                ...allData.map(resource => {
-                    return headers.map(header => {
-                        const value = resource[header] || '';
-                        // Escape quotes and wrap in quotes if contains comma or quote
-                        return `"${String(value).replace(/"/g, '""')}"`;
-                    }).join(',');
-                })
-            ].join('\n');
-            
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            
-            link.setAttribute('href', url);
-            link.setAttribute('download', `resources_export_${new Date().toISOString().split('T')[0]}.csv`);
-            link.style.visibility = 'hidden';
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        function escapeHtml(text) {
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
-            return String(text || '').replace(/[&<>"']/g, function(m) { return map[m]; });
-        }
-
-        function updateMap(data) {
-            // Clear existing markers
-            mapMarkers.forEach(marker => marker.remove());
-            mapMarkers = [];
-            
-            if (!data || data.length === 0) {
-                // If no data, center on Philadelphia
-                map.flyTo({
-                    center: [-75.1652, 39.9526],
-                    zoom: 9
-                });
-                return;
-            }
-            
-            const bounds = new maplibregl.LngLatBounds();
-            const markerColor = '#55298a';
-            
-            data.forEach(resource => {
-                const lat = parseFloat(resource.Latitude);
-                const lon = parseFloat(resource.Longitude);
-                
-                if (!isNaN(lat) && !isNaN(lon)) {
-                    const distanceText = ''; // You can add distance calculation here if needed
-                    
-                    const popupContent = `
-                        <div class="map-popup-container" style="max-width: 300px;">
-                            <div class="row no-gutters py-0 px-1">
-                                <div class="card-body col-12 p-3">
-                                    <h3 class="text-secondary fw-bold lh-1 py-0">${resource['Location Name'] || 'N/A'}</h3>
-                                    <h5 class="text-dark fw-light lh-1 py-0">${resource.Organization || 'N/A'}</h5>
-                                    ${distanceText}
-                                    <p class="text-body-tertiary lh-1 py-0 mb-1">${resource.Address || 'N/A'}<br />
-                                        ${resource.City || 'N/A'}, ${resource.State || 'N/A'}, ${resource['Zip Code'] || 'N/A'}
-                                    </p>
-                                    <p class="mb-0">
-                                        ${resource['Google Maps URL'] ? `<a class="text-primary fw-bold d-block mb-1" href="${resource['Google Maps URL']}" target="_blank" rel="noopener noreferrer"><i class="bi bi-geo-alt-fill"></i> Directions</a>` : ''}
-                                        ${resource.Website ? `<a class="text-primary d-block mb-1" href="${resource.Website}" target="_blank" rel="noopener noreferrer"><i class="bi bi-globe"></i> Website</a>` : ''}
-                                        ${resource.Phone ? `<a class="text-primary text-decoration-none fw-bold d-block" href="${resource['Phone URL'] || '#'}"><i class="bi bi-telephone-fill text-primary"></i> ${resource.Phone}</a>` : 'N/A'}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>`;
-                    
-                    const popup = new maplibregl.Popup({ offset: 25, maxWidth: '320px' })
-                        .setHTML(popupContent);
-                    
-                    const marker = new maplibregl.Marker({ color: markerColor })
-                        .setLngLat([lon, lat])
-                        .setPopup(popup)
-                        .addTo(map);
-                    
-                    marker._resourceId = resource.ID || resource['Location Name']; // Use a unique ID if available
-                    mapMarkers.push(marker);
-                    bounds.extend([lon, lat]);
-                }
-            });
-            
-            // Fit map to show all markers
-            if (mapMarkers.length > 0) {
-                if (mapMarkers.length === 1) {
-                    // If only one marker, center on it with a reasonable zoom
-                    map.flyTo({
-                        center: mapMarkers[0].getLngLat(),
-                        zoom: 12
-                    });
-                } else {
-                    // If multiple markers, fit bounds
-                    map.fitBounds(bounds, {
-                        padding: 50,
-                        maxZoom: 15
-                    });
-                }
-            } else {
-                // If no markers with valid coordinates, center on Philadelphia
-                map.flyTo({
-                    center: [-75.1652, 39.9526],
-                    zoom: 9
-                });
-            }
-        }
+        // Expose necessary functions to global scope for onclick handlers
+        window.PaginationManager = PaginationManager;
+        window.FilterManager = FilterManager;
     </script>
 </body>
 </html>
