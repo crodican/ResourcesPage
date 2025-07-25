@@ -198,27 +198,27 @@
         .badge {
             margin: 0.125rem;
             font-size: 0.7em;
-            padding: 0.2em 0.4em;
+            padding: 0.35rem 0.5rem;
         }
         
         .badge-county {
-            background-color: #dc3545;
-            color: white;
+            background-color: #f5ebf3;
+            color: black;
         }
         
         .badge-resource-type {
-            background-color: #55298a;
-            color: white;
+            background-color: #f5ebf3;
+            color: black;
         }
         
         .badge-category {
-            background-color: #20cb98;
-            color: white;
+            background-color: #f5ebf3;
+            color: black;
         }
         
         .badge-population {
-            background-color: #ffc107;
-            color: #000;
+            background-color: #f5ebf3;
+            color: black;
         }
         
         .btn-primary {
@@ -266,6 +266,7 @@
         .btn-link {
             color: #55298a;
             text-decoration: none;
+            
         }
         
         .btn-link:hover {
@@ -355,16 +356,87 @@
                 padding: 0.2rem 0.3rem;
             }
         }
+
+        @media (width < 576px) {
+            .hero-section {
+                background-image: url('assets/resourcemap-3.png');
+                height: 500px;
+                background-position-x: right;
+                background-position-y: bottom;
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: #ffffff !important;
+            }
+            .hero-section h1,
+            .hero-section h2,
+            .hero-section h3,
+            .hero-section h4,
+            .hero-section h5,
+            .hero-section h6 {
+                color: #ffffff !important;
+            }
+        }
+        /* Small */
+        
+        @media (width > 575px) {
+            .hero-section {
+                background-image: url('assets/resourcemap-3.png');
+                height: 600px;
+                background-position-x: right;
+                background-position-y: bottom;
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: #ffffff !important;
+            }
+            .hero-section h1,
+            .hero-section h2,
+            .hero-section h3,
+            .hero-section h4,
+            .hero-section h5,
+            .hero-section h6 {
+                color: #ffffff !important;
+            }
+        }
+        /* Extra Medium and Up */
+        
+        @media (width > 767px) {
+            .hero-section {
+                background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-4-scaled.png');
+                height: 600px;
+                background-position-x: right;
+                background-position-y: bottom;
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: #ffffff !important;
+            }
+            .hero-section h1,
+            .hero-section h2,
+            .hero-section h3,
+            .hero-section h4,
+            .hero-section h5,
+            .hero-section h6 {
+                color: #ffffff !important;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Header Section -->
-    <section class="header-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h1><i class="bi bi-table me-2"></i>Resources Table</h1>
-                    <p class="lead mb-0">Search and browse recovery support resources in a table format</p>
+    <section id="hero" class="hero-section py-5 w-100 d-flex">
+        <div class="container d-flex justify-content-end">
+            <div class="row d-flex justify-content-center align-items-end">
+                <div class="banner-col col-12">
+                    <div class="banner-container">
+                        <p>
+                            <a href="https://councilsepa.org/hubs" style="text-decoration:none"></a>
+                        </p> <a class="h6 text-white" href="index.html" style="text-decoration:none">
+                            ←Back
+                        </a>
+                        <br />
+                        <br />
+                        <p>
+                            <h1>Resources</h1>
+                            <h5>Find essential resources including Recovery Support, Family Support, Housing, and Transportation, plus links to additional support.</h5></div>
                 </div>
             </div>
         </div>
@@ -373,6 +445,12 @@
     <!-- Main Content -->
     <div class="container-fluid">
         <!-- Search Controls -->
+
+
+        <!-- Map Container -->
+        <div class="map-container rounded-4 shadow-lg" id="map-container" style="margin-top:-30px">
+            <div id="map"></div>
+        </div>
         <div class="search-controls">
             <div class="row g-3 align-items-end">
                 <!-- Search Input -->
@@ -411,12 +489,6 @@
                 <div id="filter-chips" class="mt-1"></div>
             </div>
         </div>
-
-        <!-- Map Container -->
-        <div class="map-container" id="map-container">
-            <div id="map"></div>
-        </div>
-
         <!-- Results Info and Export -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="results-info" id="results-info">
@@ -442,7 +514,7 @@
                 <table class="table table-hover mb-0" id="resources-table">
                     <thead>
                         <tr>
-                            <th class="sortable filter-header" data-column="Location Name">
+                            <th class="sortable filter-header text-nowrap" data-column="Location Name">
                                 Location Name
                                 <div class="filter-indicator" id="location-filter-indicator"></div>
                                 <div class="filter-dropdown" id="location-filter-dropdown"></div>
@@ -471,7 +543,7 @@
                             <th data-column="Phone">Phone</th>
                             <th data-column="Website">Website</th>
                             <th data-column="Address">Address</th>
-                            <th data-column="City">City</th>
+                            <th class="sortable" data-column="City">City</th>
                             <th data-column="State">State</th>
                             <th data-column="Zip Code">Zip</th>
                         </tr>
@@ -999,19 +1071,19 @@
                             </div>
                         </td>
                         <td>${Utils.escapeHtml(resource.Organization || 'N/A')}</td>
-                        <td>
+                        <td class="text-nowrap">
                             ${resource.County ? 
                                 `<span class="badge badge-county">${Utils.escapeHtml(resource.County)}</span>` : 
                                 'N/A'
                             }
                         </td>
-                        <td>
+                        <td class="text-nowrap">
                             ${resource['Resource Type'] ? 
                                 `<span class="badge badge-resource-type">${Utils.escapeHtml(resource['Resource Type'])}</span>` : 
                                 'N/A'
                             }
                         </td>
-                        <td>
+                        <td class="text-nowrap">
                             ${resource.Category ? 
                                 resource.Category.split(',').map(cat => 
                                     `<span class="badge badge-category">${Utils.escapeHtml(cat.trim())}</span>`
@@ -1019,7 +1091,7 @@
                                 'N/A'
                             }
                         </td>
-                        <td>
+                        <td class="text-nowrap">
                             ${resource['Populations Served'] ? 
                                 resource['Populations Served'].split(',').map(pop => 
                                     `<span class="badge badge-population">${Utils.escapeHtml(pop.trim())}</span>`
@@ -1027,9 +1099,9 @@
                                 'N/A'
                             }
                         </td>
-                        <td>
+                        <td class="text-nowrap">
                             ${resource.Phone ? 
-                                `<a href="${Utils.formatPhoneUrl(resource.Phone)}" class="btn-link">
+                                `<a href="${Utils.formatPhoneUrl(resource.Phone)}" class="btn-link text-nowrap">
                                     <i class="bi bi-telephone me-1"></i>${Utils.escapeHtml(resource.Phone)}
                                 </a>` : 
                                 'N/A'
@@ -1037,13 +1109,13 @@
                         </td>
                         <td>
                             ${resource.Website ? 
-                                `<a href="${Utils.escapeHtml(resource.Website)}" target="_blank" class="btn-link" title="Visit Website">
-                                    <i class="bi bi-globe"></i>
+                                `<a href="${Utils.escapeHtml(resource.Website)}" target="_blank" class="btn-link text-nowrap" title="Visit Website">
+                                    <i class="bi bi-globe"></i> Website
                                 </a>` : 
                                 'N/A'
                             }
                         </td>
-                        <td>${Utils.escapeHtml(resource.Address || 'N/A')}</td>
+                        <td class="text-nowrap">${Utils.escapeHtml(resource.Address || 'N/A')}</td>
                         <td>${Utils.escapeHtml(resource.City || 'N/A')}</td>
                         <td>${Utils.escapeHtml(resource.State || 'N/A')}</td>
                         <td>${Utils.escapeHtml(resource['Zip Code'] || 'N/A')}</td>
