@@ -501,8 +501,8 @@
 
         // Auto-fetch data on page load
         window.addEventListener('load', () => {
-            // Optional: Auto-fetch data when page loads
-            // fetchAllData();
+            // Auto-fetch data when page loads
+            fetchAllData();
         });
 
         // If this page is being accessed programmatically (like from Excel),
@@ -513,16 +513,20 @@
                 document.body.innerHTML = `<pre>${JSON.stringify(allData, null, 2)}</pre>`;
                 document.body.style.display = 'block';
                 document.body.style.fontFamily = 'monospace';
+                document.body.style.fontSize = '12px';
+                document.body.style.margin = '0';
+                document.body.style.padding = '10px';
             });
-        }
-
-        if (window.location.search.includes('format=csv')) {
+        } else if (window.location.search.includes('format=csv')) {
             document.body.style.display = 'none';
             fetchAllData().then(() => {
                 const csv = convertToCSV(allData);
                 document.body.innerHTML = `<pre>${csv}</pre>`;
                 document.body.style.display = 'block';
                 document.body.style.fontFamily = 'monospace';
+                document.body.style.fontSize = '12px';
+                document.body.style.margin = '0';
+                document.body.style.padding = '10px';
             });
         }
     </script>
