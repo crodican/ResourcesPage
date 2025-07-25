@@ -1,0 +1,998 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Resources</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora&amp;family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <!-- Bootstrap 5.3.3 Grid CSS -->
+    <link rel="stylesheet" href="bs-grid.css">
+    <!-- Elevation Bootstrap CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css">
+    <!-- Custom Colors CSS -->
+    <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css">
+    <!-- Maplibre -->
+    <link href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Animate.css for modal animation -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        body {
+            font-family: 'Oxygen', sans-serif;
+        }
+        
+        .bi-3x {
+            font-size: 3rem;
+        }
+        
+        .bi-4x {
+            font-size: 4rem;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            font-weight: 700;
+        }
+        
+        .bg-gray-subtle {
+            background-color: #f8f9fa !important;
+        }
+        
+        .chip-area {
+            margin-bottom: 10px;
+        }
+        
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.3em 0.7em;
+            margin: 0.2em;
+            background-color: #f5ebf3;
+            color: #000;
+            border-radius: 20px;
+            font-size: 0.875em;
+        }
+        
+        .chip .bi-x-circle-fill {
+            margin-left: 0.4em;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        
+        .filter-section {
+            margin-bottom: 20px;
+        }
+        
+        /* Card View Styles */
+        .resourceCard {
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-sidenav {
+            max-width: 70px;
+            border-radius: 5px 0 0 5px;
+        }
+        
+        .card-sidenav a {
+            background-color: #55298a;
+            color: white !important;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+        }
+        
+        .card-sidenav a:hover {
+            background-color: #f5ebf3;
+            color: #55298a !important;
+            overflow: hidden;
+        }
+        
+        .card-sidenav a:nth-of-type(1) {
+            border-radius: 5px 0 0 0;
+        }
+        
+        .card-sidenav a:nth-of-type(2) {
+            border-radius: 0;
+        }
+        
+        .card-sidenav a:nth-of-type(3) {
+            border-radius: 0 0 0 5px;
+        }
+        
+        .card-body h3 {
+            font-weight: 400;
+            margin-bottom: 0.2em;
+            line-height: 1.2em;
+            font-size: 24px;
+        }
+        
+        .card-body h5 {
+            font-weight: 300;
+            margin-top: 0;
+            font-size: 16px;
+            color: #6c757d;
+        }
+        
+        .badge {
+            margin-right: 0.5em;
+            margin-bottom: 0.3em;
+            cursor: pointer;
+        }
+        
+        .cardImage {
+            max-height: 120px;
+            max-width: 200px;
+            width: auto;
+            height: auto !important;
+        }
+        
+        /* Table View Styles */
+        #table-view-container {
+            display: none;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .resource-table {
+            font-size: 0.875rem;
+        }
+        
+        .resource-table th {
+            background-color: #55298a;
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+        }
+        
+        .resource-table th.sortable:hover {
+            background-color: #6d3ba0;
+        }
+        
+        .resource-table th.sortable::after {
+            content: " ↕";
+            opacity: 0.5;
+            font-size: 0.8em;
+        }
+        
+        .resource-table th.sort-asc::after {
+            content: " ↑";
+            opacity: 1;
+        }
+        
+        .resource-table th.sort-desc::after {
+            content: " ↓";
+            opacity: 1;
+        }
+        
+        .resource-table td {
+            vertical-align: middle;
+        }
+        
+        .resource-table .btn-group-sm .btn {
+            padding: 0.15rem 0.4rem;
+            font-size: 0.75rem;
+        }
+        
+        .table-logo {
+            max-height: 40px;
+            max-width: 80px;
+            width: auto;
+            height: auto;
+        }
+        
+        /* View Toggle Styles */
+        .view-toggle {
+            display: inline-flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            border-radius: 20px;
+            padding: 4px;
+            gap: 4px;
+        }
+        
+        .view-toggle input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .view-toggle label {
+            padding: 0.375rem 1rem;
+            margin: 0;
+            cursor: pointer;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6c757d;
+        }
+        
+        .view-toggle input[type="radio"]:checked + label {
+            background-color: #55298a;
+            color: white;
+        }
+        
+        .view-toggle label:hover {
+            background-color: #e9ecef;
+        }
+        
+        .view-toggle input[type="radio"]:checked + label:hover {
+            background-color: #6d3ba0;
+        }
+        
+        /* Results Header Styles */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .results-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        #load-more {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        
+        #map {
+            width: 100%;
+            background-color: gray;
+            @media (width < 991px) {
+                height: 100%;
+            }
+            @media (width > 991px) {
+                height: 100%;
+            }
+        }
+        
+        .maplibregl-popup-content {
+            padding: 0 !important;
+            border-radius: 10px !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 320px !important;
+        }
+        
+        .maplibregl-popup-close-button {
+            color: #000;
+            font-size: 1.5em;
+            padding: 5px;
+            right: 5px;
+            top: 5px;
+            transform: scale(1.75);
+        }
+        
+        .map-popup-container {
+            font-family: 'Oxygen', sans-serif;
+            padding: 5px 20px;
+            border-radius: 150px;
+        }
+        
+        .map-popup-container h3 {
+            font-family: 'Lora', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.2em;
+            line-height: 1.2em;
+        }
+        
+        .map-popup-container h5 {
+            font-weight: 300;
+            font-size: 0.9rem;
+            color: #343a40;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+            line-height: 1.2em;
+        }
+        
+        .map-popup-container p {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 0.5em;
+        }
+        
+        .map-popup-container a {
+            font-size: 0.85rem;
+            text-decoration: none;
+        }
+        
+        .map-popup-container .bi {
+            margin-right: 5px;
+        }
+        
+        .maplibregl-ctrl {
+            border-radius: 8px !important;
+            padding: 2px;
+            opacity: 80;
+            background-color: ghostwhite;
+        }
+        
+        .maplibregl-ctrl, .maplibregl-ctrl button, .maplibregl-ctrl-compass, .maplibregl-marker {
+            cursor: pointer;
+        }
+        
+        .maplibregl-ctrl-attrib {
+            position: relative;
+        }
+        
+        .maplibregl-ctrl-attrib-inner {
+            visibility: hidden;
+        }
+        
+        .maplibregl-ctrl-attrib::after {
+            content: "©2025 PRO-ACT | ©MapLibre | ©Maptiler | ©OpenStreetMap";
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 0 5px;
+            font-size: 0.8em;
+            color: #333;
+            border-radius: 3px;
+        }
+        
+        .mapboxgl-ctrl-group {
+            border-radius: 8px;
+        }
+        
+        .mapboxgl-ctrl-group button:focus {
+            box-shadow: none;
+        }
+        
+        .mapboxgl-ctrl-group > .mapboxgl-ctrl-icon {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .mapboxgl-ctrl-group > button {
+            width: 36px !important;
+            height: 24px !important;
+            border-radius: 8px !important;
+        }
+        
+        .mapboxgl-ctrl-compass-arrow {
+            margin: 0.1em 2px !important;
+        }
+        
+        .form-control::placeholder {
+            color: #685e92;
+            font-weight: 700;
+        }
+        
+        .input-group {
+            background-color: rgb(255, 255, 255)
+        }
+        
+        #searchbar:focus-within {
+            background-color: lightsteelblue;
+            color: white;
+            box-shadow: 0 0 0 0.25rem ghostwhite;
+        }
+        
+        #searchbar .form-control:focus {
+            background-color: inherit;
+            color: whitesmoke;
+            border-color: none;
+            box-shadow: none;
+            font-weight: 700;
+        }
+        
+        #searchbar .btn {
+            background-color: rgb(85, 41, 138) !important;
+            color: white;
+        }
+        
+        #searchbar:focus-within .btn {
+            background-color: #55298a !important;
+            color: #ffffff;
+        }
+        
+        #searchbar:focus-within kbd {
+            background-color: transparent !important;
+            color: transparent !important;
+        }
+        
+        #searchbar:focus-within span {
+            color: transparent;
+        }
+        
+        .results-scroll {
+            padding-bottom: 3rem;
+        }
+        
+        .loader,
+        .loader:before,
+        .loader:after {
+            border-radius: 50%;
+            width: 2.5em;
+            height: 2.5em;
+            animation-fill-mode: both;
+            animation: bblFadInOut 1.8s infinite ease-in-out;
+        }
+        
+        .loader {
+            color: #55298a;
+            font-size: 7px;
+            position: relative;
+            text-indent: -9999em;
+            transform: translateZ(0);
+            animation-delay: -0.16s;
+        }
+        
+        .loader:before,
+        .loader:after {
+            content: '';
+            position: absolute;
+            top: 0;
+        }
+        
+        .loader:before {
+            left: -3.5em;
+            animation-delay: -0.32s;
+        }
+        
+        .loader:after {
+            left: 3.5em;
+        }
+        
+        @keyframes bblFadInOut {
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 2.5em 0 -1.3em
+            }
+            40% {
+                box-shadow: 0 2.5em 0 0
+            }
+        }
+        
+        #county-cards .card {
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(1, .57, .34, -0.05);
+            background-size: 100%;
+            background-position: center center;
+            filter: brightness(1) saturate(0.5);
+            text-shadow: 2.5px 2.5px 10px black;
+            text-transform: uppercase;
+        }
+        
+        #county-cards .card:hover {
+            background-size: 110%;
+            filter: brightness(1.25) saturate(1.25);
+        }
+        
+        #county-cards h3 {
+            filter: brightness(1.25);
+            color: white;
+        }
+        
+        #map-container {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        kbd {
+            padding: 0.1em 0.575em;
+            font-size: 0.75em;
+            font-weight: 700;
+            background-color: rgba(0, 0, 0, 0.35) !important;
+            color: white !important;
+            border-radius: 0.25rem;
+        }
+        
+        kbd kbd {
+            padding: 0;
+            font-size: 1em;
+        }
+        
+        .kbd-wrap {
+            @media (width < 576px) {
+                display: none !important;
+            }
+        }
+        
+        @media (width < 576px) {
+            .hero-section {
+                background-image: url('assets/resourcemap-3.png');
+                height: 500px;
+                background-position-x: right;
+                background-position-y: bottom;
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: #ffffff !important;
+            }
+            .hero-section h1,
+            .hero-section h2,
+            .hero-section h3,
+            .hero-section h4,
+            .hero-section h5,
+            .hero-section h6 {
+                color: #ffffff !important;
+            }
+        }
+        
+        @media (width > 575px) {
+            .hero-section {
+                background-image: url('assets/resourcemap-3.png');
+                height: 600px;
+                background-position-x: right;
+                background-position-y: bottom;
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: #ffffff !important;
+            }
+            .hero-section h1,
+            .hero-section h2,
+            .hero-section h3,
+            .hero-section h4,
+            .hero-section h5,
+            .hero-section h6 {
+                color: #ffffff !important;
+            }
+        }
+        
+        @media (width > 767px) {
+            .hero-section {
+                background-image: url('https://www.councilsepa.org/wp-content/uploads/2025/05/resourcemap-4-scaled.png');
+                height: 600px;
+                background-position-x: right;
+                background-position-y: bottom;
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: #ffffff !important;
+            }
+            .hero-section h1,
+            .hero-section h2,
+            .hero-section h3,
+            .hero-section h4,
+            .hero-section h5,
+            .hero-section h6 {
+                color: #ffffff !important;
+            }
+        }
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .resource-table {
+                font-size: 0.75rem;
+            }
+            
+            .resource-table .btn-group-sm .btn {
+                padding: 0.1rem 0.3rem;
+                font-size: 0.65rem;
+            }
+            
+            .table-logo {
+                max-height: 30px;
+                max-width: 60px;
+            }
+            
+            .view-toggle {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .results-controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section id="hero" class="hero-section py-5 w-100 d-flex">
+        <div class="container d-flex justify-content-end">
+            <div class="row d-flex justify-content-center align-items-end">
+                <div class="banner-col col-12">
+                    <div class="banner-container">
+                        <p>
+                            <a href="https://councilsepa.org/hubs" style="text-decoration:none"></a>
+                        </p> <a class="h6 text-white" href="index.html" style="text-decoration:none">
+                            ←Back
+                        </a>
+                        <br />
+                        <br />
+                        <p>
+                            <h1>Resources</h1>
+                            <h5>Find essential resources including Recovery Support, Family Support, Housing, and Transportation, plus links to additional support.</h5></div>
+                </div>
+                <div id="search-container">
+                    <div id="searchbar" class="input-group rounded-2">
+                        <div class="input-group-prepend">
+                            <button id="filterButton" class="btn h-100 px-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas" style="border-radius: 6px 1px 1px 6px !important"><i class="bi bi-funnel-fill" style="margin-right: 7px"></i>Filter</button>
+                        </div>
+                        <input type="text" id="search-input" class="form-control border-0 bg-transparent py-2 px-4" placeholder="Search...">
+                        <div class="input-group-append">
+                            <div class="bg-transparent px-2 py-1 d-flex align-items-center justify-content-center" style="height: 100%"> <span><kbd>CTRL</kbd> + <kbd style="margin-right: 20px">K</kbd></span> </div>
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn h-100 px-4 searchButton" type="button" style="border-radius: 1px 8px 8px 1px !important"> <i class="bi bi-search"></i> </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="loader-container" style="display: none; justify-content: center; align-items: center; min-height: 200px;">
+        <div class="loader">Loading...</div>
+    </section>
+    
+    <section id="results" style="display: none">
+        <div class="row g-0 flex-column flex-sm-row">
+            <!-- Results Column (scrolls independently) -->
+            <div class="col-sm-7 col-lg-8 order-2 order-sm-1">
+                <div class="results-scroll px-4 py-3">
+                    <div id="chips-area" class="mb-3"></div>
+                    <div id="results-wrapper">
+                        <div class="results-header">
+                            <h4 id="results-counter" class="results-count mb-0">Results 1–25 of 299</h4>
+                            <div class="results-controls">
+                                <div class="view-toggle">
+                                    <input type="radio" id="view-card" name="view-toggle" value="card" checked>
+                                    <label for="view-card"><i class="bi bi-grid-3x3-gap-fill me-1"></i> Card</label>
+                                    <input type="radio" id="view-table" name="view-toggle" value="table">
+                                    <label for="view-table"><i class="bi bi-table me-1"></i> Table</label>
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm" id="export-btn">
+                                    <i class="bi bi-download me-1"></i>Export CSV
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Card View -->
+                        <div id="card-view-container">
+                            <div id="resource-list" class="d-flex flex-column px-2">
+                                <!-- Cards go here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Table View -->
+                        <div id="table-view-container">
+                            <div class="table-responsive">
+                                <table class="table table-hover resource-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:120px">Actions</th>
+                                            <th class="sortable" data-column="Location Name">Name/Organization</th>
+                                            <th class="sortable" data-column="County">County</th>
+                                            <th class="sortable" data-column="Resource Type">Resource Type</th>
+                                            <th>Category</th>
+                                            <th>Populations</th>
+                                            <th>Phone</th>
+                                            <th>Address</th>
+                                            <th>Logo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                        <!-- Table rows go here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div id="load-more" class="text-center my-4">
+                            <button class="btn bg-secondary text-white rounded-0" id="load-more-button">Load More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Map Column (sticky) -->
+            <div class="col-sm-5 col-lg-4 order-1 order-sm-2">
+                <div class="sticky-top" style="height: 100vh;">
+                    <div id="map" style="height: 100%; background-color: #eee;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="countySearch" class="py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md-8">
+                    <h2>Search by County</h2> </div>
+                <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-sm" href="results.html">
+               See all Counties<i class="bi bi-chevron-double-right ms-2"></i></a></div>
+            </div>
+            <div id="county-cards">
+                <div class="grid" style="row-gap: 3">
+                    <a href="#" data-county="Philadelphia" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-8" style="height:200px">
+                        <div class="card rounded-4 shadow-lg border-0 w-100 border-0" style="background-position: cover; background-image: url(assets/counties/philadelphia.jpg);">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Philadelphia</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Berks" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-4" style="height:200px">
+                        <div class="card rounded-4 shadow-lg border-0 w-100 border-0" style="background-position: cover; background-image: url(assets/counties/reading2.jpg);">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Berks</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Bucks" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-6" style="height:200px">
+                        <div class="card rounded-4 shadow-lg border-0 w-100 border-0" style="background-size: : cover; background-image: url(assets/counties/doylestown.jpg)">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Bucks</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Chester" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-6" style="height:200px">
+                        <div class="card rounded-4 shadow-lg border-0 w-100 border-0" style="background-size: cover; background-image: url(assets/counties/phoenixville.jpg)">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Chester</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Delaware" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-4" style="height:200px">
+                        <div class="card rounded-4 shadow-lg border-0 w-100 border-0" style="background-size: cover; background-image: url(assets/counties/delco-media.jpg)">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Delaware</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Lancaster" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-4" style="height:200px">
+                        <div class="card rounded-4 shadow-lg border-0 w-100 border-0" style="background-size: cover; background-image: url(assets/counties/delco-media.jpg)">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Lancaster</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Montgomery" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-4" style="height:200px">
+                        <div class="card rounded-4 shadow-lg border-0 w-100 border-0" style="background-size: cover; background-image: url(assets/counties/delco-media.jpg)">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Montgomery</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Schuylkill" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-4" style="height:200px">
+                        <div class="card rounded-4 shadow-lg border-0 w-100 border-0" style="background-size: cover; background-image: url(assets/counties/delco-media.jpg)">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Schuylkill</h3> </div>
+                        </div>
+                    </a>
+</div>
+            </div>
+        </div>
+    </section>
+ <section id="resource-types" class="py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md-8">
+                    <h2>Search by Resource Type</h2> </div>
+                <div class="col-md-4 d-md-flex align-items-center justify-content-end"><a class="text-muted text-sm text-nowrap" href="#">
+               See all Resource Types<i class="bi bi-chevron-double-right ms-2"></i></a></div>
+            </div>
+            <div class="row mb-5 g-4">
+                <div class="col-md-6 col-lg-3">
+                    <a href="#" class="resource-type-card card h-100 border-0 shadow text-decoration-none text-dark rounded-4" data-resource-type="Recovery Support">
+                        <div class="card-body text-center"> <img src="assets/resourcetype-recovery.png" style="width:50%">
+                            <h3 class="card-title text-secondary" style="font-weight: 700">Recovery Support</h3>
+                            <p class="card-text text-muted">Centers of Excellence, Recovery Community Centers, Warm Handoff, etc.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="#" class="resource-type-card card h-100 text-decoration-none text-dark border-0 shadow rounded-4" data-resource-type="Family Support">
+                        <div class="card-body text-center"> <img src="assets/resourcetype-family.png" style="width:50%">
+                            <h3 class="card-title">Family Support</h3>
+                            <p class="card-text text-muted">Counseling, Education, Peer Support, Family Resources, etc.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="#" class="resource-type-card card h-100 text-decoration-none text-dark border-0 shadow rounded-4" data-resource-type="Housing">
+                        <div class="card-body text-center"> <img src="assets/resourcetype-housing.png" style="width:50%">
+                            <h3 class="card-title">Housing</h3>
+                            <p class="card-text text-muted">Halfway Houses, Recovery Houses, Housing Assistance, etc.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="#" class="resource-type-card card h-100 text-decoration-none text-dark border-0 shadow rounded-4" data-resource-type="Transportation">
+                        <div class="card-body text-center"> <img src="assets/resourcetype-transportation.png" style="width:50%">
+                            <h3 class="card-title">Transportation</h3>
+                            <p class="card-text text-muted">Medical Assistance, Ride Sharing, Low Cost Public Transport, etc.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterModalLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="filterModalLabel">Filters</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <!-- Filter content goes here -->
+            <div class="sort-control d-none d-md-block mb-3">
+                <select id="sort-by" class="form-select" style="background-color:lightsteelblue">
+                    <option value="">Sort By...</option>
+                    <option value="Location Name">Name (A–Z)</option>
+                    <option value="County">County (A-Z)</option>
+                    <option value="distance">Distance (Nearest)</option>
+                </select>
+            </div>
+            <div class="container-fluid">
+                <div class="filter-section">
+                    <div id="county-filters" class="card p-3 m-2">
+                        <h5 class="text-secondary">Counties</h5>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Philadelphia" id="county-philadelphia">
+                            <label class="form-check-label" for="county-philadelphia">Philadelphia</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Berks" id="county-berks">
+                            <label class="form-check-label" for="county-berks">Berks</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Bucks" id="county-bucks">
+                            <label class="form-check-label" for="county-bucks">Bucks</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Chester" id="county-chester">
+                            <label class="form-check-label" for="county-chester">Chester</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Delaware" id="county-delaware">
+                            <label class="form-check-label" for="county-delaware">Delaware</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Lancaster" id="county-lancaster">
+                            <label class="form-check-label" for="county-lancaster">Lancaster</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Montgomery" id="county-montgomery">
+                            <label class="form-check-label" for="county-montgomery">Montgomery</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input county-filter" type="checkbox" value="Schuylkill" id="county-schuylkill">
+                            <label class="form-check-label" for="county-schuylkill">Schuylkill</label>
+                        </div>
+                    </div>
+                    <div id="population-filters" class="card p-3 m-2">
+                        <h5 class="text-secondary">Populations Served</h5>
+                        <div class="form-check">
+                            <input class="form-check-input population-filter" type="checkbox" value="Men" id="population-men">
+                            <label class="form-check-label" for="population-men">Men</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input population-filter" type="checkbox" value="Women" id="population-women">
+                            <label class="form-check-label" for="population-women">Women</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input population-filter" type="checkbox" value="Children" id="population-children">
+                            <label class="form-check-label" for="population-children">Children</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input population-filter" type="checkbox" value="Adolescents" id="population-adolescents">
+                            <label class="form-check-label" for="population-adolescents">Adolescents</label>
+                        </div>
+                    </div>
+                    <div id="resource-type-filters" class="card p-3 m-2">
+                        <h5 class="text-secondary">Resource Types</h5>
+                        <div class="form-check">
+                            <input class="form-check-input resource-type-filter" type="checkbox" value="Recovery Support" id="resource-type-recovery-support">
+                            <label class="form-check-label" for="resource-type-recovery-support">Recovery Support</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input resource-type-filter" type="checkbox" value="Family Support" id="resource-type-family-support">
+                            <label class="form-check-label" for="resource-type-family-support">Family Support</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input resource-type-filter" type="checkbox" value="Housing" id="resource-type-housing">
+                            <label class="form-check-label" for="resource-type-housing">Housing</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input resource-type-filter" type="checkbox" value="Transportation" id="resource-type-transportation">
+                            <label class="form-check-label" for="resource-type-transportation">Transportation</label>
+                        </div>
+                    </div>
+                    <div id="category-filters" class="card p-3 m-2">
+                        <h5 class="text-secondary">Categories</h5>
+                        <div class="form-check">
+                            <input class="form-check-input category-filter" type="checkbox" value="Government" id="category-government">
+                            <label class="form-check-label" for="category-government">Government</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input category-filter" type="checkbox" value="Other" id="category-other">
+                            <label class="form-check-label" for="category-other">Other</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script defer="defer" src="https://www.councilsepa.org/wp-content/themes/elevation-framework/build/assets/script.js?ver=1.0.0" id="elevation-scripts"></script>
+    <script src="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        const cardIcons = document.querySelectorAll('.card__icon');
+
+        function checkScroll() {
+            cardIcons.forEach(cardIcon => {
+                const rect = cardIcon.getBoundingClientRect();
+                const middleOfScreen = window.innerHeight / 2;
+                if (rect.bottom < middleOfScreen) {
+                    cardIcon.style.backgroundColor = '#20cb98';
+                    cardIcon.style.transition = 'all 0.75s ease';
+                    setTimeout(() => {}, 500);
+                }
+                else {
+                    cardIcon.style.backgroundColor = '#55298a';
+                }
+            });
+        }
+        window.addEventListener('scroll', checkScroll);
+    </script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterOffcanvas = document.getElementById('filterOffcanvas');
+
+      if (!filterOffcanvas) return;
+
+      const cleanupBackdrop = () => {
+        document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
+        document.body.classList.remove('offcanvas-backdrop', 'modal-open');
+        document.body.style.overflow = '';
+      };
+
+      // CLEANUP on close
+      filterOffcanvas.addEventListener('hidden.bs.offcanvas', cleanupBackdrop);
+
+      // SAFETY: cleanup before show, to avoid broken state
+      filterOffcanvas.addEventListener('show.bs.offcanvas', cleanupBackdrop);
+
+      // SAFETY: auto-close if backdrop disappears but offcanvas is stuck open
+      const observer = new MutationObserver(() => {
+        const backdrop = document.querySelector('.offcanvas-backdrop.show');
+        const isVisible = filterOffcanvas.classList.contains('show');
+
+        if (!backdrop && isVisible) {
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(filterOffcanvas);
+          if (offcanvasInstance) {
+            offcanvasInstance.hide();
+          }
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+    });
+    </script>
+
+</body>
+
+</html>
