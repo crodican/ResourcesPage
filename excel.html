@@ -358,11 +358,38 @@
             });
             tableHeaders.appendChild(headerRow);
 
-            // Create rows (limit to first 100 for performance)
+            // Create rows - show all data (removed the 100 row limit)
             tableBody.innerHTML = '';
-            const displayData = filteredData.slice(0, 100);
             
-            displayData.forEach(record => {
+            // Add a loading message for large datasets
+            if (filteredData.length > 1000) {
+                const loadingRow = document.createElement('tr');
+                const loadingTd = document.createElement('td');
+                loadingTd.colSpan = headers.length;
+                loadingTd.textContent = `Loading ${filteredData.length} rows...`;
+                loadingTd.style.textAlign = 'center';
+                loadingTd.style.fontStyle = 'italic';
+                loadingTd.style.backgroundColor = '#e7f3ff';
+                loadingRow.appendChild(loadingTd);
+                tableBody.appendChild(loadingRow);
+                
+                // Use setTimeout to allow the loading message to render
+                setTimeout(() => {
+                    renderAllTableRows(headers);
+                }, 10);
+            } else {
+                renderAllTableRows(headers);
+            }
+        }
+
+        // Helper function to render all table rows
+        function renderAllTableRows(headers) {
+            tableBody.innerHTML = '';
+            
+            // Create document fragment for better performance
+            const fragment = document.createDocumentFragment();
+            
+            filteredData.forEach(record => {
                 const row = document.createElement('tr');
                 headers.forEach(header => {
                     const td = document.createElement('td');
@@ -370,20 +397,10 @@
                     td.textContent = value === null || value === undefined ? '' : String(value);
                     row.appendChild(td);
                 });
-                tableBody.appendChild(row);
+                fragment.appendChild(row);
             });
-
-            if (filteredData.length > 100) {
-                const row = document.createElement('tr');
-                const td = document.createElement('td');
-                td.colSpan = headers.length;
-                td.textContent = `... and ${filteredData.length - 100} more rows (showing first 100)`;
-                td.style.textAlign = 'center';
-                td.style.fontStyle = 'italic';
-                td.style.backgroundColor = '#f0f0f0';
-                row.appendChild(td);
-                tableBody.appendChild(row);
-            }
+            
+            tableBody.appendChild(fragment);
         }
 
         // Display JSON view
