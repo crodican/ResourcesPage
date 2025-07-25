@@ -1,112 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resources Data for Excel</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .header {
-            background: linear-gradient(135deg, #55298a, #20cb98);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .loading {
-            text-align: center;
-            padding: 40px;
-            font-size: 18px;
-            color: #55298a;
-        }
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #55298a;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .data-display {
-            font-family: monospace;
-            white-space: pre-wrap;
-            font-size: 12px;
-            line-height: 1.2;
-            margin: 0;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 4px;
-            max-height: 70vh;
-            overflow: auto;
-        }
-        .error {
-            color: #dc3545;
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 20px 0;
-        }
-        .success-info {
-            color: #155724;
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 20px 0;
-        }
-    </style>
+    <title>CSV Data</title>
 </head>
 <body>
     <script>
         // Configuration
         const API_BASE_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/';
         
-        // Get format from URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const format = urlParams.get('format') || 'table';
-        
-        // If requesting data format, hide everything and show loading
-        if (format === 'json' || format === 'csv') {
-            document.body.innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <div>Loading all resources data...</div>
-                    <div style="font-size: 14px; margin-top: 10px;">This may take a moment for large datasets</div>
-                </div>
-            `;
-        }
+        // Hide body initially
+        document.body.style.display = 'none';
 
-        // Fetch all data with pagination (synchronous approach)
-        async function fetchAllDataSync() {
+        // Fetch all data with pagination
+        async function fetchAllData() {
             const allData = [];
             let page = 1;
-            let totalRows = null;
             const pageSize = 100;
 
             try {
                 while (true) {
-                    console.log(`Fetching page ${page}...`);
-                    
                     const response = await fetch(`${API_BASE_URL}?page=${page}&limit=${pageSize}`);
                     
                     if (!response.ok) {
@@ -116,21 +29,11 @@
                     const data = await response.json();
                     const apiData = data.success ? data.data : data;
                     const records = apiData.list || [];
-                    const pageInfo = apiData.pageInfo || {};
-                    
-                    if (totalRows === null && pageInfo.totalRows) {
-                        totalRows = pageInfo.totalRows;
-                    }
                     
                     allData.push(...records);
-                    console.log(`Page ${page}: Got ${records.length} records, total so far: ${allData.length}`);
                     
-                    // Stop conditions
+                    // Stop if we got fewer records than requested (last page)
                     if (records.length === 0 || records.length < pageSize) {
-                        break;
-                    }
-                    
-                    if (totalRows && allData.length >= totalRows) {
                         break;
                     }
                     
@@ -138,7 +41,6 @@
                     
                     // Safety check
                     if (page > 100) {
-                        console.warn('Reached maximum page limit (100)');
                         break;
                     }
                 }
@@ -168,109 +70,26 @@
             return [csvHeaders, ...csvRows].join('\n');
         }
 
-        // Handle different output formats
-        async function handleRequest() {
+        // Main execution
+        async function main() {
             try {
-                const data = await fetchAllDataSync();
+                const data = await fetchAllData();
+                const csv = convertToCSV(data);
                 
-                if (format === 'json') {
-                    // Return pure JSON
-                    document.body.innerHTML = `<pre class="data-display">${JSON.stringify(data, null, 2)}</pre>`;
-                } else if (format === 'csv') {
-                    // Return pure CSV
-                    const csv = convertToCSV(data);
-                    document.body.innerHTML = `<pre class="data-display">${csv}</pre>`;
-                } else {
-                    // Return HTML interface
-                    showDataInterface(data);
-                }
-                
-                console.log(`Successfully loaded ${data.length} records`);
+                // Replace entire document with just the CSV data
+                document.open();
+                document.write('<pre style="margin:0;padding:0;font-family:monospace;font-size:12px;line-height:1.2;white-space:pre-wrap;">' + csv.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</pre>');
+                document.close();
                 
             } catch (error) {
-                console.error('Error:', error);
-                document.body.innerHTML = `
-                    <div class="container">
-                        <div class="header">
-                            <h1>Resources Data Export for Excel</h1>
-                        </div>
-                        <div class="error">
-                            <strong>Error loading data:</strong><br>
-                            ${error.message}
-                        </div>
-                    </div>
-                `;
+                document.open();
+                document.write('Error loading data: ' + error.message);
+                document.close();
             }
         }
 
-        // Show the full interface (for regular browser access)
-        function showDataInterface(data) {
-            document.body.innerHTML = `
-                <div class="container">
-                    <div class="header">
-                        <h1>Resources Data Export for Excel</h1>
-                        <p>Data successfully loaded and ready for export</p>
-                    </div>
-                    
-                    <div class="success-info">
-                        <strong>Data loaded successfully!</strong><br>
-                        Total Records: ${data.length}<br>
-                        Columns: ${data.length > 0 ? Object.keys(data[0]).length : 0}<br>
-                        Last Updated: ${new Date().toLocaleString()}
-                    </div>
-
-                    <div style="margin: 20px 0;">
-                        <h3>Excel Power Query URLs:</h3>
-                        <div style="background-color: #e7f3ff; padding: 15px; border-radius: 4px; margin: 10px 0;">
-                            <strong>JSON Format:</strong><br>
-                            <code>${window.location.href.split('?')[0]}?format=json</code>
-                        </div>
-                        <div style="background-color: #e7f3ff; padding: 15px; border-radius: 4px; margin: 10px 0;">
-                            <strong>CSV Format:</strong><br>
-                            <code>${window.location.href.split('?')[0]}?format=csv</code>
-                        </div>
-                    </div>
-
-                    <div style="margin: 20px 0;">
-                        <button onclick="downloadData('json')" style="padding: 10px 20px; margin: 5px; background: #55298a; color: white; border: none; border-radius: 4px; cursor: pointer;">Download JSON</button>
-                        <button onclick="downloadData('csv')" style="padding: 10px 20px; margin: 5px; background: #55298a; color: white; border: none; border-radius: 4px; cursor: pointer;">Download CSV</button>
-                    </div>
-
-                    <div>
-                        <h3>Data Preview (first 5 records):</h3>
-                        <pre class="data-display">${JSON.stringify(data.slice(0, 5), null, 2)}</pre>
-                    </div>
-                </div>
-            `;
-
-            // Add download functionality
-            window.downloadData = function(format) {
-                let content, filename, contentType;
-                
-                if (format === 'json') {
-                    content = JSON.stringify(data, null, 2);
-                    filename = `resources_${new Date().toISOString().split('T')[0]}.json`;
-                    contentType = 'application/json';
-                } else if (format === 'csv') {
-                    content = convertToCSV(data);
-                    filename = `resources_${new Date().toISOString().split('T')[0]}.csv`;
-                    contentType = 'text/csv';
-                }
-                
-                const blob = new Blob([content], { type: contentType });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = filename;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-            };
-        }
-
-        // Start the process immediately when script loads
-        handleRequest();
+        // Start immediately
+        main();
     </script>
 </body>
 </html>
