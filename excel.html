@@ -26,217 +26,86 @@
             margin-bottom: 20px;
             text-align: center;
         }
-        .controls {
-            margin: 20px 0;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
-        }
-        .btn-primary {
-            background-color: #55298a;
-            color: white;
-        }
-        .btn-primary:hover {
-            background-color: #6d3ba0;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-        .btn-secondary:hover {
-            background-color: #545b62;
-        }
-        .status {
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-        .status.loading {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        .status.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .status.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .data-info {
-            background-color: #e9ecef;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-        select, input {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 12px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #55298a;
-            color: white;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .excel-url {
-            background-color: #e7f3ff;
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px 0;
-            word-break: break-all;
-            font-family: monospace;
-        }
-        .hidden {
-            display: none;
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #55298a;
         }
         .spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #55298a;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 40px;
+            height: 40px;
             animation: spin 1s linear infinite;
-            display: inline-block;
-            margin-right: 10px;
+            margin: 0 auto 20px;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .data-display {
+            font-family: monospace;
+            white-space: pre-wrap;
+            font-size: 12px;
+            line-height: 1.2;
+            margin: 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            max-height: 70vh;
+            overflow: auto;
+        }
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .success-info {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Resources Data Export for Excel</h1>
-            <p>Fetch all resources data and export in Excel-friendly format</p>
-        </div>
-
-        <div class="controls">
-            <button id="fetchAllBtn" class="btn btn-primary">Fetch All Data</button>
-            <button id="exportCsvBtn" class="btn btn-secondary" disabled>Download CSV</button>
-            <button id="exportJsonBtn" class="btn btn-secondary" disabled>Download JSON</button>
-            
-            <select id="formatSelect">
-                <option value="table">Table View</option>
-                <option value="json">JSON View</option>
-                <option value="csv">CSV View</option>
-            </select>
-            
-            <input type="text" id="filterInput" placeholder="Filter data..." style="margin-left: 20px;">
-        </div>
-
-        <div id="status" class="status hidden"></div>
-        
-        <div id="dataInfo" class="data-info hidden"></div>
-        
-        <div class="excel-url">
-            <strong>Excel Power Query URL:</strong><br>
-            <span id="currentUrl"></span>
-        </div>
-
-        <div id="dataContainer" class="hidden">
-            <div id="tableView">
-                <table id="dataTable">
-                    <thead id="tableHeaders"></thead>
-                    <tbody id="tableBody"></tbody>
-                </table>
-            </div>
-            <div id="jsonView" class="hidden">
-                <pre id="jsonData"></pre>
-            </div>
-            <div id="csvView" class="hidden">
-                <pre id="csvData"></pre>
-            </div>
-        </div>
-    </div>
-
     <script>
         // Configuration
         const API_BASE_URL = 'https://resourcesdatabaseproxy.crodican.workers.dev/';
         
-        // Global data storage
-        let allData = [];
-        let filteredData = [];
+        // Get format from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const format = urlParams.get('format') || 'table';
         
-        // DOM Elements
-        const fetchAllBtn = document.getElementById('fetchAllBtn');
-        const exportCsvBtn = document.getElementById('exportCsvBtn');
-        const exportJsonBtn = document.getElementById('exportJsonBtn');
-        const formatSelect = document.getElementById('formatSelect');
-        const filterInput = document.getElementById('filterInput');
-        const status = document.getElementById('status');
-        const dataInfo = document.getElementById('dataInfo');
-        const currentUrl = document.getElementById('currentUrl');
-        const dataContainer = document.getElementById('dataContainer');
-        const tableView = document.getElementById('tableView');
-        const jsonView = document.getElementById('jsonView');
-        const csvView = document.getElementById('csvView');
-        const dataTable = document.getElementById('dataTable');
-        const tableHeaders = document.getElementById('tableHeaders');
-        const tableBody = document.getElementById('tableBody');
-        const jsonData = document.getElementById('jsonData');
-        const csvData = document.getElementById('csvData');
-
-        // Set current URL
-        currentUrl.textContent = window.location.href;
-
-        // Utility functions
-        function showStatus(message, type = 'loading') {
-            status.className = `status ${type}`;
-            status.innerHTML = type === 'loading' ? 
-                `<span class="spinner"></span>${message}` : message;
-            status.classList.remove('hidden');
+        // If requesting data format, hide everything and show loading
+        if (format === 'json' || format === 'csv') {
+            document.body.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <div>Loading all resources data...</div>
+                    <div style="font-size: 14px; margin-top: 10px;">This may take a moment for large datasets</div>
+                </div>
+            `;
         }
 
-        function hideStatus() {
-            status.classList.add('hidden');
-        }
-
-        function showDataInfo(info) {
-            dataInfo.innerHTML = info;
-            dataInfo.classList.remove('hidden');
-        }
-
-        // Fetch all data with pagination
-        async function fetchAllData() {
-            showStatus('Fetching all resources data...', 'loading');
-            allData = [];
+        // Fetch all data with pagination (synchronous approach)
+        async function fetchAllDataSync() {
+            const allData = [];
             let page = 1;
             let totalRows = null;
-            const pageSize = 100; // NocoDB's limit
+            const pageSize = 100;
 
             try {
                 while (true) {
-                    showStatus(`Fetching page ${page}... (${allData.length} records so far)`, 'loading');
+                    console.log(`Fetching page ${page}...`);
                     
                     const response = await fetch(`${API_BASE_URL}?page=${page}&limit=${pageSize}`);
                     
@@ -245,173 +114,40 @@
                     }
                     
                     const data = await response.json();
-                    console.log(`Page ${page} response:`, data);
-                    
-                    // Handle both response formats
                     const apiData = data.success ? data.data : data;
                     const records = apiData.list || [];
                     const pageInfo = apiData.pageInfo || {};
                     
-                    // Get total rows from first response
                     if (totalRows === null && pageInfo.totalRows) {
                         totalRows = pageInfo.totalRows;
-                        console.log(`Total rows available: ${totalRows}`);
                     }
                     
-                    // Add records to our collection
-                    allData = allData.concat(records);
+                    allData.push(...records);
                     console.log(`Page ${page}: Got ${records.length} records, total so far: ${allData.length}`);
                     
-                    // Check if we should continue
-                    // Stop if: no records returned, less than pageSize returned, or we have all records
-                    if (records.length === 0) {
-                        console.log('No more records returned, stopping');
-                        break;
-                    }
-                    
-                    if (records.length < pageSize) {
-                        console.log(`Got ${records.length} records (less than ${pageSize}), this is the last page`);
+                    // Stop conditions
+                    if (records.length === 0 || records.length < pageSize) {
                         break;
                     }
                     
                     if (totalRows && allData.length >= totalRows) {
-                        console.log(`Reached total rows (${totalRows}), stopping`);
                         break;
                     }
                     
                     page++;
                     
-                    // Safety check to prevent infinite loops
+                    // Safety check
                     if (page > 100) {
                         console.warn('Reached maximum page limit (100)');
                         break;
                     }
                 }
 
-                filteredData = [...allData];
-                displayData();
-                enableExportButtons();
-                
-                showStatus(`Successfully loaded ${allData.length} records from ${page - 1} pages`, 'success');
-                showDataInfo(`
-                    <strong>Data Summary:</strong><br>
-                    Total Records: ${allData.length}<br>
-                    Expected Total: ${totalRows || 'Unknown'}<br>
-                    Pages Fetched: ${page - 1}<br>
-                    Columns: ${allData.length > 0 ? Object.keys(allData[0]).length : 0}<br>
-                    Last Updated: ${new Date().toLocaleString()}
-                `);
-
+                return allData;
             } catch (error) {
                 console.error('Error fetching data:', error);
-                showStatus(`Error: ${error.message}`, 'error');
-                disableExportButtons();
+                throw error;
             }
-        }
-
-        // Display data based on selected format
-        function displayData() {
-            if (filteredData.length === 0) {
-                dataContainer.classList.add('hidden');
-                return;
-            }
-
-            dataContainer.classList.remove('hidden');
-            
-            const format = formatSelect.value;
-            
-            // Hide all views
-            tableView.classList.add('hidden');
-            jsonView.classList.add('hidden');
-            csvView.classList.add('hidden');
-            
-            // Show selected view
-            switch (format) {
-                case 'table':
-                    displayTableView();
-                    tableView.classList.remove('hidden');
-                    break;
-                case 'json':
-                    displayJsonView();
-                    jsonView.classList.remove('hidden');
-                    break;
-                case 'csv':
-                    displayCsvView();
-                    csvView.classList.remove('hidden');
-                    break;
-            }
-        }
-
-        // Display table view
-        function displayTableView() {
-            if (filteredData.length === 0) return;
-
-            const headers = Object.keys(filteredData[0]);
-            
-            // Create headers
-            tableHeaders.innerHTML = '';
-            const headerRow = document.createElement('tr');
-            headers.forEach(header => {
-                const th = document.createElement('th');
-                th.textContent = header;
-                headerRow.appendChild(th);
-            });
-            tableHeaders.appendChild(headerRow);
-
-            // Create rows - show all data (removed the 100 row limit)
-            tableBody.innerHTML = '';
-            
-            // Add a loading message for large datasets
-            if (filteredData.length > 1000) {
-                const loadingRow = document.createElement('tr');
-                const loadingTd = document.createElement('td');
-                loadingTd.colSpan = headers.length;
-                loadingTd.textContent = `Loading ${filteredData.length} rows...`;
-                loadingTd.style.textAlign = 'center';
-                loadingTd.style.fontStyle = 'italic';
-                loadingTd.style.backgroundColor = '#e7f3ff';
-                loadingRow.appendChild(loadingTd);
-                tableBody.appendChild(loadingRow);
-                
-                // Use setTimeout to allow the loading message to render
-                setTimeout(() => {
-                    renderAllTableRows(headers);
-                }, 10);
-            } else {
-                renderAllTableRows(headers);
-            }
-        }
-
-        // Helper function to render all table rows
-        function renderAllTableRows(headers) {
-            tableBody.innerHTML = '';
-            
-            // Create document fragment for better performance
-            const fragment = document.createDocumentFragment();
-            
-            filteredData.forEach(record => {
-                const row = document.createElement('tr');
-                headers.forEach(header => {
-                    const td = document.createElement('td');
-                    const value = record[header];
-                    td.textContent = value === null || value === undefined ? '' : String(value);
-                    row.appendChild(td);
-                });
-                fragment.appendChild(row);
-            });
-            
-            tableBody.appendChild(fragment);
-        }
-
-        // Display JSON view
-        function displayJsonView() {
-            jsonData.textContent = JSON.stringify(filteredData, null, 2);
-        }
-
-        // Display CSV view
-        function displayCsvView() {
-            const csv = convertToCSV(filteredData);
-            csvData.textContent = csv;
         }
 
         // Convert data to CSV format
@@ -432,103 +168,109 @@
             return [csvHeaders, ...csvRows].join('\n');
         }
 
-        // Filter data
-        function filterData() {
-            const filterText = filterInput.value.toLowerCase().trim();
-            
-            if (!filterText) {
-                filteredData = [...allData];
-            } else {
-                filteredData = allData.filter(record => {
-                    return Object.values(record).some(value => {
-                        if (value === null || value === undefined) return false;
-                        return String(value).toLowerCase().includes(filterText);
-                    });
-                });
+        // Handle different output formats
+        async function handleRequest() {
+            try {
+                const data = await fetchAllDataSync();
+                
+                if (format === 'json') {
+                    // Return pure JSON
+                    document.body.innerHTML = `<pre class="data-display">${JSON.stringify(data, null, 2)}</pre>`;
+                } else if (format === 'csv') {
+                    // Return pure CSV
+                    const csv = convertToCSV(data);
+                    document.body.innerHTML = `<pre class="data-display">${csv}</pre>`;
+                } else {
+                    // Return HTML interface
+                    showDataInterface(data);
+                }
+                
+                console.log(`Successfully loaded ${data.length} records`);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.body.innerHTML = `
+                    <div class="container">
+                        <div class="header">
+                            <h1>Resources Data Export for Excel</h1>
+                        </div>
+                        <div class="error">
+                            <strong>Error loading data:</strong><br>
+                            ${error.message}
+                        </div>
+                    </div>
+                `;
             }
-            
-            displayData();
-            showDataInfo(`
-                <strong>Data Summary:</strong><br>
-                Total Records: ${allData.length}<br>
-                Filtered Records: ${filteredData.length}<br>
-                Filter: "${filterInput.value || 'None'}"<br>
-                Last Updated: ${new Date().toLocaleString()}
-            `);
         }
 
-        // Export functions
-        function downloadFile(content, filename, contentType) {
-            const blob = new Blob([content], { type: contentType });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
+        // Show the full interface (for regular browser access)
+        function showDataInterface(data) {
+            document.body.innerHTML = `
+                <div class="container">
+                    <div class="header">
+                        <h1>Resources Data Export for Excel</h1>
+                        <p>Data successfully loaded and ready for export</p>
+                    </div>
+                    
+                    <div class="success-info">
+                        <strong>Data loaded successfully!</strong><br>
+                        Total Records: ${data.length}<br>
+                        Columns: ${data.length > 0 ? Object.keys(data[0]).length : 0}<br>
+                        Last Updated: ${new Date().toLocaleString()}
+                    </div>
+
+                    <div style="margin: 20px 0;">
+                        <h3>Excel Power Query URLs:</h3>
+                        <div style="background-color: #e7f3ff; padding: 15px; border-radius: 4px; margin: 10px 0;">
+                            <strong>JSON Format:</strong><br>
+                            <code>${window.location.href.split('?')[0]}?format=json</code>
+                        </div>
+                        <div style="background-color: #e7f3ff; padding: 15px; border-radius: 4px; margin: 10px 0;">
+                            <strong>CSV Format:</strong><br>
+                            <code>${window.location.href.split('?')[0]}?format=csv</code>
+                        </div>
+                    </div>
+
+                    <div style="margin: 20px 0;">
+                        <button onclick="downloadData('json')" style="padding: 10px 20px; margin: 5px; background: #55298a; color: white; border: none; border-radius: 4px; cursor: pointer;">Download JSON</button>
+                        <button onclick="downloadData('csv')" style="padding: 10px 20px; margin: 5px; background: #55298a; color: white; border: none; border-radius: 4px; cursor: pointer;">Download CSV</button>
+                    </div>
+
+                    <div>
+                        <h3>Data Preview (first 5 records):</h3>
+                        <pre class="data-display">${JSON.stringify(data.slice(0, 5), null, 2)}</pre>
+                    </div>
+                </div>
+            `;
+
+            // Add download functionality
+            window.downloadData = function(format) {
+                let content, filename, contentType;
+                
+                if (format === 'json') {
+                    content = JSON.stringify(data, null, 2);
+                    filename = `resources_${new Date().toISOString().split('T')[0]}.json`;
+                    contentType = 'application/json';
+                } else if (format === 'csv') {
+                    content = convertToCSV(data);
+                    filename = `resources_${new Date().toISOString().split('T')[0]}.csv`;
+                    contentType = 'text/csv';
+                }
+                
+                const blob = new Blob([content], { type: contentType });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            };
         }
 
-        function exportCSV() {
-            const csv = convertToCSV(filteredData);
-            const timestamp = new Date().toISOString().split('T')[0];
-            downloadFile(csv, `resources_${timestamp}.csv`, 'text/csv');
-        }
-
-        function exportJSON() {
-            const json = JSON.stringify(filteredData, null, 2);
-            const timestamp = new Date().toISOString().split('T')[0];
-            downloadFile(json, `resources_${timestamp}.json`, 'application/json');
-        }
-
-        function enableExportButtons() {
-            exportCsvBtn.disabled = false;
-            exportJsonBtn.disabled = false;
-        }
-
-        function disableExportButtons() {
-            exportCsvBtn.disabled = true;
-            exportJsonBtn.disabled = true;
-        }
-
-        // Event listeners
-        fetchAllBtn.addEventListener('click', fetchAllData);
-        exportCsvBtn.addEventListener('click', exportCSV);
-        exportJsonBtn.addEventListener('click', exportJSON);
-        formatSelect.addEventListener('change', displayData);
-        filterInput.addEventListener('input', filterData);
-
-        // Auto-fetch data on page load
-        window.addEventListener('load', () => {
-            // Auto-fetch data when page loads
-            fetchAllData();
-        });
-
-        // If this page is being accessed programmatically (like from Excel),
-        // we can return JSON data directly
-        if (window.location.search.includes('format=json')) {
-            document.body.style.display = 'none';
-            fetchAllData().then(() => {
-                document.body.innerHTML = `<pre>${JSON.stringify(allData, null, 2)}</pre>`;
-                document.body.style.display = 'block';
-                document.body.style.fontFamily = 'monospace';
-                document.body.style.fontSize = '12px';
-                document.body.style.margin = '0';
-                document.body.style.padding = '10px';
-            });
-        } else if (window.location.search.includes('format=csv')) {
-            document.body.style.display = 'none';
-            fetchAllData().then(() => {
-                const csv = convertToCSV(allData);
-                document.body.innerHTML = `<pre>${csv}</pre>`;
-                document.body.style.display = 'block';
-                document.body.style.fontFamily = 'monospace';
-                document.body.style.fontSize = '12px';
-                document.body.style.margin = '0';
-                document.body.style.padding = '10px';
-            });
-        }
+        // Start the process immediately when script loads
+        handleRequest();
     </script>
 </body>
 </html>
