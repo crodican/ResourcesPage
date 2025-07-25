@@ -231,12 +231,12 @@
             showStatus('Fetching all resources data...', 'loading');
             allData = [];
             let page = 1;
-            let hasMore = true;
+            let totalRows = null;
             const pageSize = 100; // NocoDB's limit
 
             try {
-                while (hasMore) {
-                    showStatus(`Fetching page ${page}...`, 'loading');
+                while (true) {
+                    showStatus(`Fetching page ${page}... (${allData.length} records so far)`, 'loading');
                     
                     const response = await fetch(`${API_BASE_URL}?page=${page}&limit=${pageSize}`);
                     
@@ -245,17 +245,39 @@
                     }
                     
                     const data = await response.json();
+                    console.log(`Page ${page} response:`, data);
                     
                     // Handle both response formats
                     const apiData = data.success ? data.data : data;
                     const records = apiData.list || [];
                     const pageInfo = apiData.pageInfo || {};
                     
-                    allData = allData.concat(records);
+                    // Get total rows from first response
+                    if (totalRows === null && pageInfo.totalRows) {
+                        totalRows = pageInfo.totalRows;
+                        console.log(`Total rows available: ${totalRows}`);
+                    }
                     
-                    // Check if we have more pages
-                    hasMore = records.length === pageSize && 
-                             (page * pageSize < pageInfo.totalRows || pageInfo.totalRows === undefined);
+                    // Add records to our collection
+                    allData = allData.concat(records);
+                    console.log(`Page ${page}: Got ${records.length} records, total so far: ${allData.length}`);
+                    
+                    // Check if we should continue
+                    // Stop if: no records returned, less than pageSize returned, or we have all records
+                    if (records.length === 0) {
+                        console.log('No more records returned, stopping');
+                        break;
+                    }
+                    
+                    if (records.length < pageSize) {
+                        console.log(`Got ${records.length} records (less than ${pageSize}), this is the last page`);
+                        break;
+                    }
+                    
+                    if (totalRows && allData.length >= totalRows) {
+                        console.log(`Reached total rows (${totalRows}), stopping`);
+                        break;
+                    }
                     
                     page++;
                     
@@ -274,6 +296,7 @@
                 showDataInfo(`
                     <strong>Data Summary:</strong><br>
                     Total Records: ${allData.length}<br>
+                    Expected Total: ${totalRows || 'Unknown'}<br>
                     Pages Fetched: ${page - 1}<br>
                     Columns: ${allData.length > 0 ? Object.keys(allData[0]).length : 0}<br>
                     Last Updated: ${new Date().toLocaleString()}
