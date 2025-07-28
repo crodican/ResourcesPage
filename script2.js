@@ -190,18 +190,23 @@ const ViewManager = {
         currentView = view;
         
         if (view === 'card') {
-            cardViewContainer.style.display = 'block';
-            tableViewContainer.style.display = 'none';
-            loadMoreDiv.style.display = allFetchedResources.length < totalResourceCount ? 'block' : 'none';
-        } else {
-            cardViewContainer.style.display = 'none';
-            tableViewContainer.style.display = 'block';
-            loadMoreDiv.style.display = 'none'; // Hide load more for table view
-            
-            // Render table if data exists
-            if (allFetchedResources.length > 0) {
-                TableManager.render(allFetchedResources);
+            if (cardViewContainer) cardViewContainer.style.display = 'block';
+            if (tableViewContainer) tableViewContainer.style.display = 'none';
+            if (loadMoreDiv) {
+                // Show/hide load more based on available data
+                if (allFetchedResources.length < totalResourceCount && totalResourceCount > 0) {
+                    loadMoreDiv.style.display = 'block';
+                } else {
+                    loadMoreDiv.style.display = 'none';
+                }
             }
+        } else {
+            if (cardViewContainer) cardViewContainer.style.display = 'none';
+            if (tableViewContainer) tableViewContainer.style.display = 'block';
+            if (loadMoreDiv) loadMoreDiv.style.display = 'none'; // Hide load more for table view
+            
+            // Always render table when switching to table view, even if no data yet
+            TableManager.render(allFetchedResources);
         }
     }
 };
@@ -217,7 +222,7 @@ const TableManager = {
             tableBody.innerHTML = `
                 <tr>
                     <td colspan="9" class="text-center text-muted py-4">
-                        No resources found with the current filters.
+                        ${totalResourceCount === 0 ? 'No resources found with the current filters.' : 'Loading resources...'}
                     </td>
                 </tr>
             `;
@@ -1075,68 +1080,7 @@ function handleExport() {
     APIClient.exportCSV(filters);
 }
 
-// --- Event Listeners Setup ---
-function initializeEventListeners() {
-    if (filterButton) {
-        filterButton.addEventListener('click', handleFilterWithLoader);
-    }
-    if (searchButton) {
-        searchButton.addEventListener('click', handleSearchWithLoader);
-    }
-    if (searchInput) {
-        searchInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                handleSearchWithLoader();
-            }
-        });
-    }
-
-    document.addEventListener('keydown', (event) => {
-        if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
-            event.preventDefault();
-            if (searchInput) searchInput.focus();
-        }
-    });
-
-    if (sortBySelect) {
-        sortBySelect.addEventListener('change', handleSortChange);
-    }
-
-    if (loadMoreButton) {
-        loadMoreButton.addEventListener('click', () => {
-            currentPage++;
-            fetchResources(true);
-        });
-    }
-
-    if (exportBtn) {
-        exportBtn.addEventListener('click', handleExport);
-    }
-
-    if (countyFiltersDiv) countyFiltersDiv.addEventListener('change', handleFilterChangeDelegated);
-    if (populationFiltersDiv) populationFiltersDiv.addEventListener('change', handleFilterChangeDelegated);
-    if (resourceTypeFiltersDiv) resourceTypeFiltersDiv.addEventListener('change', handleFilterChangeDelegated);
-    if (categoryFiltersDiv) categoryFiltersDiv.addEventListener('change', handleFilterChangeDelegated);
-
-    if (resourceListDiv) {
-        resourceListDiv.addEventListener('click', handleResourceBadgeClickDelegated);
-        resourceListDiv.addEventListener('click', handleMapViewLinkClickDelegated);
-    }
-
-    if (tableViewContainer) {
-        tableViewContainer.addEventListener('click', handleResourceBadgeClickDelegated);
-        tableViewContainer.addEventListener('click', handleTableMapFocusClickDelegated);
-    }
-
-    const filterOffcanvas = document.getElementById('filterOffcanvas');
-    if (filterOffcanvas) {
-        filterOffcanvas.addEventListener('show.bs.offcanvas', () => {
-            showResultsSectionIfHidden();
-        });
-    }
-}
-
+// --- Event Handlers ---
 function handleSearchWithLoader() {
     if (!searchInput) return;
 
@@ -1168,6 +1112,18 @@ function handleSearch() {
 }
 
 function handleFilterWithLoader() {
+    // Check if results section is already visible
+    const isResultsVisible = resultsSection && 
+                            resultsSection.style.display !== 'none' && 
+                            !resultsSection.classList.contains('d-none') &&
+                            getComputedStyle(resultsSection).display !== 'none';
+
+    if (isResultsVisible) {
+        // Results already visible, just apply filters without loader
+        applyFilters(true);
+        return;
+    }
+    
     if (loaderContainer) loaderContainer.style.display = "flex";
     if (resultsSection) resultsSection.style.display = "none";
     setTimeout(() => {
@@ -1278,6 +1234,97 @@ function showResultsSectionIfHidden() {
     if (resultsSection && resultsSection.style.display === 'none') {
         resultsSection.style.display = 'block';
     }
+}
+
+// --- Event Listeners Setup ---
+function initializeEventListeners() {
+    // Search functionality
+    if (searchInput) {
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSearchWithLoader();
+            }
+        });
+    }
+
+    if (searchButton) {
+        searchButton.addEventListener('click', handleSearchWithLoader);
+    }
+
+    // Filter button - FIXED LOGIC
+    if (filterButton) {
+        filterButton.addEventListener('click', () => {
+            // Better way to check if results are visible
+            const isResultsVisible = resultsSection && 
+                                    resultsSection.style.display !== 'none' && 
+                                    !resultsSection.classList.contains('d-none') &&
+                                    getComputedStyle(resultsSection).display !== 'none';
+            
+            if (!isResultsVisible) {
+                // Results not visible, show with loader
+                handleFilterWithLoader();
+            } else {
+                // Results already visible, just open the filter panel
+                // The offcanvas will open automatically due to data-bs-toggle
+                console.log('Results already visible, just opening filter panel');
+            }
+        });
+    }
+
+    // Load more functionality
+    if (loadMoreButton) {
+        loadMoreButton.addEventListener('click', () => {
+            currentPage++;
+            fetchResources(true);
+        });
+    }
+
+    // Sort functionality
+    if (sortBySelect) {
+        sortBySelect.addEventListener('change', handleSortChange);
+    }
+
+    // Export functionality
+    if (exportBtn) {
+        exportBtn.addEventListener('click', handleExport);
+    }
+
+    // Filter change handling (delegated)
+    if (countyFiltersDiv) {
+        countyFiltersDiv.addEventListener('change', handleFilterChangeDelegated);
+    }
+    if (populationFiltersDiv) {
+        populationFiltersDiv.addEventListener('change', handleFilterChangeDelegated);
+    }
+    if (resourceTypeFiltersDiv) {
+        resourceTypeFiltersDiv.addEventListener('change', handleFilterChangeDelegated);
+    }
+    if (categoryFiltersDiv) {
+        categoryFiltersDiv.addEventListener('change', handleFilterChangeDelegated);
+    }
+
+    // Badge click handling (delegated)
+    if (resourceListDiv) {
+        resourceListDiv.addEventListener('click', handleResourceBadgeClickDelegated);
+        resourceListDiv.addEventListener('click', handleMapViewLinkClickDelegated);
+    }
+
+    // Table view map focus clicks (delegated)
+    if (tableBody) {
+        tableBody.addEventListener('click', handleTableMapFocusClickDelegated);
+        tableBody.addEventListener('click', handleResourceBadgeClickDelegated);
+    }
+
+    // Keyboard shortcut for search (Ctrl+K)
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key === 'k') {
+            e.preventDefault();
+            if (searchInput) {
+                searchInput.focus();
+            }
+        }
+    });
 }
 
 // --- Initial Load ---
