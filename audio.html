@@ -325,21 +325,98 @@
                 this.audioContext = null;
                 this.analyser = null;
                 this.isInitialized = false;
-                this.signalingChannel = null;
                 this.isBroadcaster = false;
                 this.remoteAudio = null;
+                this.signalingEndpoint = null;
+                this.pollingInterval = null;
+                this.lastMessageTime = 0;
+                this.localSignalingChannel = null;
                 
                 this.initializeUI();
                 this.createAudioVisualizer();
-                this.setupSignaling();
             }
 
             setupSignaling() {
-                // Use BroadcastChannel for local signaling between tabs/windows
-                this.signalingChannel = new BroadcastChannel('audio-broadcast-signaling');
-                this.signalingChannel.addEventListener('message', (event) => {
-                    this.handleSignalingMessage(event.data);
-                });
+                // Use a combination of localStorage polling and WebRTC for cross-device communication
+                this.setupNetworkSignaling();
+            }
+
+            setupNetworkSignaling() {
+                // For cross-device communication, we'll use a simple REST API approach
+                // with Firebase Realtime Database (free tier) as the signaling server
+                this.signalingEndpoint = 'https://audio-broadcast-signaling-default-rtdb.firebaseio.com/';
+                this.pollingInterval = null;
+                
+                // Start polling for messages if we're a listener
+                if (!this.isBroadcaster && this.roomId) {
+                    this.startSignalingPolling();
+                }
+            }
+
+            async sendSignalingMessage(type, data, targetRoom = this.roomId) {
+                const message = {
+                    type,
+                    roomId: targetRoom,
+                    data,
+                    from: this.mode,
+                    timestamp: Date.now(),
+                    id: Math.random().toString(36).substring(7)
+                };
+
+                try {
+                    // Try to use Firebase for cross-device signaling
+                    const response = await fetch(`${this.signalingEndpoint}signals/${targetRoom}.json`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(message)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Network signaling failed');
+                    }
+                } catch (error) {
+                    console.warn('Network signaling failed, falling back to local signaling:', error);
+                    // Fallback to BroadcastChannel for same-device testing
+                    if (!this.localSignalingChannel) {
+                        this.localSignalingChannel = new BroadcastChannel('audio-broadcast-signaling');
+                    }
+                    this.localSignalingChannel.postMessage(message);
+                }
+            }
+
+            async startSignalingPolling() {
+                if (this.pollingInterval) {
+                    clearInterval(this.pollingInterval);
+                }
+
+                this.pollingInterval = setInterval(async () => {
+                    try {
+                        const response = await fetch(`${this.signalingEndpoint}signals/${this.roomId}.json`);
+                        if (response.ok) {
+                            const messages = await response.json();
+                            if (messages) {
+                                Object.values(messages).forEach(message => {
+                                    if (message.from !== this.mode && message.timestamp > (this.lastMessageTime || 0)) {
+                                        this.handleSignalingMessage(message);
+                                        this.lastMessageTime = message.timestamp;
+                                    }
+                                });
+                            }
+                        }
+                    } catch (error) {
+                        console.warn('Polling failed:', error);
+                    }
+                }, 2000);
+
+                // Also listen for local BroadcastChannel messages as fallback
+                if (!this.localSignalingChannel) {
+                    this.localSignalingChannel = new BroadcastChannel('audio-broadcast-signaling');
+                    this.localSignalingChannel.addEventListener('message', (event) => {
+                        this.handleSignalingMessage(event.data);
+                    });
+                }
             }
 
             async handleSignalingMessage(message) {
@@ -576,6 +653,9 @@
                     // Generate QR code
                     this.generateQRCode();
                     
+                    // Setup signaling for this room
+                    this.setupSignaling();
+                    
                     this.updateStatus('Broadcasting microphone audio! Share the QR code or Room ID for others to join', 'broadcast');
                     
                 } catch (error) {
@@ -626,6 +706,9 @@
                     // Generate QR code
                     this.generateQRCode();
                     
+                    // Setup signaling for this room
+                    this.setupSignaling();
+                    
                     this.updateStatus('Broadcasting system audio! Share the QR code or Room ID for others to join', 'broadcast');
                     
                     // Handle stream ending (user stops sharing)
@@ -665,6 +748,12 @@
                     this.audioContext = null;
                 }
                 
+                // Stop signaling polling
+                if (this.pollingInterval) {
+                    clearInterval(this.pollingInterval);
+                    this.pollingInterval = null;
+                }
+                
                 // Update UI
                 document.getElementById('startBroadcastBtn').style.display = 'inline-block';
                 document.getElementById('micFallbackBtn').style.display = 'inline-block';
@@ -687,19 +776,29 @@
                     this.updateStatus('Joining broadcast...', 'join');
                     this.roomId = roomId;
                     
+                    // Setup signaling for this room
+                    this.setupSignaling();
+                    
                     // Send join request to broadcaster
-                    this.sendSignalingMessage('join-request', {}, roomId);
+                    await this.sendSignalingMessage('join-request', {});
                     
                     document.getElementById('joinBroadcastBtn').style.display = 'none';
                     document.getElementById('leaveBroadcastBtn').style.display = 'inline-block';
                     document.getElementById('volumeControl').style.display = 'flex';
                     document.getElementById('receiverVisualizer').style.display = 'block';
                     
-                    this.updateStatus('Connecting to broadcast...', 'join');
+                    this.updateStatus('Connecting to broadcast... Waiting for broadcaster response...', 'join');
+                    
+                    // Set a timeout for connection
+                    setTimeout(() => {
+                        if (this.peerConnections.size === 0) {
+                            this.updateStatus('Connection timeout. Make sure the broadcaster is active and try again.', 'join');
+                        }
+                    }, 10000);
                     
                 } catch (error) {
                     console.error('Error joining broadcast:', error);
-                    this.updateStatus('Error: Could not join broadcast. Please check the Room ID.', 'join');
+                    this.updateStatus('Error: Could not join broadcast. Please check the Room ID and try again.', 'join');
                 }
             }
 
@@ -717,6 +816,12 @@
                 if (this.audioContext) {
                     this.audioContext.close();
                     this.audioContext = null;
+                }
+                
+                // Stop signaling polling
+                if (this.pollingInterval) {
+                    clearInterval(this.pollingInterval);
+                    this.pollingInterval = null;
                 }
                 
                 // Update UI
