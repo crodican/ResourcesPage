@@ -18,7 +18,7 @@
     <!-- MapLibre GL CSS -->
     <link href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css" rel="stylesheet" />
     <!-- Elevation Bootstrap CSS -->
-    <link rel="stylesheet" href="https://resourcespage.pages.dev/elevation-bootstrap.css">
+    <link rel="stylesheet" href="elevation-bootstrap.css">
     <!-- Custom Colors CSS -->
     <link rel="stylesheet" href="https://resourcespage.pages.dev/customColors.css">
     <style>
@@ -848,6 +848,9 @@
       #results.show {
         opacity: 1;
       }
+      .list-group-item:hover {
+        background-color: aliceblue
+      }
     </style>
   </head>
   <body>
@@ -1312,27 +1315,50 @@
         </p>
         <ul class="list-group mb-5">
           <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="tel:1-800-662-4357" target="_blank" class="d-flex align-items-center text-decoration-none text-dark py-2">
+            <a href="tel:1-800-662-4357" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+              <div class="row align-items-center">
+                <div class="col-1">
               <i class="bi bi-telephone me-3 fs-4"></i>
-              <div>
+                </div>
+                <div class="col-10">
                 <span class="fw-bold d-block">Call 1-800-662-HELP (4357)</span>
+                </div>
+                <div class="col-1">
+                  <i class="bi bi-box-arrow-up-right"></i>
+                </div>
               </div>
             </a>
           </li>
+
+
           <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="sms:717-216-0905" target="_blank" class="d-flex align-items-center text-decoration-none text-dark py-2">
+            <a href="sms:717-216-0905" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+              <div class="row align-items-center">
+                <div class="col-1">
               <i class="bi bi-chat-text me-3 fs-4"></i>
-              <div>
+                </div>
+                <div class="col-10">
                 <span class="fw-bold d-block">Text 717-216-0905</span>
+                </div>
+                <div class="col-1">
+                  <i class="bi bi-box-arrow-up-right"></i>
+                </div>
               </div>
             </a>
           </li>
           <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="https://m2.icarol.com/ConsumerRegistration.aspx?org=72331&pid=125&cc=en-US" target="_blank" class="d-flex align-items-center text-decoration-none text-dark py-2">
+            <a href="https://m2.icarol.com/ConsumerRegistration.aspx?org=72331&pid=125&cc=en-US" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+              <div class="row align-items-center">
+                <div class="col-1">
               <i class="bi bi-chat-dots me-3 fs-4"></i>
-              <div>
+                </div>
+                <div class="col-10">
                 <span class="fw-bold d-block">Chat</span>
                 <small class="text-muted">A live chat option is available.</small>
+                </div>
+                <div class="col-1">
+                  <i class="bi bi-box-arrow-up-right"></i>
+                </div>
               </div>
             </a>
           </li>
