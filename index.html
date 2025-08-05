@@ -476,6 +476,7 @@
         border: 1px solid #55298a;
         border-radius: 6px;
         overflow: hidden;
+        flex-wrap: nowrap;
       }
 
       .view-toggle-btn {
@@ -487,7 +488,12 @@
         transition: all 0.2s;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 0.5rem;
+        @media (width > 768px) {
+        font-size: 12px;          
+        }
+
       }
 
       .view-toggle-btn:hover {
@@ -1391,11 +1397,11 @@
         </ul>
 
         <!-- Find Your County Office Section -->
-        <h3 class="h4 text-secondary mb-3">Find Your County Drug and Alcohol Office</h3>
+        <h3 class="h4 mb-3">Find Your County Drug and Alcohol Office</h3>
         <p>
           <a href="#results" data-category="Single County Authority">County drug and alcohol offices</a>, known as Single County Authorities (SCA) can help with treatment funding, assess the need for treatment or other services, and make referrals to match treatment and/or service needs for individuals or their family members experiencing substance use disorders.
         </p>
-        <h3 class="h4 text-secondary mb-3">Resources for Families and Loved Ones</h3>
+        <h3 class="h4 mb-3">Resources for Families and Loved Ones</h3>
         <ul class="list-group mb-5">
           <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
             <a href="http://al-anon.org/" target="_blank" class="w-100 text-decoration-none text-dark py-2">
@@ -1428,7 +1434,7 @@
             </a>
           </li>
         </ul>
-        <h3 class="h4 text-secondary mb-3">Additional Resources</h3>
+        <h3 class="h4 mb-3">Additional Resources</h3>
         <ul class="list-group mb-5">
           <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
             <a href="https://pa-navigate.org/" target="_blank" class="w-100 text-decoration-none text-dark py-2">
@@ -1461,7 +1467,7 @@
             </a>
           </li>
         </ul>
-        <h3 class="h4 text-secondary mb-3">Training</h3>
+        <h3 class="h4 mb-3">Training</h3>
         <ul class="list-group mb-5">
           <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
             <a href="https://pacertboard.org" target="_blank" class="w-100 text-decoration-none text-dark py-2">
