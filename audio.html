@@ -292,7 +292,11 @@
             </div>
             
             <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; margin: 20px 0; font-size: 14px;">
-                <strong>💡 Testing:</strong> Open this page in multiple browser tabs. Start broadcasting in one tab, then join with the Room ID in another tab.
+                <strong>🌐 Cross-Device Usage:</strong><br>
+                • For testing: Open multiple tabs on the same device<br>
+                • For different devices: Both devices must access the same URL<br>
+                • Make sure devices are on the same network<br>
+                • If connection fails, try refreshing both devices
             </div>
             
             <input type="text" class="input" id="roomIdInput" placeholder="Enter Room ID or scan QR code">
@@ -460,7 +464,9 @@
             async createPeerConnection(peerId) {
                 const pc = new RTCPeerConnection({
                     iceServers: [
-                        { urls: 'stun:stun.l.google.com:19302' }
+                        { urls: 'stun:stun.l.google.com:19302' },
+                        { urls: 'stun:stun1.l.google.com:19302' },
+                        { urls: 'stun:stun2.l.google.com:19302' }
                     ]
                 });
 
@@ -470,6 +476,21 @@
                             candidate: event.candidate,
                             peerId
                         });
+                    }
+                };
+
+                pc.onconnectionstatechange = () => {
+                    console.log(`Peer connection state: ${pc.connectionState}`);
+                    if (pc.connectionState === 'connected') {
+                        if (this.isBroadcaster) {
+                            this.updateListenerCount();
+                        } else {
+                            this.updateStatus('Connected! Receiving audio stream...', 'join');
+                        }
+                    } else if (pc.connectionState === 'failed' || pc.connectionState === 'disconnected') {
+                        if (!this.isBroadcaster) {
+                            this.updateStatus('Connection lost. Please try joining again.', 'join');
+                        }
                     }
                 };
 
