@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parade Audio Host</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .time-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        input[type="number"] {
+            width: 60px;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .primary-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            box-shadow: 0 4px 15px rgba(238, 90, 36, 0.4);
+        }
+        
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(238, 90, 36, 0.6);
+        }
+        
+        .secondary-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .qr-container {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            color: #333;
+        }
+        
+        .countdown {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .url-display {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            word-break: break-all;
+            font-family: monospace;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+        
+        .status {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Parade Audio Host</h1>
+        
+        <div id="setup" class="controls">
+            <h2>Setup Synchronized Playback</h2>
+            
+            <div class="time-input">
+                <label>Countdown:</label>
+                <input type="number" id="minutes" value="0" min="0" max="59">
+                <span>min</span>
+                <input type="number" id="seconds" value="30" min="0" max="59">
+                <span>sec</span>
+            </div>
+            
+            <button class="primary-btn" onclick="startCountdown()">
+                🚀 Start Countdown
+            </button>
+            
+            <p style="text-align: center; opacity: 0.8;">
+                Set a countdown timer, then share the player URL with all devices
+            </p>
+        </div>
+        
+        <div id="active" class="hidden">
+            <div class="countdown" id="countdownDisplay">00:00</div>
+            
+            <div class="status" id="status">Preparing...</div>
+            
+            <div class="controls">
+                <button class="secondary-btn" onclick="stopSync()">
+                    ⏹️ Stop & Reset
+                </button>
+            </div>
+            
+            <div class="qr-container">
+                <h3>Share this URL with all player devices:</h3>
+                <div class="url-display" id="playerUrl"></div>
+                <button class="secondary-btn" onclick="copyUrl()" style="margin-top: 10px; color: #333;">
+                    📋 Copy URL
+                </button>
+                
+                <div id="qrcode" style="margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script>
+        let countdownInterval;
+        let startTimestamp;
+        
+        function startCountdown() {
+            const minutes = parseInt(document.getElementById('minutes').value) || 0;
+            const seconds = parseInt(document.getElementById('seconds').value) || 30;
+            
+            const totalSeconds = minutes * 60 + seconds;
+            const now = Date.now();
+            startTimestamp = now + (totalSeconds * 1000);
+            
+            // Generate player URL
+            const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '').replace('host.html', '');
+            const playerUrl = `${baseUrl}player.html?start=${startTimestamp}&session=${now}`;
+            
+            document.getElementById('playerUrl').textContent = playerUrl;
+            
+            // Generate QR code
+            const qr = new QRious({
+                element: document.getElementById('qrcode'),
+                value: playerUrl,
+                size: 200,
+                background: 'white',
+                foreground: 'black'
+            });
+            
+            // Show active view
+            document.getElementById('setup').classList.add('hidden');
+            document.getElementById('active').classList.remove('hidden');
+            
+            // Start countdown
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 100);
+        }
+        
+        function updateCountdown() {
+            const now = Date.now();
+            const remaining = Math.max(0, startTimestamp - now);
+            
+            if (remaining <= 0) {
+                document.getElementById('countdownDisplay').textContent = '🎵 PLAYING!';
+                document.getElementById('status').textContent = 'Audio should be playing on all devices!';
+                clearInterval(countdownInterval);
+                return;
+            }
+            
+            const totalSeconds = Math.ceil(remaining / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            
+            document.getElementById('countdownDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            document.getElementById('status').textContent = 
+                `Players will start in ${totalSeconds} seconds`;
+        }
+        
+        function stopSync() {
+            clearInterval(countdownInterval);
+            document.getElementById('setup').classList.remove('hidden');
+            document.getElementById('active').classList.add('hidden');
+        }
+        
+        function copyUrl() {
+            const url = document.getElementById('playerUrl').textContent;
+            navigator.clipboard.writeText(url).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parade Audio Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+            color: white;
+            text-align: center;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .countdown {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 30px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .status {
+            font-size: 1.3em;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .loading {
+            margin: 20px 0;
+        }
+        
+        .loading-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        button {
+            padding: 20px 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin: 10px;
+        }
+        
+        .enable-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            box-shadow: 0 4px 15px rgba(238, 90, 36, 0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        .enable-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(238, 90, 36, 0.6);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .secondary-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid rgba(255, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid rgba(0, 255, 0, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .volume-control {
+            margin: 20px 0;
+        }
+        
+        .volume-slider {
+            width: 200px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Audio Player</h1>
+        
+        <div id="loading" class="loading">
+            <div class="status">Loading audio file...</div>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loadingProgress"></div>
+            </div>
+        </div>
+        
+        <div id="error" class="error hidden">
+            <h3>❌ Error</h3>
+            <p id="errorMessage"></p>
+            <button class="secondary-btn" onclick="location.reload()">🔄 Retry</button>
+        </div>
+        
+        <div id="ready" class="hidden">
+            <div class="success">
+                <h3>✅ Audio Ready</h3>
+                <p>Tap the button below to enable audio playback</p>
+            </div>
+            
+            <button class="enable-btn" onclick="enableAudio()">
+                🔊 Enable Audio & Sync
+            </button>
+            
+            <p style="opacity: 0.8; margin-top: 20px;">
+                This will prepare your device for synchronized playback
+            </p>
+        </div>
+        
+        <div id="syncing" class="hidden">
+            <div class="countdown" id="countdownDisplay">--:--</div>
+            <div class="status" id="statusDisplay">Synchronizing...</div>
+            
+            <div class="volume-control">
+                <label>🔊 Volume: </label>
+                <input type="range" class="volume-slider" id="volumeSlider" 
+                       min="0" max="100" value="80" onchange="updateVolume()">
+                <span id="volumeDisplay">80%</span>
+            </div>
+            
+            <button class="secondary-btn" onclick="location.reload()">
+                🔄 Reset
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let audioContext;
+        let audioBuffer;
+        let audioSource;
+        let gainNode;
+        let startTimestamp;
+        let sessionId;
+        let countdownInterval;
+        let isPlaying = false;
+        
+        // Parse URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        startTimestamp = parseInt(urlParams.get('start'));
+        sessionId = urlParams.get('session');
+        
+        // Check if we have valid parameters
+        if (!startTimestamp || !sessionId) {
+            showError('Invalid sync URL. Please scan the QR code from the host device.');
+        } else {
+            loadAudio();
+        }
+        
+        async function loadAudio() {
+            try {
+                // Show loading progress
+                document.getElementById('loadingProgress').style.width = '20%';
+                
+                // Fetch audio file
+                const response = await fetch('audio.mp3');
+                if (!response.ok) {
+                    throw new Error('Could not load audio.mp3 file');
+                }
+                
+                document.getElementById('loadingProgress').style.width = '60%';
+                
+                // Convert to array buffer
+                const arrayBuffer = await response.arrayBuffer();
+                
+                document.getElementById('loadingProgress').style.width = '80%';
+                
+                // Create audio context (requires user interaction to start)
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Decode audio data
+                audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                
+                document.getElementById('loadingProgress').style.width = '100%';
+                
+                // Audio loaded successfully
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('ready').classList.remove('hidden');
+                
+            } catch (error) {
+                console.error('Error loading audio:', error);
+                showError('Failed to load audio file: ' + error.message);
+            }
+        }
+        
+        async function enableAudio() {
+            try {
+                // Resume audio context (required after user interaction)
+                if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+                
+                // Create gain node for volume control
+                gainNode = audioContext.createGain();
+                gainNode.connect(audioContext.destination);
+                updateVolume();
+                
+                // Hide ready screen and show syncing
+                document.getElementById('ready').classList.add('hidden');
+                document.getElementById('syncing').classList.remove('hidden');
+                
+                // Start countdown
+                startCountdown();
+                
+            } catch (error) {
+                console.error('Error enabling audio:', error);
+                showError('Failed to enable audio: ' + error.message);
+            }
+        }
+        
+        function startCountdown() {
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 100);
+        }
+        
+        function updateCountdown() {
+            const now = Date.now();
+            const remaining = Math.max(0, startTimestamp - now);
+            
+            if (remaining <= 0) {
+                // Time to play!
+                if (!isPlaying) {
+                    playAudio();
+                }
+                return;
+            }
+            
+            const totalSeconds = Math.ceil(remaining / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            
+            document.getElementById('countdownDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            document.getElementById('statusDisplay').textContent = 
+                `Starting in ${totalSeconds} seconds...`;
+        }
+        
+        function playAudio() {
+            try {
+                clearInterval(countdownInterval);
+                isPlaying = true;
+                
+                // Calculate precise start time
+                const now = Date.now();
+                const delay = Math.max(0, (startTimestamp - now) / 1000);
+                const contextTime = audioContext.currentTime + delay;
+                
+                // Create and configure audio source
+                audioSource = audioContext.createBufferSource();
+                audioSource.buffer = audioBuffer;
+                audioSource.connect(gainNode);
+                
+                // Start playback at precise time
+                audioSource.start(contextTime);
+                
+                // Update UI
+                document.getElementById('countdownDisplay').textContent = '🎵 PLAYING!';
+                document.getElementById('statusDisplay').textContent = 'Audio is now playing in sync!';
+                
+                // Handle audio end
+                audioSource.onended = () => {
+                    document.getElementById('statusDisplay').textContent = 'Audio finished playing';
+                };
+                
+            } catch (error) {
+                console.error('Error playing audio:', error);
+                showError('Failed to play audio: ' + error.message);
+            }
+        }
+        
+        function updateVolume() {
+            const volume = document.getElementById('volumeSlider').value;
+            document.getElementById('volumeDisplay').textContent = volume + '%';
+            
+            if (gainNode) {
+                gainNode.gain.setValueAtTime(volume / 100, audioContext.currentTime);
+            }
+        }
+        
+        function showError(message) {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('ready').classList.add('hidden');
+            document.getElementById('syncing').classList.add('hidden');
+            document.getElementById('error').classList.remove('hidden');
+            document.getElementById('errorMessage').textContent = message;
+        }
+        
+        // Handle page visibility changes (pause/resume when tab becomes inactive/active)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && audioSource) {
+                // Page is hidden - audio will continue playing
+                console.log('Page hidden - audio continues');
+            } else if (!document.hidden && countdownInterval) {
+                // Page is visible again - sync countdown may have drifted
+                console.log('Page visible - checking sync');
+            }
+        });
+        
+        // Prevent sleep mode on mobile devices
+        let wakeLock = null;
+        
+        if ('wakeLock' in navigator) {
+            navigator.wakeLock.request('screen').then((lock) => {
+                wakeLock = lock;
+                console.log('Screen wake lock active');
+            }).catch((err) => {
+                console.log('Wake lock failed:', err);
+            });
+        }
+    </script>
+</body>
+</html>

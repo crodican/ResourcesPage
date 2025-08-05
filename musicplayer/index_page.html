@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parade Audio Sync System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        
+        .card p {
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            box-shadow: 0 4px 15px rgba(238, 90, 36, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(238, 90, 36, 0.6);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            color: white;
+            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 239, 125, 0.6);
+        }
+        
+        .setup-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+        
+        .setup-section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .steps {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .steps li {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .steps li strong {
+            color: #ffec8c;
+        }
+        
+        .note {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .note h4 {
+            margin-top: 0;
+            color: #ffec8c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎺 Parade Audio Sync</h1>
+        <p class="subtitle">Synchronized audio playback across multiple devices</p>
+        
+        <div class="cards">
+            <div class="card">
+                <h3>🎛️ Host Controller</h3>
+                <p>Use this on the main device to control timing and generate QR codes for all player devices.</p>
+                <a href="host.html" class="btn btn-primary">Open Host</a>
+            </div>
+            
+            <div class="card">
+                <h3>📱 Audio Player</h3>
+                <p>This page will be opened on each device that needs to play the synchronized audio.</p>
+                <a href="player.html" class="btn btn-secondary">Open Player</a>
+            </div>
+        </div>
+        
+        <div class="setup-section">
+            <h2>📋 Setup Instructions</h2>
+            
+            <ol class="steps">
+                <li>
+                    <strong>Prepare your audio file:</strong> 
+                    Place your MP3 file in the root folder and name it exactly "audio.mp3"
+                </li>
+                
+                <li>
+                    <strong>Upload to Cloudflare Pages:</strong> 
+                    Upload all files (index.html, host.html, player.html, audio.mp3) to your Cloudflare Pages project
+                </li>
+                
+                <li>
+                    <strong>Set up the host device:</strong> 
+                    Open the Host Controller on your main device and set a countdown timer (recommended: 30-60 seconds)
+                </li>
+                
+                <li>
+                    <strong>Distribute to player devices:</strong> 
+                    Show the QR code or share the generated URL with all devices that need to play audio
+                </li>
+                
+                <li>
+                    <strong>Enable audio on each device:</strong> 
+                    Each player device must tap "Enable Audio" to prepare for synchronized playback
+                </li>
+                
+                <li>
+                    <strong>Start the parade:</strong> 
+                    All devices will automatically start playing at the exact same time when the countdown reaches zero!
+                </li>
+            </ol>
+        </div>
+        
+        <div class="note">
+            <h4>📌 Important Notes</h4>
+            <ul>
+                <li>All devices should have a stable internet connection during setup</li>
+                <li>Keep devices connected to power if possible to prevent sleep mode</li>
+                <li>Test with a small group first to ensure synchronization works properly</li>
+                <li>The audio file will be cached on each device for optimal performance</li>
+                <li>Use headphones/earbuds for testing to avoid feedback loops</li>
+            </ul>
+        </div>
+        
+        <div class="note">
+            <h4>🔧 Technical Details</h4>
+            <ul>
+                <li>Uses Web Audio API for precise timing control</li>
+                <li>Synchronization accuracy: ~50-100ms across devices</li>
+                <li>Supports all modern browsers (Chrome, Safari, Firefox, Edge)</li>
+                <li>No server required - works entirely on static hosting</li>
+                <li>Automatic volume control and wake lock support</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
