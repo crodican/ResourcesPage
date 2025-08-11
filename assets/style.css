@@ -27,7 +27,7 @@
       .search-controls {
         border-radius: 10px;
         padding: 1.5rem;
-        margin: -10rem 0 5rem 0;
+        margin: -3rem 0 5rem 0;
         position: relative;
         z-index: 10;
 
@@ -830,3 +830,43 @@ radial-gradient(circle,rgba(238, 174, 202, 0.5) 0%, rgba(85, 41, 138, 0.75) 100%
       .list-group-item:hover {
         background-color: aliceblue;
       }
+
+        #card-philadelphia {
+            background-position: cover;
+            background-image: url(https://resourcespage.pages.dev/assets/counties/philadelphia.jpg);
+        }
+
+        #card-berks {
+            background-position: cover;
+            background-image: url(https://resourcespage.pages.dev/assets/counties/reading2.jpg);
+        }
+
+        #card-bucks {
+            background-position: cover;
+            background-image: url(https://resourcespage.pages.dev/assets/counties/doylestown.jpg);
+        }
+
+        #card-chester {
+            background-position: cover;
+            background-image: url(https://resourcespage.pages.dev/assets/counties/phoenixville.jpg);
+        }
+
+        #card-delaware {
+            background-position: cover;
+            background-image: url(https://resourcespage.pages.dev/assets/counties/delco-media.jpg);
+        }
+
+        #card-lancaster {
+            background-position: cover;
+            background-image: url(https://resourcespage.pages.dev/assets/counties/lancaster.jpg);
+        }
+
+        #card-montgomery {
+            background-position: cover;
+            background-image: url(https://resourcespage.pages.dev/assets/counties/pottstown.jpg);
+        }
+
+        #card-schuylkill {
+            background-position: cover;
+            background-image: url(https://resourcespage.pages.dev/assets/counties/schuylkill.jpg);            
+        }

@@ -1,4 +1,4 @@
-<script>
+
       // Configuration
       const CONFIG = {
         API_BASE_URL: "https://resourcesdatabaseproxy.crodican.workers.dev/",
@@ -899,7 +899,7 @@
           const phoneUrl = Utils.formatPhoneUrl(resource.Phone) || "#";
 
           return `
-                    <div class="resourceCard shadow-lg text-bg-white mb-4" data-resource-id="${resourceIdentifier}">
+                    <div class="card resourceCard mb-4" data-resource-id="${resourceIdentifier}">
                         <div class="row no-gutters p-0">
                             <div class="card-sidenav col-2 d-flex flex-column justify-content-between align-items-center p-0">
                                 <a href="${resource.Website || "#"}" class="d-flex align-items-center justify-content-center flex-grow-1 w-100 sidenav-button" target="_blank" rel="noopener noreferrer" aria-label="Visit website for ${resource["Location Name"] || "resource"}">
@@ -921,7 +921,7 @@
                                 </button>
                             </div>
                             <div class="card-body col-10 p-4">
-                                <h3 class="text-secondary">${Utils.escapeHtml(resource["Location Name"] || "N/A")}</h3>
+                                <h3 class="card-title">${Utils.escapeHtml(resource["Location Name"] || "N/A")}</h3>
                                 <h5 class="text-dark">${Utils.escapeHtml(resource.Organization || "N/A")}</h5>
                                 
                                 <div class="mb-2">
@@ -1602,7 +1602,7 @@
         }
       };
 
-      // Event Handlers - UPDATED
+      // Event Handlers - UPDATED WITH CATEGORY LINK FUNCTIONALITY
       const EventHandlers = {
         initialize() {
           // Search
@@ -1646,6 +1646,15 @@
             // Prevent Bootstrap dropdowns from closing when clicking checkboxes
             if (e.target.closest(".dropdown-item-check")) {
               e.stopPropagation();
+            }
+          });
+
+          // Category link handler - NEW FUNCTIONALITY
+          document.addEventListener('click', (e) => {
+            const categoryLink = e.target.closest('[data-category]');
+            if (categoryLink) {
+              e.preventDefault();
+              this.handleCategoryLinkClick(categoryLink);
             }
           });
 
@@ -1704,6 +1713,43 @@
           CountyCardManager.showCountySearch();
           
           // Don't automatically load data - let user choose again
+        },
+
+        // NEW METHOD FOR CATEGORY LINKS
+        handleCategoryLinkClick(element) {
+          const category = element.dataset.category;
+          if (!category) return;
+
+          // Clear existing filters and set the category filter
+          AppState.activeFilters = {
+            search: "",
+            County: [],
+            "Resource Type": [],
+            "Populations Served": [],
+            Category: [category] // Set the specific category
+          };
+
+          // Clear search input
+          DOM.searchInput.value = "";
+
+          // Reset to first page
+          AppState.currentPage = 1;
+
+          // Clear cache to ensure fresh data
+          APIClient.clearCache();
+
+          // Update all filter UI components
+          FilterManager.syncDropdowns('Category');
+          FilterManager.updateUI();
+
+          // Hide the county search section
+          CountyCardManager.hideCountySearch();
+
+          // Show the results section
+          ResultsManager.showResultsSection();
+
+          // Load filtered data
+          DataManager.loadData();
         }
       };
 
@@ -1742,4 +1788,3 @@
       window.FilterManager = FilterManager;
       window.CountyCardManager = CountyCardManager;
       window.ResultsManager = ResultsManager;
-</script>
