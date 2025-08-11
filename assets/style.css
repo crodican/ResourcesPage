@@ -516,7 +516,7 @@
       /* Card View Styles */
       .resourceCard {
         border: 1px solid hsla(0, 0%, 85%, .418);
-        background: white;
+        background-color: white;
         border-radius: 1px;
         box-shadow: none;
         margin-bottom: 1.5rem;
@@ -647,10 +647,10 @@
       }
 
       .cardImage {
-          position: absolute;
-          max-height: 100px; /* Limits the maximum height */
-          height: auto;
+          max-height: 100px;
+          height: 100px;
           width: auto; /* Ensure width scales with height */
+          max-width: 200px;
           border-radius: 4px;
           object-fit: contain;
           bottom: 0;

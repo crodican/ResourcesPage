@@ -965,24 +965,30 @@
                                     </div>`
                                     : ""
                                 }
-                                
-                                ${
-                                  resource.County
+                                <div class="row">
+                                  <div class="col d-flex flex-column justify-content-start">
+                                 ${resource.County
                                     ? `<h6>County:</h6>
                                     <div class="mb-2">
                                         <span class="card-badge">${Utils.escapeHtml(resource.County)}</span>
                                     </div>`
                                     : ""
                                 }
+                                  </div>
+                                  <div class="col d-flex justify-content-end"> 
+                                  ${resource.Image
+                                  ? `<div class="col-md-auto d-flex justify-content-end align-items-end p-2" style="position:relative">
+                                  <img class="cardImage" onerror="this.style.display='none'" src="${Utils.escapeHtml(resource.Image)}" alt="${Utils.escapeHtml(resource.Organization || resource["Location Name"] || "Resource logo")}">
+                                  </div>`
+                                  : ""
+                                  }
+                                  </div>
+                                
+                                </div>
+
                                 
                                 <div class="row d-flex justify-content-end position-relative">
-                                    ${
-                                      resource.Image
-                                        ? `<div class="col-md-auto d-flex justify-content-end align-items-end p-2" style="position:relative">
-                                            <img class="cardImage" onerror="this.style.display='none'" src="${Utils.escapeHtml(resource.Image)}" alt="${Utils.escapeHtml(resource.Organization || resource["Location Name"] || "Resource logo")}">
-                                        </div>`
-                                        : ""
-                                    }
+
                                 </div>
                             </div>
                         </div>
