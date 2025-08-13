@@ -515,10 +515,10 @@
 
       /* Card View Styles */
       .resourceCard {
-        border: 1px solid hsla(0, 0%, 85%, .418);
+        border: 1px solid #d5d6d8;
         background-color: white;
         border-radius: 1px;
-        box-shadow: none;
+        box-shadow: 0 4px 13px rgba(84, 41, 137, .1);
         margin-bottom: 1.5rem;
         transition: all .4s ease;
 
@@ -530,8 +530,9 @@
       }
 
       .resourceCard:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-5px);
+        box-shadow: 0 4px 13px rgba(84, 41, 137, .25);
+        border: 1px solid #55298a;
       }
 
       .resourceCard[data-longitude]:hover .card-body::after {
@@ -556,7 +557,7 @@
         background: #55298a;
         border-radius: 1px 0 0 1px;
         min-height: 200px;
-        max-width: 65px;
+
       }
 
       .sidenav-button {
@@ -564,6 +565,8 @@
         text-decoration: none;
         transition: background-color 0.2s;
         border-radius: 0;
+        font-size: 1.75rem;
+        padding: 0.5rem;
       }
 
       .card-sidenav a {

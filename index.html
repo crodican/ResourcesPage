@@ -20,6 +20,14 @@
     <!-- Elevation Bootstrap CSS -->
     <link rel="stylesheet" href="elevation-bootstrap.css" />
     <link rel="stylesheet" href="assets/style.css" />
+    <style id="colors">
+      .text-blue {}
+      .text-green {}
+    
+    
+    
+    
+    </style>
   </head>
   <body>
     <!-- Header Section -->
@@ -429,56 +437,55 @@
           Individuals seeking treatment or supports for themselves or a loved one can call the toll-free PA Get Help Now helpline at <a href="tel:1-800-662-4357">1-800-662-HELP (4357)</a>. It’s available 24 hours a day, 365 days a year, and staffed by trained professionals.
           A live chat option is also available online or via text message at <a href="tel:717-216-0905">717-216-0905</a> for those seeking help who may not be comfortable speaking to a helpline operator.
         </p>
-        <ul class="list-group mb-4">
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="tel:1-800-662-4357" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+        <div class="list-group mb-4">
+
+            <a href="tel:1-800-662-4357" target="_blank" class="list-group-item list-group-item-action mb-2 rounded-1 py-3">
               <div class="row align-items-center">
                 <div class="col-1">
-              <i class="bi bi-telephone me-3 fs-4"></i>
+              <i class="bi bi-telephone-fill fs-4 text-danger"></i>
                 </div>
                 <div class="col-10">
                 <span class="fw-bold d-block">Call 1-800-662-HELP (4357)</span>
                 </div>
                 <div class="col-1">
-                  <i class="bi bi-box-arrow-up-right"></i>
+                  <i class="bi bi-box-arrow-up-right text-muted"></i>
                 </div>
               </div>
             </a>
-          </li>
 
 
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="sms:717-216-0905" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+
+            <a href="sms:717-216-0905" target="_blank" class="list-group-item list-group-item-action mb-2 rounded-1 py-3">
               <div class="row align-items-center">
                 <div class="col-1">
-              <i class="bi bi-chat-text me-3 fs-4"></i>
+              <i class="bi bi-chat-text-fill fs-4 text-info"></i>
                 </div>
                 <div class="col-10">
                 <span class="fw-bold d-block">Text 717-216-0905</span>
                 </div>
                 <div class="col-1">
-                  <i class="bi bi-box-arrow-up-right"></i>
+                  <i class="bi bi-box-arrow-up-right text-muted"></i>
                 </div>
               </div>
             </a>
-          </li>
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="https://m2.icarol.com/ConsumerRegistration.aspx?org=72331&pid=125&cc=en-US" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+
+
+            <a href="https://m2.icarol.com/ConsumerRegistration.aspx?org=72331&pid=125&cc=en-US" target="_blank" class="list-group-item list-group-item-action mb-2 rounded-1 py-3">
               <div class="row align-items-center">
                 <div class="col-1">
-              <i class="bi bi-chat-dots me-3 fs-4"></i>
+              <i class="bi bi-chat-dots-fill fs-4 text-warning"></i>
                 </div>
                 <div class="col-10">
                 <span class="fw-bold d-block">Chat</span>
                 <small class="text-muted">A live chat option is available.</small>
                 </div>
                 <div class="col-1">
-                  <i class="bi bi-box-arrow-up-right"></i>
+                  <i class="bi bi-box-arrow-up-right text-muted"></i>
                 </div>
               </div>
             </a>
-          </li>
-        </ul>
+
+        </div>
 
         <!-- Find Treatment Section -->
         <h3 class="mb-3">Find Treatment</h3>
@@ -486,13 +493,12 @@
           Treatment Atlas evaluates addiction treatment facilities’ use of evidence-based best practices, includes an assessment to understand the appropriate level of care, and offers an easy-to-use dashboard to allow those in need and their loved ones to search for and compare facilities using criteria such as location, services offered, and insurance accepted so they can find the best treatment for their unique needs.
           You can also find the most up-to-date licensed drug and alcohol treatment facilities in Pennsylvania or search facility inspection results using our Drug and Alcohol Facility Locator.
         </p>
-        <ul class="list-group mb-4">
+        <div class="list-group mb-4">
 
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="https://treatmentatlas.org/" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+
+            <a href="https://treatmentatlas.org/" target="_blank" class="list-group-item list-group-item-action mb-2 rounded-1 py-3">
               <div class="row align-items-center">
-                <div class="col-1">
-                  <i class="bi bi-search me-3 fs-4"></i>
+                <div class="col-1" style="height:32px;background: url('assets/resource-logos/treatmentatlas.svg') no-repeat center;background-size: contain">
                 </div>
                 <div class="col-10">
                 <span class="fw-bold d-block">Treatment Atlas</span>
@@ -503,54 +509,76 @@
                 </div>
               </div>
             </a>
-          </li>
-        </ul>
+
+        </div>
 
         <!-- Find Your County Office Section -->
         <h4 class="h5 mb-3">Find Your County Drug and Alcohol Office</h4>
-        <p class="mb-5">
-          <a href="#results" data-category="Single County Authority">County drug and alcohol offices</a>, known as Single County Authorities (SCA) can help with treatment funding, assess the need for treatment or other services, and make referrals to match treatment and/or service needs for individuals or their family members experiencing substance use disorders.
+        <p class="mb-4">
+          <a href="#results" data-category="Single County Authority">County drug and alcohol offices</a> County drug and alcohol offices, known as Single County Authorities (SCA) can help with treatment funding, assess the need for treatment or other services, and make referrals to match treatment and/or service needs for individuals or their family members experiencing substance use disorders.
         </p>
+        <div class="list-group mb-4">
+
+            <a href="#results" data-category="Recovery House" class="list-group-item list-group-item-action mb-2 rounded-1 py-3">
+              <div class="row align-items-center">
+                <div class="col-1">
+                  <i class="bi bi-search me-3 fs-4"></i>
+                </div>
+                <div class="col-10">
+                  <span class="fw-bold d-block">Locate County Drug & Alcohol Office</span>
+                </div>
+                <div class="col-1">
+                <i class="bi bi-chevron-double-right"></i>
+                </div>
+              </div>
+            </a>
+          </li>
+        </div>
         <h4 class="h5 mb-3">Recovery Housing</h4>
         <p class="mb-4">
           A recovery house is a safe and supportive, drug- and alcohol-free environment where individuals recovering from a substance use disorder can live together as a community. These houses are founded on social model recovery principles and can offer peer support and other recovery support services.
         </p>
-        <ul class="list-group mb-4">
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2 bg-dark">
-            <a href="#results" data-category="Recovery House" class="w-100 text-decoration-none text-light py-2">
+        <div class="list-group mb-4">
+
+            <a href="#results" data-category="Recovery House" class="list-group-item list-group-item-action mb-2 rounded py-3">
               <div class="row align-items-center">
                 <div class="col-1">
-                  <i class="bi bi-house-heart me-3 fs-4"></i>
+                  <i class="bi bi-search me-3 fs-4"></i>
                 </div>
-                <div class="col-11">
+                <div class="col-10">
                   <span class="fw-bold d-block">Locate Recovery Housing</span>
+                </div>
+                <div class="col-1">
+                <i class="bi bi-chevron-double-right"></i>
                 </div>
               </div>
             </a>
-          </li>
-        </ul>
+
+        </div>
         <h4 class="h5 mb-3">Halfway Housing</h4>
         <p class="mb-4">
           A halfway house can offer treatment and provides a home-like atmosphere within the local community, is accessible to public transportation, and provides opportunities for independent growth and responsible community living.
         </p>
-        <ul class="list-group mb-4">
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2 bg-dark">
-            <a href="#results" data-category="Halfway House" class="w-100 text-decoration-none py-2 text-light">
+        <div class="list-group mb-4">
+
+            <a href="#results" data-category="Halfway House" class="list-group-item list-group-item-action mb-2 rounded py-3">
               <div class="row align-items-center">
                 <div class="col-1">
-                  <i class="bi bi-house-heart me-3 fs-4"></i>
+                  <i class="bi bi-search me-3 fs-4"></i>
                 </div>
-                <div class="col-11">
+                <div class="col-10">
                   <span class="fw-bold d-block">Locate Halfway Housing</span>
+                </div>
+                <div class="col-1">
+                <i class="bi bi-chevron-double-right"></i>
                 </div>
               </div>
             </a>
-          </li>
-        </ul>
+
+        </div>
         <h3 class="h4 mb-3">Resources for Families and Loved Ones</h3>
-        <ul class="list-group mb-4">
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="http://al-anon.org/" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+        <div class="list-group mb-4">
+          <a href="http://al-anon.org/" target="_blank"  class="list-group-item list-group-item-action mb-2 rounded py-3">
               <div class="row align-items-center">
                 <div class="col-1">
                   <i class="bi bi-people me-3 fs-4"></i>
@@ -562,10 +590,8 @@
                   <i class="bi bi-box-arrow-up-right"></i>
                 </div>
               </div>
-            </a>
-          </li>
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="https://www.nar-anon.org/find-a-meeting" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+          </a>
+          <a href="https://www.nar-anon.org/find-a-meeting" target="_blank" class="list-group-item list-group-item-action mb-2 rounded py-3">
               <div class="row align-items-center">
                 <div class="col-1">
                   <i class="bi bi-people me-3 fs-4"></i>
@@ -577,13 +603,12 @@
                   <i class="bi bi-box-arrow-up-right"></i>
                 </div>
               </div>
-            </a>
-          </li>
-        </ul>
+          </a>
+        </div>
+
         <h3 class="h4 mb-3">Additional Resources</h3>
-        <ul class="list-group mb-4">
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="https://pa-navigate.org/" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+        <div class="list-group mb-4">
+            <a href="https://pa-navigate.org/" target="_blank" class="list-group-item list-group-item-action mb-2 rounded-1 px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-1" style="height:32px;background: url('assets/resource-logos/pa-navigate.svg') no-repeat center;background-size: contain">
                 </div>
@@ -595,9 +620,7 @@
                 </div>
               </div>
             </a>
-          </li>
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="https://www.pa.gov/agencies/ddap/ddap-search" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+            <a href="https://www.pa.gov/agencies/ddap/ddap-search" target="_blank" class="list-group-item list-group-item-action mb-2 rounded-1 px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-1" style="height:32px;background: url('assets/resource-logos/ddap-logo.svg') no-repeat center;background-size: contain">
                 </div>
@@ -609,43 +632,40 @@
                 </div>
               </div>
             </a>
-          </li>
-        </ul>
+        </div>
         <h3 class="h4 mb-3">Training</h3>
-        <ul class="list-group mb-4">
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="https://pacertboard.org" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+        <div class="list-group mb-4">
+
+            <a href="https://www.pacertboard.org/certifications" target="_blank" class="list-group-item list-group-item-action mb-2 rounded-1 py-3 px-4">
               <div class="row align-items-center">
-                <div class="col-1">
-                  <i class="bi bi-people me-3 fs-4"></i>
+                <div class="col-1" style="height:32px;background: url('assets/resource-logos/pcb.svg') no-repeat center;background-size: contain">
                 </div>
                 <div class="col-10">
                 <span class="fw-bold d-block">Pennsylvania Certification Board (PCB)</span>
-                <small class="text-muted">PCB is dedicated to public protection by establishing and monitoring certification standards and examination development for professionals in the behavioral, physical, and community health fields in addition to providing management and consultation services.</small>
+                <small class="text-muted">Information on credentials and available training courses.</small>
                 </div>
                 <div class="col-1">
                   <i class="bi bi-box-arrow-up-right"></i>
                 </div>
               </div>
             </a>
-          </li>
-          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
-            <a href="https://www.pa.gov/agencies/ddap/ddap-search" target="_blank" class="w-100 text-decoration-none text-dark py-2">
+
+
+            <a href="https://www.pa.gov/agencies/ddap/ddap-search" target="_blank" class="list-group-item list-group-item-action mb-2 rounded-1 py-3">
               <div class="row align-items-center">
-                <div class="col-1">
-                  <i class="bi bi-people me-3 fs-4"></i>
+                <div class="col-1" style="height:32px;background: url('assets/resource-logos/ddap-logo.svg') no-repeat center;background-size: contain">
                 </div>
                 <div class="col-10">
                 <span class="fw-bold d-block">DDAP Training Management System (TMS)</span>
-                <small class="text-muted">The Department of Drug and Alcohol Programs' (DDAP) Training Managment System (TMS) offers a catalog of in-person and virtual trainings to maintain your skills and fulfill requirements.</small>
+                <small class="text-muted">A catalog of in-person and virtual trainings to maintain your skills and fulfill requirements.</small>
                 </div>
                 <div class="col-1">
                   <i class="bi bi-box-arrow-up-right"></i>
                 </div>
               </div>
             </a>
-          </li>
-        </ul>
+
+        </div>
         </div>
       </div>
     </section>
