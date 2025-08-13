@@ -119,70 +119,67 @@
       </div>
     </section>
     <section id="countySearch" class="py-5">
-      <div class="container mb-5">
-        <div class="row mb-5">
-          <div class="col-md-8">
-            <h2>Search by County</h2>
-          </div>
-          <div class="col-md-4 d-md-flex align-items-center justify-content-end">
-            <a id="allCounties" class="text-muted text-sm" href="#">
-              See all Counties<i class="bi bi-chevron-double-right ms-2"></i
-            ></a>
-          </div>
+        <div class="container mb-5">
+            <div class="row mb-5">
+                <div class="col-md-8">
+                    <h2 class="text-secondary">Search by County</h2> </div>
+                <div class="col-md-4 d-md-flex align-items-center justify-content-end"> <a id="allCounties" class="text-muted text-sm" href="#">
+                  See all Counties<i class="bi bi-chevron-double-right ms-2"></i
+                ></a> </div>
+            </div>
+            <div id="county-cards">
+                <div class="grid" style="row-gap: 3">
+                    <a href="#" data-county="Philadelphia" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-8" style="height: 100px">
+                        <div id="card-philadelphia" class="card rounded-4 shadow-lg border-0 w-100 border-0">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Philadelphia</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Berks" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-4" style="height: 100px">
+                        <div id="card-berks" class="card rounded-4 shadow-lg border-0 w-100 border-0">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Berks</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Bucks" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-6" style="height: 100px">
+                        <div id="card-bucks" class="card rounded-4 shadow-lg border-0 w-100 border-0">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Bucks</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Chester" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-6" style="height: 100px">
+                        <div id="card-chester" class="card rounded-4 shadow-lg border-0 w-100 border-0">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Chester</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Delaware" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-4" style="height: 100px">
+                        <div id="card-delaware" class="card rounded-4 shadow-lg border-0 w-100 border-0">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Delaware</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Lancaster" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-8" style="height: 100px">
+                        <div id="card-lancaster" class="card rounded-4 shadow-lg border-0 w-100 border-0">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Lancaster</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Montgomery" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-8" style="height: 100px">
+                        <div id="card-montgomery" class="card rounded-4 shadow-lg border-0 w-100 border-0">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Montgomery</h3> </div>
+                        </div>
+                    </a>
+                    <a href="#" data-county="Schuylkill" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-4" style="height: 100px">
+                        <div id="card-schuylkill" class="card rounded-4 shadow-lg border-0 w-100 border-0">
+                            <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
+                                <h3>Schuylkill</h3> </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
-<div id="county-cards">
-    <div class="grid" style="row-gap: 3">
-        <a href="#" data-county="Philadelphia" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-8" style="height: 100px">
-            <div id="card-philadelphia" class="card rounded-4 shadow-lg border-0 w-100 border-0">
-                <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
-                    <h3>Philadelphia</h3> </div>
-            </div>
-        </a>
-        <a href="#" data-county="Berks" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-4" style="height: 100px">
-            <div id="card-berks" class="card rounded-4 shadow-lg border-0 w-100 border-0">
-                <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
-                    <h3>Berks</h3> </div>
-            </div>
-        </a>
-        <a href="#" data-county="Bucks" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-6" style="height: 100px">
-            <div id="card-bucks" class="card rounded-4 shadow-lg border-0 w-100 border-0">
-                <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
-                    <h3>Bucks</h3> </div>
-            </div>
-        </a>
-        <a href="#" data-county="Chester" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-6" style="height: 100px">
-            <div id="card-chester" class="card rounded-4 shadow-lg border-0 w-100 border-0">
-                <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
-                    <h3>Chester</h3> </div>
-            </div>
-        </a>
-        <a href="#" data-county="Delaware" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-4" style="height: 100px">
-            <div id="card-delaware" class="card rounded-4 shadow-lg border-0 w-100 border-0">
-                <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
-                    <h3>Delaware</h3> </div>
-            </div>
-        </a>
-        <a href="#" data-county="Lancaster" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-8" style="height: 100px">
-            <div id="card-lancaster" class="card rounded-4 shadow-lg border-0 w-100 border-0">
-                <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
-                    <h3>Lancaster</h3> </div>
-            </div>
-        </a>
-        <a href="#" data-county="Montgomery" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-8" style="height: 100px">
-            <div id="card-montgomery" class="card rounded-4 shadow-lg border-0 w-100 border-0">
-                <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
-                    <h3>Montgomery</h3> </div>
-            </div>
-        </a>
-        <a href="#" data-county="Schuylkill" class="county-card d-flex align-items-lg-stretch mb-4 g-col-12 g-col-sm-12 g-col-md-4" style="height: 100px">
-            <div id="card-schuylkill" class="card rounded-4 shadow-lg border-0 w-100 border-0">
-                <div class="d-flex align-items-center h-100 text-white justify-content-center py-6 py-lg-7">
-                    <h3>Schuylkill</h3> </div>
-            </div>
-        </a>
-    </div>
-</div>
-      </div>
     </section>
     <section id="results">
       <div class="container">
@@ -417,7 +414,7 @@
       <div class="container mb-5">
         <div class="row mb-5">
           <div class="col-md-8">
-            <h2>Additional Support</h2>
+            <h2 class="text-secondary">Additional Support</h2>
           </div>
           <div class="col-md-4 d-md-flex align-items-center justify-content-end">
             <a id="helpfulLinks" class="text-muted text-sm" href="#helpfulLinksContainer">
@@ -485,12 +482,10 @@
 
         <!-- Find Treatment Section -->
         <h3 class="mb-3">Find Treatment</h3>
-        <div class="container">
         <p class="mb-5">
           Treatment Atlas evaluates addiction treatment facilities’ use of evidence-based best practices, includes an assessment to understand the appropriate level of care, and offers an easy-to-use dashboard to allow those in need and their loved ones to search for and compare facilities using criteria such as location, services offered, and insurance accepted so they can find the best treatment for their unique needs.
           You can also find the most up-to-date licensed drug and alcohol treatment facilities in Pennsylvania or search facility inspection results using our Drug and Alcohol Facility Locator.
         </p>
-        </div>
         <ul class="list-group mb-4">
 
           <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">
@@ -512,10 +507,46 @@
         </ul>
 
         <!-- Find Your County Office Section -->
-        <h3 class="h4 mb-3">Find Your County Drug and Alcohol Office</h3>
+        <h4 class="h5 mb-3">Find Your County Drug and Alcohol Office</h4>
         <p class="mb-5">
           <a href="#results" data-category="Single County Authority">County drug and alcohol offices</a>, known as Single County Authorities (SCA) can help with treatment funding, assess the need for treatment or other services, and make referrals to match treatment and/or service needs for individuals or their family members experiencing substance use disorders.
         </p>
+        <h4 class="h5 mb-3">Recovery Housing</h4>
+        <p class="mb-4">
+          A recovery house is a safe and supportive, drug- and alcohol-free environment where individuals recovering from a substance use disorder can live together as a community. These houses are founded on social model recovery principles and can offer peer support and other recovery support services.
+        </p>
+        <ul class="list-group mb-4">
+          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2 bg-dark">
+            <a href="#results" data-category="Recovery House" class="w-100 text-decoration-none text-light py-2">
+              <div class="row align-items-center">
+                <div class="col-1">
+                  <i class="bi bi-house-heart me-3 fs-4"></i>
+                </div>
+                <div class="col-11">
+                  <span class="fw-bold d-block">Locate Recovery Housing</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <h4 class="h5 mb-3">Halfway Housing</h4>
+        <p class="mb-4">
+          A halfway house can offer treatment and provides a home-like atmosphere within the local community, is accessible to public transportation, and provides opportunities for independent growth and responsible community living.
+        </p>
+        <ul class="list-group mb-4">
+          <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2 bg-dark">
+            <a href="#results" data-category="Halfway House" class="w-100 text-decoration-none py-2 text-light">
+              <div class="row align-items-center">
+                <div class="col-1">
+                  <i class="bi bi-house-heart me-3 fs-4"></i>
+                </div>
+                <div class="col-11">
+                  <span class="fw-bold d-block">Locate Halfway Housing</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
         <h3 class="h4 mb-3">Resources for Families and Loved Ones</h3>
         <ul class="list-group mb-4">
           <li class="list-group-item d-flex align-items-center rounded-3 shadow-sm mb-2">

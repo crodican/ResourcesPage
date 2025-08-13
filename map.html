@@ -1,262 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pennsylvania Recovery Hubs Map</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://resourcespage.pages.dev/map.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pennsylvania Recovery Hubs Map</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://resourcespage.pages.dev/map.css"/>
 </head>
 <body id="main-body" style="padding: 2rem">
-  <div id="main-map-container" style="position: relative; width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: row; align-items: flex-start; gap: 1.5rem;" class="map-container">
-    <div id="map-svg" style="flex: 1 1 0;width: 100%;height:auto;border: 1px solid #ccc;background: white;display: block"></div>
-    <div id="popup" style="position: absolute; min-width: 280px; max-width: 350px; z-index: 1000; display: none;"><div id="popup-content"></div></div>
-  </div>
+  <div id="main-map-container" style="position: relative; width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: row; align-items: flex-start; gap: 1.5rem;" class="map-container">
+    <div id="map-svg" style="flex: 1 1 0;width: 100%;height:auto;border: 1px solid #ccc;background: white;display: block"></div>
+    <div id="popup" style="position: absolute; min-width: 280px; max-width: 350px; z-index: 1000; display: none;"><div id="popup-content"></div></div>
+  </div>
 
-  <script>
-  // ---- UNIFIED SCHEME VARIABLE ----
-  const activeScheme = "scheme-1";
-  // ---------------------------------
+  <script>
+(function() {
+  const activeScheme = "scheme-2";
 
-  // Color schemes from CSS
   const colorSchemes = {
     "scheme-1": {
-      1: "#55298a", // Philadelphia
-      2: "#8B4513", // Pittsburgh
-      3: "#00BFFF", // Erie
-      4: "#34A853", // Southeast
-      5: "#338DFF", // South Central
-      6: "#FF8800", // Southwest
-      7: "#B54DFF", // Northwest
-      8: "#FF5733", // North Central
-      9: "#FFC300", // Northeast
+      1: "#55298a", 2: "#8B4513", 3: "#00BFFF", 4: "#34A853", 5: "#338DFF",
+      6: "#FF8800", 7: "#B54DFF", 8: "#FF5733", 9: "#FFC300",
     },
     "scheme-2": {
-      1: "#55298a",
-      2: "#A0522D",
-      3: "#20B2AA",
-      4: "#6B8E23",
-      5: "#6495ED",
-      6: "#FF7F50",
-      7: "#8A2BE2",
-      8: "#CD5C5C",
-      9: "#DDAA00",
+      1: "#55298a", 2: "#A0522D", 3: "#20B2AA", 4: "#6B8E23", 5: "#6495ED",
+      6: "#FF7F50", 7: "#8A2BE2", 8: "#CD5C5C", 9: "#DDAA00",
     },
     "scheme-3": {
-      1: "#55298a",
-      2: "#8B0000",
-      3: "#40E0D0",
-      4: "#2E8B57",
-      5: "#4682B4",
-      6: "#FF8C00",
-      7: "#9932CC",
-      8: "#DC143C",
-      9: "#FFD700",
+      1: "#55298a", 2: "#8B0000", 3: "#40E0D0", 4: "#2E8B57", 5: "#4682B4",
+      6: "#FF8C00", 7: "#9932CC", 8: "#DC143C", 9: "#FFD700",
     },
     "scheme-4": {
-      1: "#55298a",
-      2: "#CFCFC4",
-      3: "#ACE1AF",
-      4: "#77DD77",
-      5: "#b6ebff",
-      6: "#FFCC99",
-      7: "#B19CD9",
-      8: "#FFB347",
-      9: "#FDFD96",
+      1: "#55298a", 2: "#CFCFC4", 3: "#ACE1AF", 4: "#77DD77", 5: "#b6ebff",
+      6: "#FFCC99", 7: "#B19CD9", 8: "#FFB347", 9: "#FDFD96",
     },
     "scheme-5": {
-      1: "#55298a",
-      2: "#5F9EA0",
-      3: "#87CEEB",
-      4: "#66CDAA",
-      5: "#1E90FF",
-      6: "#CD853F",
-      7: "#DA70D6",
-      8: "#FF6347",
-      9: "#F0E68C",
+      1: "#55298a", 2: "#5F9EA0", 3: "#87CEEB", 4: "#66CDAA", 5: "#1E90FF",
+      6: "#CD853F", 7: "#DA70D6", 8: "#FF6347", 9: "#F0E68C",
     }
   };
 
-  const regionColors = colorSchemes[activeScheme];
-  const regionNames = {
-    1: "Philadelphia",
-    2: "Pittsburgh",
-    3: "Erie",
-    4: "Southeast",
-    5: "South Central",
-    6: "Southwest",
-    7: "Northwest",
-    8: "North Central",
-    9: "Northeast"
+  const logoPaths = {
+    1: "https://resourcespage.pages.dev/assets/resource-logos/councilsepa.svg",
+    2: "https://resourcespage.pages.dev/assets/resource-logos/unity.svg",
+    3: "https://resourcespage.pages.dev/assets/resource-logos/erie.png",
+    4: "https://resourcespage.pages.dev/assets/resource-logos/councilsepa.svg",
+    5: "https://resourcespage.pages.dev/assets/resource-logos/pmhca.svg",
+    6: "https://resourcespage.pages.dev/assets/resource-logos/aicdac.png",
+    7: "https://resourcespage.pages.dev/assets/resource-logos/aicdac.png",
+    8: "https://resourcespage.pages.dev/assets/resource-logos/westbranch.svg",
+    9: "https://resourcespage.pages.dev/assets/resource-logos/northbound.png"
   };
 
-  document.getElementById('main-body').classList.add(activeScheme);
-
-  const regionLookup = {
+  const regionData = {
     "Philadelphia": { region: 1, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
     "Allegheny": { region: 2, org: "Unity Recovery", url: "https://unityrecovery.org/portfolios/recovery-hub" },
     "Erie": { region: 3, org: "Erie County Office of Drug and Alcohol", url: "https://eriecountypa.gov/departments/human-services/drug-and-alcohol-abuse/" },
-    "Berks": "R4", "Bucks": "R4", "Chester": "R4", "Delaware": "R4", "Lancaster": "R4", "Montgomery": "R4", "Schuylkill": "R4",
-    "Adams": "R5", "Bedford": "R5", "Blair": "R5", "Cumberland": "R5", "Dauphin": "R5", "Franklin": "R5", "Fulton": "R5",
-    "Huntingdon": "R5", "Juniata": "R5", "Lebanon": "R5", "Mifflin": "R5", "Perry": "R5", "York": "R5",
-    "Armstrong": "R6", "Beaver": "R6", "Butler": "R6", "Cambria": "R6", "Fayette": "R6", "Greene": "R6",
-    "Indiana": "R6", "Somerset": "R6", "Westmoreland": "R6", "Washington": "R6",
-    "Cameron": "R7", "Clarion": "R7", "Clearfield": "R7", "Crawford": "R7", "Elk": "R7", "Forest": "R7",
-    "Jefferson": "R7", "Lawrence": "R7", "Mckean": "R7", "Mercer": "R7", "Venango": "R7", "Warren": "R7",
-    "Bradford": "R8", "Centre": "R8", "Clinton": "R8", "Columbia": "R8", "Lycoming": "R8", "Montour": "R8",
-    "Northumberland": "R8", "Potter": "R8", "Snyder": "R8", "Sullivan": "R8", "Tioga": "R8", "Union": "R8",
-    "Carbon": "R9", "Lackawanna": "R9", "Lehigh": "R9", "Luzerne": "R9", "Monroe": "R9", "Northampton": "R9",
-    "Pike": "R9", "Susquehanna": "R9", "Wayne": "R9", "Wyoming": "R9"
+    "Berks": { region: 4, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
+    "Bucks": { region: 4, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
+    "Chester": { region: 4, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
+    "Delaware": { region: 4, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
+    "Lancaster": { region: 4, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
+    "Montgomery": { region: 4, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
+    "Schuylkill": { region: 4, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
+    "Adams": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Bedford": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Blair": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Cumberland": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Dauphin": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Franklin": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Fulton": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Huntingdon": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Juniata": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Lebanon": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Mifflin": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Perry": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "York": { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
+    "Armstrong": { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Beaver": { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Butler": { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Cambria": { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Fayette": { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Greene": { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Indiana": { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Somerset": { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Westmoreland": { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Washington": { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Cameron": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Clarion": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Clearfield": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Crawford": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Elk": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Forest": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Jefferson": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Lawrence": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Mckean": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Mercer": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Venango": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Warren": { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
+    "Bradford": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Centre": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Clinton": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Columbia": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Lycoming": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Montour": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Northumberland": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Potter": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Snyder": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Sullivan": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Tioga": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Union": { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
+    "Carbon": { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" },
+    "Lackawanna": { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" },
+    "Lehigh": { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" },
+    "Luzerne": { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" },
+    "Monroe": { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" },
+    "Northampton": { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" },
+    "Pike": { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" },
+    "Susquehanna": { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" },
+    "Wayne": { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" },
+    "Wyoming": { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" }
   };
 
-  const regionDetails = {
-    R4: { region: 4, org: "The Council of Southeast Pennsylvania", url: "https://councilsepa.org/hubs" },
-    R5: { region: 5, org: "Pennsylvania Mental Health Consumer's Association", url: "https://pmhca.wildapricot.org/Recovery-Hub" },
-    R6: { region: 6, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
-    R7: { region: 7, org: "A.I.C.D.A.C.", url: "https://aicdac.org/recovery-hub/" },
-    R8: { region: 8, org: "W Branch Drug and Alcohol Commission", url: "https://wbdrugandalcohol.org" },
-    R9: { region: 9, org: "Northbound and Co", url: "https://northboundandco.org/" }
-  };
+  const regionColors = colorSchemes[activeScheme];
+  const body = document.getElementById('main-body');
+  const svgContainer = document.getElementById('map-svg');
+  const popup = document.getElementById('popup');
+  const popupContent = document.getElementById('popup-content');
+
+  body.classList.add(activeScheme);
+
+  function renderPopupCard(data, county) {
+    let cardHtml = '';
+    if (data) {
+      const countyDisplayName = (county === "Philadelphia") ? "Philadelphia" : `${county} County`;
+      const organizationLogo = logoPaths[data.region] || '';
+      const badgeColor = regionColors[data.region] || '#0d6efd';
+
+      cardHtml = `
+        <div class="card shadow-sm position-relative bg-white" style="width:220px">
+          <button id="popup-close" class="btn btn-sm btn-light position-absolute" style="top:0.25rem;right:0.5rem;z-index:2;">&times;</button>
+          <div class="card-body pb-0">
+            <span class="badge rounded-pill mb-2" style="background-color: ${badgeColor}; color: white;">Region ${data.region}</span>
+            <h5 class="card-title text-capitalize">${countyDisplayName}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">${data.org}</h6>
+            <a href="${data.url}" target="_blank" class="card-link">Website</a>
+          </div>
+          ${
+            organizationLogo
+              ? `<div class="card-img-bottom p-2">
+                  <img src="${organizationLogo}" alt="${data.org} Logo" class="organization-logo" style="width:100%">
+                 </div>`
+              : ''
+          }
+        </div>
+      `;
+    } else {
+      cardHtml = `
+        <div class="card shadow-sm position-relative">
+          <button id="popup-close" class="btn btn-sm btn-light position-absolute" style="top:0.25rem;right:0.5rem;z-index:2;">&times;</button>
+          <div class="card-body">
+            <h5 class="card-title text-capitalize">${county} County</h5>
+            <p><em>No region data available.</em></p>
+          </div>
+        </div>
+      `;
+    }
+    popupContent.innerHTML = cardHtml;
+  }
+
+  function showPopup(county, x, y) {
+    const data = regionData[county];
+    renderPopupCard(data, county);
+
+    const dynamicCloseBtn = popupContent.querySelector('#popup-close');
+    if (dynamicCloseBtn) dynamicCloseBtn.onclick = () => popup.style.display = 'none';
+
+    popup.style.display = 'block';
+
+    const popupRect = popup.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const padding = 10;
+    let left = x + padding;
+    let top = y + padding;
+
+    if (x > vw / 2) {
+      left = x - popupRect.width - padding;
+    }
+    if (y > vh / 2) {
+      top = y - popupRect.height - padding;
+    }
+    
+    left = Math.max(padding, Math.min(left, vw - popupRect.width - padding));
+    top = Math.max(padding, Math.min(top, vh - popupRect.height - padding));
+
+    popup.style.left = `${left}px`;
+    popup.style.top = `${top}px`;
+  }
 
   fetch('https://resourcespage.pages.dev/map.svg')
     .then(res => res.text())
     .then(svg => {
-      const container = document.getElementById('map-svg');
-      container.innerHTML = svg;
-      const svgEl = container.querySelector('svg');
+      svgContainer.innerHTML = svg;
+      const svgEl = svgContainer.querySelector('svg');
       if (svgEl) svgEl.classList.add(activeScheme);
 
-      const paths = container.querySelectorAll('svg path');
+      const paths = svgContainer.querySelectorAll('svg path');
       paths.forEach(path => {
         const county = path.getAttribute('data-name') || path.getAttribute('id') || 'Unknown';
-        let data = regionLookup[county];
-        if (typeof data === 'string' && regionDetails[data]) {
-          data = regionDetails[data];
-        }
+        const data = regionData[county];
         if (data && data.region) {
           path.classList.add(`region${data.region}`);
+          path.style.fill = regionColors[data.region];
         }
-        path.addEventListener('click', (e) => {
-          showPopup(county, e.pageX, e.pageY);
-        });
       });
     });
 
-  const popup = document.getElementById('popup');
-  const popupContent = document.getElementById('popup-content');
-
-  function renderPopupCard(contentHtml) {
-    popupContent.innerHTML = contentHtml;
-  }
-
-function showPopup(rawCounty, x, y) {
-  const county = rawCounty
-    .replace(/county/i, '')
-    .trim()
-    .toLowerCase()
-    .replace(/\b\w/g, l => l.toUpperCase());
-
-  let data = regionLookup[county];
-  if (typeof data === 'string' && regionDetails[data]) {
-    data = regionDetails[data];
-  }
-
-  let cardHtml = '';
-  if (data) {
-    const countyDisplayName = (county === "Philadelphia") ? "Philadelphia" : `${county} County`;
-    const logoPaths = {
-      1: "https://resourcespage.pages.dev/assets/resource-logos/councilsepa.svg",
-      2: "https://resourcespage.pages.dev/assets/resource-logos/unity.svg",
-      3: "https://resourcespage.pages.dev/assets/resource-logos/erie.png",
-      4: "https://resourcespage.pages.dev/assets/resource-logos/councilsepa.svg",
-      5: "https://resourcespage.pages.dev/assets/resource-logos/pmhca.svg",
-      6: "https://resourcespage.pages.dev/assets/resource-logos/aicdac.png",
-      7: "https://resourcespage.pages.dev/assets/resource-logos/aicdac.png",
-      8: "https://resourcespage.pages.dev/assets/resource-logos/westbranch.svg",
-      9: "https://resourcespage.pages.dev/assets/resource-logos/northbound.png"
-    };
-    const organizationLogo = logoPaths[data.region] || '';
-    const badgeColor = regionColors[data.region] || '#0d6efd';
-
-    cardHtml = `
-      <div class="card shadow-sm position-relative bg-white" style="width:220px">
-        <button id="popup-close" class="btn btn-sm btn-light position-absolute" style="top:0.25rem;right:0.5rem;z-index:2;">&times;</button>
-        <div class="card-body pb-0">
-          <span class="badge rounded-pill mb-2" style="background-color: ${badgeColor}; color: white;">Region ${data.region}</span>
-          <h5 class="card-title text-capitalize">${countyDisplayName}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">${data.org}</h6>
-          <a href="${data.url}" target="_blank" class="card-link">Website</a>
-        </div>
-        ${
-          organizationLogo
-            ? `<div class="card-img-bottom p-2">
-                <img src="${organizationLogo}" alt="${data.org} Logo" class="organization-logo" style="width:100%">
-               </div>`
-            : ''
-        }
-      </div>
-    `;
-  } else {
-    cardHtml = `
-      <div class="card shadow-sm position-relative">
-        <button id="popup-close" class="btn btn-sm btn-light position-absolute" style="top:0.25rem;right:0.5rem;z-index:2;">&times;</button>
-        <div class="card-body">
-          <h5 class="card-title text-capitalize">${county} County</h5>
-          <p><em>No region data available.</em></p>
-        </div>
-      </div>
-    `;
-  }
-
-  renderPopupCard(cardHtml);
-
-  const dynamicCloseBtn = popupContent.querySelector('#popup-close');
-  if (dynamicCloseBtn) dynamicCloseBtn.onclick = () => popup.style.display = 'none';
-
-  popup.style.display = 'block'; // must show to measure size
-
-  const popupRect = popup.getBoundingClientRect();
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-
-  const padding = 10;
-  let left = x + padding;
-  let top = y + padding;
-
-  // horizontal position: left or right
-  if (x > vw / 2) {
-    left = x - popupRect.width - padding;
-  }
-  if (left + popupRect.width > vw) {
-    left = vw - popupRect.width - padding;
-  }
-  if (left < padding) {
-    left = padding;
-  }
-
-  // vertical position: above or below
-  if (y > vh / 2) {
-    top = y - popupRect.height - padding;
-  }
-  if (top + popupRect.height > vh) {
-    top = vh - popupRect.height - padding;
-  }
-  if (top < padding) {
-    top = padding;
-  }
-
-  popup.style.left = `${left}px`;
-  popup.style.top = `${top}px`;
-}
-
-
-  document.addEventListener('click', (e) => {
-    const popupEl = document.getElementById('popup');
-    if (!popupEl.contains(e.target) && !e.target.closest('path')) {
-      popupEl.style.display = 'none';
+  svgContainer.addEventListener('click', (e) => {
+    const path = e.target.closest('path');
+    if (path) {
+      const county = path.getAttribute('data-name') || path.getAttribute('id');
+      if (county) {
+        showPopup(county, e.pageX, e.pageY);
+      }
+    } else {
+      popup.style.display = 'none';
     }
   });
-  </script>
 
+  document.addEventListener('click', (e) => {
+    const isClickInsidePopup = popup.contains(e.target);
+    const isClickOnPath = e.target.closest('path');
+    if (!isClickInsidePopup && !isClickOnPath) {
+      popup.style.display = 'none';
+    }
+  });
+
+})();
+  </script>
 </body>
 </html>
