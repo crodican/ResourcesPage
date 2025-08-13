@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRS Training Email Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.7/pulse/bootstrap.min.css" integrity="sha512-PauNd4q5wbW/qDV0SluxAzyXcB1XqR+VZ80sawFzOra6k/c3oSuK5ikTxvk3vVydhdCkSSAtm/BOWr7zbWKaTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* Custom county badge colors */
+        .county-philadelphia { background-color: #e91e63 !important; }
+        .county-montgomery { background-color: #9c27b0 !important; }
+        .county-bucks { background-color: #3f51b5 !important; }
+        .county-chester { background-color: #2196f3 !important; }
+        .county-delaware { background-color: #00bcd4 !important; }
+        .county-berks { background-color: #009688 !important; }
+        .county-unknown { background-color: #6c757d !important; }
+        
+        /* Sticky header */
+        .table-responsive {
+            max-height: 70vh;
+        }
+        
+        .table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        /* Column widths */
+        .col-from { width: 180px; min-width: 180px; }
+        .col-date { width: 100px; min-width: 100px; }
+        .col-time { width: 80px; min-width: 80px; }
+        .col-county { width: 100px; min-width: 100px; }
+        .col-subject { width: 220px; min-width: 220px; }
+        .col-summary { min-width: 280px; }
+        
+        /* Sortable headers */
+        .sortable {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .sort-icon {
+            opacity: 0.5;
+            margin-left: 5px;
+        }
+        
+        .sort-active {
+            opacity: 1;
+        }
+        /* Expandable row styles */
+        .email-row {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .email-row:hover {
+            background-color: rgba(0, 123, 255, 0.1) !important;
+        }
+
+        .expanded-row {
+            background-color: rgba(0, 123, 255, 0.05) !important;
+        }
+
+        .email-body-row {
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+
+        .email-body-content {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .expand-icon {
+            margin-right: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+
+        /* Dropdown menu styles */
+        .header-dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle-custom {
+            background: none;
+            border: none;
+            color: inherit;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0;
+        }
+
+        .dropdown-toggle-custom:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-menu {
+            min-width: 200px;
+        }
+
+        .county-filter-item {
+            padding: 0.25rem 1rem;
+        }
+
+        .county-filter-item .form-check {
+            margin: 0;
+        }
+
+        .non-clickable {
+            cursor: default;
+        }
+
+        /* Updated column widths */
+        .col-name { width: 150px; min-width: 150px; }
+        .col-email { width: 200px; min-width: 200px; }
+        .col-date { width: 100px; min-width: 100px; }
+        .col-time { width: 80px; min-width: 80px; }
+        .col-county { width: 120px; min-width: 120px; }
+        .col-subject { width: 220px; min-width: 220px; }
+        .col-summary { min-width: 280px; }
+
+
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container-fluid p-4">
+        <!-- Header Card -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white text-center py-4">
+                <h1 class="card-title mb-2">CRS Training Email Analysis</h1>
+                <p class="card-text mb-0">Analysis of emails from CRSTraininginfo@councilsepa.org inbox (June-August 2025)</p>
+            </div>
+        </div>        
+        <!-- Statistics Cards -->
+        <div class="row g-3 mb-4" id="statisticsRow">
+            <div class="col-md-3">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <h2 class="card-title text-primary display-6 fw-bold" id="totalEmails">0</h2>
+                        <p class="card-text text-muted text-uppercase small fw-semibold">Total Emails</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <h2 class="card-title text-success display-6 fw-bold" id="trainingInquiries">0</h2>
+                        <p class="card-text text-muted text-uppercase small fw-semibold">Training Inquiries</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <h2 class="card-title text-info display-6 fw-bold" id="uniqueCounties">0</h2>
+                        <p class="card-text text-muted text-uppercase small fw-semibold">Counties</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <h2 class="card-title text-warning display-6 fw-bold" id="staffResponses">0</h2>
+                        <p class="card-text text-muted text-uppercase small fw-semibold">Staff Responses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Search and Controls -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search emails by sender, subject, county, or content...">
+                    <button class="btn btn-outline-secondary" type="button" id="clearSearch">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6 text-end">
+                <button class="btn btn-success" onclick="downloadCSV()">
+                    <i class="bi bi-download"></i> Download as CSV
+                </button>
+                <span class="text-muted ms-3" id="resultCount">Showing 0 of 0 emails</span>
+            </div>
+        </div>
+        
+        <!-- Email Table -->
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover mb-0" id="emailTable">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col" class="col-name">
+                                    <div class="dropdown header-dropdown">
+                                        <button class="dropdown-toggle-custom" type="button" data-bs-toggle="dropdown">
+                                            NAME <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#" onclick="sortColumn('name', 'asc')">
+                                                <i class="bi bi-sort-alpha-down"></i> Sort Ascending
+                                            </a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="sortColumn('name', 'desc')">
+                                                <i class="bi bi-sort-alpha-up"></i> Sort Descending
+                                            </a></li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col" class="col-email">
+                                    <div class="dropdown header-dropdown">
+                                        <button class="dropdown-toggle-custom" type="button" data-bs-toggle="dropdown">
+                                            EMAIL <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#" onclick="sortColumn('email', 'asc')">
+                                                <i class="bi bi-sort-alpha-down"></i> Sort Ascending
+                                            </a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="sortColumn('email', 'desc')">
+                                                <i class="bi bi-sort-alpha-up"></i> Sort Descending
+                                            </a></li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col" class="col-date">
+                                    <div class="dropdown header-dropdown">
+                                        <button class="dropdown-toggle-custom" type="button" data-bs-toggle="dropdown">
+                                            DATE <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#" onclick="sortColumn('date', 'asc')">
+                                                <i class="bi bi-sort-numeric-down"></i> Sort Ascending
+                                            </a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="sortColumn('date', 'desc')">
+                                                <i class="bi bi-sort-numeric-up"></i> Sort Descending
+                                            </a></li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col" class="col-time non-clickable">TIME</th>
+                                <th scope="col" class="col-county">
+                                    <div class="dropdown header-dropdown">
+                                        <button class="dropdown-toggle-custom" type="button" data-bs-toggle="dropdown">
+                                            COUNTY <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li class="county-filter-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Philadelphia" id="county-philadelphia" checked>
+                                                    <label class="form-check-label" for="county-philadelphia">Philadelphia</label>
+                                                </div>
+                                            </li>
+                                            <li class="county-filter-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Berks" id="county-berks" checked>
+                                                    <label class="form-check-label" for="county-berks">Berks</label>
+                                                </div>
+                                            </li>
+                                            <li class="county-filter-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Bucks" id="county-bucks" checked>
+                                                    <label class="form-check-label" for="county-bucks">Bucks</label>
+                                                </div>
+                                            </li>
+                                            <li class="county-filter-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Chester" id="county-chester" checked>
+                                                    <label class="form-check-label" for="county-chester">Chester</label>
+                                                </div>
+                                            </li>
+                                            <li class="county-filter-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Delaware" id="county-delaware" checked>
+                                                    <label class="form-check-label" for="county-delaware">Delaware</label>
+                                                </div>
+                                            </li>
+                                            <li class="county-filter-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Lancaster" id="county-lancaster" checked>
+                                                    <label class="form-check-label" for="county-lancaster">Lancaster</label>
+                                                </div>
+                                            </li>
+                                            <li class="county-filter-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Montgomery" id="county-montgomery" checked>
+                                                    <label class="form-check-label" for="county-montgomery">Montgomery</label>
+                                                </div>
+                                            </li>
+                                            <li class="county-filter-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Schuylkill" id="county-schuylkill" checked>
+                                                    <label class="form-check-label" for="county-schuylkill">Schuylkill</label>
+                                                </div>
+                                            </li>
+                                            <li class="county-filter-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input county-filter" type="checkbox" value="Other" id="county-other" checked>
+                                                    <label class="form-check-label" for="county-other">Other</label>
+                                                </div>
+                                            </li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="#" onclick="selectAllCounties()">
+                                                <i class="bi bi-check-all"></i> Select All
+                                            </a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="deselectAllCounties()">
+                                                <i class="bi bi-x-square"></i> Deselect All
+                                            </a></li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col" class="col-subject non-clickable">SUBJECT</th>
+                                <th scope="col" class="col-summary non-clickable">AI SUMMARY OF EMAIL</th>
+                            </tr>
+                        </thead>
+                        <tbody id="emailTableBody">
+                            <!-- Table content will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- No Results Message -->
+        <div class="card shadow-sm mt-3 d-none" id="noResultsCard">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-search display-1 text-muted"></i>
+                <h3 class="mt-3">No emails found</h3>
+                <p class="text-muted">Try adjusting your search criteria or clearing the search.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="emailData.js"></script>
+    <script>
+        // Global variables
+        let filteredData = [...emailData];
+        let currentSort = { field: null, direction: 'asc' };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatistics();
+            renderTable();
+            setupEventListeners();
+        });
+
+        // Update statistics based on current filtered data
+        function updateStatistics() {
+            const total = filteredData.length;
+            const inquiries = filteredData.filter(email => email.isInquiry).length;
+            const staffResponses = filteredData.filter(email => email.isStaffResponse).length;
+            const counties = new Set(filteredData.map(email => email.county).filter(county => county !== 'Unknown')).size;
+
+            document.getElementById('totalEmails').textContent = total;
+            document.getElementById('trainingInquiries').textContent = inquiries;
+            document.getElementById('staffResponses').textContent = staffResponses;
+            document.getElementById('uniqueCounties').textContent = counties;
+            document.getElementById('resultCount').textContent = `Showing ${total} of ${emailData.length} emails`;
+        }
+
+        // Render the table with current filtered data
+        function renderTable() {
+            const tbody = document.getElementById('emailTableBody');
+            const noResultsCard = document.getElementById('noResultsCard');
+
+            if (filteredData.length === 0) {
+                tbody.innerHTML = '';
+                noResultsCard.classList.remove('d-none');
+                return;
+            }
+
+            noResultsCard.classList.add('d-none');
+
+            tbody.innerHTML = filteredData.map((email, index) => `
+                <tr class="email-row" data-email-index="${index}" onclick="toggleEmailBody(${index})">
+                    <td class="fw-semibold">
+                        <i class="bi bi-chevron-right expand-icon" id="icon-${index}"></i>
+                        ${escapeHtml(email.name || 'Unknown')}
+                    </td>
+                    <td class="small">${escapeHtml(email.email || 'No email')}</td>
+                    <td class="text-nowrap">${email.date}</td>
+                    <td class="text-nowrap">${email.time}</td>
+                    <td><span class="badge county-${(email.county || 'other').toLowerCase()} text-white">${email.county || 'Other'}</span></td>
+                    <td class="fw-medium">${escapeHtml(email.subject)}</td>
+                    <td class="small">${escapeHtml(email.summary)}</td>
+                </tr>
+                <tr class="email-body-row d-none" id="body-${index}">
+                    <td colspan="7">
+                        <div class="email-body-content">
+                            <strong>Email Body:</strong><br><br>
+                            ${escapeHtml(email.body || 'No email body available.')}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Toggle email body display
+        function toggleEmailBody(index) {
+            const bodyRow = document.getElementById(`body-${index}`);
+            const icon = document.getElementById(`icon-${index}`);
+            const emailRow = document.querySelector(`[data-email-index="${index}"]`);
+
+            if (bodyRow.classList.contains('d-none')) {
+                // Expand
+                bodyRow.classList.remove('d-none');
+                icon.classList.add('expanded');
+                emailRow.classList.add('expanded-row');
+
+                // Scroll to the expanded content
+                setTimeout(() => {
+                    bodyRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            } else {
+                // Collapse
+                bodyRow.classList.add('d-none');
+                icon.classList.remove('expanded');
+                emailRow.classList.remove('expanded-row');
+            }
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const clearSearch = document.getElementById('clearSearch');
+
+            searchInput.addEventListener('input', handleSearch);
+            clearSearch.addEventListener('click', () => {
+                searchInput.value = '';
+                handleSearch();
+            });
+
+            // County filter checkboxes
+            document.querySelectorAll('.county-filter').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        selectedCounties.add(e.target.value);
+                    } else {
+                        selectedCounties.delete(e.target.value);
+                    }
+                    handleCountyFilter();
+                });
+            });
+        }
+
+        // Handle search functionality
+        function handleSearch() {
+            handleCountyFilter(); // This now handles both search and county filtering
+        }
+
+        // Handle sorting functionality
+        function handleSort(field) {
+            // Determine sort direction
+            if (currentSort.field === field) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.field = field;
+                currentSort.direction = 'asc';
+            }
+            
+            applySorting(field, currentSort.direction);
+            updateSortIcons(field, currentSort.direction);
+            renderTable();
+        }
+
+        // Apply sorting to filtered data
+        function applySorting(field, direction) {
+            filteredData.sort((a, b) => {
+                let aVal = a[field];
+                let bVal = b[field];
+                
+                // Special handling for date sorting
+                if (field === 'date') {
+                    aVal = new Date(aVal);
+                    bVal = new Date(bVal);
+                }
+                // Special handling for time sorting
+                else if (field === 'time') {
+                    aVal = convertTo24Hour(aVal);
+                    bVal = convertTo24Hour(bVal);
+                }
+                // String comparison for other fields
+                else {
+                    aVal = aVal.toString().toLowerCase();
+                    bVal = bVal.toString().toLowerCase();
+                }
+                
+                if (aVal < bVal) return direction === 'asc' ? -1 : 1;
+                if (aVal > bVal) return direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+
+        // Convert 12-hour time to 24-hour for sorting
+        function convertTo24Hour(time12h) {
+            const [time, modifier] = time12h.split(' ');
+            let [hours, minutes] = time.split(':');
+            if (hours === '12') {
+                hours = '00';
+            }
+            if (modifier === 'PM') {
+                hours = parseInt(hours, 10) + 12;
+            }
+            return `${hours}:${minutes}`;
+        }
+
+        // Update sort icons in table headers
+        function updateSortIcons(activeField, direction) {
+            // Reset all icons
+            document.querySelectorAll('.sort-icon').forEach(icon => {
+                icon.className = 'bi bi-arrow-up-down sort-icon';
+            });
+            
+            // Set active icon
+            const activeHeader = document.querySelector(`[data-sort="${activeField}"] .sort-icon`);
+            if (activeHeader) {
+                activeHeader.className = direction === 'asc' 
+                    ? 'bi bi-arrow-up sort-icon sort-active'
+                    : 'bi bi-arrow-down sort-icon sort-active';
+            }
+        }
+
+        // Global variable for county filters
+        let selectedCounties = new Set(['Philadelphia', 'Berks', 'Bucks', 'Chester', 'Delaware', 'Lancaster', 'Montgomery', 'Schuylkill', 'Other']);
+
+        // Sort column function
+        function sortColumn(field, direction) {
+            currentSort = { field, direction };
+            applySorting(field, direction);
+            renderTable();
+        }
+
+        // County filter functions
+        function selectAllCounties() {
+            selectedCounties = new Set(['Philadelphia', 'Berks', 'Bucks', 'Chester', 'Delaware', 'Lancaster', 'Montgomery', 'Schuylkill', 'Other']);
+            document.querySelectorAll('.county-filter').forEach(checkbox => checkbox.checked = true);
+            handleCountyFilter();
+        }
+
+        function deselectAllCounties() {
+            selectedCounties = new Set();
+            document.querySelectorAll('.county-filter').forEach(checkbox => checkbox.checked = false);
+            handleCountyFilter();
+        }
+
+        function handleCountyFilter() {
+            // Get current search term
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            // Start with all data or search-filtered data
+            let dataToFilter = searchTerm ? 
+                emailData.filter(email => 
+                    (email.name || '').toLowerCase().includes(searchTerm) ||
+                    (email.email || '').toLowerCase().includes(searchTerm) ||
+                    email.subject.toLowerCase().includes(searchTerm) ||
+                    email.summary.toLowerCase().includes(searchTerm) ||
+                    email.county.toLowerCase().includes(searchTerm)
+                ) : [...emailData];
+
+            // Apply county filter
+            filteredData = dataToFilter.filter(email => {
+                const county = email.county || 'Other';
+                return selectedCounties.has(county) || selectedCounties.has('Other') && county === 'Unknown';
+            });
+
+            // Reapply current sort if any
+            if (currentSort.field) {
+                applySorting(currentSort.field, currentSort.direction);
+            }
+
+            updateStatistics();
+            renderTable();
+        }
+
+        // Download CSV functionality
+        function downloadCSV() {
+            let csv = 'NAME,EMAIL,DATE,TIME,COUNTY,SUBJECT,AI SUMMARY OF EMAIL\n';
+
+            filteredData.forEach(email => {
+                const row = [
+                    `"${(email.name || 'Unknown').replace(/"/g, '""')}"`,
+                    `"${(email.email || 'No email').replace(/"/g, '""')}"`,
+                    email.date,
+                    email.time,
+                    email.county || 'Other',
+                    `"${email.subject.replace(/"/g, '""')}"`,
+                    `"${email.summary.replace(/"/g, '""')}"`
+                ];
+                csv += row.join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'crs_training_emails_filtered.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>
