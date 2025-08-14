@@ -1,178 +1,329 @@
-// Dynamically build place-to-county mapping from CSV
-let placeToCounty = {};
+class EmailParser {
+  constructor() {
+    this.pennsylvaniaCounties = [
+      'Adams', 'Allegheny', 'Armstrong', 'Beaver', 'Bedford', 'Berks', 'Blair', 'Bradford', 
+      'Bucks', 'Butler', 'Cambria', 'Cameron', 'Carbon', 'Centre', 'Chester', 'Clarion', 
+      'Clearfield', 'Clinton', 'Columbia', 'Crawford', 'Cumberland', 'Dauphin', 'Delaware', 
+      'Elk', 'Erie', 'Fayette', 'Forest', 'Franklin', 'Fulton', 'Greene', 'Huntingdon', 
+      'Indiana', 'Jefferson', 'Juniata', 'Lackawanna', 'Lancaster', 'Lawrence', 'Lebanon', 
+      'Lehigh', 'Luzerne', 'Lycoming', 'McKean', 'Mercer', 'Mifflin', 'Monroe', 'Montgomery', 
+      'Montour', 'Northampton', 'Northumberland', 'Perry', 'Philadelphia', 'Pike', 'Potter', 
+      'Schuylkill', 'Snyder', 'Somerset', 'Sullivan', 'Susquehanna', 'Tioga', 'Union', 
+      'Venango', 'Warren', 'Washington', 'Wayne', 'Westmoreland', 'Wyoming', 'York'
+    ];
 
-// Utility: fetch and parse the CSV, build mapping
-async function loadPlaceToCountyCSV(url) {
-  const resp = await fetch(url);
-  const csvText = await resp.text();
+    this.initializeEventListeners();
+  }
 
-  // Parse CSV (assume headers: city,county)
-  const lines = csvText.split('\n').map(l => l.trim()).filter(Boolean);
-  const mapping = {};
-  for (let i = 1; i < lines.length; i++) { // skip header
-    const [city, county] = lines[i].split(',').map(s => s.trim());
-    if (city && county) {
-      // Add direct mapping (case-insensitive)
-      mapping[city.toLowerCase()] = county;
+  initializeEventListeners() {
+    const fileInput = document.getElementById('fileInput');
+    const textInput = document.getElementById('textInput');
+    const parseBtn = document.getElementById('parseBtn');
+
+    fileInput.addEventListener('change', (e) => this.handleFileUpload(e));
+    parseBtn.addEventListener('click', () => this.parseEmails());
+  }
+
+  async handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (file && file.type === 'text/plain') {
+      try {
+        const text = await file.text();
+        document.getElementById('textInput').value = text;
+      } catch (error) {
+        this.showMessage('Error reading file: ' + error.message, 'danger');
+      }
     }
   }
-  return mapping;
-}
 
-// Standard parseEmails (unchanged)
-function parseEmails(emailText) {
-  const emails = emailText.split(/^From:\s*/m).filter(block => block.trim());
-  const parsed = [];
-  emails.forEach(raw => {
-    const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-    let name = '', email = '', date = '', time = '', subject = '';
-    let bodyLines = [];
-    // Sender
-    if (lines[0]) {
-      const senderMatch = lines[0].match(/(.*?)<([^>]+)>/);
-      if (senderMatch) {
-        name = senderMatch[1].trim();
-        email = senderMatch[2].trim();
-      } else {
-        name = lines[0];
+  parseRawEmails(rawText) {
+    const emails = [];
+    
+    // Split by common email separators
+    const emailBlocks = rawText.split(/(?=From:|Subject:|Sent:)/i).filter(block => block.trim());
+    
+    for (const block of emailBlocks) {
+      if (block.trim().length < 50) continue; // Skip very short blocks
+      
+      const email = this.extractEmailData(block);
+      if (email.email || email.subject) {
+        emails.push(email);
       }
     }
-    // Subject, Date/Time, Body
-    for (let i = 1; i < lines.length; i++) {
-      if (!subject && lines[i].startsWith('Subject:')) {
-        subject = lines[i].replace(/Subject:\s*/, '');
-        continue;
-      }
-      if (!date && lines[i].match(/^[A-Za-z]+,\s+[A-Za-z]+\s+\d{1,2},\s+\d{4}/)) {
-        const dtMatch = lines[i].match(/^([A-Za-z]+),\s+([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})\s+([0-9:APM ]+)$/);
-        if (dtMatch) {
-          date = `${dtMatch[2]} ${dtMatch[3]}, ${dtMatch[4]}`;
-          time = dtMatch[5].trim();
-        }
-        continue;
-      }
-      if (
-        lines[i].startsWith('You don\'t often get email') ||
-        lines[i].includes('CAUTION: This is an External Email') ||
-        lines[i].startsWith('---') ||
-        lines[i].startsWith('Sent from my iPhone') ||
-        lines[i].startsWith('CONFIDENTIALITY NOTICE')
-      ) {
-        continue;
-      }
-      if (
-        subject &&
-        !lines[i].startsWith('Sent:') &&
-        !lines[i].startsWith('To:') &&
-        !lines[i].startsWith('Cc:') &&
-        !lines[i].startsWith('Bcc:')
-      ) {
-        bodyLines.push(lines[i]);
-      }
-    }
-    const body = bodyLines.join('\n').trim();
-    parsed.push({ name, email, date, time, subject, body });
-  });
-  return parsed;
-}
+    
+    return emails;
+  }
 
-// AI-powered county inference and summarization using transformers.js
-async function enrichEmailsWithAI(emails) {
-  document.getElementById('spinner').classList.remove('d-none');
-  // Load NER pipeline
-  const nerPipeline = await window.transformers.pipeline('ner', 'Xenova/bert-base-NER');
-  // Load summarization pipeline
-  const summarizer = await window.transformers.pipeline('summarization', 'Xenova/distilbart-cnn-12-6');
+  extractEmailData(emailBlock) {
+    const email = {
+      name: '',
+      email: '',
+      date: '',
+      time: '',
+      subject: '',
+      body: '',
+      county: '',
+      summary: '',
+      isInquiry: false,
+      isStaffResponse: false
+    };
 
-  for (let email of emails) {
-    // County inference
-    let county = "";
-    try {
-      const nerResults = await nerPipeline(email.body);
-      // Find location entities, map to county from CSV
-      const places = nerResults
-        .filter(e => e.entity_group === "LOC" || e.entity_group === "ORG")
-        .map(e => e.word.replace(/^##/, '').replace(/^[.,\s]+|[.,\s]+$/g, ''));
-      for (let place of places) {
-        const mappedCounty = placeToCounty[place.toLowerCase()];
-        if (mappedCounty) {
-          county = mappedCounty;
-          break;
+    // Extract sender information
+    const fromMatch = emailBlock.match(/From:\s*(.+?)(?:\n|$)/i);
+    if (fromMatch) {
+      const fromLine = fromMatch[1].trim();
+      const emailMatch = fromLine.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
+      
+      if (emailMatch) {
+        email.email = emailMatch[1];
+        // Extract name (text before email or between quotes)
+        const nameMatch = fromLine.match(/^([^<]+?)(?:\s*<|$)/) || fromLine.match(/"([^"]+)"/);
+        if (nameMatch) {
+          email.name = nameMatch[1].replace(/[<>"]/g, '').trim();
         }
       }
-    } catch (err) {
-      county = "";
     }
-    email.county = county;
 
-    // Summarization
+    // Extract subject
+    const subjectMatch = emailBlock.match(/Subject:\s*(.+?)(?:\n|$)/i);
+    if (subjectMatch) {
+      email.subject = subjectMatch[1].trim();
+    }
+
+    // Extract date and time
+    const sentMatch = emailBlock.match(/Sent:\s*(.+?)(?:\n|$)/i) || 
+                     emailBlock.match(/Date:\s*(.+?)(?:\n|$)/i);
+    if (sentMatch) {
+      const dateTimeStr = sentMatch[1].trim();
+      const dateTime = this.parseDateTimeString(dateTimeStr);
+      email.date = dateTime.date;
+      email.time = dateTime.time;
+    }
+
+    // Extract body (everything after headers)
+    const bodyMatch = emailBlock.match(/(?:Subject:.*?\n)([\s\S]*)/i) ||
+                     emailBlock.match(/(?:Sent:.*?\n)([\s\S]*)/i) ||
+                     emailBlock.match(/(?:Date:.*?\n)([\s\S]*)/i);
+    if (bodyMatch) {
+      email.body = bodyMatch[1].trim().replace(/\n\s*\n/g, '\n\n');
+    }
+
+    return email;
+  }
+
+  parseDateTimeString(dateTimeStr) {
+    let date = '';
+    let time = '';
+
     try {
-      const summaryResult = await summarizer(email.body || email.subject);
-      email.summary = summaryResult[0].summary_text;
-    } catch (err) {
-      email.summary = "";
+      const parsedDate = new Date(dateTimeStr);
+      if (!isNaN(parsedDate)) {
+        // Format date as M/D/YYYY
+        date = `${parsedDate.getMonth() + 1}/${parsedDate.getDate()}/${parsedDate.getFullYear()}`;
+        
+        // Format time as H:MM AM/PM
+        let hours = parsedDate.getHours();
+        const minutes = parsedDate.getMinutes().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        if (hours === 0) hours = 12;
+        time = `${hours}:${minutes} ${ampm}`;
+      }
+    } catch (error) {
+      console.error('Date parsing error:', error);
+    }
+
+    return { date, time };
+  }
+
+  async callClaudeAPI(prompt) {
+    try {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1500,
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.content[0].text;
+    } catch (error) {
+      console.error('Claude API error:', error);
+      throw error;
     }
   }
-  document.getElementById('spinner').classList.add('d-none');
-  return emails;
+
+  async enhanceEmailWithAI(email) {
+    const prompt = `
+You are analyzing an email for Pennsylvania county inference and classification. Please respond with ONLY a valid JSON object in this exact format:
+
+{
+  "county": "county name or empty string",
+  "summary": "1-2 sentence summary",
+  "isInquiry": true/false,
+  "isStaffResponse": true/false
 }
 
-// File + textarea input logic
-document.addEventListener('DOMContentLoaded', async () => {
-  const fileInput = document.getElementById('fileInput');
-  const textInput = document.getElementById('textInput');
-  const parseBtn = document.getElementById('parseBtn');
-  const output = document.getElementById('output');
-  const spinner = document.getElementById('spinner');
-  let uploadedText = '';
+Email details:
+- Sender: ${email.name} (${email.email})
+- Subject: ${email.subject}
+- Body: ${email.body.substring(0, 1000)}
 
-  // Load CSV for placeToCounty mapping before parse
-  placeToCounty = await loadPlaceToCountyCSV('https://resourcespage.pages.dev/pa_cities_counties.csv');
+Tasks:
+1. County: Infer Pennsylvania county from email content, signature, or domain. Only use these PA counties: ${this.pennsylvaniaCounties.join(', ')}. If uncertain, use empty string.
+2. Summary: Write 1-2 sentences summarizing the email's main purpose/content.
+3. isInquiry: true if email asks for help with recovery specialist credentials, licensing, certification, or similar assistance. false otherwise.
+4. isStaffResponse: true if this appears to be a response from staff/organization to someone else. false if from external person to organization.
 
-  fileInput.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = evt => {
-        uploadedText = evt.target.result;
-        textInput.value = uploadedText;
+RESPOND ONLY WITH VALID JSON. DO NOT INCLUDE ANY OTHER TEXT.
+`;
+
+    try {
+      const response = await this.callClaudeAPI(prompt);
+      
+      // Clean the response to extract JSON
+      let jsonStr = response.trim();
+      jsonStr = jsonStr.replace(/```json\s?/g, "").replace(/```\s?/g, "").trim();
+      
+      const aiData = JSON.parse(jsonStr);
+      
+      // Validate county against our list
+      if (aiData.county && !this.pennsylvaniaCounties.includes(aiData.county)) {
+        aiData.county = '';
+      }
+      
+      return {
+        county: aiData.county || '',
+        summary: aiData.summary || '',
+        isInquiry: Boolean(aiData.isInquiry),
+        isStaffResponse: Boolean(aiData.isStaffResponse)
       };
-      reader.readAsText(file);
+    } catch (error) {
+      console.error('AI enhancement error:', error);
+      return {
+        county: '',
+        summary: 'Summary unavailable due to processing error',
+        isInquiry: false,
+        isStaffResponse: false
+      };
     }
-  });
+  }
 
-  parseBtn.addEventListener('click', async () => {
-    output.classList.add('d-none');
-    spinner.classList.remove('d-none');
-    const text = textInput.value.trim();
-    if (!text) {
-      output.textContent = 'Please upload a file or paste email text.';
-      output.classList.remove('d-none');
-      spinner.classList.add('d-none');
+  async parseEmails() {
+    const textInput = document.getElementById('textInput');
+    const rawText = textInput.value.trim();
+    
+    if (!rawText) {
+      this.showMessage('Please upload a file or paste email text first.', 'warning');
       return;
     }
-    try {
-      const parsed = parseEmails(text);
-      const enriched = await enrichEmailsWithAI(parsed);
-      const json = JSON.stringify(enriched, null, 2);
 
-      output.textContent = `Parsed ${enriched.length} emails.\n\nSample:\n${json.slice(0, 400)}...`;
-      output.classList.remove('d-none');
+    this.showSpinner(true);
+    this.showMessage('');
+
+    try {
+      // Parse raw email text
+      const rawEmails = this.parseRawEmails(rawText);
+      
+      if (rawEmails.length === 0) {
+        this.showMessage('No emails found in the provided text. Please check the format.', 'warning');
+        this.showSpinner(false);
+        return;
+      }
+
+      this.showMessage(`Found ${rawEmails.length} emails. Processing with AI...`, 'info');
+      
+      // Enhance each email with AI
+      const enhancedEmails = [];
+      for (let i = 0; i < rawEmails.length; i++) {
+        const email = rawEmails[i];
+        
+        this.showMessage(`Processing email ${i + 1} of ${rawEmails.length}...`, 'info');
+        
+        try {
+          const aiEnhancement = await this.enhanceEmailWithAI(email);
+          
+          const enhancedEmail = {
+            ...email,
+            ...aiEnhancement
+          };
+          
+          enhancedEmails.push(enhancedEmail);
+          
+          // Small delay to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+        } catch (error) {
+          console.error(`Error processing email ${i + 1}:`, error);
+          // Add the email without AI enhancement
+          enhancedEmails.push({
+            ...email,
+            county: '',
+            summary: 'AI processing failed',
+            isInquiry: false,
+            isStaffResponse: false
+          });
+        }
+      }
 
       // Download JSON
-      const blob = new Blob([json], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'parsed_emails.json';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 2000);
-    } catch (err) {
-      output.textContent = 'Error parsing: ' + err;
-      output.classList.remove('d-none');
+      this.downloadJSON(enhancedEmails);
+      this.showMessage(`Successfully processed and downloaded ${enhancedEmails.length} emails!`, 'success');
+      
+    } catch (error) {
+      console.error('Parsing error:', error);
+      this.showMessage('Error processing emails: ' + error.message, 'danger');
+    } finally {
+      this.showSpinner(false);
     }
-    spinner.classList.add('d-none');
-  });
+  }
+
+  downloadJSON(data) {
+    const jsonStr = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `parsed_emails_${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  showMessage(message, type = 'info') {
+    const output = document.getElementById('output');
+    if (!message) {
+      output.classList.add('d-none');
+      return;
+    }
+    
+    output.className = `mt-4 alert alert-${type}`;
+    output.textContent = message;
+    output.classList.remove('d-none');
+  }
+
+  showSpinner(show) {
+    const spinner = document.getElementById('spinner');
+    if (show) {
+      spinner.classList.remove('d-none');
+    } else {
+      spinner.classList.add('d-none');
+    }
+  }
+}
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', () => {
+  new EmailParser();
 });
