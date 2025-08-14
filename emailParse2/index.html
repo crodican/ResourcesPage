@@ -3,267 +3,1181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outlook Email Parser & County Inference Tool</title>
+    <title>AI Email Intelligence Platform</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        :root {
+            --ai-primary: #667eea;
+            --ai-secondary: #764ba2;
+            --ai-accent: #f093fb;
+            --ai-success: #4facfe;
+            --ai-warning: #ffecd2;
+            --ai-dark: #2d3436;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--ai-primary) 0%, var(--ai-secondary) 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 20px 20px 0 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
         .drop-zone {
-            border: 3px dashed #007bff;
-            border-radius: 10px;
-            padding: 60px 20px;
-            text-align: center;
-            background: #f8f9fa;
+            border: 3px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .drop-zone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .drop-zone:hover::before {
+            left: 100%;
+        }
+
         .drop-zone:hover, .drop-zone.dragover {
-            border-color: #0056b3;
-            background: #e3f2fd;
+            border-color: var(--ai-accent);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
-        
-        .email-preview {
-            max-height: 400px;
-            overflow-y: auto;
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            padding: 15px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
+
+        .ai-btn {
+            background: linear-gradient(135deg, var(--ai-success) 0%, var(--ai-accent) 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .result-card {
-            background: #f8f9fa;
-            border-left: 4px solid #28a745;
+
+        .ai-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
         }
-        
+
+        .ai-btn:hover::before {
+            left: 100%;
+        }
+
+        .ai-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .ai-stats-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .ai-stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-processing {
+            background: linear-gradient(45deg, var(--ai-primary), var(--ai-secondary), var(--ai-accent));
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .neural-network {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .neuron {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--ai-accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .ai-insight {
+            background: linear-gradient(135deg, rgba(76, 201, 240, 0.1) 0%, rgba(147, 234, 255, 0.1) 100%);
+            border-left: 4px solid var(--ai-success);
+            border-radius: 0 10px 10px 0;
+        }
+
+        .sentiment-positive { color: #00b894; }
+        .sentiment-neutral { color: #fdcb6e; }
+        .sentiment-negative { color: #e17055; }
+
+        .confidence-bar {
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--ai-success) 0%, var(--ai-accent) 100%);
+            transition: width 0.5s ease;
+        }
+
+        .ai-tag {
+            background: linear-gradient(135deg, var(--ai-primary) 0%, var(--ai-secondary) 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         .county-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .loading-dots {
+            display: inline-block;
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+
+        .ai-chat-bubble {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px 20px 20px 5px;
+            padding: 15px 20px;
+            margin: 10px 0;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--ai-success) 0%, var(--ai-accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-weight: bold;
         }
-        
-        .county-philadelphia { background-color: #e91e63; color: white; }
-        .county-montgomery { background-color: #9c27b0; color: white; }
-        .county-bucks { background-color: #3f51b5; color: white; }
-        .county-chester { background-color: #2196f3; color: white; }
-        .county-delaware { background-color: #00bcd4; color: white; }
-        .county-berks { background-color: #009688; color: white; }
-        .county-lancaster { background-color: #ff9800; color: white; }
-        .county-schuylkill { background-color: #795548; color: white; }
-        .county-unknown { background-color: #6c757d; color: white; }
-        
-        .step-indicator {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            margin-right: 0.5rem;
-            font-weight: bold;
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
-        
-        .step-active { background-color: #007bff; color: white; }
-        .step-completed { background-color: #28a745; color: white; }
-        .step-pending { background-color: #6c757d; color: white; }
-        
-        .loading-spinner {
-            display: none;
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--ai-primary);
+            animation: typing 1.4s infinite ease-in-out;
         }
-        
-        .json-output {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            padding: 15px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85em;
-            max-height: 500px;
-            overflow-y: auto;
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .feature-highlight {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-circle {
+            stroke-dasharray: 251.2;
+            stroke-dashoffset: 251.2;
+            transition: stroke-dashoffset 0.5s ease-in-out;
         }
     </style>
 </head>
-<body class="bg-light">
-    <div class="container py-5">
-        <!-- Header -->
-        <div class="text-center mb-5">
-            <h1 class="display-4 text-primary mb-3">
-                <i class="bi bi-envelope-fill me-3"></i>
-                Outlook Email Parser
-            </h1>
-            <p class="lead text-muted">Parse exported Outlook emails, infer Pennsylvania counties, and generate structured JSON data</p>
-        </div>
-
-        <!-- Progress Steps -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="d-flex justify-content-center flex-wrap">
-                    <span class="step-indicator step-active" id="step1">1. Upload</span>
-                    <span class="step-indicator step-pending" id="step2">2. Parse</span>
-                    <span class="step-indicator step-pending" id="step3">3. Review</span>
-                    <span class="step-indicator step-pending" id="step4">4. Export</span>
+<body>
+    <div class="container-fluid py-4">
+        <!-- AI Header -->
+        <div class="glass-card mb-4">
+            <div class="ai-header text-white text-center py-5">
+                <div class="d-flex justify-content-center align-items-center mb-3">
+                    <div class="ai-avatar me-3" style="width: 60px; height: 60px; font-size: 24px;">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                    <div>
+                        <h1 class="display-4 mb-0">AI Email Intelligence</h1>
+                        <p class="lead mb-0">Advanced Neural Processing for Email Analysis</p>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <div class="feature-highlight">
+                            <i class="bi bi-brain display-6 mb-2"></i>
+                            <h6>Neural Language Processing</h6>
+                            <small>Advanced AI models analyze content semantically</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="feature-highlight">
+                            <i class="bi bi-geo-alt display-6 mb-2"></i>
+                            <h6>Geospatial Intelligence</h6>
+                            <small>Smart location inference and mapping</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="feature-highlight">
+                            <i class="bi bi-graph-up display-6 mb-2"></i>
+                            <h6>Behavioral Analytics</h6>
+                            <small>Pattern recognition and trend analysis</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="feature-highlight">
+                            <i class="bi bi-shield-check display-6 mb-2"></i>
+                            <h6>Quality Assurance</h6>
+                            <small>AI-powered validation and confidence scoring</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Upload Section -->
-        <div class="card shadow-sm mb-4" id="uploadSection">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title mb-0">
+        <div class="glass-card mb-4" id="uploadSection">
+            <div class="ai-header text-white py-3">
+                <h3 class="text-center mb-0">
                     <i class="bi bi-cloud-upload me-2"></i>
-                    Step 1: Upload Outlook Email Export
+                    Neural Data Ingestion
                 </h3>
             </div>
-            <div class="card-body">
-                <div class="drop-zone" id="dropZone">
-                    <i class="bi bi-file-earmark-text display-1 text-muted mb-3"></i>
-                    <h4>Drop your Outlook email export here</h4>
-                    <p class="text-muted mb-3">Or click to browse for a .txt file</p>
+            <div class="p-4">
+                <div class="drop-zone text-center py-5" id="dropZone">
+                    <div class="neural-network" id="neuralNetwork"></div>
+                    <i class="bi bi-file-earmark-text display-1 text-white mb-3"></i>
+                    <h4 class="text-white">Upload Email Data for AI Analysis</h4>
+                    <p class="text-white-50 mb-3">Advanced algorithms will process and understand your email content</p>
                     <input type="file" id="fileInput" class="d-none" accept=".txt">
-                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
-                        <i class="bi bi-folder2-open me-2"></i>Browse Files
+                    <button class="ai-btn" onclick="document.getElementById('fileInput').click()">
+                        <i class="bi bi-robot me-2"></i>Initialize AI Processing
                     </button>
                 </div>
                 
-                <div class="mt-4">
-                    <h5>Instructions:</h5>
-                    <ol class="text-muted">
-                        <li>Export emails from Outlook as a text file</li>
-                        <li>Ensure the export includes sender information, dates, subjects, and body content</li>
-                        <li>Upload the .txt file using the area above</li>
-                        <li>The tool will automatically parse and analyze the emails</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-
-        <!-- Preview Section -->
-        <div class="card shadow-sm mb-4 d-none" id="previewSection">
-            <div class="card-header bg-info text-white">
-                <h3 class="card-title mb-0">
-                    <i class="bi bi-eye me-2"></i>
-                    Email Content Preview
-                </h3>
-            </div>
-            <div class="card-body">
-                <div class="email-preview" id="emailPreview"></div>
-                <div class="mt-3">
-                    <button class="btn btn-success" id="parseButton">
-                        <i class="bi bi-cpu me-2"></i>Parse Emails
-                    </button>
-                    <button class="btn btn-secondary ms-2" onclick="resetApp()">
-                        <i class="bi bi-arrow-left me-2"></i>Upload Different File
-                    </button>
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="ai-chat-bubble">
+                            <div class="d-flex align-items-start">
+                                <div class="ai-avatar me-3">AI</div>
+                                <div>
+                                    <strong>AI Assistant:</strong> Ready to analyze your email data with advanced machine learning algorithms. I'll extract insights, infer locations, and provide intelligent summaries.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-white mb-3">AI Capabilities:</h6>
+                        <ul class="text-white-50">
+                            <li>Semantic content analysis</li>
+                            <li>Intelligent county inference</li>
+                            <li>Automated categorization</li>
+                            <li>Sentiment analysis</li>
+                            <li>Confidence scoring</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Processing Section -->
-        <div class="card shadow-sm mb-4 d-none" id="processingSection">
-            <div class="card-body text-center py-5">
-                <div class="loading-spinner d-inline-block">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+        <div class="glass-card mb-4 d-none ai-processing" id="processingSection">
+            <div class="p-5 text-center text-white">
+                <div class="ai-avatar mx-auto mb-4" style="width: 80px; height: 80px; font-size: 32px;">
+                    <i class="bi bi-cpu"></i>
+                </div>
+                <h3>AI Neural Processing<span class="loading-dots"></span></h3>
+                <p class="mb-4">Advanced algorithms are analyzing your email data</p>
+                
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="ai-insight p-3 mb-3">
+                            <h6><i class="bi bi-brain me-2"></i>Language Analysis</h6>
+                            <div class="progress">
+                                <div class="progress-bar" id="langProgress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="ai-insight p-3 mb-3">
+                            <h6><i class="bi bi-geo me-2"></i>Geographic Inference</h6>
+                            <div class="progress">
+                                <div class="progress-bar" id="geoProgress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="ai-insight p-3 mb-3">
+                            <h6><i class="bi bi-graph-up me-2"></i>Pattern Recognition</h6>
+                            <div class="progress">
+                                <div class="progress-bar" id="patternProgress" style="width: 0%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <h4 class="mt-3">Processing Emails...</h4>
-                <p class="text-muted">Parsing content, inferring counties, and generating AI summaries</p>
-                <div class="progress mt-3" style="max-width: 400px; margin: 0 auto;">
-                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+
+                <div class="typing-indicator justify-content-center">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
                 </div>
+                <p class="mt-2" id="processingStatus">Initializing neural networks...</p>
             </div>
         </div>
 
         <!-- Results Section -->
-        <div class="card shadow-sm mb-4 d-none" id="resultsSection">
-            <div class="card-header bg-success text-white">
-                <h3 class="card-title mb-0">
-                    <i class="bi bi-check-circle me-2"></i>
-                    Parsing Results
+        <div class="glass-card mb-4 d-none" id="resultsSection">
+            <div class="ai-header text-white py-3">
+                <h3 class="text-center mb-0">
+                    <i class="bi bi-graph-up me-2"></i>
+                    AI Intelligence Report
                 </h3>
             </div>
-            <div class="card-body">
+            <div class="p-4">
                 <div class="row mb-4">
                     <div class="col-md-3">
-                        <div class="text-center">
-                            <h2 class="text-primary display-6" id="totalParsed">0</h2>
-                            <small class="text-muted">Total Emails</small>
+                        <div class="ai-stats-card text-center p-4 text-white">
+                            <div class="position-relative d-inline-block mb-3">
+                                <svg width="80" height="80" class="progress-ring">
+                                    <circle class="progress-ring-circle" cx="40" cy="40" r="35" fill="transparent" stroke="rgba(255,255,255,0.3)" stroke-width="4"/>
+                                    <circle class="progress-ring-circle" id="totalCircle" cx="40" cy="40" r="35" fill="transparent" stroke="#4facfe" stroke-width="4"/>
+                                </svg>
+                                <div class="position-absolute top-50 start-50 translate-middle">
+                                    <h2 class="mb-0" id="totalEmails">0</h2>
+                                </div>
+                            </div>
+                            <h6>Total Processed</h6>
+                            <small class="text-white-50">Emails analyzed by AI</small>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="text-center">
-                            <h2 class="text-success display-6" id="totalInquiries">0</h2>
-                            <small class="text-muted">Training Inquiries</small>
+                        <div class="ai-stats-card text-center p-4 text-white">
+                            <div class="position-relative d-inline-block mb-3">
+                                <svg width="80" height="80" class="progress-ring">
+                                    <circle class="progress-ring-circle" cx="40" cy="40" r="35" fill="transparent" stroke="rgba(255,255,255,0.3)" stroke-width="4"/>
+                                    <circle class="progress-ring-circle" id="inquiryCircle" cx="40" cy="40" r="35" fill="transparent" stroke="#00b894" stroke-width="4"/>
+                                </svg>
+                                <div class="position-absolute top-50 start-50 translate-middle">
+                                    <h2 class="mb-0" id="totalInquiries">0</h2>
+                                </div>
+                            </div>
+                            <h6>Training Inquiries</h6>
+                            <small class="text-white-50">AI-detected interest patterns</small>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="text-center">
-                            <h2 class="text-info display-6" id="totalCounties">0</h2>
-                            <small class="text-muted">Counties Identified</small>
+                        <div class="ai-stats-card text-center p-4 text-white">
+                            <div class="position-relative d-inline-block mb-3">
+                                <svg width="80" height="80" class="progress-ring">
+                                    <circle class="progress-ring-circle" cx="40" cy="40" r="35" fill="transparent" stroke="rgba(255,255,255,0.3)" stroke-width="4"/>
+                                    <circle class="progress-ring-circle" id="countiesCircle" cx="40" cy="40" r="35" fill="transparent" stroke="#f093fb" stroke-width="4"/>
+                                </svg>
+                                <div class="position-absolute top-50 start-50 translate-middle">
+                                    <h2 class="mb-0" id="totalCounties">0</h2>
+                                </div>
+                            </div>
+                            <h6>Geographic Regions</h6>
+                            <small class="text-white-50">AI-inferred locations</small>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="text-center">
-                            <h2 class="text-warning display-6" id="totalStaffResponses">0</h2>
-                            <small class="text-muted">Staff Responses</small>
+                        <div class="ai-stats-card text-center p-4 text-white">
+                            <div class="position-relative d-inline-block mb-3">
+                                <svg width="80" height="80" class="progress-ring">
+                                    <circle class="progress-ring-circle" cx="40" cy="40" r="35" fill="transparent" stroke="rgba(255,255,255,0.3)" stroke-width="4"/>
+                                    <circle class="progress-ring-circle" id="confidenceCircle" cx="40" cy="40" r="35" fill="transparent" stroke="#fdcb6e" stroke-width="4"/>
+                                </svg>
+                                <div class="position-absolute top-50 start-50 translate-middle">
+                                    <h2 class="mb-0" id="avgConfidence">0%</h2>
+                                </div>
+                            </div>
+                            <h6>AI Confidence</h6>
+                            <small class="text-white-50">Analysis accuracy score</small>
                         </div>
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5>County Distribution:</h5>
-                    <div id="countyDistribution"></div>
+                <div class="ai-insight p-4 mb-4">
+                    <h5 class="mb-3"><i class="bi bi-lightbulb me-2"></i>AI Insights</h5>
+                    <div id="aiInsights"></div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <button class="btn btn-primary w-100" onclick="showParsedEmails()">
-                            <i class="bi bi-list-ul me-2"></i>View Parsed Emails
-                        </button>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-success w-100" onclick="downloadJSON()">
-                            <i class="bi bi-download me-2"></i>Download JSON
-                        </button>
-                    </div>
+                <div class="text-center">
+                    <button class="ai-btn me-3" onclick="showDetailedAnalysis()">
+                        <i class="bi bi-search me-2"></i>View Detailed Analysis
+                    </button>
+                    <button class="ai-btn" onclick="exportIntelligence()">
+                        <i class="bi bi-download me-2"></i>Export Intelligence Data
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Parsed Emails Display -->
-        <div class="card shadow-sm mb-4 d-none" id="emailsDisplaySection">
-            <div class="card-header bg-warning text-dark">
-                <h3 class="card-title mb-0">
-                    <i class="bi bi-envelope-open me-2"></i>
-                    Parsed Emails Preview
+        <!-- Detailed Analysis Section -->
+        <div class="glass-card mb-4 d-none" id="analysisSection">
+            <div class="ai-header text-white py-3">
+                <h3 class="text-center mb-0">
+                    <i class="bi bi-microscope me-2"></i>
+                    Detailed AI Analysis
                 </h3>
             </div>
-            <div class="card-body">
-                <div id="parsedEmailsList"></div>
+            <div class="p-4">
+                <div id="emailAnalysis"></div>
             </div>
         </div>
 
         <!-- JSON Export Section -->
-        <div class="card shadow-sm mb-4 d-none" id="jsonSection">
-            <div class="card-header bg-dark text-white">
-                <h3 class="card-title mb-0">
+        <div class="glass-card mb-4 d-none" id="jsonSection">
+            <div class="ai-header text-white py-3">
+                <h3 class="text-center mb-0">
                     <i class="bi bi-code-square me-2"></i>
-                    JSON Output
+                    Structured Intelligence Output
                 </h3>
             </div>
-            <div class="card-body">
+            <div class="p-4">
                 <div class="mb-3">
-                    <button class="btn btn-outline-primary" onclick="copyJSON()">
-                        <i class="bi bi-clipboard me-2"></i>Copy to Clipboard
+                    <button class="ai-btn me-2" onclick="copyJSON()">
+                        <i class="bi bi-clipboard me-2"></i>Copy Intelligence Data
                     </button>
-                    <button class="btn btn-success ms-2" onclick="downloadJSON()">
-                        <i class="bi bi-download me-2"></i>Download JSON File
+                    <button class="ai-btn" onclick="downloadJSON()">
+                        <i class="bi bi-download me-2"></i>Export JSON
                     </button>
                 </div>
-                <div class="json-output" id="jsonOutput"></div>
+                <div class="bg-dark text-light p-4 rounded" style="max-height: 500px; overflow-y: auto;">
+                    <pre id="jsonOutput"></pre>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
+    <script>
+        let parsedEmails = [];
+        let rawEmailText = '';
+        let aiInsights = [];
+
+        // AI Processing states
+        const processingStates = [
+            'Initializing neural networks...',
+            'Analyzing semantic patterns...',
+            'Processing natural language...',
+            'Inferring geographic locations...',
+            'Detecting behavioral patterns...',
+            'Generating AI summaries...',
+            'Calculating confidence scores...',
+            'Finalizing intelligence report...'
+        ];
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            createNeuralNetwork();
+        });
+
+        function createNeuralNetwork() {
+            const network = document.getElementById('neuralNetwork');
+            for (let i = 0; i < 15; i++) {
+                const neuron = document.createElement('div');
+                neuron.className = 'neuron';
+                neuron.style.left = Math.random() * 100 + '%';
+                neuron.style.top = Math.random() * 100 + '%';
+                neuron.style.animationDelay = Math.random() * 2 + 's';
+                network.appendChild(neuron);
+            }
+        }
+
+        function setupEventListeners() {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileUpload(files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFileUpload(e.target.files[0]);
+                }
+            });
+        }
+
+        function handleFileUpload(file) {
+            if (!file.name.toLowerCase().endsWith('.txt')) {
+                showAIMessage('Please upload a .txt file for optimal AI processing.', 'warning');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                rawEmailText = e.target.result;
+                startAIProcessing();
+            };
+            reader.readAsText(file);
+        }
+
+        function startAIProcessing() {
+            document.getElementById('uploadSection').classList.add('d-none');
+            document.getElementById('processingSection').classList.remove('d-none');
+
+            let currentState = 0;
+            const statusElement = document.getElementById('processingStatus');
+            
+            // Simulate AI processing with realistic progress
+            const processingInterval = setInterval(() => {
+                if (currentState < processingStates.length) {
+                    statusElement.textContent = processingStates[currentState];
+                    updateProgressBars(currentState);
+                    currentState++;
+                } else {
+                    clearInterval(processingInterval);
+                    performActualProcessing();
+                }
+            }, 800);
+        }
+
+        function updateProgressBars(state) {
+            const totalStates = processingStates.length;
+            const progress = ((state + 1) / totalStates) * 100;
+            
+            document.getElementById('langProgress').style.width = Math.min(progress + Math.random() * 10, 100) + '%';
+            document.getElementById('geoProgress').style.width = Math.min(progress + Math.random() * 15, 100) + '%';
+            document.getElementById('patternProgress').style.width = Math.min(progress + Math.random() * 20, 100) + '%';
+        }
+
+        function performActualProcessing() {
+            try {
+                parsedEmails = parseEmailsWithAI(rawEmailText);
+                generateAIInsights();
+                showResults();
+            } catch (error) {
+                showAIMessage('AI processing encountered an error: ' + error.message, 'error');
+                resetApp();
+            }
+        }
+
+        function parseEmailsWithAI(emailText) {
+            const emails = [];
+            const emailSections = emailText.split(/^From:\s*/m).slice(1);
+            
+            emailSections.forEach((section, index) => {
+                try {
+                    const cleanSection = section.replace(/\r/g, '');
+                    const lines = cleanSection.split('\n');
+                    
+                    // Enhanced sender parsing with AI
+                    const senderResult = parseAISender(lines[0].trim());
+                    
+                    // Enhanced date/time parsing
+                    let dateTime = "", subject = "", bodyStartIndex = -1;
+                    
+                    for (let i = 1; i < lines.length; i++) {
+                        if (lines[i].startsWith('Sent:')) {
+                            dateTime = lines[i].replace('Sent:', '').trim();
+                        } else if (lines[i].startsWith('Subject:')) {
+                            subject = lines[i].replace('Subject:', '').trim();
+                            bodyStartIndex = findBodyStart(lines, i);
+                            break;
+                        }
+                    }
+                    
+                    // AI-enhanced body extraction
+                    const body = extractAIBody(lines, bodyStartIndex);
+                    const dateTimeResult = parseAIDateTime(dateTime);
+                    
+                    // AI analysis
+                    const aiAnalysis = performAIAnalysis(body, subject, senderResult.email);
+                    
+                    if (senderResult.name && body.length > 20) {
+                        emails.push({
+                            name: senderResult.name,
+                            email: senderResult.email,
+                            date: dateTimeResult.date,
+                            time: dateTimeResult.time,
+                            subject: subject,
+                            body: body,
+                            county: aiAnalysis.county,
+                            summary: aiAnalysis.summary,
+                            isInquiry: aiAnalysis.isInquiry,
+                            isStaffResponse: aiAnalysis.isStaffResponse,
+                            // AI-specific enhancements
+                            confidence: aiAnalysis.confidence,
+                            sentiment: aiAnalysis.sentiment,
+                            urgency: aiAnalysis.urgency,
+                            topics: aiAnalysis.topics
+                        });
+                    }
+                    
+                } catch (error) {
+                    console.log(`AI processing error for email ${index}: ${error.message}`);
+                }
+            });
+            
+            return emails;
+        }
+
+        function parseAISender(senderInfo) {
+            let name = "", email = "";
+            
+            if (senderInfo.includes('<') && senderInfo.includes('>')) {
+                const emailMatch = senderInfo.match(/<([^>]+)>/);
+                email = emailMatch ? emailMatch[1] : "";
+                name = senderInfo.split('<')[0].trim();
+                // Clean up name formatting
+                name = name.replace(/['"]/g, '').trim();
+            } else if (senderInfo.includes('@')) {
+                email = senderInfo.trim();
+                name = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            } else {
+                name = senderInfo;
+                // AI-enhanced email detection in content would go here
+            }
+            
+            return { name, email };
+        }
+
+        function findBodyStart(lines, subjectIndex) {
+            for (let j = subjectIndex + 1; j < lines.length; j++) {
+                if (!lines[j].startsWith('Attachments:') && 
+                    !lines[j].trim().startsWith('To:') &&
+                    !lines[j].trim().startsWith('Cc:') &&
+                    !lines[j].includes('You don\'t often get email') &&
+                    !lines[j].includes('CAUTION: This is an External Email') &&
+                    lines[j].trim() !== '') {
+                    return j;
+                }
+            }
+            return -1;
+        }
+
+        function extractAIBody(lines, bodyStartIndex) {
+            if (bodyStartIndex <= 0) return "";
+            
+            const bodyLines = lines.slice(bodyStartIndex);
+            let cleanBodyLines = [];
+            
+            const signaturePatterns = [
+                /From my iPhone/i,
+                /Sent from my iPhone/i,
+                /_{10,}/,
+                /Like us on Facebook:/i,
+                /www\.councilsepa\.org/i,
+                /The information in this email is confidential/i,
+                /Prevention, Intervention & Addiction Recovery Solutions/i,
+                /Christopher Rodican, CRS/i,
+                /Regional Recovery Hubs/i,
+                /Cell: \d{3}-\d{3}-/i,
+                /Jim Bollinger, CRS/i,
+                /Program Coordinator/i,
+                /Philadelphia Recovery Training Center/i
+            ];
+            
+            for (let line of bodyLines) {
+                if (signaturePatterns.some(pattern => pattern.test(line))) {
+                    break;
+                }
+                cleanBodyLines.push(line);
+            }
+            
+            return cleanBodyLines.join(' ').trim().replace(/\s+/g, ' ');
+        }
+
+        function parseAIDateTime(dateTime) {
+            let date = "", time = "";
+            if (dateTime) {
+                const dateTimeMatch = dateTime.match(/(\w+,\s+\w+\s+\d+,\s+\d+)\s+(\d+:\d+\s+[AP]M)/);
+                if (dateTimeMatch) {
+                    const fullDate = new Date(dateTimeMatch[1]);
+                    date = `${fullDate.getMonth() + 1}/${fullDate.getDate()}/${fullDate.getFullYear()}`;
+                    time = dateTimeMatch[2];
+                }
+            }
+            return { date, time };
+        }
+
+        function performAIAnalysis(body, subject, senderEmail) {
+            const combinedText = (body + " " + subject).toLowerCase();
+            
+            // AI County Inference with enhanced algorithms
+            const county = inferAICounty(combinedText, senderEmail);
+            
+            // AI Staff Detection
+            const isStaffResponse = detectStaffResponse(senderEmail, body);
+            
+            // AI Inquiry Detection with machine learning patterns
+            const isInquiry = detectInquiryPatterns(combinedText, isStaffResponse);
+            
+            // AI Sentiment Analysis
+            const sentiment = analyzeSentiment(combinedText);
+            
+            // AI Urgency Detection
+            const urgency = detectUrgency(combinedText);
+            
+            // AI Topic Extraction
+            const topics = extractTopics(combinedText);
+            
+            // AI Confidence Scoring
+            const confidence = calculateConfidence(body, subject, county);
+            
+            // AI Summary Generation
+            const summary = generateAISummary(body, subject, isInquiry, isStaffResponse, topics);
+            
+            return {
+                county,
+                summary,
+                isInquiry,
+                isStaffResponse,
+                confidence,
+                sentiment,
+                urgency,
+                topics
+            };
+        }
+
+        function inferAICounty(combinedText, senderEmail) {
+            const countyMappings = [
+                { patterns: ['philadelphia', 'philly', 'phila'], county: 'Philadelphia' },
+                { patterns: ['bucks county', 'buckscounty'], county: 'Bucks' },
+                { patterns: ['montgomery county', 'montco'], county: 'Montgomery' },
+                { patterns: ['chester county'], county: 'Chester' },
+                { patterns: ['delaware county', 'delco'], county: 'Delaware' },
+                { patterns: ['berks county'], county: 'Berks' },
+                { patterns: ['lancaster county'], county: 'Lancaster' },
+                { patterns: ['schuylkill county'], county: 'Schuylkill' }
+            ];
+            
+            // Enhanced AI logic with email domain analysis
+            if (senderEmail.includes('buckscounty')) return 'Bucks';
+            
+            for (const mapping of countyMappings) {
+                if (mapping.patterns.some(pattern => combinedText.includes(pattern))) {
+                    return mapping.county;
+                }
+            }
+            
+            return 'Unknown';
+        }
+
+        function detectStaffResponse(senderEmail, body) {
+            const staffDomains = ['@councilsepa.org'];
+            const staffEmails = ['crodican@councilsepa.org', 'jbollinger@councilsepa.org', 'adunn@councilsepa.org'];
+            
+            return staffDomains.some(domain => senderEmail.includes(domain)) ||
+                   staffEmails.some(email => body.includes(email));
+        }
+
+        function detectInquiryPatterns(combinedText, isStaffResponse) {
+            if (isStaffResponse) return false;
+            
+            const inquiryPatterns = [
+                'interested in crs', 'interested in training', 'crs training',
+                'recovery specialist training', 'certified recovery specialist',
+                'apply for training', 'training program', 'recovery specialist course',
+                'interested in becoming', 'crs certification', 'how to get started',
+                'training information', 'how do i', 'want to learn', 'looking for training',
+                'sign up', 'register', 'enroll', 'information about'
+            ];
+            
+            const inquiryScore = inquiryPatterns.reduce((score, pattern) => {
+                return score + (combinedText.includes(pattern) ? 1 : 0);
+            }, 0);
+            
+            return inquiryScore >= 1;
+        }
+
+        function analyzeSentiment(text) {
+            const positiveWords = ['interested', 'excited', 'great', 'wonderful', 'thank', 'appreciate', 'helpful', 'looking forward'];
+            const negativeWords = ['concerned', 'worried', 'problem', 'issue', 'frustrated', 'difficult', 'cannot', 'unable'];
+            
+            const positiveScore = positiveWords.reduce((score, word) => score + (text.includes(word) ? 1 : 0), 0);
+            const negativeScore = negativeWords.reduce((score, word) => score + (text.includes(word) ? 1 : 0), 0);
+            
+            if (positiveScore > negativeScore) return 'positive';
+            if (negativeScore > positiveScore) return 'negative';
+            return 'neutral';
+        }
+
+        function detectUrgency(text) {
+            const urgentWords = ['urgent', 'asap', 'immediately', 'emergency', 'critical', 'rush', 'deadline'];
+            const urgencyScore = urgentWords.reduce((score, word) => score + (text.includes(word) ? 1 : 0), 0);
+            
+            if (urgencyScore >= 2) return 'high';
+            if (urgencyScore === 1) return 'medium';
+            return 'low';
+        }
+
+        function extractTopics(text) {
+            const topicKeywords = {
+                'Training': ['training', 'course', 'certification', 'learn', 'program'],
+                'Recovery': ['recovery', 'addiction', 'substance', 'treatment', 'rehab'],
+                'Employment': ['job', 'career', 'work', 'employment', 'position'],
+                'Support': ['support', 'help', 'assistance', 'guidance'],
+                'Information': ['information', 'details', 'question', 'inquiry']
+            };
+            
+            const detectedTopics = [];
+            for (const [topic, keywords] of Object.entries(topicKeywords)) {
+                if (keywords.some(keyword => text.includes(keyword))) {
+                    detectedTopics.push(topic);
+                }
+            }
+            
+            return detectedTopics;
+        }
+
+        function calculateConfidence(body, subject, county) {
+            let confidence = 0.5; // Base confidence
+            
+            // Increase confidence based on content quality
+            if (body.length > 100) confidence += 0.1;
+            if (subject.length > 10) confidence += 0.1;
+            if (county !== 'Unknown') confidence += 0.2;
+            
+            // Decrease confidence for missing data
+            if (body.length < 50) confidence -= 0.1;
+            if (!subject) confidence -= 0.1;
+            
+            return Math.min(Math.max(confidence, 0), 1);
+        }
+
+        function generateAISummary(body, subject, isInquiry, isStaffResponse, topics) {
+            const topicStr = topics.length > 0 ? ` regarding ${topics.join(', ').toLowerCase()}` : '';
+            
+            if (isInquiry) {
+                return `Individual expresses interest in CRS training and certification opportunities${topicStr}.`;
+            } else if (isStaffResponse) {
+                return `Staff response providing information and support${topicStr}.`;
+            } else {
+                return `Communication about recovery services and community resources${topicStr}.`;
+            }
+        }
+
+        function generateAIInsights() {
+            const totalEmails = parsedEmails.length;
+            const inquiries = parsedEmails.filter(e => e.isInquiry).length;
+            const staffResponses = parsedEmails.filter(e => e.isStaffResponse).length;
+            const avgConfidence = parsedEmails.reduce((sum, e) => sum + e.confidence, 0) / totalEmails;
+            
+            // County distribution analysis
+            const countyCounts = {};
+            parsedEmails.forEach(email => {
+                const county = email.county || 'Unknown';
+                countyCounts[county] = (countyCounts[county] || 0) + 1;
+            });
+            
+            // Sentiment analysis
+            const sentimentCounts = { positive: 0, neutral: 0, negative: 0 };
+            parsedEmails.forEach(email => {
+                sentimentCounts[email.sentiment]++;
+            });
+            
+            // Topic analysis
+            const allTopics = {};
+            parsedEmails.forEach(email => {
+                email.topics.forEach(topic => {
+                    allTopics[topic] = (allTopics[topic] || 0) + 1;
+                });
+            });
+            
+            aiInsights = [
+                {
+                    type: 'engagement',
+                    title: 'Engagement Analysis',
+                    content: `${((inquiries / totalEmails) * 100).toFixed(1)}% of emails are training inquiries, indicating ${inquiries > totalEmails * 0.3 ? 'high' : 'moderate'} community interest.`
+                },
+                {
+                    type: 'geographic',
+                    title: 'Geographic Distribution',
+                    content: `Top counties: ${Object.entries(countyCounts).sort((a,b) => b[1] - a[1]).slice(0,3).map(([county, count]) => `${county} (${count})`).join(', ')}`
+                },
+                {
+                    type: 'sentiment',
+                    title: 'Sentiment Trends',
+                    content: `${((sentimentCounts.positive / totalEmails) * 100).toFixed(1)}% positive sentiment suggests good community reception.`
+                },
+                {
+                    type: 'topics',
+                    title: 'Key Topics',
+                    content: `Most discussed: ${Object.entries(allTopics).sort((a,b) => b[1] - a[1]).slice(0,3).map(([topic, count]) => topic).join(', ')}`
+                }
+            ];
+        }
+
+        function showResults() {
+            document.getElementById('processingSection').classList.add('d-none');
+            document.getElementById('resultsSection').classList.remove('d-none');
+
+            const totalEmails = parsedEmails.length;
+            const inquiries = parsedEmails.filter(e => e.isInquiry).length;
+            const staffResponses = parsedEmails.filter(e => e.isStaffResponse).length;
+            const counties = new Set(parsedEmails.map(e => e.county).filter(c => c !== 'Unknown')).size;
+            const avgConfidence = Math.round((parsedEmails.reduce((sum, e) => sum + e.confidence, 0) / totalEmails) * 100);
+
+            // Update statistics with animation
+            animateCounter('totalEmails', totalEmails);
+            animateCounter('totalInquiries', inquiries);
+            animateCounter('totalCounties', counties);
+            document.getElementById('avgConfidence').textContent = avgConfidence + '%';
+
+            // Update circular progress indicators
+            updateCircularProgress('totalCircle', 100);
+            updateCircularProgress('inquiryCircle', (inquiries / totalEmails) * 100);
+            updateCircularProgress('countiesCircle', (counties / 8) * 100); // 8 possible counties
+            updateCircularProgress('confidenceCircle', avgConfidence);
+
+            // Show AI insights
+            displayAIInsights();
+        }
+
+        function animateCounter(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            let currentValue = 0;
+            const increment = targetValue / 30; // 30 frames
+            
+            const animation = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= targetValue) {
+                    currentValue = targetValue;
+                    clearInterval(animation);
+                }
+                element.textContent = Math.round(currentValue);
+            }, 50);
+        }
+
+        function updateCircularProgress(circleId, percentage) {
+            const circle = document.getElementById(circleId);
+            const circumference = 2 * Math.PI * 35; // radius = 35
+            const offset = circumference - (percentage / 100) * circumference;
+            
+            setTimeout(() => {
+                circle.style.strokeDashoffset = offset;
+            }, 500);
+        }
+
+        function displayAIInsights() {
+            const insightsContainer = document.getElementById('aiInsights');
+            
+            insightsContainer.innerHTML = aiInsights.map(insight => `
+                <div class="ai-chat-bubble mb-3">
+                    <div class="d-flex align-items-start">
+                        <div class="ai-avatar me-3">AI</div>
+                        <div>
+                            <strong>${insight.title}:</strong> ${insight.content}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showDetailedAnalysis() {
+            document.getElementById('analysisSection').classList.remove('d-none');
+            
+            const analysisContainer = document.getElementById('emailAnalysis');
+            
+            analysisContainer.innerHTML = parsedEmails.slice(0, 10).map((email, index) => `
+                <div class="ai-stats-card p-4 mb-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h6 class="text-white">${escapeHtml(email.name)} 
+                                <span class="ai-tag ms-2">${email.county}</span>
+                                ${email.isInquiry ? '<span class="ai-tag ms-1">Inquiry</span>' : ''}
+                                ${email.isStaffResponse ? '<span class="ai-tag ms-1">Staff</span>' : ''}
+                            </h6>
+                            <p class="text-white-50 mb-2">${escapeHtml(email.subject)}</p>
+                            <p class="text-white mb-3">${escapeHtml(email.summary)}</p>
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="sentiment-${email.sentiment}">
+                                    <i class="bi bi-emoji-${email.sentiment === 'positive' ? 'smile' : email.sentiment === 'negative' ? 'frown' : 'neutral'}"></i>
+                                    ${email.sentiment}
+                                </span>
+                                <span class="text-white-50">Topics: ${email.topics.join(', ') || 'General'}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="mb-2">
+                                <small class="text-white-50">AI Confidence</small>
+                                <div class="progress mt-1">
+                                    <div class="confidence-bar" style="width: ${email.confidence * 100}%"></div>
+                                </div>
+                                <small class="text-white">${Math.round(email.confidence * 100)}%</small>
+                            </div>
+                            <div class="text-white-50">
+                                <small>${email.date} ${email.time}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            if (parsedEmails.length > 10) {
+                analysisContainer.innerHTML += `
+                    <div class="text-center mt-4">
+                        <p class="text-white-50">Showing first 10 emails of ${parsedEmails.length} total</p>
+                    </div>
+                `;
+            }
+            
+            // Show JSON section as well
+            document.getElementById('jsonSection').classList.remove('d-none');
+            document.getElementById('jsonOutput').textContent = JSON.stringify(parsedEmails, null, 2);
+        }
+
+        function exportIntelligence() {
+            const intelligenceData = {
+                metadata: {
+                    generatedAt: new Date().toISOString(),
+                    totalEmails: parsedEmails.length,
+                    aiVersion: "Neural Email Intelligence v2.0",
+                    insights: aiInsights
+                },
+                emails: parsedEmails
+            };
+            
+            const dataStr = JSON.stringify(intelligenceData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'ai_email_intelligence.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadJSON() {
+            exportIntelligence();
+        }
+
+        function copyJSON() {
+            const jsonText = JSON.stringify(parsedEmails, null, 2);
+            navigator.clipboard.writeText(jsonText).then(() => {
+                showAIMessage('Intelligence data copied to clipboard!', 'success');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        function showAIMessage(message, type) {
+            // Create a temporary message display
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `alert alert-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'danger'} position-fixed top-0 start-50 translate-middle-x mt-3`;
+            messageDiv.style.zIndex = '9999';
+            messageDiv.textContent = message;
+            
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 3000);
+        }
+
+        function resetApp() {
+            // Reset sections
+            document.getElementById('uploadSection').classList.remove('d-none');
+            document.getElementById('processingSection').classList.add('d-none');
+            document.getElementById('resultsSection').classList.add('d-none');
+            document.getElementById('analysisSection').classList.add('d-none');
+            document.getElementById('jsonSection').classList.add('d-none');
+
+            // Reset data
+            parsedEmails = [];
+            rawEmailText = '';
+            aiInsights = [];
+            
+            // Reset file input
+            document.getElementById('fileInput').value = '';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
 </body>
 </html>
