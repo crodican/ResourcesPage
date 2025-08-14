@@ -1,13 +1,25 @@
-// Place-to-county lookup for PA
-const placeToCounty = {
-  "Philadelphia": "Philadelphia",
-  "Norristown": "Montgomery",
-  "Doylestown": "Bucks",
-  "West Chester": "Chester",
-  "Media": "Delaware",
-  // Add more place mappings as needed
-};
+// Dynamically build place-to-county mapping from CSV
+let placeToCounty = {};
 
+// Utility: fetch and parse the CSV, build mapping
+async function loadPlaceToCountyCSV(url) {
+  const resp = await fetch(url);
+  const csvText = await resp.text();
+
+  // Parse CSV (assume headers: city,county)
+  const lines = csvText.split('\n').map(l => l.trim()).filter(Boolean);
+  const mapping = {};
+  for (let i = 1; i < lines.length; i++) { // skip header
+    const [city, county] = lines[i].split(',').map(s => s.trim());
+    if (city && county) {
+      // Add direct mapping (case-insensitive)
+      mapping[city.toLowerCase()] = county;
+    }
+  }
+  return mapping;
+}
+
+// Standard parseEmails (unchanged)
 function parseEmails(emailText) {
   const emails = emailText.split(/^From:\s*/m).filter(block => block.trim());
   const parsed = [];
@@ -66,7 +78,6 @@ function parseEmails(emailText) {
 
 // AI-powered county inference and summarization using transformers.js
 async function enrichEmailsWithAI(emails) {
-  // Show spinner
   document.getElementById('spinner').classList.remove('d-none');
   // Load NER pipeline
   const nerPipeline = await window.transformers.pipeline('ner', 'Xenova/bert-base-NER');
@@ -78,12 +89,14 @@ async function enrichEmailsWithAI(emails) {
     let county = "";
     try {
       const nerResults = await nerPipeline(email.body);
-      // Find first location entity matching our table
-      const places = nerResults.filter(e => e.entity_group === "LOC" || e.entity_group === "ORG")
+      // Find location entities, map to county from CSV
+      const places = nerResults
+        .filter(e => e.entity_group === "LOC" || e.entity_group === "ORG")
         .map(e => e.word.replace(/^##/, '').replace(/^[.,\s]+|[.,\s]+$/g, ''));
       for (let place of places) {
-        if (placeToCounty[place]) {
-          county = placeToCounty[place];
+        const mappedCounty = placeToCounty[place.toLowerCase()];
+        if (mappedCounty) {
+          county = mappedCounty;
           break;
         }
       }
@@ -105,13 +118,16 @@ async function enrichEmailsWithAI(emails) {
 }
 
 // File + textarea input logic
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const fileInput = document.getElementById('fileInput');
   const textInput = document.getElementById('textInput');
   const parseBtn = document.getElementById('parseBtn');
   const output = document.getElementById('output');
   const spinner = document.getElementById('spinner');
   let uploadedText = '';
+
+  // Load CSV for placeToCounty mapping before parse
+  placeToCounty = await loadPlaceToCountyCSV('https://resourcespage.pages.dev/pa_cities_counties.csv');
 
   fileInput.addEventListener('change', e => {
     const file = e.target.files[0];
