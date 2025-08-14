@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlook Email Parser & County Inference Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .drop-zone {
+            border: 3px dashed #007bff;
+            border-radius: 10px;
+            padding: 60px 20px;
+            text-align: center;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: #0056b3;
+            background: #e3f2fd;
+        }
+        
+        .email-preview {
+            max-height: 400px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .result-card {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+        }
+        
+        .county-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .county-philadelphia { background-color: #e91e63; color: white; }
+        .county-montgomery { background-color: #9c27b0; color: white; }
+        .county-bucks { background-color: #3f51b5; color: white; }
+        .county-chester { background-color: #2196f3; color: white; }
+        .county-delaware { background-color: #00bcd4; color: white; }
+        .county-berks { background-color: #009688; color: white; }
+        .county-lancaster { background-color: #ff9800; color: white; }
+        .county-schuylkill { background-color: #795548; color: white; }
+        .county-unknown { background-color: #6c757d; color: white; }
+        
+        .step-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .step-active { background-color: #007bff; color: white; }
+        .step-completed { background-color: #28a745; color: white; }
+        .step-pending { background-color: #6c757d; color: white; }
+        
+        .loading-spinner {
+            display: none;
+        }
+        
+        .json-output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <!-- Header -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 text-primary mb-3">
+                <i class="bi bi-envelope-fill me-3"></i>
+                Outlook Email Parser
+            </h1>
+            <p class="lead text-muted">Parse exported Outlook emails, infer Pennsylvania counties, and generate structured JSON data</p>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-center flex-wrap">
+                    <span class="step-indicator step-active" id="step1">1. Upload</span>
+                    <span class="step-indicator step-pending" id="step2">2. Parse</span>
+                    <span class="step-indicator step-pending" id="step3">3. Review</span>
+                    <span class="step-indicator step-pending" id="step4">4. Export</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="card shadow-sm mb-4" id="uploadSection">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0">
+                    <i class="bi bi-cloud-upload me-2"></i>
+                    Step 1: Upload Outlook Email Export
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="drop-zone" id="dropZone">
+                    <i class="bi bi-file-earmark-text display-1 text-muted mb-3"></i>
+                    <h4>Drop your Outlook email export here</h4>
+                    <p class="text-muted mb-3">Or click to browse for a .txt file</p>
+                    <input type="file" id="fileInput" class="d-none" accept=".txt">
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                        <i class="bi bi-folder2-open me-2"></i>Browse Files
+                    </button>
+                </div>
+                
+                <div class="mt-4">
+                    <h5>Instructions:</h5>
+                    <ol class="text-muted">
+                        <li>Export emails from Outlook as a text file</li>
+                        <li>Ensure the export includes sender information, dates, subjects, and body content</li>
+                        <li>Upload the .txt file using the area above</li>
+                        <li>The tool will automatically parse and analyze the emails</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="card shadow-sm mb-4 d-none" id="previewSection">
+            <div class="card-header bg-info text-white">
+                <h3 class="card-title mb-0">
+                    <i class="bi bi-eye me-2"></i>
+                    Email Content Preview
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="email-preview" id="emailPreview"></div>
+                <div class="mt-3">
+                    <button class="btn btn-success" id="parseButton">
+                        <i class="bi bi-cpu me-2"></i>Parse Emails
+                    </button>
+                    <button class="btn btn-secondary ms-2" onclick="resetApp()">
+                        <i class="bi bi-arrow-left me-2"></i>Upload Different File
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Processing Section -->
+        <div class="card shadow-sm mb-4 d-none" id="processingSection">
+            <div class="card-body text-center py-5">
+                <div class="loading-spinner d-inline-block">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <h4 class="mt-3">Processing Emails...</h4>
+                <p class="text-muted">Parsing content, inferring counties, and generating AI summaries</p>
+                <div class="progress mt-3" style="max-width: 400px; margin: 0 auto;">
+                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="card shadow-sm mb-4 d-none" id="resultsSection">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Parsing Results
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h2 class="text-primary display-6" id="totalParsed">0</h2>
+                            <small class="text-muted">Total Emails</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h2 class="text-success display-6" id="totalInquiries">0</h2>
+                            <small class="text-muted">Training Inquiries</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h2 class="text-info display-6" id="totalCounties">0</h2>
+                            <small class="text-muted">Counties Identified</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h2 class="text-warning display-6" id="totalStaffResponses">0</h2>
+                            <small class="text-muted">Staff Responses</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5>County Distribution:</h5>
+                    <div id="countyDistribution"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary w-100" onclick="showParsedEmails()">
+                            <i class="bi bi-list-ul me-2"></i>View Parsed Emails
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-success w-100" onclick="downloadJSON()">
+                            <i class="bi bi-download me-2"></i>Download JSON
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parsed Emails Display -->
+        <div class="card shadow-sm mb-4 d-none" id="emailsDisplaySection">
+            <div class="card-header bg-warning text-dark">
+                <h3 class="card-title mb-0">
+                    <i class="bi bi-envelope-open me-2"></i>
+                    Parsed Emails Preview
+                </h3>
+            </div>
+            <div class="card-body">
+                <div id="parsedEmailsList"></div>
+            </div>
+        </div>
+
+        <!-- JSON Export Section -->
+        <div class="card shadow-sm mb-4 d-none" id="jsonSection">
+            <div class="card-header bg-dark text-white">
+                <h3 class="card-title mb-0">
+                    <i class="bi bi-code-square me-2"></i>
+                    JSON Output
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <button class="btn btn-outline-primary" onclick="copyJSON()">
+                        <i class="bi bi-clipboard me-2"></i>Copy to Clipboard
+                    </button>
+                    <button class="btn btn-success ms-2" onclick="downloadJSON()">
+                        <i class="bi bi-download me-2"></i>Download JSON File
+                    </button>
+                </div>
+                <div class="json-output" id="jsonOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
