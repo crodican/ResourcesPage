@@ -1,4 +1,4 @@
-        const emailData = [
+const emailData = [
     {
         "name": "Christopher Rodican",
         "email": "crodican@councilsepa.org",
@@ -1019,4 +1019,4 @@
                 "isInquiry": false,
                 "isStaffResponse": false
             }
-        ];
+];

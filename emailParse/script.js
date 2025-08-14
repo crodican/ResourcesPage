@@ -1,17 +1,21 @@
-// Improved browser-compatible parser
+// Place-to-county lookup for PA
+const placeToCounty = {
+  "Philadelphia": "Philadelphia",
+  "Norristown": "Montgomery",
+  "Doylestown": "Bucks",
+  "West Chester": "Chester",
+  "Media": "Delaware",
+  // Add more place mappings as needed
+};
 
 function parseEmails(emailText) {
-  // Split emails by "From:"
   const emails = emailText.split(/^From:\s*/m).filter(block => block.trim());
   const parsed = [];
-
   emails.forEach(raw => {
     const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
     let name = '', email = '', date = '', time = '', subject = '';
     let bodyLines = [];
-    let isStaffResponse = false, isInquiry = false, county = '', summary = '';
-
-    // Find sender line
+    // Sender
     if (lines[0]) {
       const senderMatch = lines[0].match(/(.*?)<([^>]+)>/);
       if (senderMatch) {
@@ -21,15 +25,13 @@ function parseEmails(emailText) {
         name = lines[0];
       }
     }
-
-    // Find subject, date/time
+    // Subject, Date/Time, Body
     for (let i = 1; i < lines.length; i++) {
       if (!subject && lines[i].startsWith('Subject:')) {
         subject = lines[i].replace(/Subject:\s*/, '');
         continue;
       }
       if (!date && lines[i].match(/^[A-Za-z]+,\s+[A-Za-z]+\s+\d{1,2},\s+\d{4}/)) {
-        // Looks like "Tuesday, April 1, 2025 3:01 PM"
         const dtMatch = lines[i].match(/^([A-Za-z]+),\s+([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})\s+([0-9:APM ]+)$/);
         if (dtMatch) {
           date = `${dtMatch[2]} ${dtMatch[3]}, ${dtMatch[4]}`;
@@ -37,7 +39,6 @@ function parseEmails(emailText) {
         }
         continue;
       }
-      // Ignore Outlook notices and signatures
       if (
         lines[i].startsWith('You don\'t often get email') ||
         lines[i].includes('CAUTION: This is an External Email') ||
@@ -47,7 +48,6 @@ function parseEmails(emailText) {
       ) {
         continue;
       }
-      // Find first line after subject that's not metadata
       if (
         subject &&
         !lines[i].startsWith('Sent:') &&
@@ -58,28 +58,50 @@ function parseEmails(emailText) {
         bodyLines.push(lines[i]);
       }
     }
-
     const body = bodyLines.join('\n').trim();
-
-    // Infer county
-    const countyMatch = body.match(/\b(Bucks|Montgomery|Philadelphia|Chester|Delaware)\b/i);
-    county = countyMatch ? countyMatch[1] : '';
-
-    // Heuristics for inquiry/staff
-    isInquiry = /training|register|how do i|how can i|info|information|am i eligible|can i/i.test(body + subject);
-    isStaffResponse = /thank you|attached|please see|let me know|contact|post in your organization|forward/i.test(body + subject);
-
-    summary = isInquiry
-      ? "Inquiry about training or program."
-      : isStaffResponse
-        ? "Staff communication regarding programs or events."
-        : "";
-
-    parsed.push({
-      name, email, date, time, subject, body, county, summary, isInquiry, isStaffResponse
-    });
+    parsed.push({ name, email, date, time, subject, body });
   });
   return parsed;
+}
+
+// AI-powered county inference and summarization using transformers.js
+async function enrichEmailsWithAI(emails) {
+  // Show spinner
+  document.getElementById('spinner').classList.remove('d-none');
+  // Load NER pipeline
+  const nerPipeline = await window.transformers.pipeline('ner', 'Xenova/bert-base-NER');
+  // Load summarization pipeline
+  const summarizer = await window.transformers.pipeline('summarization', 'Xenova/distilbart-cnn-12-6');
+
+  for (let email of emails) {
+    // County inference
+    let county = "";
+    try {
+      const nerResults = await nerPipeline(email.body);
+      // Find first location entity matching our table
+      const places = nerResults.filter(e => e.entity_group === "LOC" || e.entity_group === "ORG")
+        .map(e => e.word.replace(/^##/, '').replace(/^[.,\s]+|[.,\s]+$/g, ''));
+      for (let place of places) {
+        if (placeToCounty[place]) {
+          county = placeToCounty[place];
+          break;
+        }
+      }
+    } catch (err) {
+      county = "";
+    }
+    email.county = county;
+
+    // Summarization
+    try {
+      const summaryResult = await summarizer(email.body || email.subject);
+      email.summary = summaryResult[0].summary_text;
+    } catch (err) {
+      email.summary = "";
+    }
+  }
+  document.getElementById('spinner').classList.add('d-none');
+  return emails;
 }
 
 // File + textarea input logic
@@ -88,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const textInput = document.getElementById('textInput');
   const parseBtn = document.getElementById('parseBtn');
   const output = document.getElementById('output');
-
+  const spinner = document.getElementById('spinner');
   let uploadedText = '';
 
   fileInput.addEventListener('change', e => {
@@ -103,18 +125,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  parseBtn.addEventListener('click', () => {
+  parseBtn.addEventListener('click', async () => {
+    output.classList.add('d-none');
+    spinner.classList.remove('d-none');
     const text = textInput.value.trim();
     if (!text) {
       output.textContent = 'Please upload a file or paste email text.';
+      output.classList.remove('d-none');
+      spinner.classList.add('d-none');
       return;
     }
     try {
       const parsed = parseEmails(text);
-      const json = JSON.stringify(parsed, null, 2);
+      const enriched = await enrichEmailsWithAI(parsed);
+      const json = JSON.stringify(enriched, null, 2);
 
-      // Show summary for user
-      output.textContent = `Parsed ${parsed.length} emails.\n\nSample:\n${json.slice(0, 400)}...`;
+      output.textContent = `Parsed ${enriched.length} emails.\n\nSample:\n${json.slice(0, 400)}...`;
+      output.classList.remove('d-none');
 
       // Download JSON
       const blob = new Blob([json], { type: 'application/json' });
@@ -128,6 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => URL.revokeObjectURL(url), 2000);
     } catch (err) {
       output.textContent = 'Error parsing: ' + err;
+      output.classList.remove('d-none');
     }
+    spinner.classList.add('d-none');
   });
 });
