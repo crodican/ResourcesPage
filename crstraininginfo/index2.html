@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Data Viewer</title>
+    
+    <!-- UIKit CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.23.11/css/uikit.min.css" integrity="sha512-njxjxGbowQXvijTYX7sielh7S1ERd6Y9ASz+4n2DgT2xeCM6n4PHPaMrN7h5KCwcLhqxrI7JsmKNsPCSxKdnfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        .uk-card {
+            border-radius: 8px;
+        }
+        
+        revo-grid {
+            --rgRow-color: #ffffff;
+            --rgRow-border: #e5e5e5;
+            --rgHeaderRow-background: #f8f9fa;
+            --rgHeaderRow-color: #333;
+            --rgHeaderRow-border: #dee2e6;
+            --rgCell-padding: 12px;
+            height: 600px;
+            width: 100%;
+        }
+        
+        .filter-controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .stats-card {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stats-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e87f0;
+        }
+        
+        .group-toggle {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="uk-container uk-container-expand uk-margin-medium-top">
+        <!-- Header -->
+        <div class="uk-text-center uk-margin-large-bottom">
+            <h1 class="uk-heading-medium uk-margin-remove">Email Data Viewer</h1>
+            <p class="uk-text-muted">Advanced email data management with sorting, filtering, and grouping</p>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="uk-grid-match uk-child-width-1-4@m uk-child-width-1-2@s uk-margin-medium-bottom" uk-grid>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body stats-card">
+                    <div class="stats-number" id="totalEmails">0</div>
+                    <div class="uk-text-small uk-text-muted">Total Emails</div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body stats-card">
+                    <div class="stats-number" id="uniqueNames">0</div>
+                    <div class="uk-text-small uk-text-muted">Unique Names</div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body stats-card">
+                    <div class="stats-number" id="uniqueDomains">0</div>
+                    <div class="uk-text-small uk-text-muted">Unique Domains</div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body stats-card">
+                    <div class="stats-number" id="filteredCount">0</div>
+                    <div class="uk-text-small uk-text-muted">Filtered Results</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Filter Controls -->
+        <div class="filter-controls">
+            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                <div class="uk-width-1-3@m uk-width-1-2@s">
+                    <label class="uk-form-label uk-text-bold">Search:</label>
+                    <input class="uk-input" type="text" id="searchInput" placeholder="Search names or emails...">
+                </div>
+                <div class="uk-width-1-4@m uk-width-1-2@s">
+                    <label class="uk-form-label uk-text-bold">Domain Filter:</label>
+                    <select class="uk-select" id="domainFilter">
+                        <option value="">All Domains</option>
+                    </select>
+                </div>
+                <div class="uk-width-1-4@m uk-width-auto@s">
+                    <label class="uk-form-label uk-text-bold">Group By:</label>
+                    <div class="uk-button-group">
+                        <button class="uk-button uk-button-default" id="groupByName">Name</button>
+                        <button class="uk-button uk-button-default" id="groupByEmail">Email</button>
+                        <button class="uk-button uk-button-secondary" id="noGrouping">None</button>
+                    </div>
+                </div>
+                <div class="uk-width-auto@m uk-width-1-1@s">
+                    <button class="uk-button uk-button-primary uk-button-small" id="clearFilters">
+                        <span uk-icon="refresh"></span> Clear Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Data Grid -->
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-header">
+                <h3 class="uk-card-title">Email Data Grid</h3>
+                <p class="uk-text-muted uk-margin-remove-bottom">Click column headers to sort • Drag column borders to resize • Use filters above to refine data</p>
+            </div>
+            <div class="uk-card-body uk-padding-remove">
+                <revo-grid id="emailGrid"></revo-grid>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="uk-text-center uk-text-muted uk-margin-large-top uk-margin-bottom">
+            <p>Built with UIKit CSS Framework and RevoGrid</p>
+        </div>
+    </div>
+
+    <!-- UIKit JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.23.11/js/uikit.min.js" integrity="sha512-5Is8znpjl5Qs4S74E/MMgv8JjyBQ9J/qmi8BoluDPjZHDhgg3XsClg7b7yRxMqGzFeNFKVa2bSZqT8RK5IQyzA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- RevoGrid JS -->
+    <script src="https://unpkg.com/@revolist/revogrid@latest/dist/revo-grid/revo-grid.js"></script>
+    
+    <!-- Email Data -->
+    <script src="emailData.js"></script>
+    
+    <script>
+        // Global variables
+        let originalData = [];
+        let filteredData = [];
+        let currentGrouping = null;
+        let grid;
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if emailData is available
+            if (typeof emailData === 'undefined') {
+                console.error('emailData.js not found or emailData variable not defined');
+                UIkit.notification({
+                    message: 'Error: emailData.js file not found or data not properly formatted',
+                    status: 'danger',
+                    timeout: 5000
+                });
+                return;
+            }
+            
+            originalData = Array.isArray(emailData) ? emailData : [];
+            filteredData = [...originalData];
+            
+            initializeGrid();
+            initializeFilters();
+            updateStats();
+            
+            UIkit.notification({
+                message: `Loaded ${originalData.length} email records successfully!`,
+                status: 'success',
+                timeout: 3000
+            });
+        });
+        
+        // Initialize the RevoGrid
+        function initializeGrid() {
+            grid = document.getElementById('emailGrid');
+            
+            // Define columns based on the data structure
+            const columns = [
+                {
+                    prop: 'name',
+                    name: 'Name',
+                    size: 200,
+                    sortable: true,
+                    filter: 'string'
+                },
+                {
+                    prop: 'email',
+                    name: 'Email',
+                    size: 250,
+                    sortable: true,
+                    filter: 'string'
+                }
+            ];
+            
+            // Add additional columns if they exist in the data
+            if (originalData.length > 0) {
+                const sampleRecord = originalData[0];
+                Object.keys(sampleRecord).forEach(key => {
+                    if (key !== 'name' && key !== 'email') {
+                        columns.push({
+                            prop: key,
+                            name: key.charAt(0).toUpperCase() + key.slice(1),
+                            size: 150,
+                            sortable: true,
+                            filter: 'string'
+                        });
+                    }
+                });
+            }
+            
+            // Configure grid
+            grid.columns = columns;
+            grid.source = filteredData;
+            grid.resize = true;
+            grid.filter = true;
+            grid.sortable = true;
+            grid.canFocus = true;
+            grid.range = true;
+            
+            // Grid event listeners
+            grid.addEventListener('beforesortingapply', (e) => {
+                UIkit.notification({
+                    message: `Sorting by ${e.detail.column.name}`,
+                    status: 'primary',
+                    timeout: 2000
+                });
+            });
+        }
+        
+        // Initialize filter controls
+        function initializeFilters() {
+            const searchInput = document.getElementById('searchInput');
+            const domainFilter = document.getElementById('domainFilter');
+            const groupByName = document.getElementById('groupByName');
+            const groupByEmail = document.getElementById('groupByEmail');
+            const noGrouping = document.getElementById('noGrouping');
+            const clearFilters = document.getElementById('clearFilters');
+            
+            // Populate domain filter
+            const domains = [...new Set(originalData.map(item => {
+                const email = item.email || '';
+                return email.includes('@') ? email.split('@')[1] : '';
+            }).filter(domain => domain))].sort();
+            
+            domains.forEach(domain => {
+                const option = document.createElement('option');
+                option.value = domain;
+                option.textContent = domain;
+                domainFilter.appendChild(option);
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', debounce(function() {
+                applyFilters();
+            }, 300));
+            
+            // Domain filter
+            domainFilter.addEventListener('change', function() {
+                applyFilters();
+            });
+            
+            // Grouping buttons
+            groupByName.addEventListener('click', function() {
+                setGrouping('name', this);
+            });
+            
+            groupByEmail.addEventListener('click', function() {
+                setGrouping('email', this);
+            });
+            
+            noGrouping.addEventListener('click', function() {
+                setGrouping(null, this);
+            });
+            
+            // Clear filters
+            clearFilters.addEventListener('click', function() {
+                searchInput.value = '';
+                domainFilter.value = '';
+                setGrouping(null, noGrouping);
+                applyFilters();
+                
+                UIkit.notification({
+                    message: 'Filters cleared',
+                    status: 'success',
+                    timeout: 2000
+                });
+            });
+        }
+        
+        // Apply filters to the data
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const selectedDomain = document.getElementById('domainFilter').value;
+            
+            filteredData = originalData.filter(item => {
+                const name = (item.name || '').toLowerCase();
+                const email = (item.email || '').toLowerCase();
+                
+                // Search filter
+                const matchesSearch = !searchTerm || 
+                    name.includes(searchTerm) || 
+                    email.includes(searchTerm);
+                
+                // Domain filter
+                const matchesDomain = !selectedDomain || 
+                    (email.includes('@') && email.split('@')[1] === selectedDomain);
+                
+                return matchesSearch && matchesDomain;
+            });
+            
+            // Apply grouping if active
+            if (currentGrouping) {
+                applyGrouping(currentGrouping);
+            } else {
+                updateGrid();
+            }
+            
+            updateStats();
+        }
+        
+        // Set grouping mode
+        function setGrouping(groupBy, buttonElement) {
+            currentGrouping = groupBy;
+            
+            // Update button states
+            document.querySelectorAll('.uk-button-group .uk-button').forEach(btn => {
+                btn.classList.remove('uk-button-primary');
+                btn.classList.add('uk-button-default');
+            });
+            
+            buttonElement.classList.remove('uk-button-default');
+            buttonElement.classList.add('uk-button-primary');
+            
+            if (groupBy) {
+                applyGrouping(groupBy);
+                UIkit.notification({
+                    message: `Grouped by ${groupBy}`,
+                    status: 'primary',
+                    timeout: 2000
+                });
+            } else {
+                updateGrid();
+            }
+        }
+        
+        // Apply grouping to the data
+        function applyGrouping(groupBy) {
+            const grouped = {};
+            
+            filteredData.forEach(item => {
+                const key = item[groupBy] || 'Unknown';
+                if (!grouped[key]) {
+                    grouped[key] = [];
+                }
+                grouped[key].push(item);
+            });
+            
+            // Create grouped data structure
+            const groupedData = [];
+            Object.keys(grouped).sort().forEach(key => {
+                // Add group header
+                const groupHeader = {
+                    isGroupHeader: true,
+                    name: `${groupBy.charAt(0).toUpperCase() + groupBy.slice(1)}: ${key} (${grouped[key].length} items)`,
+                    email: '',
+                    [groupBy]: key
+                };
+                
+                // Make other columns empty for group headers
+                if (originalData.length > 0) {
+                    Object.keys(originalData[0]).forEach(col => {
+                        if (col !== 'name' && col !== 'email' && col !== groupBy) {
+                            groupHeader[col] = '';
+                        }
+                    });
+                }
+                
+                groupedData.push(groupHeader);
+                
+                // Add group items
+                grouped[key].forEach(item => {
+                    groupedData.push({...item, isGroupItem: true});
+                });
+            });
+            
+            grid.source = groupedData;
+        }
+        
+        // Update grid with current filtered data
+        function updateGrid() {
+            grid.source = filteredData;
+        }
+        
+        // Update statistics
+        function updateStats() {
+            document.getElementById('totalEmails').textContent = originalData.length;
+            document.getElementById('filteredCount').textContent = filteredData.length;
+            
+            const uniqueNames = new Set(originalData.map(item => item.name).filter(name => name)).size;
+            document.getElementById('uniqueNames').textContent = uniqueNames;
+            
+            const uniqueDomains = new Set(originalData.map(item => {
+                const email = item.email || '';
+                return email.includes('@') ? email.split('@')[1] : '';
+            }).filter(domain => domain)).size;
+            document.getElementById('uniqueDomains').textContent = uniqueDomains;
+        }
+        
+        // Debounce function for search input
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // Handle resize events
+        window.addEventListener('resize', function() {
+            if (grid && grid.refresh) {
+                grid.refresh();
+            }
+        });
+    </script>
+</body>
+</html>
