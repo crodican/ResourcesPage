@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRS Training Email Analysis</title>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.7/dist/css/uikit.min.css" />
+    <style>
+        /* Custom county badge colors */
+        .county-philadelphia { background-color: #e91e63 !important; }
+        .county-montgomery { background-color: #9c27b0 !important; }
+        .county-bucks { background-color: #3f51b5 !important; }
+        .county-chester { background-color: #2196f3 !important; }
+        .county-delaware { background-color: #00bcd4 !important; }
+        .county-berks { background-color: #009688 !important; }
+        .county-unknown { background-color: #6c757d !important; }
+
+        /* Custom UIkit styles */
+        .uk-card-header {
+            border-bottom: none;
+        }
+
+        /* Sticky header */
+        .table-container {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .uk-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .uk-table thead th.non-clickable .uk-button-text {
+            cursor: default;
+        }
+
+        /* Column widths */
+        .col-name { width: 150px; min-width: 150px; }
+        .col-email { width: 200px; min-width: 200px; }
+        .col-date { width: 100px; min-width: 100px; }
+        .col-time { width: 80px; min-width: 80px; }
+        .col-county { width: 120px; min-width: 120px; }
+        .col-subject { width: 220px; min-width: 220px; }
+        .col-summary { min-width: 280px; }
+
+        /* Expandable row styles */
+        .email-row {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .email-row:hover {
+            background-color: rgba(0, 123, 255, 0.1) !important;
+        }
+
+        .expanded-row {
+            background-color: rgba(0, 123, 255, 0.05) !important;
+        }
+
+        .email-body-row {
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+
+        .email-body-content {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .expand-icon {
+            margin-right: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+        
+        /* Align dropdown menu with table header */
+        .header-dropdown .uk-dropdown {
+            width: max-content;
+        }
+        
+        .header-dropdown .uk-button-text {
+            text-align: left;
+            padding: 0;
+        }
+
+    </style>
+</head>
+<body class="uk-background-muted">
+    <div class="uk-container uk-padding">
+        <!-- Header Card -->
+        <div class="uk-card uk-card-default uk-box-shadow-small uk-margin-bottom">
+            <div class="uk-card-header uk-background-primary uk-light uk-text-center uk-padding-large">
+                <h1 class="uk-card-title uk-margin-small-bottom">CRS Training Email Analysis</h1>
+                <p class="uk-text-meta uk-margin-remove-bottom">Analysis of emails from CRSTraininginfo@councilsepa.org inbox (June-August 2025)</p>
+            </div>
+        </div>
+        
+        <!-- Statistics Cards -->
+        <div class="uk-grid uk-grid-small uk-child-width-1-2 uk-child-width-1-4@m uk-margin-bottom" id="statisticsRow" uk-grid>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-card-small uk-text-center uk-height-1-1">
+                    <h2 class="uk-text-primary uk-text-bold uk-heading-medium" id="totalEmails">0</h2>
+                    <p class="uk-text-muted uk-text-uppercase uk-text-small uk-text-bold">Total Emails</p>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-card-small uk-text-center uk-height-1-1">
+                    <h2 class="uk-text-success uk-text-bold uk-heading-medium" id="trainingInquiries">0</h2>
+                    <p class="uk-text-muted uk-text-uppercase uk-text-small uk-text-bold">Training Inquiries</p>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-card-small uk-text-center uk-height-1-1">
+                    <h2 class="uk-text-info uk-text-bold uk-heading-medium" id="uniqueCounties">0</h2>
+                    <p class="uk-text-muted uk-text-uppercase uk-text-small uk-text-bold">Counties</p>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-card-small uk-text-center uk-height-1-1">
+                    <h2 class="uk-text-warning uk-text-bold uk-heading-medium" id="staffResponses">0</h2>
+                    <p class="uk-text-muted uk-text-uppercase uk-text-small uk-text-bold">Staff Responses</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Search and Controls -->
+        <div class="uk-grid-small uk-flex-middle uk-margin-bottom" uk-grid>
+            <div class="uk-width-expand@s">
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon" uk-icon="icon: search"></span>
+                    <input class="uk-input uk-form-width-large" type="text" id="searchInput" placeholder="Search emails by sender, subject, county, or content...">
+                </div>
+            </div>
+            <div class="uk-width-auto@s uk-text-right">
+                <button class="uk-button uk-button-primary" onclick="downloadCSV()">
+                    <span uk-icon="icon: download"></span> Download as CSV
+                </button>
+            </div>
+            <div class="uk-width-auto@s uk-text-right">
+                <span class="uk-text-meta" id="resultCount">Showing 0 of 0 emails</span>
+            </div>
+        </div>
+        
+        <!-- Email Table -->
+        <div class="uk-card uk-card-default uk-card-body uk-card-small uk-padding-remove table-container">
+            <table class="uk-table uk-table-hover uk-table-striped uk-table-responsive uk-table-middle uk-margin-remove" id="emailTable">
+                <thead class="uk-background-primary uk-light">
+                    <tr>
+                        <th scope="col" class="col-name">
+                            <div class="header-dropdown uk-inline">
+                                <button class="uk-button uk-button-text" type="button">
+                                    NAME <span uk-icon="icon: triangle-down"></span>
+                                </button>
+                                <div uk-dropdown>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        <li><a href="#" onclick="sortColumn('name', 'asc')"><span uk-icon="icon: sort-asc"></span> Sort Ascending</a></li>
+                                        <li><a href="#" onclick="sortColumn('name', 'desc')"><span uk-icon="icon: sort-desc"></span> Sort Descending</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col" class="col-email">
+                            <div class="header-dropdown uk-inline">
+                                <button class="uk-button uk-button-text" type="button">
+                                    EMAIL <span uk-icon="icon: triangle-down"></span>
+                                </button>
+                                <div uk-dropdown>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        <li><a href="#" onclick="sortColumn('email', 'asc')"><span uk-icon="icon: sort-asc"></span> Sort Ascending</a></li>
+                                        <li><a href="#" onclick="sortColumn('email', 'desc')"><span uk-icon="icon: sort-desc"></span> Sort Descending</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col" class="col-date">
+                            <div class="header-dropdown uk-inline">
+                                <button class="uk-button uk-button-text" type="button">
+                                    DATE <span uk-icon="icon: triangle-down"></span>
+                                </button>
+                                <div uk-dropdown>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        <li><a href="#" onclick="sortColumn('date', 'asc')"><span uk-icon="icon: sort-asc"></span> Sort Ascending</a></li>
+                                        <li><a href="#" onclick="sortColumn('date', 'desc')"><span uk-icon="icon: sort-desc"></span> Sort Descending</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col" class="col-time non-clickable">
+                            <button class="uk-button uk-button-text">TIME</button>
+                        </th>
+                        <th scope="col" class="col-county">
+                            <div class="header-dropdown uk-inline">
+                                <button class="uk-button uk-button-text" type="button">
+                                    COUNTY <span uk-icon="icon: triangle-down"></span>
+                                </button>
+                                <div uk-dropdown>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        <li class="uk-nav-item">
+                                            <label><input class="uk-checkbox county-filter" type="checkbox" value="Philadelphia" checked> Philadelphia</label>
+                                        </li>
+                                        <li class="uk-nav-item">
+                                            <label><input class="uk-checkbox county-filter" type="checkbox" value="Berks" checked> Berks</label>
+                                        </li>
+                                        <li class="uk-nav-item">
+                                            <label><input class="uk-checkbox county-filter" type="checkbox" value="Bucks" checked> Bucks</label>
+                                        </li>
+                                        <li class="uk-nav-item">
+                                            <label><input class="uk-checkbox county-filter" type="checkbox" value="Chester" checked> Chester</label>
+                                        </li>
+                                        <li class="uk-nav-item">
+                                            <label><input class="uk-checkbox county-filter" type="checkbox" value="Delaware" checked> Delaware</label>
+                                        </li>
+                                        <li class="uk-nav-item">
+                                            <label><input class="uk-checkbox county-filter" type="checkbox" value="Lancaster" checked> Lancaster</label>
+                                        </li>
+                                        <li class="uk-nav-item">
+                                            <label><input class="uk-checkbox county-filter" type="checkbox" value="Montgomery" checked> Montgomery</label>
+                                        </li>
+                                        <li class="uk-nav-item">
+                                            <label><input class="uk-checkbox county-filter" type="checkbox" value="Schuylkill" checked> Schuylkill</label>
+                                        </li>
+                                        <li class="uk-nav-item">
+                                            <label><input class="uk-checkbox county-filter" type="checkbox" value="Other" checked> Other</label>
+                                        </li>
+                                        <li class="uk-nav-divider"></li>
+                                        <li><a href="#" onclick="selectAllCounties()"><span uk-icon="icon: check"></span> Select All</a></li>
+                                        <li><a href="#" onclick="deselectAllCounties()"><span uk-icon="icon: close"></span> Deselect All</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col" class="col-subject non-clickable">
+                            <button class="uk-button uk-button-text">SUBJECT</button>
+                        </th>
+                        <th scope="col" class="col-summary non-clickable">
+                            <button class="uk-button uk-button-text">AI SUMMARY OF EMAIL</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="emailTableBody">
+                    <!-- Table content will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- No Results Message -->
+        <div class="uk-card uk-card-default uk-box-shadow-small uk-margin-top uk-hidden" id="noResultsCard">
+            <div class="uk-card-body uk-text-center uk-padding-large">
+                <span uk-icon="icon: search; ratio: 5"></span>
+                <h3 class="uk-margin-top">No emails found</h3>
+                <p class="uk-text-muted">Try adjusting your search criteria or clearing the search.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.7/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.7/dist/js/uikit-icons.min.js"></script>
+    <script>
+        // Mock data since emailData.js is not available
+        const emails = [
+            {
+                id: 1,
+                from_name: "Jane Doe",
+                from_email: "jane.doe@example.com",
+                date: "2025-07-28",
+                time: "14:30",
+                county: "Montgomery",
+                subject: "Question about training dates",
+                summary: "Inquiry about the schedule for the upcoming CRS training sessions in Montgomery County.",
+                body: "Hi team,\n\nI'm writing to ask about the specific dates and times for the next CRS training. The website calendar seems a bit out of date. Can you please provide an updated schedule for Montgomery County?\n\nThanks,\nJane"
+            },
+            {
+                id: 2,
+                from_name: "John Smith",
+                from_email: "john.smith@example.org",
+                date: "2025-07-27",
+                time: "09:15",
+                county: "Philadelphia",
+                subject: "Registration issue for CRS class",
+                summary: "Reported an issue with the online registration form for a Philadelphia County training class.",
+                body: "Hello,\n\nI tried to register for the 'Introduction to CRS' class scheduled for next month, but the registration form is not submitting. I keep getting an error message. Is there an alternative way to register?\n\nRegards,\nJohn Smith"
+            },
+            {
+                id: 3,
+                from_name: "Sarah Lee",
+                from_email: "s.lee@university.edu",
+                date: "2025-07-26",
+                time: "11:00",
+                county: "Bucks",
+                subject: "Confirmation of training completion",
+                summary: "Requesting a certificate of completion for a training course completed last week.",
+                body: "Dear CRS Training Team,\n\nI recently completed the 'Advanced CRS Methods' training. Could you please send me a digital copy of my certificate of completion?\n\nThank you,\nSarah Lee"
+            },
+            {
+                id: 4,
+                from_name: "Staff Response",
+                from_email: "CRSTraininginfo@councilsepa.org",
+                date: "2025-07-28",
+                time: "15:00",
+                county: "Montgomery",
+                subject: "Re: Question about training dates",
+                summary: "Staff confirmed the new training schedule and provided a link to the updated calendar.",
+                body: "Hi Jane,\n\nThanks for reaching out! We apologize for the outdated calendar. We have just updated it. The new schedule is now live at [link to calendar].\n\nHope this helps!\nCRS Training Team"
+            },
+            {
+                id: 5,
+                from_name: "Mark Wilson",
+                from_email: "mark.wilson@agency.gov",
+                date: "2025-07-25",
+                time: "16:45",
+                county: "Chester",
+                subject: "Feedback on CRS training material",
+                summary: "Provided positive feedback on the clarity and effectiveness of the training materials.",
+                body: "To the CRS Training Staff,\n\nI wanted to express my appreciation for the training materials provided for the recent session in Chester County. They were very clear and well-organized, which made the complex topics much easier to understand.\n\nBest,\nMark"
+            },
+             {
+                id: 6,
+                from_name: "Emily White",
+                from_email: "emily.white@company.com",
+                date: "2025-07-24",
+                time: "08:00",
+                county: "Other",
+                subject: "General inquiry",
+                summary: "A general question about the purpose of the CRS training program and its target audience.",
+                body: "Hi,\n\nI came across your training program and was curious about what 'CRS' stands for and who your target audience is. Is this suitable for someone not in the public sector?\n\nThanks,\nEmily"
+            },
+            {
+                id: 7,
+                from_name: "David Brown",
+                from_email: "d.brown@county.org",
+                date: "2025-07-23",
+                time: "10:30",
+                county: "Delaware",
+                subject: "Group registration for training",
+                summary: "Asked about the possibility of group registration for a team of ten people.",
+                body: "Hello,\n\nI have a team of 10 people who are interested in taking the CRS training in Delaware County. Do you offer group discounts or a simpler registration process for multiple attendees?\n\nRegards,\nDavid Brown"
+            }
+        ];
+        
+        let sortState = {
+            column: 'date',
+            direction: 'desc'
+        };
+
+        let currentEmails = [...emails];
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const countyFilters = document.querySelectorAll('.county-filter');
+            
+            // Event listeners
+            searchInput.addEventListener('input', renderTable);
+            
+            countyFilters.forEach(filter => {
+                filter.addEventListener('change', renderTable);
+            });
+            
+            renderTable();
+        });
+
+        function renderTable() {
+            let filteredEmails = [...emails];
+
+            // Filter by county
+            const checkedCounties = Array.from(document.querySelectorAll('.county-filter:checked')).map(cb => cb.value);
+            filteredEmails = filteredEmails.filter(email => {
+                const emailCounty = email.county || 'Other';
+                return checkedCounties.includes(emailCounty);
+            });
+
+            // Filter by search query
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            if (searchQuery) {
+                filteredEmails = filteredEmails.filter(email => {
+                    const searchFields = [email.from_name, email.from_email, email.county, email.subject, email.summary, email.body].join(' ').toLowerCase();
+                    return searchFields.includes(searchQuery);
+                });
+            }
+            
+            // Sort
+            filteredEmails.sort((a, b) => {
+                const valA = a[sortState.column];
+                const valB = b[sortState.column];
+                
+                if (valA < valB) return sortState.direction === 'asc' ? -1 : 1;
+                if (valA > valB) return sortState.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+            
+            currentEmails = filteredEmails;
+            
+            const tableBody = document.getElementById('emailTableBody');
+            tableBody.innerHTML = '';
+
+            const noResultsCard = document.getElementById('noResultsCard');
+            if (filteredEmails.length === 0) {
+                noResultsCard.classList.remove('uk-hidden');
+            } else {
+                noResultsCard.classList.add('uk-hidden');
+            }
+            
+            document.getElementById('resultCount').textContent = `Showing ${filteredEmails.length} of ${emails.length} emails`;
+
+            filteredEmails.forEach(email => {
+                const countyClass = email.county ? `county-${email.county.toLowerCase().replace(/\s/g, '-')}` : 'county-unknown';
+                
+                const mainRow = document.createElement('tr');
+                mainRow.classList.add('email-row');
+                mainRow.innerHTML = `
+                    <td class="uk-text-truncate col-name">${email.from_name}</td>
+                    <td class="uk-text-truncate col-email">${email.from_email}</td>
+                    <td class="uk-text-truncate col-date">${email.date}</td>
+                    <td class="uk-text-truncate col-time">${email.time}</td>
+                    <td class="uk-text-truncate col-county">
+                        <span class="uk-label uk-label-danger ${countyClass}">${email.county || 'Unknown'}</span>
+                    </td>
+                    <td class="uk-text-truncate col-subject">${email.subject}</td>
+                    <td class="uk-text-truncate col-summary">${email.summary}</td>
+                `;
+
+                const bodyRow = document.createElement('tr');
+                bodyRow.classList.add('email-body-row', 'uk-hidden');
+                bodyRow.innerHTML = `
+                    <td colspan="7">
+                        <div class="email-body-content uk-card uk-card-default uk-padding-small">
+                            <strong>From:</strong> ${email.from_name} &lt;${email.from_email}&gt;<br>
+                            <strong>Date:</strong> ${email.date} ${email.time}<br>
+                            <strong>Subject:</strong> ${email.subject}<br>
+                            <strong>County:</strong> ${email.county || 'Unknown'}<br><br>
+                            ${email.body.replace(/\n/g, '<br>')}
+                        </div>
+                    </td>
+                `;
+                
+                mainRow.addEventListener('click', () => {
+                    mainRow.classList.toggle('expanded-row');
+                    bodyRow.classList.toggle('uk-hidden');
+                });
+
+                tableBody.appendChild(mainRow);
+                tableBody.appendChild(bodyRow);
+            });
+            
+            updateStatistics();
+        }
+
+        function sortColumn(column, direction) {
+            sortState.column = column;
+            sortState.direction = direction;
+            renderTable();
+        }
+
+        function selectAllCounties() {
+            document.querySelectorAll('.county-filter').forEach(cb => {
+                cb.checked = true;
+            });
+            renderTable();
+        }
+
+        function deselectAllCounties() {
+            document.querySelectorAll('.county-filter').forEach(cb => {
+                cb.checked = false;
+            });
+            renderTable();
+        }
+        
+        function updateStatistics() {
+            document.getElementById('totalEmails').textContent = emails.length;
+            
+            const trainingInquiries = emails.filter(email => email.from_email !== "CRSTraininginfo@councilsepa.org").length;
+            document.getElementById('trainingInquiries').textContent = trainingInquiries;
+            
+            const uniqueCounties = new Set(emails.map(e => e.county || 'Other')).size;
+            document.getElementById('uniqueCounties').textContent = uniqueCounties;
+
+            const staffResponses = emails.filter(email => email.from_email === "CRSTraininginfo@councilsepa.org").length;
+            document.getElementById('staffResponses').textContent = staffResponses;
+        }
+
+        function downloadCSV() {
+            if (currentEmails.length === 0) return;
+            const headers = ["From Name", "From Email", "Date", "Time", "County", "Subject", "Summary", "Body"];
+            const rows = currentEmails.map(email => [
+                email.from_name,
+                email.from_email,
+                email.date,
+                email.time,
+                email.county,
+                `"${email.subject.replace(/"/g, '""')}"`,
+                `"${email.summary.replace(/"/g, '""')}"`,
+                `"${email.body.replace(/"/g, '""').replace(/\n/g, ' ')}"`
+            ]);
+
+            let csvContent = "data:text/csv;charset=utf-8," +
+                headers.join(",") + "\n" +
+                rows.map(e => e.join(",")).join("\n");
+
+            const link = document.createElement("a");
+            link.setAttribute("href", encodeURI(csvContent));
+            link.setAttribute("download", "email_analysis.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
