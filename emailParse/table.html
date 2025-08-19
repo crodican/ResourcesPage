@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap 5.3 Enhanced Table</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <style>
+        .table-header-menu-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 0.875rem;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: background-color 0.15s ease-in-out;
+            margin-left: 8px;
+        }
+        
+        .table-header-menu-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .table-container {
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border-radius: 0.375rem;
+            overflow: visible !important;
+        }
+        
+        .dropdown-menu {
+            min-width: 280px;
+            z-index: 9999 !important;
+            border: 1px solid rgba(0, 0, 0, 0.175);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .filter-input {
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+        }
+        
+        .filter-input:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+        
+        .sort-indicator {
+            margin-left: 5px;
+            opacity: 0.5;
+        }
+        
+        .sort-indicator.active {
+            opacity: 1;
+        }
+        
+        .filter-badge {
+            font-size: 0.75em;
+            margin-left: 5px;
+        }
+        
+        .clear-filters-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            z-index: 1000;
+        }
+        
+        .checkbox-filters {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .checkbox-filter-item {
+            padding: 0.25rem 0;
+        }
+        
+        .dropdown-section {
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .dropdown-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .sort-btn {
+            font-size: 0.875rem;
+        }
+        
+        .table th {
+            position: relative;
+            white-space: nowrap;
+        }
+        
+        .table thead th {
+            overflow: visible;
+        }
+        
+        /* Resizable columns */
+        .resizable-table th {
+            position: relative;
+        }
+        
+        .resizable-table th .resize-handle {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            cursor: col-resize;
+            background: transparent;
+            border-right: 2px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+        
+        .resizable-table th .resize-handle:hover {
+            border-right-color: #0d6efd;
+        }
+        
+        .resizable-table th:last-child .resize-handle {
+            display: none;
+        }
+        
+        .resize-handle.resizing {
+            border-right-color: #0d6efd !important;
+        }
+        
+        .table-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 0;
+        }
+        
+        .table-header-text {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .table-header-icons {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h3 mb-0">Enhanced Bootstrap Table</h1>
+                    <button class="btn btn-outline-secondary btn-sm clear-filters-btn" onclick="tableEnhancer.clearAllFilters('enhanced-table')">
+                        <i class="bi bi-x-circle"></i> Clear All Filters
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table class="table table-striped table-hover mb-0 resizable-table" id="enhanced-table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col" data-column="name" data-type="text">
+                                    Name
+                                </th>
+                                <th scope="col" data-column="email" data-type="email-address">
+                                    Email
+                                </th>
+                                <th scope="col" data-column="department" data-type="text" data-custom-filters="Engineering,Marketing,Sales,HR,Finance,IT">
+                                    Department
+                                </th>
+                                <th scope="col" data-column="salary" data-type="currency">
+                                    Salary
+                                </th>
+                                <th scope="col" data-column="status" data-type="text" data-custom-filters="Active,Pending,Inactive">
+                                    Status
+                                </th>
+                                <th scope="col" data-column="joinDate" data-type="date">
+                                    Join Date
+                                </th>
+                                <th scope="col" data-column="isManager" data-type="true-false">
+                                    Manager
+                                </th>
+                                <th scope="col" data-column="phone" data-type="phone-number">
+                                    Phone
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Smith</td>
+                                <td>john.smith@example.com</td>
+                                <td>Engineering</td>
+                                <td>$75,000</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>2022-01-15</td>
+                                <td>Yes</td>
+                                <td>(555) 123-4567</td>
+                            </tr>
+                            <tr>
+                                <td>Sarah Johnson</td>
+                                <td>sarah.johnson@example.com</td>
+                                <td>Marketing</td>
+                                <td>$65,000</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>2021-11-03</td>
+                                <td>No</td>
+                                <td>(555) 234-5678</td>
+                            </tr>
+                            <tr>
+                                <td>Mike Davis</td>
+                                <td>mike.davis@example.com</td>
+                                <td>Sales</td>
+                                <td>$58,000</td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                                <td>2023-03-22</td>
+                                <td>No</td>
+                                <td>(555) 345-6789</td>
+                            </tr>
+                            <tr>
+                                <td>Emily Chen</td>
+                                <td>emily.chen@example.com</td>
+                                <td>Engineering</td>
+                                <td>$82,000</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>2020-09-12</td>
+                                <td>Yes</td>
+                                <td>(555) 456-7890</td>
+                            </tr>
+                            <tr>
+                                <td>Robert Wilson</td>
+                                <td>robert.wilson@example.com</td>
+                                <td>HR</td>
+                                <td>$55,000</td>
+                                <td><span class="badge bg-danger">Inactive</span></td>
+                                <td>2019-07-08</td>
+                                <td>No</td>
+                                <td>(555) 567-8901</td>
+                            </tr>
+                            <tr>
+                                <td>Lisa Anderson</td>
+                                <td>lisa.anderson@example.com</td>
+                                <td>Finance</td>
+                                <td>$70,000</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>2022-05-14</td>
+                                <td>Yes</td>
+                                <td>(555) 678-9012</td>
+                            </tr>
+                            <tr>
+                                <td>David Brown</td>
+                                <td>david.brown@example.com</td>
+                                <td>Marketing</td>
+                                <td>$62,000</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>2023-01-30</td>
+                                <td>No</td>
+                                <td>(555) 789-0123</td>
+                            </tr>
+                            <tr>
+                                <td>Jennifer Taylor</td>
+                                <td>jennifer.taylor@example.com</td>
+                                <td>Sales</td>
+                                <td>$61,000</td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                                <td>2023-04-18</td>
+                                <td>No</td>
+                                <td>(555) 890-1234</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-3">
+                    <small class="text-muted">
+                        <i class="bi bi-info-circle"></i>
+                        Click on the menu buttons in column headers to access search, filter, and sort options. Drag column borders to resize.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Reusable Bootstrap Table Enhancer Library
+        class BootstrapTableEnhancer {
+            constructor() {
+                this.tables = new Map();
+                this.dropdowns = new Map();
+                this.pendingChanges = new Map();
+            }
+
+            // Initialize table with enhanced features
+            enhance(tableId) {
+                const table = document.getElementById(tableId);
+                if (!table) {
+                    console.error(`Table with ID '${tableId}' not found`);
+                    return;
+                }
+
+                const config = {
+                    table: table,
+                    headers: table.querySelectorAll('thead th[data-column]'),
+                    tbody: table.querySelector('tbody'),
+                    rows: Array.from(table.querySelectorAll('tbody tr')),
+                    originalRows: Array.from(table.querySelectorAll('tbody tr')),
+                    filters: {},
+                    sortConfig: { column: null, direction: 'asc' }
+                };
+
+                this.tables.set(tableId, config);
+                this.pendingChanges.set(tableId, {});
+                this.initializeHeaders(tableId);
+                this.initializeResizing(tableId);
+                return this;
+            }
+
+            // Initialize headers with proper structure and icons
+            initializeHeaders(tableId) {
+                const config = this.tables.get(tableId);
+                
+                config.headers.forEach(header => {
+                    const column = header.getAttribute('data-column');
+                    const dataType = header.getAttribute('data-type') || 'default';
+                    const originalText = header.textContent.trim();
+                    
+                    // Clear existing content
+                    header.innerHTML = '';
+                    
+                    // Create header structure
+                    const headerContent = document.createElement('div');
+                    headerContent.className = 'table-header-content';
+                    
+                    const headerText = document.createElement('div');
+                    headerText.className = 'table-header-text';
+                    headerText.textContent = originalText;
+                    
+                    const headerIcons = document.createElement('div');
+                    headerIcons.className = 'table-header-icons';
+                    
+                    // Add data type icon
+                    const typeIcon = this.getDataTypeIcon(dataType);
+                    if (typeIcon) {
+                        const typeIconElement = document.createElement('i');
+                        typeIconElement.className = `bi ${typeIcon}`;
+                        typeIconElement.style.marginRight = '4px';
+                        typeIconElement.style.opacity = '0.7';
+                        headerIcons.appendChild(typeIconElement);
+                    }
+                    
+                    // Add sort indicator
+                    const sortIndicator = document.createElement('i');
+                    sortIndicator.className = 'bi bi-chevron-down sort-indicator';
+                    headerIcons.appendChild(sortIndicator);
+                    
+                    // Add menu button
+                    const menuBtn = document.createElement('button');
+                    menuBtn.className = 'table-header-menu-btn';
+                    menuBtn.innerHTML = '<i class="bi bi-arrow-down-short"></i>';
+                    menuBtn.setAttribute('type', 'button');
+                    headerIcons.appendChild(menuBtn);
+                    
+                    headerContent.appendChild(headerText);
+                    headerContent.appendChild(headerIcons);
+                    header.appendChild(headerContent);
+                    
+                    // Create dropdown
+                    this.createDropdown(tableId, header, column);
+                    
+                    // Add click event to menu button
+                    menuBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.toggleDropdown(tableId, column);
+                    });
+                });
+
+                // Close dropdowns when clicking outside
+                document.addEventListener('click', () => {
+                    this.closeAllDropdowns();
+                });
+            }
+
+            // Initialize column resizing
+            initializeResizing(tableId) {
+                const config = this.tables.get(tableId);
+                const table = config.table;
+                
+                // Check if resizing is enabled
+                if (!table.classList.contains('resizable-table') && !table.hasAttribute('data-resizable')) {
+                    return;
+                }
+                
+                config.headers.forEach((header, index) => {
+                    // Skip last column
+                    if (index === config.headers.length - 1) return;
+                    
+                    const resizeHandle = document.createElement('div');
+                    resizeHandle.className = 'resize-handle';
+                    header.appendChild(resizeHandle);
+                    
+                    let isResizing = false;
+                    let startX = 0;
+                    let startWidth = 0;
+                    
+                    resizeHandle.addEventListener('mousedown', (e) => {
+                        isResizing = true;
+                        startX = e.clientX;
+                        startWidth = header.offsetWidth;
+                        resizeHandle.classList.add('resizing');
+                        
+                        document.addEventListener('mousemove', handleMouseMove);
+                        document.addEventListener('mouseup', handleMouseUp);
+                        
+                        e.preventDefault();
+                    });
+                    
+                    const handleMouseMove = (e) => {
+                        if (!isResizing) return;
+                        
+                        const diff = e.clientX - startX;
+                        const newWidth = Math.max(50, startWidth + diff); // Minimum width of 50px
+                        header.style.width = newWidth + 'px';
+                        header.style.minWidth = newWidth + 'px';
+                    };
+                    
+                    const handleMouseUp = () => {
+                        isResizing = false;
+                        resizeHandle.classList.remove('resizing');
+                        document.removeEventListener('mousemove', handleMouseMove);
+                        document.removeEventListener('mouseup', handleMouseUp);
+                    };
+                });
+            }
+
+            // Get data type icon
+            getDataTypeIcon(dataType) {
+                const iconMap = {
+                    'text': 'bi-fonts',
+                    'whole-number': 'bi-123',
+                    'decimal': 'bi-calculator',
+                    'currency': 'bi-currency-dollar',
+                    'date': 'bi-calendar3',
+                    'time': 'bi-clock',
+                    'true-false': 'bi-check2-square',
+                    'phone-number': 'bi-telephone',
+                    'email-address': 'bi-envelope',
+                    'default': null
+                };
+                return iconMap[dataType] || null;
+            }
+
+            // Create dropdown menu for column
+            createDropdown(tableId, header, column) {
+                const config = this.tables.get(tableId);
+                const dataType = header.getAttribute('data-type') || 'default';
+                const customFilters = header.getAttribute('data-custom-filters');
+                
+                // Create dropdown container
+                const dropdownDiv = document.createElement('div');
+                dropdownDiv.className = 'dropdown';
+                dropdownDiv.style.position = 'absolute';
+                dropdownDiv.style.top = '100%';
+                dropdownDiv.style.left = '0';
+                dropdownDiv.style.zIndex = '9999';
+                
+                // Get sort button labels and icons based on data type
+                const sortConfig = this.getSortConfig(dataType);
+                
+                // Create dropdown menu
+                const dropdownMenu = document.createElement('div');
+                dropdownMenu.className = 'dropdown-menu shadow';
+                dropdownMenu.innerHTML = `
+                    <div class="px-3 py-2">
+                        <h6 class="dropdown-header px-0 mb-3">${this.getColumnTitle(header)}</h6>
+                        
+                        <!-- Sort Section -->
+                        <div class="dropdown-section">
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-outline-primary btn-sm sort-btn" data-action="sort" data-direction="asc">
+                                    <i class="bi ${sortConfig.ascIcon}"></i> ${sortConfig.ascLabel}
+                                </button>
+                                <button type="button" class="btn btn-outline-primary btn-sm sort-btn" data-action="sort" data-direction="desc">
+                                    <i class="bi ${sortConfig.descIcon}"></i> ${sortConfig.descLabel}
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Search Section -->
+                        <div class="dropdown-section">
+                            <label class="form-label small fw-semibold mb-2">Search</label>
+                            <input type="text" class="form-control form-control-sm filter-input" 
+                                   placeholder="Search ${this.getColumnTitle(header).toLowerCase()}..." 
+                                   data-action="search">
+                        </div>
+                        
+                        <!-- Filter Section -->
+                        <div class="dropdown-section">
+                            <label class="form-label small fw-semibold mb-2">Filter</label>
+                            <div class="checkbox-filters">
+                                <!-- Checkbox filters will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" data-action="cancel">
+                                Cancel
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" data-action="ok">
+                                OK
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Position dropdown
+                dropdownDiv.appendChild(dropdownMenu);
+                header.appendChild(dropdownDiv);
+                
+                // Store dropdown reference
+                if (!this.dropdowns.has(tableId)) {
+                    this.dropdowns.set(tableId, {});
+                }
+                this.dropdowns.get(tableId)[column] = dropdownMenu;
+                
+                // Populate filter options
+                this.populateFilterOptions(tableId, column, customFilters);
+                
+                // Add event listeners
+                this.addDropdownEventListeners(tableId, column, dropdownMenu);
+            }
+
+            // Get sort configuration based on data type
+            getSortConfig(dataType) {
+                const configs = {
+                    'default': {
+                        ascLabel: 'A to Z',
+                        descLabel: 'Z to A',
+                        ascIcon: 'bi-sort-alpha-down',
+                        descIcon: 'bi-sort-alpha-up'
+                    },
+                    'text': {
+                        ascLabel: 'A to Z',
+                        descLabel: 'Z to A',
+                        ascIcon: 'bi-sort-alpha-down',
+                        descIcon: 'bi-sort-alpha-up'
+                    },
+                    'whole-number': {
+                        ascLabel: 'Smallest to Largest',
+                        descLabel: 'Largest to Smallest',
+                        ascIcon: 'bi-sort-numeric-down',
+                        descIcon: 'bi-sort-numeric-up'
+                    },
+                    'decimal': {
+                        ascLabel: 'Smallest to Largest',
+                        descLabel: 'Largest to Smallest',
+                        ascIcon: 'bi-sort-numeric-down',
+                        descIcon: 'bi-sort-numeric-up'
+                    },
+                    'currency': {
+                        ascLabel: 'Lowest to Highest',
+                        descLabel: 'Highest to Lowest',
+                        ascIcon: 'bi-sort-numeric-down',
+                        descIcon: 'bi-sort-numeric-up'
+                    },
+                    'date': {
+                        ascLabel: 'Oldest to Newest',
+                        descLabel: 'Newest to Oldest',
+                        ascIcon: 'bi-sort-down',
+                        descIcon: 'bi-sort-up'
+                    },
+                    'time': {
+                        ascLabel: 'Earliest to Latest',
+                        descLabel: 'Latest to Earliest',
+                        ascIcon: 'bi-sort-down',
+                        descIcon: 'bi-sort-up'
+                    },
+                    'true-false': {
+                        ascLabel: 'False to True',
+                        descLabel: 'True to False',
+                        ascIcon: 'bi-sort-down',
+                        descIcon: 'bi-sort-up'
+                    },
+                    'phone-number': {
+                        ascLabel: 'A to Z',
+                        descLabel: 'Z to A',
+                        ascIcon: 'bi-sort-alpha-down',
+                        descIcon: 'bi-sort-alpha-up'
+                    },
+                    'email-address': {
+                        ascLabel: 'A to Z',
+                        descLabel: 'Z to A',
+                        ascIcon: 'bi-sort-alpha-down',
+                        descIcon: 'bi-sort-alpha-up'
+                    }
+                };
+                
+                return configs[dataType] || configs['default'];
+            }
+
+            // Get column title from header
+            getColumnTitle(header) {
+                const textElement = header.querySelector('.table-header-text');
+                return textElement ? textElement.textContent.trim() : header.textContent.trim();
+            }
+
+            // Populate filter checkboxes
+            populateFilterOptions(tableId, column, customFilters) {
+                const config = this.tables.get(tableId);
+                const dropdown = this.dropdowns.get(tableId)[column];
+                const filterContainer = dropdown.querySelector('.checkbox-filters');
+                
+                const columnIndex = Array.from(config.headers).findIndex(h => h.getAttribute('data-column') === column);
+                let values = new Set();
+                
+                if (customFilters) {
+                    // Use custom filters from data attribute
+                    values = new Set(customFilters.split(',').map(v => v.trim()));
+                } else {
+                    // Extract unique values from table data
+                    config.originalRows.forEach(row => {
+                        const cell = row.cells[columnIndex];
+                        if (cell) {
+                            let text = cell.textContent.trim();
+                            // Remove badge elements for status column
+                            const badge = cell.querySelector('.badge');
+                            if (badge) {
+                                text = badge.textContent.trim();
+                            }
+                            if (text) values.add(text);
+                        }
+                    });
+                }
+                
+                // Clear existing checkboxes
+                filterContainer.innerHTML = '';
+                
+                // Add "Select All" checkbox
+                const selectAllDiv = document.createElement('div');
+                selectAllDiv.className = 'form-check checkbox-filter-item';
+                selectAllDiv.innerHTML = `
+                    <input class="form-check-input" type="checkbox" value="__SELECT_ALL__" id="filter_${column}_select_all" checked>
+                    <label class="form-check-label fw-semibold" for="filter_${column}_select_all">
+                        Select All
+                    </label>
+                `;
+                filterContainer.appendChild(selectAllDiv);
+                
+                // Add individual checkboxes
+                Array.from(values).sort().forEach((value, index) => {
+                    const checkboxDiv = document.createElement('div');
+                    checkboxDiv.className = 'form-check checkbox-filter-item';
+                    checkboxDiv.innerHTML = `
+                        <input class="form-check-input" type="checkbox" value="${value}" id="filter_${column}_${index}" checked>
+                        <label class="form-check-label" for="filter_${column}_${index}">
+                            ${value}
+                        </label>
+                    `;
+                    filterContainer.appendChild(checkboxDiv);
+                });
+                
+                // Add select all functionality
+                const selectAllCheckbox = filterContainer.querySelector('input[value="__SELECT_ALL__"]');
+                const individualCheckboxes = filterContainer.querySelectorAll('input:not([value="__SELECT_ALL__"])');
+                
+                selectAllCheckbox.addEventListener('change', () => {
+                    individualCheckboxes.forEach(checkbox => {
+                        checkbox.checked = selectAllCheckbox.checked;
+                    });
+                });
+                
+                individualCheckboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        const allChecked = Array.from(individualCheckboxes).every(cb => cb.checked);
+                        const noneChecked = Array.from(individualCheckboxes).every(cb => !cb.checked);
+                        
+                        if (allChecked) {
+                            selectAllCheckbox.checked = true;
+                            selectAllCheckbox.indeterminate = false;
+                        } else if (noneChecked) {
+                            selectAllCheckbox.checked = false;
+                            selectAllCheckbox.indeterminate = false;
+                        } else {
+                            selectAllCheckbox.indeterminate = true;
+                        }
+                    });
+                });
+            }
+
+            // Add event listeners to dropdown elements
+            addDropdownEventListeners(tableId, column, dropdownMenu) {
+                const searchInput = dropdownMenu.querySelector('[data-action="search"]');
+                const sortButtons = dropdownMenu.querySelectorAll('[data-action="sort"]');
+                const okButton = dropdownMenu.querySelector('[data-action="ok"]');
+                const cancelButton = dropdownMenu.querySelector('[data-action="cancel"]');
+
+                // Initialize pending changes for this column
+                if (!this.pendingChanges.get(tableId)[column]) {
+                    this.pendingChanges.get(tableId)[column] = {
+                        search: '',
+                        filters: [],
+                        sort: null
+                    };
+                }
+
+                // Search input (update pending changes only)
+                searchInput.addEventListener('input', (e) => {
+                    this.pendingChanges.get(tableId)[column].search = e.target.value;
+                });
+
+                // Sort buttons (update pending changes only)
+                sortButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const direction = button.getAttribute('data-direction');
+                        this.pendingChanges.get(tableId)[column].sort = { column, direction };
+                        
+                        // Visual feedback
+                        sortButtons.forEach(btn => btn.classList.remove('btn-primary'));
+                        sortButtons.forEach(btn => btn.classList.add('btn-outline-primary'));
+                        button.classList.remove('btn-outline-primary');
+                        button.classList.add('btn-primary');
+                    });
+                });
+
+                // OK button - apply all pending changes
+                okButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.applyPendingChanges(tableId, column);
+                    this.closeAllDropdowns();
+                });
+
+                // Cancel button - revert to current state
+                cancelButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.resetPendingChanges(tableId, column);
+                    this.closeAllDropdowns();
+                });
+
+                // Prevent dropdown from closing when clicking inside
+                dropdownMenu.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+
+            // Apply pending changes
+            applyPendingChanges(tableId, column) {
+                const config = this.tables.get(tableId);
+                const dropdown = this.dropdowns.get(tableId)[column];
+                const pending = this.pendingChanges.get(tableId)[column];
+                
+                // Apply search filter
+                if (pending.search) {
+                    config.filters[`${column}_search`] = { type: 'search', value: pending.search.toLowerCase() };
+                } else {
+                    delete config.filters[`${column}_search`];
+                }
+                
+                // Apply checkbox filters
+                const checkedValues = Array.from(dropdown.querySelectorAll('.checkbox-filters input:not([value="__SELECT_ALL__"]):checked'))
+                    .map(input => input.value);
+                
+                if (checkedValues.length > 0) {
+                    config.filters[`${column}_filter`] = { type: 'checkbox', values: checkedValues };
+                } else {
+                    delete config.filters[`${column}_filter`];
+                }
+                
+                // Apply sort
+                if (pending.sort) {
+                    config.sortConfig = pending.sort;
+                    this.updateSortIndicators(tableId, pending.sort.column, pending.sort.direction);
+                }
+                
+                // Update filter badge
+                const hasFilters = pending.search || checkedValues.length < this.getTotalFilterOptions(dropdown);
+                this.updateFilterBadge(tableId, column, hasFilters);
+                
+                // Apply all filters and sorting
+                this.applyFilters(tableId);
+            }
+
+            // Reset pending changes to current state
+            resetPendingChanges(tableId, column) {
+                const config = this.tables.get(tableId);
+                const dropdown = this.dropdowns.get(tableId)[column];
+                
+                // Reset search input
+                const searchInput = dropdown.querySelector('[data-action="search"]');
+                searchInput.value = '';
+                
+                // Reset checkboxes to current filter state
+                const currentFilter = config.filters[`${column}_filter`];
+                const checkboxes = dropdown.querySelectorAll('.checkbox-filters input');
+                
+                if (currentFilter) {
+                    checkboxes.forEach(checkbox => {
+                        if (checkbox.value === '__SELECT_ALL__') return;
+                        checkbox.checked = currentFilter.values.includes(checkbox.value);
+                    });
+                } else {
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = true;
+                    });
+                }
+                
+                // Update select all checkbox
+                this.updateSelectAllCheckbox(dropdown);
+                
+                // Reset sort buttons
+                const sortButtons = dropdown.querySelectorAll('[data-action="sort"]');
+                sortButtons.forEach(btn => {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-outline-primary');
+                });
+                
+                // Reset pending changes
+                this.pendingChanges.get(tableId)[column] = {
+                    search: '',
+                    filters: [],
+                    sort: null
+                };
+            }
+
+            // Get total number of filter options
+            getTotalFilterOptions(dropdown) {
+                return dropdown.querySelectorAll('.checkbox-filters input:not([value="__SELECT_ALL__"])').length;
+            }
+
+            // Update select all checkbox state
+            updateSelectAllCheckbox(dropdown) {
+                const selectAllCheckbox = dropdown.querySelector('input[value="__SELECT_ALL__"]');
+                const individualCheckboxes = dropdown.querySelectorAll('input:not([value="__SELECT_ALL__"])');
+                
+                const allChecked = Array.from(individualCheckboxes).every(cb => cb.checked);
+                const noneChecked = Array.from(individualCheckboxes).every(cb => !cb.checked);
+                
+                if (allChecked) {
+                    selectAllCheckbox.checked = true;
+                    selectAllCheckbox.indeterminate = false;
+                } else if (noneChecked) {
+                    selectAllCheckbox.checked = false;
+                    selectAllCheckbox.indeterminate = false;
+                } else {
+                    selectAllCheckbox.indeterminate = true;
+                }
+            }
+
+            // Toggle dropdown visibility
+            toggleDropdown(tableId, column) {
+                this.closeAllDropdowns();
+                const dropdown = this.dropdowns.get(tableId)[column];
+                dropdown.classList.toggle('show');
+                
+                // Reset pending changes when opening
+                if (dropdown.classList.contains('show')) {
+                    this.resetPendingChanges(tableId, column);
+                }
+            }
+
+            // Close all open dropdowns
+            closeAllDropdowns() {
+                this.dropdowns.forEach(tableDropdowns => {
+                    Object.values(tableDropdowns).forEach(dropdown => {
+                        dropdown.classList.remove('show');
+                    });
+                });
+            }
+
+            // Parse value based on data type
+            parseValue(value, dataType) {
+                switch (dataType) {
+                    case 'whole-number':
+                        return parseInt(value.replace(/[^\d-]/g, '')) || 0;
+                    case 'decimal':
+                        return parseFloat(value.replace(/[^\d.-]/g, '')) || 0;
+                    case 'currency':
+                        return parseFloat(value.replace(/[$,]/g, '')) || 0;
+                    case 'date':
+                        return new Date(value);
+                    case 'time':
+                        const today = new Date();
+                        const timeMatch = value.match(/(\d{1,2}):(\d{2})(?:\s*(AM|PM))?/i);
+                        if (timeMatch) {
+                            let hours = parseInt(timeMatch[1]);
+                            const minutes = parseInt(timeMatch[2]);
+                            const period = timeMatch[3];
+                            
+                            if (period && period.toUpperCase() === 'PM' && hours !== 12) {
+                                hours += 12;
+                            } else if (period && period.toUpperCase() === 'AM' && hours === 12) {
+                                hours = 0;
+                            }
+                            
+                            return new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes);
+                        }
+                        return new Date();
+                    case 'true-false':
+                        const normalized = value.toLowerCase().trim();
+                        return ['true', 'yes', '1', 'on', 'enabled'].includes(normalized);
+                    case 'phone-number':
+                        return value.replace(/[^\d]/g, ''); // Remove all non-digits for comparison
+                    case 'email-address':
+                        return value.toLowerCase();
+                    default:
+                        return value;
+                }
+            }
+
+            // Apply all active filters
+            applyFilters(tableId) {
+                const config = this.tables.get(tableId);
+                let visibleRows = [...config.originalRows];
+                
+                // Apply each filter
+                Object.entries(config.filters).forEach(([filterKey, filter]) => {
+                    const [column, filterType] = filterKey.split('_');
+                    const columnIndex = Array.from(config.headers).findIndex(h => h.getAttribute('data-column') === column);
+                    
+                    visibleRows = visibleRows.filter(row => {
+                        const cell = row.cells[columnIndex];
+                        let cellText = cell ? cell.textContent.trim() : '';
+                        
+                        // Handle badge elements for status column
+                        const badge = cell?.querySelector('.badge');
+                        if (badge) {
+                            cellText = badge.textContent.trim();
+                        }
+                        
+                        if (filter.type === 'search') {
+                            return cellText.toLowerCase().includes(filter.value);
+                        } else if (filter.type === 'checkbox') {
+                            return filter.values.includes(cellText);
+                        }
+                        return true;
+                    });
+                });
+                
+                // Update visible rows
+                config.rows = visibleRows;
+                this.updateTableDisplay(tableId);
+                
+                // Reapply sorting if active
+                if (config.sortConfig.column) {
+                    this.applySorting(tableId);
+                }
+            }
+
+            // Apply sorting
+            applySorting(tableId) {
+                const config = this.tables.get(tableId);
+                const { column, direction } = config.sortConfig;
+                
+                if (!column) return;
+                
+                const columnIndex = Array.from(config.headers).findIndex(h => h.getAttribute('data-column') === column);
+                const header = Array.from(config.headers).find(h => h.getAttribute('data-column') === column);
+                const dataType = header.getAttribute('data-type') || 'default';
+                
+                config.rows.sort((a, b) => {
+                    let aVal = a.cells[columnIndex] ? a.cells[columnIndex].textContent.trim() : '';
+                    let bVal = b.cells[columnIndex] ? b.cells[columnIndex].textContent.trim() : '';
+                    
+                    // Handle badge elements
+                    const aBadge = a.cells[columnIndex]?.querySelector('.badge');
+                    const bBadge = b.cells[columnIndex]?.querySelector('.badge');
+                    if (aBadge) aVal = aBadge.textContent.trim();
+                    if (bBadge) bVal = bBadge.textContent.trim();
+                    
+                    // Parse values based on data type
+                    aVal = this.parseValue(aVal, dataType);
+                    bVal = this.parseValue(bVal, dataType);
+                    
+                    let result;
+                    if (typeof aVal === 'number' && typeof bVal === 'number') {
+                        result = aVal - bVal;
+                    } else if (aVal instanceof Date && bVal instanceof Date) {
+                        result = aVal.getTime() - bVal.getTime();
+                    } else if (typeof aVal === 'boolean' && typeof bVal === 'boolean') {
+                        result = aVal === bVal ? 0 : aVal ? 1 : -1;
+                    } else {
+                        result = aVal.toString().localeCompare(bVal.toString());
+                    }
+                    
+                    return direction === 'desc' ? -result : result;
+                });
+                
+                this.updateTableDisplay(tableId);
+            }
+
+            // Update table display
+            updateTableDisplay(tableId) {
+                const config = this.tables.get(tableId);
+                
+                // Clear tbody
+                config.tbody.innerHTML = '';
+                
+                // Add filtered/sorted rows
+                config.rows.forEach(row => {
+                    config.tbody.appendChild(row);
+                });
+            }
+
+            // Update sort indicators
+            updateSortIndicators(tableId, activeColumn, direction) {
+                const config = this.tables.get(tableId);
+                
+                config.headers.forEach(header => {
+                    const indicator = header.querySelector('.sort-indicator');
+                    const column = header.getAttribute('data-column');
+                    
+                    if (column === activeColumn) {
+                        indicator.className = `bi sort-indicator active ${direction === 'asc' ? 'bi-chevron-up' : 'bi-chevron-down'}`;
+                    } else {
+                        indicator.className = 'bi bi-chevron-down sort-indicator';
+                    }
+                });
+            }
+
+            // Update filter badge
+            updateFilterBadge(tableId, column, hasFilters) {
+                const config = this.tables.get(tableId);
+                const header = Array.from(config.headers).find(h => h.getAttribute('data-column') === column);
+                
+                // Remove existing badge
+                const existingBadge = header.querySelector('.filter-badge');
+                if (existingBadge) {
+                    existingBadge.remove();
+                }
+                
+                // Add new badge if there are filters
+                if (hasFilters) {
+                    const badge = document.createElement('span');
+                    badge.className = 'badge bg-primary filter-badge';
+                    badge.textContent = '●';
+                    badge.title = 'Filtered';
+                    const headerIcons = header.querySelector('.table-header-icons');
+                    headerIcons.insertBefore(badge, headerIcons.firstChild);
+                }
+            }
+
+            // Clear filter for specific column
+            clearColumnFilter(tableId, column) {
+                const config = this.tables.get(tableId);
+                const dropdown = this.dropdowns.get(tableId)[column];
+                
+                // Clear filters from config
+                delete config.filters[`${column}_search`];
+                delete config.filters[`${column}_filter`];
+                
+                // Reset form elements
+                const searchInput = dropdown.querySelector('[data-action="search"]');
+                searchInput.value = '';
+                
+                const checkboxes = dropdown.querySelectorAll('.checkbox-filters input');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = true;
+                });
+                
+                // Remove filter badge
+                this.updateFilterBadge(tableId, column, false);
+                
+                // Reapply filters
+                this.applyFilters(tableId);
+                
+                // Close dropdown
+                this.closeAllDropdowns();
+            }
+
+            // Clear all filters for table
+            clearAllFilters(tableId) {
+                const config = this.tables.get(tableId);
+                
+                // Clear all filters
+                config.filters = {};
+                config.sortConfig = { column: null, direction: 'asc' };
+                
+                // Reset all dropdowns
+                Object.entries(this.dropdowns.get(tableId)).forEach(([column, dropdown]) => {
+                    const searchInput = dropdown.querySelector('[data-action="search"]');
+                    searchInput.value = '';
+                    
+                    const checkboxes = dropdown.querySelectorAll('.checkbox-filters input');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = true;
+                    });
+                    
+                    // Remove filter badges
+                    this.updateFilterBadge(tableId, column, false);
+                });
+                
+                // Reset sort indicators
+                config.headers.forEach(header => {
+                    const indicator = header.querySelector('.sort-indicator');
+                    indicator.className = 'bi bi-chevron-down sort-indicator';
+                });
+                
+                // Show all original rows
+                config.rows = [...config.originalRows];
+                this.updateTableDisplay(tableId);
+                
+                // Close all dropdowns
+                this.closeAllDropdowns();
+            }
+        }
+
+        // Initialize the table enhancer
+        const tableEnhancer = new BootstrapTableEnhancer();
+        
+        // Enhance the table when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            tableEnhancer.enhance('enhanced-table');
+        });
+    </script>
+
+    <!-- JSON Data Populator Addon -->
+    <script>
+        // Bootstrap Table JSON Data Populator Addon
+        class BootstrapTableDataPopulator {
+            constructor() {
+                this.dataFormatters = {
+                    'currency': (value) => {
+                        if (typeof value === 'number') {
+                            return new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD'
+                            }).format(value);
+                        }
+                        return value;
+                    },
+                    'date': (value) => {
+                        if (value && (typeof value === 'string' || value instanceof Date)) {
+                            const date = new Date(value);
+                            return date.toISOString().split('T')[0]; // YYYY-MM-DD format
+                        }
+                        return value;
+                    },
+                    'time': (value) => {
+                        if (value && typeof value === 'string') {
+                            const date = new Date(`2000-01-01 ${value}`);
+                            if (!isNaN(date.getTime())) {
+                                return date.toLocaleTimeString('en-US', {
+                                    hour: 'numeric',
+                                    minute: '2-digit',
+                                    hour12: true
+                                });
+                            }
+                        }
+                        return value;
+                    },
+                    'true-false': (value) => {
+                        if (typeof value === 'boolean') {
+                            return value ? 'Yes' : 'No';
+                        }
+                        if (typeof value === 'string') {
+                            const normalized = value.toLowerCase().trim();
+                            if (['true', '1', 'yes', 'on', 'enabled'].includes(normalized)) {
+                                return 'Yes';
+                            } else if (['false', '0', 'no', 'off', 'disabled'].includes(normalized)) {
+                                return 'No';
+                            }
+                        }
+                        return value;
+                    },
+                    'phone-number': (value) => {
+                        if (typeof value === 'string' && value.replace(/\D/g, '').length === 10) {
+                            const cleaned = value.replace(/\D/g, '');
+                            return `(${cleaned.slice(0,3)}) ${cleaned.slice(3,6)}-${cleaned.slice(6)}`;
+                        }
+                        return value;
+                    },
+                    'whole-number': (value) => {
+                        if (typeof value === 'number') {
+                            return Math.round(value).toLocaleString();
+                        }
+                        return value;
+                    },
+                    'decimal': (value) => {
+                        if (typeof value === 'number') {
+                            return value.toLocaleString('en-US', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            });
+                        }
+                        return value;
+                    }
+                };
+            }
+
+            // Populate table with JSON data
+            populateTable(tableId, jsonData, options = {}) {
+                const table = document.getElementById(tableId);
+                if (!table) {
+                    console.error(`Table with ID '${tableId}' not found`);
+                    return;
+                }
+
+                const config = {
+                    clearExistingData: true,
+                    autoCreateColumns: false,
+                    badgeColumn: null, // Column to render as badges
+                    badgeMapping: {}, // Value to badge class mapping
+                    linkColumns: [], // Columns to render as links
+                    imageColumns: [], // Columns to render as images
+                    customRenderers: {}, // Custom cell renderers
+                    ...options
+                };
+
+                // Clear existing data if specified
+                if (config.clearExistingData) {
+                    const tbody = table.querySelector('tbody');
+                    if (tbody) {
+                        tbody.innerHTML = '';
+                    }
+                }
+
+                // Auto-create columns if specified
+                if (config.autoCreateColumns && jsonData.length > 0) {
+                    this.createColumnsFromData(table, jsonData[0], options);
+                }
+
+                // Get column configuration
+                const headers = table.querySelectorAll('thead th[data-column]');
+                const columnConfig = this.getColumnConfig(headers);
+
+                // Populate rows
+                this.populateRows(table, jsonData, columnConfig, config);
+
+                // Re-enhance table if enhancer is available
+                if (window.tableEnhancer && typeof window.tableEnhancer.enhance === 'function') {
+                    // Update the enhancer's data
+                    const enhancerConfig = window.tableEnhancer.tables.get(tableId);
+                    if (enhancerConfig) {
+                        enhancerConfig.rows = Array.from(table.querySelectorAll('tbody tr'));
+                        enhancerConfig.originalRows = Array.from(table.querySelectorAll('tbody tr'));
+                        enhancerConfig.filters = {};
+                        enhancerConfig.sortConfig = { column: null, direction: 'asc' };
+                    }
+                }
+
+                return this;
+            }
+
+            // Create columns from JSON data
+            createColumnsFromData(table, sampleRow, options = {}) {
+                const thead = table.querySelector('thead');
+                const tbody = table.querySelector('tbody');
+                
+                if (!thead) {
+                    console.error('Table must have a thead element');
+                    return;
+                }
+
+                // Clear existing headers
+                thead.innerHTML = '';
+
+                // Create header row
+                const headerRow = document.createElement('tr');
+                
+                Object.keys(sampleRow).forEach(key => {
+                    const th = document.createElement('th');
+                    th.setAttribute('scope', 'col');
+                    th.setAttribute('data-column', key);
+                    
+                    // Auto-detect data type
+                    const dataType = this.detectDataType(sampleRow[key], key);
+                    th.setAttribute('data-type', dataType);
+                    
+                    // Set custom filters if provided
+                    if (options.customFilters && options.customFilters[key]) {
+                        th.setAttribute('data-custom-filters', options.customFilters[key]);
+                    }
+                    
+                    // Format column header
+                    const headerText = this.formatHeaderText(key);
+                    th.textContent = headerText;
+                    
+                    headerRow.appendChild(th);
+                });
+
+                thead.appendChild(headerRow);
+
+                // Clear tbody
+                if (tbody) {
+                    tbody.innerHTML = '';
+                }
+            }
+
+            // Detect data type from value and column name
+            detectDataType(value, columnName) {
+                const lowerColumnName = columnName.toLowerCase();
+                
+                // Check column name patterns first
+                if (lowerColumnName.includes('email')) return 'email-address';
+                if (lowerColumnName.includes('phone')) return 'phone-number';
+                if (lowerColumnName.includes('date')) return 'date';
+                if (lowerColumnName.includes('time')) return 'time';
+                if (lowerColumnName.includes('currency') || lowerColumnName.includes('salary') || lowerColumnName.includes('price')) return 'currency';
+                if (lowerColumnName.includes('active') || lowerColumnName.includes('enabled') || lowerColumnName.includes('manager')) return 'true-false';
+                
+                // Check value patterns
+                if (typeof value === 'boolean') return 'true-false';
+                if (typeof value === 'number') {
+                    return Number.isInteger(value) ? 'whole-number' : 'decimal';
+                }
+                
+                if (typeof value === 'string') {
+                    // Email pattern
+                    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'email-address';
+                    
+                    // Phone pattern
+                    if (/^\(?[\d\s\-\(\)]{10,}$/.test(value)) return 'phone-number';
+                    
+                    // Date pattern
+                    if (/^\d{4}-\d{2}-\d{2}$/.test(value) || !isNaN(Date.parse(value))) return 'date';
+                    
+                    // Currency pattern
+                    if (/^\$[\d,]+\.?\d*$/.test(value)) return 'currency';
+                    
+                    // Boolean-like values
+                    if (['yes', 'no', 'true', 'false', 'active', 'inactive'].includes(value.toLowerCase())) {
+                        return 'true-false';
+                    }
+                }
+                
+                return 'text';
+            }
+
+            // Format header text from camelCase or snake_case
+            formatHeaderText(text) {
+                return text
+                    .replace(/([A-Z])/g, ' $1') // Add space before capitals
+                    .replace(/_/g, ' ') // Replace underscores with spaces
+                    .replace(/\b\w/g, l => l.toUpperCase()) // Capitalize first letter of each word
+                    .trim();
+            }
+
+            // Get column configuration from headers
+            getColumnConfig(headers) {
+                const config = {};
+                headers.forEach(header => {
+                    const column = header.getAttribute('data-column');
+                    const dataType = header.getAttribute('data-type') || 'text';
+                    config[column] = { dataType, element: header };
+                });
+                return config;
+            }
+
+            // Populate table rows
+            populateRows(table, data, columnConfig, config) {
+                const tbody = table.querySelector('tbody');
+                if (!tbody) {
+                    console.error('Table must have a tbody element');
+                    return;
+                }
+
+                data.forEach(rowData => {
+                    const row = document.createElement('tr');
+                    
+                    Object.keys(columnConfig).forEach(column => {
+                        const cell = document.createElement('td');
+                        const value = rowData[column];
+                        const { dataType } = columnConfig[column];
+                        
+                        // Apply custom renderer if available
+                        if (config.customRenderers[column]) {
+                            cell.innerHTML = config.customRenderers[column](value, rowData);
+                        }
+                        // Handle badge columns
+                        else if (config.badgeColumn === column && config.badgeMapping[value]) {
+                            const badge = document.createElement('span');
+                            badge.className = `badge ${config.badgeMapping[value]}`;
+                            badge.textContent = value;
+                            cell.appendChild(badge);
+                        }
+                        // Handle link columns
+                        else if (config.linkColumns.includes(column) && value) {
+                            const link = document.createElement('a');
+                            link.href = typeof value === 'object' ? value.url : value;
+                            link.textContent = typeof value === 'object' ? value.text : value;
+                            link.target = '_blank';
+                            cell.appendChild(link);
+                        }
+                        // Handle image columns
+                        else if (config.imageColumns.includes(column) && value) {
+                            const img = document.createElement('img');
+                            img.src = typeof value === 'object' ? value.src : value;
+                            img.alt = typeof value === 'object' ? value.alt : 'Image';
+                            img.style.maxWidth = '50px';
+                            img.style.maxHeight = '50px';
+                            img.className = 'img-thumbnail';
+                            cell.appendChild(img);
+                        }
+                        // Handle regular data with formatting
+                        else {
+                            const formattedValue = this.formatCellValue(value, dataType);
+                            cell.textContent = formattedValue;
+                        }
+                        
+                        row.appendChild(cell);
+                    });
+                    
+                    tbody.appendChild(row);
+                });
+            }
+
+            // Format cell value based on data type
+            formatCellValue(value, dataType) {
+                if (value === null || value === undefined) {
+                    return '';
+                }
+
+                const formatter = this.dataFormatters[dataType];
+                return formatter ? formatter(value) : value.toString();
+            }
+
+            // Load data from URL
+            async loadFromUrl(tableId, url, options = {}) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    return this.populateTable(tableId, data, options);
+                } catch (error) {
+                    console.error('Error loading data from URL:', error);
+                    throw error;
+                }
+            }
+
+            // Add helper method to update specific row
+            updateRow(tableId, rowIndex, newData) {
+                const table = document.getElementById(tableId);
+                if (!table) return;
+
+                const tbody = table.querySelector('tbody');
+                const rows = tbody.querySelectorAll('tr');
+                
+                if (rowIndex >= 0 && rowIndex < rows.length) {
+                    const headers = table.querySelectorAll('thead th[data-column]');
+                    const columnConfig = this.getColumnConfig(headers);
+                    const row = rows[rowIndex];
+                    
+                    const cells = row.querySelectorAll('td');
+                    Object.keys(columnConfig).forEach((column, index) => {
+                        if (newData.hasOwnProperty(column) && cells[index]) {
+                            const value = newData[column];
+                            const { dataType } = columnConfig[column];
+                            const formattedValue = this.formatCellValue(value, dataType);
+                            cells[index].textContent = formattedValue;
+                        }
+                    });
+                }
+            }
+
+            // Add helper method to append new rows
+            addRows(tableId, newData, options = {}) {
+                const table = document.getElementById(tableId);
+                if (!table) return;
+
+                const headers = table.querySelectorAll('thead th[data-column]');
+                const columnConfig = this.getColumnConfig(headers);
+                
+                const config = {
+                    badgeColumn: null,
+                    badgeMapping: {},
+                    linkColumns: [],
+                    imageColumns: [],
+                    customRenderers: {},
+                    ...options
+                };
+
+                this.populateRows(table, newData, columnConfig, config);
+
+                // Update enhancer if available
+                if (window.tableEnhancer && typeof window.tableEnhancer.enhance === 'function') {
+                    const enhancerConfig = window.tableEnhancer.tables.get(tableId);
+                    if (enhancerConfig) {
+                        enhancerConfig.rows = Array.from(table.querySelectorAll('tbody tr'));
+                        enhancerConfig.originalRows = Array.from(table.querySelectorAll('tbody tr'));
+                    }
+                }
+            }
+        }
+
+        // Make the data populator globally available
+        window.tableDataPopulator = new BootstrapTableDataPopulator();
+
+        // Example usage after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Example JSON data
+            const sampleData = [
+                {
+                    name: "Alice Johnson",
+                    email: "alice@example.com",
+                    department: "Engineering",
+                    salary: 85000,
+                    status: "Active",
+                    joinDate: "2021-03-15",
+                    isManager: true,
+                    phone: "5551234567"
+                },
+                {
+                    name: "Bob Smith",
+                    email: "bob@example.com", 
+                    department: "Marketing",
+                    salary: 68000,
+                    status: "Active",
+                    joinDate: "2022-07-22",
+                    isManager: false,
+                    phone: "5552345678"
+                },
+                {
+                    name: "Carol Davis",
+                    email: "carol@example.com",
+                    department: "Sales", 
+                    salary: 72000,
+                    status: "Pending",
+                    joinDate: "2023-01-10",
+                    isManager: false,
+                    phone: "5553456789"
+                }
+            ];
+
+            // Example of how to use the data populator
+            // Uncomment the line below to replace the existing table data with JSON data
+            // tableDataPopulator.populateTable('enhanced-table', sampleData, {
+            //     badgeColumn: 'status',
+            //     badgeMapping: {
+            //         'Active': 'bg-success',
+            //         'Pending': 'bg-warning', 
+            //         'Inactive': 'bg-danger'
+            //     }
+            // });
+        });
+    </script>
+</body>
+</html>

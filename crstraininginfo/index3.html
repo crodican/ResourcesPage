@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevoGrid with Bootstrap</title>
+    <!--
+    Load Bootstrap 5.3 CSS from a CDN. This replaces Tailwind CSS.
+    -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--
+    Load the RevoGrid CSS and JavaScript from a CDN.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/@revolist/revogrid@3.0.0/dist/revo-grid/revo-grid.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@revolist/revogrid@3.0.0/dist/revo-grid/revo-grid.css">
+
+    <style>
+        /*
+        Apply a smooth font to the entire body.
+        */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /*
+        Ensure the grid container element has a defined size for the grid to render properly.
+        */
+        #grid-container {
+            width: 100%;
+            height: 60vh;
+        }
+    </style>
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center min-vh-100 p-4">
+
+    <main class="container-fluid p-5 bg-white rounded-4 shadow-lg">
+        <div class="text-center">
+            <h1 class="display-5 fw-semibold text-dark">Email Data</h1>
+            <p class="lead text-muted mt-2">A demonstration of RevoGrid with external data.</p>
+        </div>
+
+        <!--
+        The custom RevoGrid HTML element. The grid will be rendered inside this div.
+        -->
+
+        <div id="grid-container">
+            <revo-grid theme="compact" can-sort can-filter resize row-draggable>
+            </revo-grid>
+            </div>
+    </main>
+    <script src="emailData.js">
+    </script>
+    <script>
+
+        // Use an event listener to ensure the DOM is fully loaded.
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Define the grid's columns to match the new JSON data.
+            const columnDefinitions = [
+                { prop: 'name', name: 'Name', size: 150 },
+                { prop: 'email', name: 'Email', size: 200 },
+                { prop: 'date', name: 'Date', size: 120 },
+                { prop: 'time', name: 'Time', size: 100 },
+                { prop: 'county', name: 'County', size: 150 },
+                { prop: 'subject', name: 'Subject', size: 250 },
+                { prop: 'summary', name: 'Summary', size: 200 },
+                { prop: 'isInquiry', name: 'Inquiry?', size: 80 },
+                { prop: 'isStaffResponse', name: 'Staff Response?', size: 120 }
+            ];
+
+            // Get the RevoGrid element and assign the new data and columns.
+            const gridElement = document.querySelector('revo-grid');
+            if (gridElement) {
+                gridElement.source = emailData;
+                gridElement.columns = columnDefinitions;
+            } else {
+                console.error("RevoGrid element not found.");
+            }
+        });
+    </script>
+    <!-- Bootstrap JS bundle (optional, for components that require it) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

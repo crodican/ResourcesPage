@@ -17,17 +17,6 @@
             border-radius: 8px;
         }
         
-        revo-grid {
-            --rgRow-color: #ffffff;
-            --rgRow-border: #e5e5e5;
-            --rgHeaderRow-background: #f8f9fa;
-            --rgHeaderRow-color: #333;
-            --rgHeaderRow-border: #dee2e6;
-            --rgCell-padding: 12px;
-            height: 600px;
-            width: 100%;
-        }
-        
         .filter-controls {
             background: white;
             padding: 20px;
@@ -46,9 +35,179 @@
             font-weight: bold;
             color: #1e87f0;
         }
+
+        /* Custom Table Styles */
+        .data-table-container {
+            overflow-x: auto;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            background: white;
+            max-height: 600px;
+            overflow-y: auto;
+        }
         
-        .group-toggle {
-            margin-left: 10px;
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        
+        .data-table th {
+            background: #f8f9fa;
+            border: 1px solid #e5e5e5;
+            padding: 12px 8px;
+            font-weight: bold;
+            color: #333;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+            user-select: none;
+            min-width: 120px;
+            position: relative;
+        }
+        
+        .data-table td {
+            border: 1px solid #e5e5e5;
+            padding: 10px 8px;
+            vertical-align: top;
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .data-table tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        /* Column Header Components */
+        .column-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .column-title {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .column-controls {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .sort-indicator {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+        
+        .sort-indicator.active {
+            opacity: 1;
+            color: #1e87f0;
+        }
+        
+        .column-menu-btn {
+            background: none;
+            border: none;
+            padding: 2px 4px;
+            cursor: pointer;
+            border-radius: 2px;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+        
+        .column-menu-btn:hover {
+            background: #e5e5e5;
+            opacity: 1;
+        }
+        
+        /* Column Resizer */
+        .column-resizer {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            cursor: col-resize;
+            background: transparent;
+            z-index: 11;
+        }
+        
+        .column-resizer:hover {
+            background: #1e87f0;
+        }
+        
+        /* Dropdown Menu Styles */
+        .column-dropdown {
+            min-width: 250px;
+            max-width: 300px;
+        }
+        
+        .filter-input {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .filter-values {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            padding: 8px;
+        }
+        
+        .filter-value-item {
+            display: flex;
+            align-items: center;
+            padding: 4px 0;
+            cursor: pointer;
+        }
+        
+        .filter-value-item:hover {
+            background: #f5f5f5;
+        }
+        
+        .filter-value-checkbox {
+            margin-right: 8px;
+        }
+        
+        /* Loading and Empty States */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        /* Pagination */
+        .pagination-info {
+            padding: 12px;
+            background: #f8f9fa;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -57,7 +216,7 @@
         <!-- Header -->
         <div class="uk-text-center uk-margin-large-bottom">
             <h1 class="uk-heading-medium uk-margin-remove">Email Data Viewer</h1>
-            <p class="uk-text-muted">Advanced email data management with sorting, filtering, and grouping</p>
+            <p class="uk-text-muted">Advanced email data management with sorting, filtering, and column resizing</p>
         </div>
         
         <!-- Stats Cards -->
@@ -91,347 +250,558 @@
         <!-- Filter Controls -->
         <div class="filter-controls">
             <div class="uk-grid-small uk-flex-middle" uk-grid>
-                <div class="uk-width-1-3@m uk-width-1-2@s">
-                    <label class="uk-form-label uk-text-bold">Search:</label>
-                    <input class="uk-input" type="text" id="searchInput" placeholder="Search names or emails...">
+                <div class="uk-width-1-2@m uk-width-1-1@s">
+                    <label class="uk-form-label uk-text-bold">Global Search:</label>
+                    <input class="uk-input" type="text" id="globalSearch" placeholder="Search across all columns...">
                 </div>
-                <div class="uk-width-1-4@m uk-width-1-2@s">
-                    <label class="uk-form-label uk-text-bold">Domain Filter:</label>
-                    <select class="uk-select" id="domainFilter">
-                        <option value="">All Domains</option>
+                <div class="uk-width-auto@m uk-width-1-2@s">
+                    <label class="uk-form-label uk-text-bold">Rows per page:</label>
+                    <select class="uk-select" id="rowsPerPage">
+                        <option value="25">25</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
+                        <option value="all">All</option>
                     </select>
                 </div>
-                <div class="uk-width-1-4@m uk-width-auto@s">
-                    <label class="uk-form-label uk-text-bold">Group By:</label>
-                    <div class="uk-button-group">
-                        <button class="uk-button uk-button-default" id="groupByName">Name</button>
-                        <button class="uk-button uk-button-default" id="groupByEmail">Email</button>
-                        <button class="uk-button uk-button-secondary" id="noGrouping">None</button>
-                    </div>
-                </div>
-                <div class="uk-width-auto@m uk-width-1-1@s">
-                    <button class="uk-button uk-button-primary uk-button-small" id="clearFilters">
-                        <span uk-icon="refresh"></span> Clear Filters
+                <div class="uk-width-auto@m uk-width-1-2@s">
+                    <button class="uk-button uk-button-primary uk-button-small" id="clearAllFilters">
+                        <span uk-icon="refresh"></span> Clear All Filters
                     </button>
                 </div>
             </div>
         </div>
         
-        <!-- Data Grid -->
+        <!-- Data Table -->
         <div class="uk-card uk-card-default">
             <div class="uk-card-header">
-                <h3 class="uk-card-title">Email Data Grid</h3>
-                <p class="uk-text-muted uk-margin-remove-bottom">Click column headers to sort • Drag column borders to resize • Use filters above to refine data</p>
+                <h3 class="uk-card-title">Email Data</h3>
+                <p class="uk-text-muted uk-margin-remove-bottom">Click column headers to sort • Use ⋮ menu for filters • Drag column borders to resize</p>
             </div>
             <div class="uk-card-body uk-padding-remove">
-                <revo-grid id="emailGrid"></revo-grid>
+                <div class="data-table-container" id="tableContainer">
+                    <table class="data-table" id="dataTable">
+                        <thead id="tableHead"></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                    <div class="loading-overlay uk-hidden" id="loadingOverlay">
+                        <div uk-spinner="ratio: 2"></div>
+                    </div>
+                </div>
+                <div class="pagination-info" id="paginationInfo"></div>
             </div>
         </div>
         
         <!-- Footer -->
         <div class="uk-text-center uk-text-muted uk-margin-large-top uk-margin-bottom">
-            <p>Built with UIKit CSS Framework and RevoGrid</p>
+            <p>Built with UIKit CSS Framework and Vanilla JavaScript</p>
         </div>
     </div>
 
     <!-- UIKit JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.23.11/js/uikit.min.js" integrity="sha512-5Is8znpjl5Qs4S74E/MMgv8JjyBQ9J/qmi8BoluDPjZHDhgg3XsClg7b7yRxMqGzFeNFKVa2bSZqT8RK5IQyzA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
-    <!-- RevoGrid JS -->
-    <script src="https://unpkg.com/@revolist/revogrid@latest/dist/revo-grid/revo-grid.js"></script>
-    
     <!-- Email Data -->
-    <script src="emailData.js"></script>
+    <script>
+        // Embedded email data (truncated for space - in real implementation, include full data)
+        const emailData = [
+            {
+                "name": "CRSTraininginfo",
+                "email": "Unknown",
+                "date": "11/17/2024",
+                "time": "6:45 AM",
+                "county": "Unknown",
+                "subject": "The new CRSTraininginfo group is ready",
+                "body": "Welcome to the CRSTraininginfo group. Use the group to share ideas, files, and important dates.",
+                "summary": "Staff communication regarding CRS program",
+                "isInquiry": false,
+                "isStaffResponse": true
+            },
+            {
+                "name": "Heather Fechtenburg",
+                "email": "hfechtenburg@councilsepa.org",
+                "date": "11/17/2024",
+                "time": "6:50 AM",
+                "county": "Unknown",
+                "subject": "Email for CRS Training Information",
+                "body": "Good Morning, I created this email for all inquiries and questions.",
+                "summary": "Staff communication regarding CRS program",
+                "isInquiry": false,
+                "isStaffResponse": true
+            },
+            {
+                "name": "Christina Connors",
+                "email": "chrisconnors8678@gmail.com",
+                "date": "11/27/2024",
+                "time": "11:22 AM",
+                "county": "Bucks",
+                "subject": "CRS training program",
+                "body": "My names Christina Connors. I'm a BHT at pyramid in langhorne pa. I'm looking to further my career.",
+                "summary": "Individual expresses interest in CRS training",
+                "isInquiry": true,
+                "isStaffResponse": false
+            },
+            {
+                "name": "Jessica Zayas",
+                "email": "jzayas@fsabc.org",
+                "date": "11/27/2024",
+                "time": "2:47 PM",
+                "county": "Bucks",
+                "subject": "Information",
+                "body": "Hello, I am wondering when the next training will be. Thanks",
+                "summary": "Individual inquires about training schedule",
+                "isInquiry": true,
+                "isStaffResponse": false
+            },
+            {
+                "name": "Alyssa Murriell-Turner",
+                "email": "amurri.turner@gmail.com",
+                "date": "11/28/2024",
+                "time": "4:11 PM",
+                "county": "Unknown",
+                "subject": "CRS Training",
+                "body": "Hello. My name is Alyssa. I am currently credential as a Certified Peer Specialist.",
+                "summary": "Individual expresses interest in CRS training",
+                "isInquiry": true,
+                "isStaffResponse": false
+            }
+        ];
+    </script>
+
     
     <script>
-        // Global variables
-        let originalData = [];
-        let filteredData = [];
-        let currentGrouping = null;
-        let grid;
+        // Data Table Class
+        class DataTable {
+            constructor(containerId, data, options = {}) {
+                this.container = document.getElementById(containerId);
+                this.originalData = [...data];
+                this.filteredData = [...data];
+                this.displayedData = [...data];
+                this.currentPage = 1;
+                this.rowsPerPage = options.rowsPerPage || 50;
+                this.sortColumn = null;
+                this.sortDirection = 'asc';
+                this.columnFilters = {};
+                this.globalFilter = '';
+                
+                // Column configuration
+                this.columns = [
+                    { key: 'name', title: 'Name', width: 200 },
+                    { key: 'email', title: 'Email', width: 250 },
+                    { key: 'date', title: 'Date', width: 120 },
+                    { key: 'time', title: 'Time', width: 100 },
+                    { key: 'county', title: 'County', width: 120 },
+                    { key: 'subject', title: 'Subject', width: 300 },
+                    { key: 'summary', title: 'Summary', width: 300 },
+                    { key: 'isInquiry', title: 'Is Inquiry', width: 100 },
+                    { key: 'isStaffResponse', title: 'Staff Response', width: 120 }
+                ];
+                
+                this.init();
+            }
+            
+            init() {
+                this.render();
+                this.bindEvents();
+                this.updatePagination();
+                this.updateStats();
+            }
+            
+            render() {
+                this.renderHeader();
+                this.renderBody();
+            }
+            
+            renderHeader() {
+                const thead = document.getElementById('tableHead');
+                thead.innerHTML = '';
+                
+                const headerRow = document.createElement('tr');
+                
+                this.columns.forEach((column, index) => {
+                    const th = document.createElement('th');
+                    th.style.width = column.width + 'px';
+                    th.style.minWidth = column.width + 'px';
+                    
+                    const headerDiv = document.createElement('div');
+                    headerDiv.className = 'column-header';
+                    
+                    const titleSpan = document.createElement('span');
+                    titleSpan.className = 'column-title';
+                    titleSpan.textContent = column.title;
+                    
+                    const controlsDiv = document.createElement('div');
+                    controlsDiv.className = 'column-controls';
+                    
+                    // Sort indicator
+                    const sortIndicator = document.createElement('span');
+                    sortIndicator.className = 'sort-indicator';
+                    if (this.sortColumn === column.key) {
+                        sortIndicator.classList.add('active');
+                        sortIndicator.textContent = this.sortDirection === 'asc' ? '↑' : '↓';
+                    } else {
+                        sortIndicator.textContent = '↕';
+                    }
+                    
+                    // Menu button
+                    const menuBtn = document.createElement('button');
+                    menuBtn.className = 'column-menu-btn';
+                    menuBtn.textContent = '⋮';
+                    menuBtn.setAttribute('uk-toggle', `target: #column-menu-${index}`);
+                    
+                    // Column resizer
+                    const resizer = document.createElement('div');
+                    resizer.className = 'column-resizer';
+                    resizer.dataset.columnIndex = index;
+                    
+                    controlsDiv.appendChild(sortIndicator);
+                    controlsDiv.appendChild(menuBtn);
+                    headerDiv.appendChild(titleSpan);
+                    headerDiv.appendChild(controlsDiv);
+                    th.appendChild(headerDiv);
+                    th.appendChild(resizer);
+                    
+                    // Click to sort
+                    titleSpan.addEventListener('click', () => this.sort(column.key));
+                    sortIndicator.addEventListener('click', () => this.sort(column.key));
+                    
+                    headerRow.appendChild(th);
+                    
+                    // Create dropdown menu
+                    this.createColumnMenu(column, index);
+                });
+                
+                thead.appendChild(headerRow);
+            }
+            
+            createColumnMenu(column, index) {
+                // Create dropdown menu element
+                const dropdown = document.createElement('div');
+                dropdown.id = `column-menu-${index}`;
+                dropdown.className = 'column-dropdown';
+                dropdown.setAttribute('uk-dropdown', 'mode: click; pos: bottom-left');
+                
+                // Get unique values for this column
+                const uniqueValues = [...new Set(this.originalData.map(row => row[column.key]))].sort();
+                
+                dropdown.innerHTML = `
+                    <div class="uk-dropdown-grid uk-child-width-1-1" uk-grid>
+                        <div>
+                            <div class="uk-margin-small">
+                                <input class="uk-input uk-form-small filter-input" type="text" 
+                                       placeholder="Filter ${column.title}..." 
+                                       data-column="${column.key}">
+                            </div>
+                            <div class="uk-margin-small">
+                                <button class="uk-button uk-button-default uk-button-small uk-width-1-1" 
+                                        onclick="dataTableInstance.clearColumnFilter('${column.key}')">
+                                    Clear Filter
+                                </button>
+                            </div>
+                            <div class="filter-values" data-column="${column.key}">
+                                ${uniqueValues.map(value => `
+                                    <div class="filter-value-item" onclick="dataTableInstance.toggleFilterValue('${column.key}', '${value}')">
+                                        <input type="checkbox" class="filter-value-checkbox" ${this.columnFilters[column.key]?.includes(value) ? 'checked' : ''}>
+                                        <span>${value || '(empty)'}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(dropdown);
+                
+                // Bind filter input event
+                const filterInput = dropdown.querySelector('.filter-input');
+                filterInput.addEventListener('input', (e) => {
+                    this.setColumnTextFilter(column.key, e.target.value);
+                });
+            }
+            
+            renderBody() {
+                const tbody = document.getElementById('tableBody');
+                tbody.innerHTML = '';
+                
+                if (this.displayedData.length === 0) {
+                    const emptyRow = document.createElement('tr');
+                    const emptyCell = document.createElement('td');
+                    emptyCell.colSpan = this.columns.length;
+                    emptyCell.className = 'empty-state';
+                    emptyCell.innerHTML = '<div class="uk-text-muted">No data found</div>';
+                    emptyRow.appendChild(emptyCell);
+                    tbody.appendChild(emptyRow);
+                    return;
+                }
+                
+                this.displayedData.forEach(row => {
+                    const tr = document.createElement('tr');
+                    
+                    this.columns.forEach(column => {
+                        const td = document.createElement('td');
+                        const value = row[column.key];
+                        
+                        if (typeof value === 'boolean') {
+                            td.innerHTML = `<span class="uk-badge ${value ? 'uk-badge-success' : 'uk-badge-danger'}">${value ? 'Yes' : 'No'}</span>`;
+                        } else {
+                            td.textContent = value || '';
+                            td.title = value || '';
+                        }
+                        
+                        tr.appendChild(td);
+                    });
+                    
+                    tbody.appendChild(tr);
+                });
+            }
+            
+            sort(columnKey) {
+                if (this.sortColumn === columnKey) {
+                    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    this.sortColumn = columnKey;
+                    this.sortDirection = 'asc';
+                }
+                
+                this.filteredData.sort((a, b) => {
+                    let aVal = a[columnKey] || '';
+                    let bVal = b[columnKey] || '';
+                    
+                    // Handle different data types
+                    if (typeof aVal === 'boolean') {
+                        aVal = aVal ? 1 : 0;
+                        bVal = bVal ? 1 : 0;
+                    } else if (typeof aVal === 'string') {
+                        aVal = aVal.toLowerCase();
+                        bVal = bVal.toLowerCase();
+                    }
+                    
+                    if (aVal < bVal) return this.sortDirection === 'asc' ? -1 : 1;
+                    if (aVal > bVal) return this.sortDirection === 'asc' ? 1 : -1;
+                    return 0;
+                });
+                
+                this.applyPagination();
+                this.render();
+            }
+            
+            setGlobalFilter(searchTerm) {
+                this.globalFilter = searchTerm.toLowerCase();
+                this.applyFilters();
+            }
+            
+            setColumnTextFilter(columnKey, searchTerm) {
+                if (!this.columnFilters[columnKey]) {
+                    this.columnFilters[columnKey] = [];
+                }
+                this.columnFilters[columnKey].textFilter = searchTerm.toLowerCase();
+                this.applyFilters();
+            }
+            
+            toggleFilterValue(columnKey, value) {
+                if (!this.columnFilters[columnKey]) {
+                    this.columnFilters[columnKey] = [];
+                }
+                
+                const index = this.columnFilters[columnKey].indexOf(value);
+                if (index > -1) {
+                    this.columnFilters[columnKey].splice(index, 1);
+                } else {
+                    this.columnFilters[columnKey].push(value);
+                }
+                
+                this.applyFilters();
+            }
+            
+            clearColumnFilter(columnKey) {
+                delete this.columnFilters[columnKey];
+                this.applyFilters();
+                
+                // Update UI
+                const dropdown = document.getElementById(`column-menu-${this.columns.findIndex(col => col.key === columnKey)}`);
+                if (dropdown) {
+                    const checkboxes = dropdown.querySelectorAll('.filter-value-checkbox');
+                    checkboxes.forEach(checkbox => checkbox.checked = false);
+                    const textInput = dropdown.querySelector('.filter-input');
+                    if (textInput) textInput.value = '';
+                }
+            }
+            
+            clearAllFilters() {
+                this.columnFilters = {};
+                this.globalFilter = '';
+                document.getElementById('globalSearch').value = '';
+                
+                // Clear all dropdown UIs
+                document.querySelectorAll('.filter-value-checkbox').forEach(checkbox => checkbox.checked = false);
+                document.querySelectorAll('.filter-input').forEach(input => input.value = '');
+                
+                this.applyFilters();
+            }
+            
+            applyFilters() {
+                this.filteredData = this.originalData.filter(row => {
+                    // Global filter
+                    if (this.globalFilter) {
+                        const matchesGlobal = this.columns.some(column => {
+                            const value = (row[column.key] || '').toString().toLowerCase();
+                            return value.includes(this.globalFilter);
+                        });
+                        if (!matchesGlobal) return false;
+                    }
+                    
+                    // Column filters
+                    for (const [columnKey, filter] of Object.entries(this.columnFilters)) {
+                        const value = row[columnKey] || '';
+                        
+                        // Text filter
+                        if (filter.textFilter && !value.toString().toLowerCase().includes(filter.textFilter)) {
+                            return false;
+                        }
+                        
+                        // Value filters
+                        if (filter.length > 0 && !filter.includes(value)) {
+                            return false;
+                        }
+                    }
+                    
+                    return true;
+                });
+                
+                this.currentPage = 1;
+                this.applyPagination();
+                this.render();
+                this.updatePagination();
+                this.updateStats();
+            }
+            
+            applyPagination() {
+                if (this.rowsPerPage === 'all') {
+                    this.displayedData = [...this.filteredData];
+                } else {
+                    const start = (this.currentPage - 1) * this.rowsPerPage;
+                    const end = start + this.rowsPerPage;
+                    this.displayedData = this.filteredData.slice(start, end);
+                }
+            }
+            
+            setRowsPerPage(rows) {
+                this.rowsPerPage = rows === 'all' ? 'all' : parseInt(rows);
+                this.currentPage = 1;
+                this.applyPagination();
+                this.render();
+                this.updatePagination();
+            }
+            
+            updatePagination() {
+                const info = document.getElementById('paginationInfo');
+                const totalRows = this.filteredData.length;
+                const totalPages = this.rowsPerPage === 'all' ? 1 : Math.ceil(totalRows / this.rowsPerPage);
+                
+                if (this.rowsPerPage === 'all') {
+                    info.innerHTML = `Showing all ${totalRows} rows`;
+                } else {
+                    const start = (this.currentPage - 1) * this.rowsPerPage + 1;
+                    const end = Math.min(start + this.rowsPerPage - 1, totalRows);
+                    info.innerHTML = `Showing ${start}-${end} of ${totalRows} rows | Page ${this.currentPage} of ${totalPages}`;
+                }
+            }
+            
+            updateStats() {
+                document.getElementById('totalEmails').textContent = this.originalData.length;
+                document.getElementById('filteredCount').textContent = this.filteredData.length;
+                
+                const uniqueNames = new Set(this.originalData.map(item => item.name).filter(name => name)).size;
+                document.getElementById('uniqueNames').textContent = uniqueNames;
+                
+                const uniqueDomains = new Set(this.originalData.map(item => {
+                    const email = item.email || '';
+                    return email.includes('@') ? email.split('@')[1] : '';
+                }).filter(domain => domain)).size;
+                document.getElementById('uniqueDomains').textContent = uniqueDomains;
+            }
+            
+            bindEvents() {
+                // Global search
+                document.getElementById('globalSearch').addEventListener('input', (e) => {
+                    this.setGlobalFilter(e.target.value);
+                });
+                
+                // Rows per page
+                document.getElementById('rowsPerPage').addEventListener('change', (e) => {
+                    this.setRowsPerPage(e.target.value);
+                });
+                
+                // Clear all filters
+                document.getElementById('clearAllFilters').addEventListener('click', () => {
+                    this.clearAllFilters();
+                });
+                
+                // Column resizing
+                this.bindColumnResizing();
+            }
+            
+            bindColumnResizing() {
+                let isResizing = false;
+                let currentColumn = null;
+                let startX = 0;
+                let startWidth = 0;
+                
+                document.addEventListener('mousedown', (e) => {
+                    if (e.target.classList.contains('column-resizer')) {
+                        isResizing = true;
+                        currentColumn = parseInt(e.target.dataset.columnIndex);
+                        startX = e.clientX;
+                        const th = e.target.parentElement;
+                        startWidth = th.offsetWidth;
+                        e.preventDefault();
+                    }
+                });
+                
+                document.addEventListener('mousemove', (e) => {
+                    if (isResizing && currentColumn !== null) {
+                        const diff = e.clientX - startX;
+                        const newWidth = Math.max(80, startWidth + diff);
+                        
+                        this.columns[currentColumn].width = newWidth;
+                        const th = document.querySelector(`th:nth-child(${currentColumn + 1})`);
+                        if (th) {
+                            th.style.width = newWidth + 'px';
+                            th.style.minWidth = newWidth + 'px';
+                        }
+                    }
+                });
+                
+                document.addEventListener('mouseup', () => {
+                    isResizing = false;
+                    currentColumn = null;
+                });
+            }
+        }
         
-        // Initialize the application
+        // Initialize application
+        let dataTableInstance;
+        
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if emailData is available
-            if (typeof emailData === 'undefined') {
-                console.error('emailData.js not found or emailData variable not defined');
+            if (!emailData || !Array.isArray(emailData)) {
                 UIkit.notification({
-                    message: 'Error: emailData.js file not found or data not properly formatted',
+                    message: 'Error: Email data not found or invalid',
                     status: 'danger',
                     timeout: 5000
                 });
                 return;
             }
             
-            originalData = Array.isArray(emailData) ? emailData : [];
-            filteredData = [...originalData];
-            
-            initializeGrid();
-            initializeFilters();
-            updateStats();
+            // Initialize data table
+            dataTableInstance = new DataTable('dataTable', emailData, {
+                rowsPerPage: 50
+            });
             
             UIkit.notification({
-                message: `Loaded ${originalData.length} email records successfully!`,
+                message: `Loaded ${emailData.length} email records successfully!`,
                 status: 'success',
                 timeout: 3000
             });
         });
-        
-        // Initialize the RevoGrid
-        function initializeGrid() {
-            grid = document.getElementById('emailGrid');
-            
-            // Define columns based on the data structure
-            const columns = [
-                {
-                    prop: 'name',
-                    name: 'Name',
-                    size: 200,
-                    sortable: true,
-                    filter: 'string'
-                },
-                {
-                    prop: 'email',
-                    name: 'Email',
-                    size: 250,
-                    sortable: true,
-                    filter: 'string'
-                }
-            ];
-            
-            // Add additional columns if they exist in the data
-            if (originalData.length > 0) {
-                const sampleRecord = originalData[0];
-                Object.keys(sampleRecord).forEach(key => {
-                    if (key !== 'name' && key !== 'email') {
-                        columns.push({
-                            prop: key,
-                            name: key.charAt(0).toUpperCase() + key.slice(1),
-                            size: 150,
-                            sortable: true,
-                            filter: 'string'
-                        });
-                    }
-                });
-            }
-            
-            // Configure grid
-            grid.columns = columns;
-            grid.source = filteredData;
-            grid.resize = true;
-            grid.filter = true;
-            grid.sortable = true;
-            grid.canFocus = true;
-            grid.range = true;
-            
-            // Grid event listeners
-            grid.addEventListener('beforesortingapply', (e) => {
-                UIkit.notification({
-                    message: `Sorting by ${e.detail.column.name}`,
-                    status: 'primary',
-                    timeout: 2000
-                });
-            });
-        }
-        
-        // Initialize filter controls
-        function initializeFilters() {
-            const searchInput = document.getElementById('searchInput');
-            const domainFilter = document.getElementById('domainFilter');
-            const groupByName = document.getElementById('groupByName');
-            const groupByEmail = document.getElementById('groupByEmail');
-            const noGrouping = document.getElementById('noGrouping');
-            const clearFilters = document.getElementById('clearFilters');
-            
-            // Populate domain filter
-            const domains = [...new Set(originalData.map(item => {
-                const email = item.email || '';
-                return email.includes('@') ? email.split('@')[1] : '';
-            }).filter(domain => domain))].sort();
-            
-            domains.forEach(domain => {
-                const option = document.createElement('option');
-                option.value = domain;
-                option.textContent = domain;
-                domainFilter.appendChild(option);
-            });
-            
-            // Search functionality
-            searchInput.addEventListener('input', debounce(function() {
-                applyFilters();
-            }, 300));
-            
-            // Domain filter
-            domainFilter.addEventListener('change', function() {
-                applyFilters();
-            });
-            
-            // Grouping buttons
-            groupByName.addEventListener('click', function() {
-                setGrouping('name', this);
-            });
-            
-            groupByEmail.addEventListener('click', function() {
-                setGrouping('email', this);
-            });
-            
-            noGrouping.addEventListener('click', function() {
-                setGrouping(null, this);
-            });
-            
-            // Clear filters
-            clearFilters.addEventListener('click', function() {
-                searchInput.value = '';
-                domainFilter.value = '';
-                setGrouping(null, noGrouping);
-                applyFilters();
-                
-                UIkit.notification({
-                    message: 'Filters cleared',
-                    status: 'success',
-                    timeout: 2000
-                });
-            });
-        }
-        
-        // Apply filters to the data
-        function applyFilters() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const selectedDomain = document.getElementById('domainFilter').value;
-            
-            filteredData = originalData.filter(item => {
-                const name = (item.name || '').toLowerCase();
-                const email = (item.email || '').toLowerCase();
-                
-                // Search filter
-                const matchesSearch = !searchTerm || 
-                    name.includes(searchTerm) || 
-                    email.includes(searchTerm);
-                
-                // Domain filter
-                const matchesDomain = !selectedDomain || 
-                    (email.includes('@') && email.split('@')[1] === selectedDomain);
-                
-                return matchesSearch && matchesDomain;
-            });
-            
-            // Apply grouping if active
-            if (currentGrouping) {
-                applyGrouping(currentGrouping);
-            } else {
-                updateGrid();
-            }
-            
-            updateStats();
-        }
-        
-        // Set grouping mode
-        function setGrouping(groupBy, buttonElement) {
-            currentGrouping = groupBy;
-            
-            // Update button states
-            document.querySelectorAll('.uk-button-group .uk-button').forEach(btn => {
-                btn.classList.remove('uk-button-primary');
-                btn.classList.add('uk-button-default');
-            });
-            
-            buttonElement.classList.remove('uk-button-default');
-            buttonElement.classList.add('uk-button-primary');
-            
-            if (groupBy) {
-                applyGrouping(groupBy);
-                UIkit.notification({
-                    message: `Grouped by ${groupBy}`,
-                    status: 'primary',
-                    timeout: 2000
-                });
-            } else {
-                updateGrid();
-            }
-        }
-        
-        // Apply grouping to the data
-        function applyGrouping(groupBy) {
-            const grouped = {};
-            
-            filteredData.forEach(item => {
-                const key = item[groupBy] || 'Unknown';
-                if (!grouped[key]) {
-                    grouped[key] = [];
-                }
-                grouped[key].push(item);
-            });
-            
-            // Create grouped data structure
-            const groupedData = [];
-            Object.keys(grouped).sort().forEach(key => {
-                // Add group header
-                const groupHeader = {
-                    isGroupHeader: true,
-                    name: `${groupBy.charAt(0).toUpperCase() + groupBy.slice(1)}: ${key} (${grouped[key].length} items)`,
-                    email: '',
-                    [groupBy]: key
-                };
-                
-                // Make other columns empty for group headers
-                if (originalData.length > 0) {
-                    Object.keys(originalData[0]).forEach(col => {
-                        if (col !== 'name' && col !== 'email' && col !== groupBy) {
-                            groupHeader[col] = '';
-                        }
-                    });
-                }
-                
-                groupedData.push(groupHeader);
-                
-                // Add group items
-                grouped[key].forEach(item => {
-                    groupedData.push({...item, isGroupItem: true});
-                });
-            });
-            
-            grid.source = groupedData;
-        }
-        
-        // Update grid with current filtered data
-        function updateGrid() {
-            grid.source = filteredData;
-        }
-        
-        // Update statistics
-        function updateStats() {
-            document.getElementById('totalEmails').textContent = originalData.length;
-            document.getElementById('filteredCount').textContent = filteredData.length;
-            
-            const uniqueNames = new Set(originalData.map(item => item.name).filter(name => name)).size;
-            document.getElementById('uniqueNames').textContent = uniqueNames;
-            
-            const uniqueDomains = new Set(originalData.map(item => {
-                const email = item.email || '';
-                return email.includes('@') ? email.split('@')[1] : '';
-            }).filter(domain => domain)).size;
-            document.getElementById('uniqueDomains').textContent = uniqueDomains;
-        }
-        
-        // Debounce function for search input
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-        
-        // Handle resize events
-        window.addEventListener('resize', function() {
-            if (grid && grid.refresh) {
-                grid.refresh();
-            }
-        });
-    </script>
+</script>
 </body>
-</html>
+</html>>
