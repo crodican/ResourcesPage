@@ -7,7 +7,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        :root {
+            --ai-primary: #667eea;
+            --ai-secondary: #764ba2;
+            --ai-accent: #f093fb;
+            --ai-success: #4facfe;
+            --ai-warning: #ffecd2;
+            --ai-dark: #2d3436;
+        }
 
+        body {
+            background: linear-gradient(135deg, var(--ai-primary) 0%, var(--ai-secondary) 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
         .glass-card {
             background: rgba(255, 255, 255, 0.1);
@@ -260,11 +273,41 @@
                         <p class="lead mb-0">Advanced Neural Processing for Email Analysis</p>
                     </div>
                 </div>
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <div class="feature-highlight">
+                            <i class="bi bi-brain display-6 mb-2"></i>
+                            <h6>Neural Language Processing</h6>
+                            <small>Advanced AI models analyze content semantically</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="feature-highlight">
+                            <i class="bi bi-geo-alt display-6 mb-2"></i>
+                            <h6>Geospatial Intelligence</h6>
+                            <small>Smart location inference and mapping</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="feature-highlight">
+                            <i class="bi bi-graph-up display-6 mb-2"></i>
+                            <h6>Behavioral Analytics</h6>
+                            <small>Pattern recognition and trend analysis</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="feature-highlight">
+                            <i class="bi bi-shield-check display-6 mb-2"></i>
+                            <h6>Quality Assurance</h6>
+                            <small>AI-powered validation and confidence scoring</small>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Upload Section -->
-        <div class="mb-4" id="uploadSection">
+        <div class="glass-card mb-4" id="uploadSection">
             <div class="ai-header text-white py-3">
                 <h3 class="text-center mb-0">
                     <i class="bi bi-cloud-upload me-2"></i>
