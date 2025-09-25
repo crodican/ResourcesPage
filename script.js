@@ -791,91 +791,87 @@
           DOM.tableBody.innerHTML = data.map((resource) => this.renderRow(resource)).join("");
         },
 
-        renderRow(resource) {
-          const resourceIdentifier = resource.ID || resource["Location Name"] || "unknown";
-          return `
-                    <tr class="table-row-clickable" 
-                        data-resource-id="${resourceIdentifier}"
+renderRow(resource) {
+    const resourceIdentifier = resource.ID || resource["Location Name"] || "unknown";
+    return `
+                <tr class="table-row-clickable"
+                    data-resource-id="${resourceIdentifier}"
+                    ${
+                      resource.Longitude && resource.Latitude
+                        ? `data-longitude="${resource.Longitude}" data-latitude="${resource.Latitude}"`
+                        : ""
+                    }>
+                    <td class="text-nowrap">
+                        <img src="${Utils.escapeHtml(resource.Image)}" alt="${Utils.escapeHtml(resource["Location Name"] || "Location")}" class="location-image" style="min-width:50px" onerror="this.style.display='none'">
+                    </td>
+                    <td class="text-nowrap">
+                        <strong>${Utils.escapeHtml(resource["Location Name"] || "N/A")}</strong>
+                    </td>
+                    <td class="text-nowrap">${Utils.escapeHtml(resource.Organization || "N/A")}</td>
+                    <td class="text-nowrap">
                         ${
-                          resource.Longitude && resource.Latitude
-                            ? `data-longitude="${resource.Longitude}" data-latitude="${resource.Latitude}"`
-                            : ""
-                        }>
-                        <td class="text-nowrap">
-                            <div class="location-name-cell">
-                                ${
-                                  resource.Image
-                                    ? `<img src="${Utils.escapeHtml(resource.Image)}" alt="Location" class="location-image" onerror="this.style.display='none'">`
-                                    : ""
-                                }
-                                <strong>${Utils.escapeHtml(resource["Location Name"] || "N/A")}</strong>
-                            </div>
-                        </td>
-                        <td class="text-nowrap">${Utils.escapeHtml(resource.Organization || "N/A")}</td>
-                        <td class="text-nowrap">
-                            ${
-                              resource.County
-                                ? `<span class="badge badge-county">${Utils.escapeHtml(resource.County)}</span>`
-                                : "N/A"
-                            }
-                        </td>
-                        <td class="text-nowrap">
-                            ${
-                              resource["Resource Type"]
-                                ? `<span class="badge badge-resource-type">${Utils.escapeHtml(resource["Resource Type"])}</span>`
-                                : "N/A"
-                            }
-                        </td>
-                        <td class="text-nowrap">
-                            ${
-                              resource.Category
-                                ? resource.Category.split(",")
-                                    .map(
-                                      (cat) =>
-                                        `<span class="badge badge-category">${Utils.escapeHtml(cat.trim())}</span>`
-                                    )
-                                    .join(" ")
-                                : "N/A"
-                            }
-                        </td>
-                        <td class="text-nowrap">
-                            ${
-                              resource["Populations Served"]
-                                ? resource["Populations Served"]
-                                    .split(",")
-                                    .map(
-                                      (pop) =>
-                                        `<span class="badge badge-population">${Utils.escapeHtml(pop.trim())}</span>`
-                                    )
-                                    .join(" ")
-                                : "N/A"
-                            }
-                        </td>
-                        <td class="text-nowrap" onclick="event.stopPropagation()">
-                            ${
-                              resource.Phone
-                                ? `<a href="${Utils.formatPhoneUrl(resource.Phone)}" class="btn-link text-nowrap">
-                                    <i class="bi bi-telephone me-1"></i>${Utils.escapeHtml(resource.Phone)}
-                                </a>`
-                                : "N/A"
-                            }
-                        </td>
-                        <td onclick="event.stopPropagation()">
-                            ${
-                              resource.Website
-                                ? `<a href="${Utils.escapeHtml(resource.Website)}" target="_blank" class="btn-link text-nowrap" title="Visit Website">
-                                    <i class="bi bi-globe"></i> Website
-                                </a>`
-                                : "N/A"
-                            }
-                        </td>
-                        <td class="text-nowrap">${Utils.escapeHtml(resource.Address || "N/A")}</td>
-                        <td>${Utils.escapeHtml(resource.City || "N/A")}</td>
-                        <td>${Utils.escapeHtml(resource.State || "N/A")}</td>
-                        <td>${Utils.escapeHtml(resource["Zip Code"] || "N/A")}</td>
-                    </tr>
-                `;
-        }
+                          resource.County
+                            ? `<span class="badge badge-county">${Utils.escapeHtml(resource.County)}</span>`
+                            : "N/A"
+                        }
+                    </td>
+                    <td class="text-nowrap">
+                        ${
+                          resource["Resource Type"]
+                            ? `<span class="badge badge-resource-type">${Utils.escapeHtml(resource["Resource Type"])}</span>`
+                            : "N/A"
+                        }
+                    </td>
+                    <td class="text-nowrap">
+                        ${
+                          resource.Category
+                            ? resource.Category.split(",")
+                                .map(
+                                  (cat) =>
+                                    `<span class="badge badge-category">${Utils.escapeHtml(cat.trim())}</span>`
+                                )
+                                .join(" ")
+                            : "N/A"
+                        }
+                    </td>
+                    <td class="text-nowrap">
+                        ${
+                          resource["Populations Served"]
+                            ? resource["Populations Served"]
+                                .split(",")
+                                .map(
+                                  (pop) =>
+                                    `<span class="badge badge-population">${Utils.escapeHtml(pop.trim())}</span>`
+                                )
+                                .join(" ")
+                            : "N/A"
+                        }
+                    </td>
+                    <td class="text-nowrap" onclick="event.stopPropagation()">
+                        ${
+                          resource.Phone
+                            ? `<a href="${Utils.formatPhoneUrl(resource.Phone)}" class="btn-link text-nowrap">
+                                <i class="bi bi-telephone me-1"></i>${Utils.escapeHtml(resource.Phone)}
+                            </a>`
+                            : "N/A"
+                        }
+                    </td>
+                    <td onclick="event.stopPropagation()">
+                        ${
+                          resource.Website
+                            ? `<a href="${Utils.escapeHtml(resource.Website)}" target="_blank" class="btn-link text-nowrap" title="Visit Website">
+                                <i class="bi bi-globe"></i> Website
+                            </a>`
+                            : "N/A"
+                        }
+                    </td>
+                    <td class="text-nowrap">${Utils.escapeHtml(resource.Address || "N/A")}</td>
+                    <td>${Utils.escapeHtml(resource.City || "N/A")}</td>
+                    <td>${Utils.escapeHtml(resource.State || "N/A")}</td>
+                    <td>${Utils.escapeHtml(resource["Zip Code"] || "N/A")}</td>
+                </tr>
+            `;
+  }
       };
 
       // Card Rendering

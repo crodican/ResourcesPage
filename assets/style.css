@@ -49,7 +49,8 @@
       }
 
       .table {
-        margin-bottom: 0;
+        font-size: 10pt;
+        width: 100%;
       }
 
       .table thead th {
@@ -714,50 +715,33 @@
         background-color: #e9d5e4;
       }
 
-      .hero-section {
-        background: 
-
-          url('resourcemap-7.png'), /* Image layer */
-radial-gradient(circle,rgba(238, 174, 202, 0.5) 0%, rgba(85, 41, 138, 0.75) 100%);
-        @media (width < 576px) {
-          height: 500px;
-          background-position-x: right;
-          background-position-y: bottom;
-          background-size: cover;
-          background-repeat: no-repeat;
-          color: #ffffff !important;
-
-          h1, h2, h3, h4, h5, h6 {
-            color: #000 !important;
-          }
-        }
-
-        @media (width > 575px) {
-          height: 600px;
-          background-position-x: right;
-          background-position-y: bottom;
-          background-size: cover;
-          background-repeat: no-repeat;
-          color: #ffffff !important;
-
-          h1, h2, h3, h4, h5, h6 {
-            color: #ffffff !important;
-          }
-        }
-
-        @media (width > 767px) {
-          height: 600px;
-          background-position-x: right;
-          background-position-y: bottom;
-          background-size: cover;
-          background-repeat: no-repeat;
-          color: #ffffff !important;
-
-          h1, h2, h3, h4, h5, h6 {
-            color: #ffffff !important;
-          }
-        }
-      }
+.hero-section {
+  background: url(resourcemap-7.png), /* Image layer */ radial-gradient(circle, rgba(238, 174, 202, 0.5) 0%, rgba(85, 41, 138, 0.75) 100%);
+    @media (width < 576px) {
+      height: 500px;
+      background-position-x: right;
+      background-position-y: bottom;
+      background-size: cover;
+      background-repeat: no-repeat;
+      color: #ffffff !important;
+    }
+    @media (width > 575px) {
+      height: 600px;
+      background-position-x: right;
+      background-position-y: bottom;
+      background-size: cover;
+      background-repeat: no-repeat;
+      color: #ffffff !important;
+    }
+    @media (width > 767px) {
+      height: 600px;
+      background-position-x: right;
+      background-position-y: bottom;
+      background-size: cover;
+      background-repeat: no-repeat;
+      color: #ffffff !important;
+  }
+}
 
       .kbd-wrapper {
         @media (width < 576px) {
