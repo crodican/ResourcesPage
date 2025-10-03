@@ -1195,9 +1195,12 @@ renderRow(resource) {
             container: "map",
             style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${CONFIG.MAPTILER_API_KEY}`,
             center: [-75.1652, 39.9526], // Philadelphia center
-            zoom: 9
+            zoom: 9,
+            pitch: 45,
+            bearing: -17.6
           });
 
+          
           AppState.map.addControl(new maplibregl.NavigationControl(), "top-right");
         },
 
