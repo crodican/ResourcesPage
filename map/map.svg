@@ -21,6 +21,7 @@
     .region4 {
       fill: #6bffd6;
       fill-opacity: 1;
+    stroke: #000000;
     }
 
     .region5 {
