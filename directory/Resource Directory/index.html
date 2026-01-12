@@ -1,391 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="" />
-        <meta
-            name="author"
-            content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
-        <meta name="generator" content="Hugo 0.98.0" />
-        <title>Dashboard Template · Bootstrap v5.2</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Jitsi Meet Embed (Bootstrap 5.3)</title>
 
-        <link
-            rel="canonical"
-            href="https://getbootstrap.com/docs/5.2/examples/dashboard/" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-        <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://meet.jit.si/external_api.js"></script>
 
-        <style>
-            .bd-placeholder-img {
-                font-size: 1.125rem;
-                text-anchor: middle;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                user-select: none;
-            }
+    <style>
+        /* Optional: Make the Jitsi container fill available space */
+        #jitsi-container {
+            width: 100%;
+            height: 70vh; /* 70% of viewport height */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        /* Style for the event log */
+        #event-log {
+            max-height: 150px;
+            overflow-y: scroll;
+            font-size: 0.8rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
 
-            @media (min-width: 768px) {
-                .bd-placeholder-img-lg {
-                    font-size: 3.5rem;
-                }
-            }
+    <header class="bg-primary text-white p-3 mb-4">
+        <div class="container">
+            <h1>My Custom Video Portal</h1>
+            <p class="mb-0">Powered by Jitsi Meet - Branding Hidden Inside!</p>
+        </div>
+    </header>
 
-            .b-example-divider {
-                height: 3rem;
-                background-color: rgba(0, 0, 0, 0.1);
-                border: solid rgba(0, 0, 0, 0.15);
-                border-width: 1px 0;
-                box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
-                    inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
-            }
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2 class="mb-3">Jitsi Meeting Embed</h2>
+                <div id="jitsi-container">
+                    </div>
+                <div class="alert alert-info mt-3" id="room-name-info"></div>
+            </div>
 
-            .b-example-vr {
-                flex-shrink: 0;
-                width: 1.5rem;
-                height: 100vh;
-            }
+            <div class="col-lg-4">
+                <h3 class="mb-3">API Controls & Events</h3>
 
-            .bi {
-                vertical-align: -0.125em;
-                fill: currentColor;
-            }
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">Execute Commands</div>
+                    <div class="card-body d-grid gap-2">
+                        <button class="btn btn-outline-danger" onclick="executeJitsiCommand('toggleAudio')">
+                            <i class="bi bi-mic"></i> Toggle Audio Mute
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="executeJitsiCommand('toggleTileView')">
+                            <i class="bi bi-grid-3x3-gap"></i> Toggle Tile View
+                        </button>
+                        <button class="btn btn-outline-danger" onclick="executeJitsiCommand('hangup')">
+                            <i class="bi bi-telephone-x"></i> End Call (Local Participant)
+                        </button>
+                    </div>
+                </div>
 
-            .nav-scroller {
-                position: relative;
-                z-index: 2;
-                height: 2.75rem;
-                overflow-y: hidden;
-            }
-
-            .nav-scroller .nav {
-                display: flex;
-                flex-wrap: nowrap;
-                padding-bottom: 1rem;
-                margin-top: -1px;
-                overflow-x: auto;
-                text-align: center;
-                white-space: nowrap;
-                -webkit-overflow-scrolling: touch;
-            }
-        </style>
-
-        <!-- Custom styles for this template -->
-        <link href="dashboard.css" rel="stylesheet" />
-    </head>
-    <body>
-        <header
-            class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#"
-                >Company name</a
-            >
-            <button
-                class="navbar-toggler position-absolute d-md-none collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#sidebarMenu"
-                aria-controls="sidebarMenu"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <input
-                class="form-control form-control-dark w-100 rounded-0 border-0"
-                type="text"
-                placeholder="Search"
-                aria-label="Search" />
-            <div class="navbar-nav">
-                <div class="nav-item text-nowrap">
-                    <a class="nav-link px-3" href="signin.html">Sign In</a>
+                <div class="card">
+                    <div class="card-header bg-success text-white">Event Log</div>
+                    <div class="card-body" id="event-log">
+                        Awaiting events...
+                    </div>
                 </div>
             </div>
-        </header>
-
-        <div class="container-fluid">
-            <div class="row">
-                <nav
-                    id="sidebarMenu"
-                    class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                    <div class="position-sticky pt-3">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link active"
-                                    aria-current="page"
-                                    href="#">
-                                    <span
-                                        data-feather="home"
-                                        class="align-text-bottom"></span>
-                                    Dashboard
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span
-                                        data-feather="file"
-                                        class="align-text-bottom"></span>
-                                    Orders
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span
-                                        data-feather="shopping-cart"
-                                        class="align-text-bottom"></span>
-                                    Products
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span
-                                        data-feather="users"
-                                        class="align-text-bottom"></span>
-                                    Customers
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span
-                                        data-feather="bar-chart-2"
-                                        class="align-text-bottom"></span>
-                                    Reports
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span
-                                        data-feather="layers"
-                                        class="align-text-bottom"></span>
-                                    Integrations
-                                </a>
-                            </li>
-                        </ul>
-
-                        <h6
-                            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-                            <span>Saved reports</span>
-                            <a
-                                class="link-secondary"
-                                href="#"
-                                aria-label="Add a new report">
-                                <span
-                                    data-feather="plus-circle"
-                                    class="align-text-bottom"></span>
-                            </a>
-                        </h6>
-                        <ul class="nav flex-column mb-2">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span
-                                        data-feather="file-text"
-                                        class="align-text-bottom"></span>
-                                    Current month
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span
-                                        data-feather="file-text"
-                                        class="align-text-bottom"></span>
-                                    Last quarter
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span
-                                        data-feather="file-text"
-                                        class="align-text-bottom"></span>
-                                    Social engagement
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span
-                                        data-feather="file-text"
-                                        class="align-text-bottom"></span>
-                                    Year-end sale
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-
-                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    <div
-                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Dashboard</h1>
-                        <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="btn-group me-2">
-                                <button
-                                    type="button"
-                                    class="btn btn-sm btn-outline-secondary">
-                                    Share
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn btn-sm btn-outline-secondary">
-                                    Export
-                                </button>
-                            </div>
-                            <button
-                                type="button"
-                                class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                                <span
-                                    data-feather="calendar"
-                                    class="align-text-bottom"></span>
-                                This week
-                            </button>
-                        </div>
-                    </div>
-
-                    <canvas
-                        class="my-4 w-100"
-                        id="myChart"
-                        width="900"
-                        height="380"></canvas>
-
-                    <h2>Section title</h2>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-sm">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Header</th>
-                                    <th scope="col">Header</th>
-                                    <th scope="col">Header</th>
-                                    <th scope="col">Header</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1,001</td>
-                                    <td>random</td>
-                                    <td>data</td>
-                                    <td>placeholder</td>
-                                    <td>text</td>
-                                </tr>
-                                <tr>
-                                    <td>1,002</td>
-                                    <td>placeholder</td>
-                                    <td>irrelevant</td>
-                                    <td>visual</td>
-                                    <td>layout</td>
-                                </tr>
-                                <tr>
-                                    <td>1,003</td>
-                                    <td>data</td>
-                                    <td>rich</td>
-                                    <td>dashboard</td>
-                                    <td>tabular</td>
-                                </tr>
-                                <tr>
-                                    <td>1,003</td>
-                                    <td>information</td>
-                                    <td>placeholder</td>
-                                    <td>illustrative</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr>
-                                    <td>1,004</td>
-                                    <td>text</td>
-                                    <td>random</td>
-                                    <td>layout</td>
-                                    <td>dashboard</td>
-                                </tr>
-                                <tr>
-                                    <td>1,005</td>
-                                    <td>dashboard</td>
-                                    <td>irrelevant</td>
-                                    <td>text</td>
-                                    <td>placeholder</td>
-                                </tr>
-                                <tr>
-                                    <td>1,006</td>
-                                    <td>dashboard</td>
-                                    <td>illustrative</td>
-                                    <td>rich</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr>
-                                    <td>1,007</td>
-                                    <td>placeholder</td>
-                                    <td>tabular</td>
-                                    <td>information</td>
-                                    <td>irrelevant</td>
-                                </tr>
-                                <tr>
-                                    <td>1,008</td>
-                                    <td>random</td>
-                                    <td>data</td>
-                                    <td>placeholder</td>
-                                    <td>text</td>
-                                </tr>
-                                <tr>
-                                    <td>1,009</td>
-                                    <td>placeholder</td>
-                                    <td>irrelevant</td>
-                                    <td>visual</td>
-                                    <td>layout</td>
-                                </tr>
-                                <tr>
-                                    <td>1,010</td>
-                                    <td>data</td>
-                                    <td>rich</td>
-                                    <td>dashboard</td>
-                                    <td>tabular</td>
-                                </tr>
-                                <tr>
-                                    <td>1,011</td>
-                                    <td>information</td>
-                                    <td>placeholder</td>
-                                    <td>illustrative</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr>
-                                    <td>1,012</td>
-                                    <td>text</td>
-                                    <td>placeholder</td>
-                                    <td>layout</td>
-                                    <td>dashboard</td>
-                                </tr>
-                                <tr>
-                                    <td>1,013</td>
-                                    <td>dashboard</td>
-                                    <td>irrelevant</td>
-                                    <td>text</td>
-                                    <td>visual</td>
-                                </tr>
-                                <tr>
-                                    <td>1,014</td>
-                                    <td>dashboard</td>
-                                    <td>illustrative</td>
-                                    <td>rich</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr>
-                                    <td>1,015</td>
-                                    <td>random</td>
-                                    <td>tabular</td>
-                                    <td>information</td>
-                                    <td>text</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </main>
-            </div>
         </div>
+    </div>
 
-        <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+    <footer class="bg-light text-center text-lg-start mt-4 p-3 border-top">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 My Company. All rights reserved.</p>
+        </div>
+    </footer>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
-            integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
-            crossorigin="anonymous"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
-            integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
-            crossorigin="anonymous"></script>
-        <script src="dashboard.js"></script>
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        let api = null;
+        const JITSI_DOMAIN = 'meet.jit.si';
+        const LOG_ELEMENT = document.getElementById('event-log');
+        const ROOM_INFO_ELEMENT = document.getElementById('room-name-info');
+
+        /**
+         * Utility function to log events to the console and the HTML log.
+         * @param {string} message - The message to log.
+         * @param {string} type - 'info', 'success', 'danger', 'warning'.
+         */
+        function logEvent(message, type = 'info') {
+            console.log(message);
+            const entry = document.createElement('div');
+            entry.className = `text-${type} mb-1`;
+            entry.innerHTML = `<strong>[${new Date().toLocaleTimeString()}]</strong> ${message}`;
+            LOG_ELEMENT.prepend(entry); // Add new entry to the top
+            // Limit log entries to prevent excessive memory usage
+            while (LOG_ELEMENT.children.length > 20) {
+                LOG_ELEMENT.removeChild(LOG_ELEMENT.lastChild);
+            }
+        }
+
+        /**
+         * Generates a random unique room name or reads it from the URL.
+         * @returns {string} The room name.
+         */
+        function getRoomName() {
+            // 1. Check for room name in URL query parameter (e.g., ?room=MyRoomName)
+            const urlParams = new URLSearchParams(window.location.search);
+            let roomName = urlParams.get('room');
+
+            if (!roomName) {
+                // 2. If not in URL, generate a unique one (UUID-like structure)
+                roomName = 'MyCustomRoom-' + Math.random().toString(36).substring(2, 9) + '-' + Date.now().toString().slice(-4);
+                logEvent(`Generated unique room: ${roomName}`, 'warning');
+                ROOM_INFO_ELEMENT.innerHTML = `**Room Name:** <span class="fw-bold">${roomName}</span> (Generated. You can share this URL to invite others: ${window.location.origin}${window.location.pathname}?room=${roomName})`;
+            } else {
+                logEvent(`Using room name from URL: ${roomName}`, 'success');
+                ROOM_INFO_ELEMENT.innerHTML = `**Room Name:** <span class="fw-bold">${roomName}</span> (Read from URL parameter.)`;
+            }
+
+            return roomName;
+        }
+
+        /**
+         * Initializes and embeds the Jitsi Meet conference.
+         */
+        function startJitsi() {
+            const roomName = getRoomName();
+
+            const options = {
+                roomName: roomName,
+                parentNode: document.querySelector('#jitsi-container'),
+                width: '100%',
+                height: '100%',
+                
+                // 📧 Passing userInfo (display name, email)
+                userInfo: {
+                    displayName: 'Custom User (API)',
+                    email: 'custom.user@example.com'
+                },
+
+                // ⚙️ configOverwrite: Used for deeper internal configuration
+                configOverwrite: {
+                    // Disable deep links to native app on mobile (keeps users in the browser)
+                    disableDeepLinking: true,
+                    // Additional configuration can go here
+                },
+
+                // 🎨 interfaceConfigOverwrite: Used for UI/Branding customization
+                interfaceConfigOverwrite: {
+                    // 🗑️ Hide Jitsi branding/watermark
+                    SHOW_JITSI_WATERMARK: false,
+                    SHOW_POWERED_BY: false,
+                    
+                    // 🔧 Customizing toolbar buttons
+                    // List of buttons to show on the toolbar. 'microphone' and 'camera' are required.
+                    TOOLBAR_BUTTONS: [
+                        'microphone',
+                        'camera',
+                        'closedcaptions', // Keep a few
+                        'desktop',
+                        'fodeviceselection',
+                        'fullscreen',
+                        'hangup',
+                        'tileview',
+                        'settings'
+                        // You can remove buttons by omitting them, e.g., 'chat', 'raisehand', etc.
+                    ],
+                }
+            };
+
+            // Instantiate the Jitsi Meet API
+            api = new JitsiMeetExternalAPI(JITSI_DOMAIN, options);
+
+            // 👂 Listening to key events
+            api.addListener('participantJoined', (participant) => {
+                logEvent(`Participant **${participant.displayName || participant.id}** joined.`, 'success');
+            });
+
+            api.addListener('participantLeft', (participant) => {
+                logEvent(`Participant **${participant.displayName || participant.id}** left.`, 'danger');
+            });
+
+            api.addListener('audioMuteStatusChanged', (status) => {
+                logEvent(`Local audio mute status changed to: **${status.muted ? 'Muted' : 'Unmuted'}**`, 'info');
+            });
+
+            api.addListener('videoConferenceJoined', (event) => {
+                logEvent(`You have joined the conference: **${event.roomName}**`, 'info');
+            });
+            
+            api.addListener('readyToClose', () => {
+                logEvent('Conference window is ready to close. Removing the iframe.', 'danger');
+                // Clean up the API instance and DOM element after a successful call end
+                api.dispose();
+                document.querySelector('#jitsi-container').innerHTML = '<p class="p-3">The Jitsi Meet session has ended.</p>';
+                api = null;
+            });
+
+            logEvent('Jitsi API loaded and listeners attached.', 'info');
+        }
+
+        /**
+         * Executes a command on the Jitsi Meet API instance.
+         * @param {string} command - The command to execute (e.g., 'toggleAudio', 'toggleTileView', 'hangup').
+         */
+        function executeJitsiCommand(command) {
+            if (api) {
+                switch (command) {
+                    case 'toggleAudio':
+                        api.executeCommand('toggleAudio');
+                        logEvent('Executed command: **Toggle Audio**', 'warning');
+                        break;
+                    case 'toggleTileView':
+                        api.executeCommand('toggleTileView');
+                        logEvent('Executed command: **Toggle Tile View**', 'warning');
+                        break;
+                    case 'hangup':
+                        api.executeCommand('hangup');
+                        logEvent('Executed command: **End Call (Hangup)**', 'danger');
+                        break;
+                    default:
+                        logEvent(`Unknown command: ${command}`, 'danger');
+                }
+            } else {
+                logEvent('Jitsi API is not initialized.', 'danger');
+            }
+        }
+
+        // Start the Jitsi conference when the page loads
+        window.onload = startJitsi;
+    </script>
+
+</body>
 </html>

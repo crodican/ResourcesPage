@@ -4,19 +4,43 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regional Recovery Hubs Strategic Plan Mindmap</title>
+      <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
   <style>
     body {
       margin: 0;
       overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     #mindmap {
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
+      min-height: 500px;
+    }
+    
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80%;
+      width: 100%;
     }
   </style>
 </head>
-<body>
-  <svg id="mindmap"></svg>
+<body class="bg-white">
+  <main>
+    <div class="container bg-light h-100">
+      <svg id="mindmap"></svg>
+    </div>
+  </main>
+  
+  
+
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.17.0"></script>
@@ -134,7 +158,7 @@
     const { root, features } = transformer.transform(markdown);
 
     const svgEl = document.getElementById('mindmap');
-    const mm = Markmap.create(svgEl, {
+    const mm = Markmap.create(svgEl,  {
       spacingVertical: 100,
       spacingHorizontal: 120,
       nodeMinHeight: 30,

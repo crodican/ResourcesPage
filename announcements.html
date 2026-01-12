@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Resources</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap" rel="stylesheet">
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- MapLibre GL CSS -->
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
+
+    <style>
+      body {
+        font-family: "Oxygen", sans-serif;
+        background: background: #e6f9ff;
+background: linear-gradient(316deg, rgba(230, 249, 255, 1) 0%, rgba(251, 247, 235, 1) 80%, rgba(255, 252, 252, 1) 96%);;
+      }
+
+    .card-body h6 {
+        color: #000;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "Lora", serif;
+        font-weight: 700;
+      }
+        /* Loading spinner */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .btn-outline-primary {
+            --bs-btn-color: #55298a;
+            --bs-btn-border-color: #55298a;
+            --bs-btn-hover-color: lavender;
+            --bs-btn-hover-bg: #55298a;
+            --bs-btn-hover-border-color: #55298a;
+            --bs-btn-focus-shadow-rgb: 13, 110, 253;
+            --bs-btn-active-color: lavender;
+            --bs-btn-active-bg: #55298a;
+            --bs-btn-active-border-color: #55298a;
+            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+            --bs-btn-disabled-color: #55298a;
+            --bs-btn-disabled-bg: transparent;
+            --bs-btn-disabled-border-color: #55298a;
+            --bs-gradient: none;
+            margin: 0.25em 0.1em;
+        }
+        .announcementCard {            
+            border: 1px solid #d5d6d8;
+            background-color: white;
+            border-radius: 1px;
+            box-shadow: 0 4px 13px rgba(84, 41, 137, .1);
+            margin-bottom: 1.5rem;
+            transition: all .4s ease;
+            min-width: 250px;
+        }
+
+        .announcementCard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 13px rgba(84, 41, 137, .25);
+            border: 1px solid #55298a;
+        }
+        
+        .card-badge {
+            display: inline-block;
+            cursor: pointer;
+            background-color: #f5ebf3;
+            color: #55298a;
+            border-radius: 2px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-family: Oxygen, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1.35px;
+            line-height: 1em;
+            padding: 0.4em 0.5em;
+        }        
+
+        .card-body {
+
+        }
+        
+        .card-body p {
+            font-family: Oxygen, sans-serif;
+            font-size: .875rem;
+            font-weight: 400;
+            color: #000000;
+            line-height: 1.35em;
+            letter-spacing: .03em;
+            margin-bottom: 1rem;
+        }
+
+        .card-body h3 {
+            color: #55298a;
+            margin-bottom: 0.5rem;
+            line-height: 1em;
+        }
+
+        .card-body h5 {
+            color: #8b97a1;
+            margin-bottom: 1rem;
+            line-height: 1em;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <section>
+            <div class="container py-5">
+                <div class="card announcementCard mb-4" data-resource-id="Southern Bucks Family Recovery Resource Center">
+                    <div class="card-body">
+                        <h6>02/07/2026 - 04/25/2026</h6>
+                        <h3 class="card-title">Recovery Specialist 370</h3>
+                        <h5 class="text-dark">Villanova University</h5>
+                        <div class="mb-2"> <span class="card-badge">Trainings</span> <span class="card-badge">Recovery Specialist Training</span> </div>
+                        <p>This training is for professionals who are interested in applying for the Certified Recovery Specialist (CRS), the Certified Family Recovery Specialist (CFRS) and/or the Certified Recovery Specialist Supervisor (CRSS) through the Pennsylvania Certification Board (PCB). 
+                            <strong><a href="#" class="text-secondary" target="_blank" rel="noopener noreferrer">Learn More</a></strong> </p>
+                        <div class="mb-2"> <span class="card-badge">Delaware County</span> </div>
+                    </div>
+                </div>
+
+                <div class="card announcementCard mb-4" data-resource-id="Southern Bucks Family Recovery Resource Center">
+                    <div class="card-body">
+                        <h6>02/07/2026 - 04/25/2026</h6>
+                        <h3 class="card-title">Recovery Specialist 370</h3>
+                        <h5 class="text-dark">Villanova University</h5>
+                        <div class="mb-2"> <span class="card-badge">Trainings</span> <span class="card-badge">Recovery Specialist Training</span> </div>
+                        <p>This training is for professionals who are interested in applying for the Certified Recovery Specialist (CRS), the Certified Family Recovery Specialist (CFRS) and/or the Certified Recovery Specialist Supervisor (CRSS) through the Pennsylvania Certification Board (PCB). 
+                            <strong><a href="#" class="text-secondary" target="_blank" rel="noopener noreferrer">Learn More</a></strong> </p>
+                        <div class="mb-2"> <span class="card-badge">Delaware County</span> </div>
+                    </div>
+                </div>
+
+                <div class="card announcementCard mb-4" data-resource-id="Southern Bucks Family Recovery Resource Center">
+                    <div class="card-body">
+                        <h6>02/07/2026 - 04/25/2026</h6>
+                        <h3 class="card-title">Recovery Specialist 370</h3>
+                        <h5 class="text-dark">Villanova University</h5>
+                        <div class="mb-2"> <span class="card-badge">Trainings</span> <span class="card-badge">Recovery Specialist Training</span> </div>
+                        <p>This training is for professionals who are interested in applying for the Certified Recovery Specialist (CRS), the Certified Family Recovery Specialist (CFRS) and/or the Certified Recovery Specialist Supervisor (CRSS) through the Pennsylvania Certification Board (PCB). 
+                            <strong><a href="#" class="text-secondary" target="_blank" rel="noopener noreferrer">Learn More</a></strong> </p>
+                        <div class="mb-2"> <span class="card-badge">Delaware County</span> </div>
+                    </div>
+                </div>
+
+                <div class="card announcementCard mb-4" data-resource-id="Southern Bucks Family Recovery Resource Center">
+                    <div class="card-body">
+                        <h6>02/07/2026 - 04/25/2026</h6>
+                        <h3 class="card-title">Recovery Specialist 370</h3>
+                        <h5 class="text-dark">Villanova University</h5>
+                        <div class="mb-2"> <span class="card-badge">Trainings</span> <span class="card-badge">Recovery Specialist Training</span> </div>
+                        <p>This training is for professionals who are interested in applying for the Certified Recovery Specialist (CRS), the Certified Family Recovery Specialist (CFRS) and/or the Certified Recovery Specialist Supervisor (CRSS) through the Pennsylvania Certification Board (PCB). 
+                            <strong><a href="#" class="text-secondary" target="_blank" rel="noopener noreferrer">Learn More</a></strong> </p>
+                        <div class="mb-2"> <span class="card-badge">Delaware County</span> </div>
+                    </div>
+                </div>
+
+                <div class="card announcementCard mb-4" data-resource-id="Southern Bucks Family Recovery Resource Center">
+                    <div class="card-body">
+                        <h6>02/07/2026 - 04/25/2026</h6>
+                        <h3 class="card-title">Recovery Specialist 370</h3>
+                        <h5 class="text-dark">Villanova University</h5>
+                        <div class="mb-2"> <span class="card-badge">Trainings</span> <span class="card-badge">Recovery Specialist Training</span> </div>
+                        <p>This training is for professionals who are interested in applying for the Certified Recovery Specialist (CRS), the Certified Family Recovery Specialist (CFRS) and/or the Certified Recovery Specialist Supervisor (CRSS) through the Pennsylvania Certification Board (PCB). 
+                            <strong><a href="#" class="text-secondary" target="_blank" rel="noopener noreferrer">Learn More</a></strong> </p>
+                        <div class="mb-2"> <span class="card-badge">Delaware County</span> </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+            </div>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
